@@ -4,7 +4,7 @@ import java.util.List;
 
 public class HotelVO {
     private Integer id;
-    private String hotelName;
+    private String name;
     private String address;
     private String bizRegion;
     private String hotelStar;
@@ -23,12 +23,12 @@ public class HotelVO {
         this.id = id;
     }
 
-    public String getHotelName() {
-        return hotelName;
+    public String getName() {
+        return name;
     }
 
-    public void setHotelName(String hotelName) {
-        this.hotelName = hotelName;
+    public void setName(String hotelName) {
+        this.name = hotelName;
     }
 
     public String getAddress() {

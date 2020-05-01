@@ -21,7 +21,7 @@ public class TargetMoneyCouponStrategyImpl implements CouponMatchStrategy {
     @Override
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
         try {
-            return (orderVO.getHotelId() == -1 || orderVO.getHotelId().equals(coupon.getHotelId())) &&
+            return //(orderVO.getHotelId() == -1 || orderVO.getHotelId().equals(coupon.getHotelId())) &&
                     coupon.getCouponType() == 3 &&
                     orderVO.getPrice() >= coupon.getTargetMoney();
         } catch (Exception e) {

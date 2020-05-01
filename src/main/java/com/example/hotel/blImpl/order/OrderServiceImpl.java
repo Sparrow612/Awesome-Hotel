@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: chenyizong
@@ -64,14 +65,53 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getHotelOrders(Integer hotelId) {
+        List<Order> orders = getAllOrders();
+        return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
+    }
+
+    @Override
     public List<Order> getUserOrders(int userid) {
         return orderMapper.getUserOrders(userid);
     }
 
+    // added by hx
     @Override
     public ResponseVO annulOrder(int orderid) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
+        Order order = orderMapper.getOrderById(orderid);
+        //String orderState = order.getOrderState();
+        order.setOrderState("已撤销");//这里暂时不考虑重复撤销的情况
+        //扣除信用积分
+        String checkInDate = order.getCheckInDate();
+        String now = getSystemDate();
+        int gap = getDays(now,checkInDate);
+        if(gap==1||gap==0){
+            int userID = order.getUserId();
+            User user = accountService.getUserInfo(userID);
+            double price = order.getPrice();
+            double credit = user.getCredit();
+            credit -= price*0.5;
 
+        }
+        orderMapper.annulOrder(orderid);
         return ResponseVO.buildSuccess(true);
+    }
+
+    // added by hx
+    //获取YYYY-MM-DD格式的当前系统日期
+    public static String getSystemDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        return sdf.format(date);
+    }
+
+    // added by hx
+    //计算当前日期距离入住日期还差多少天
+    public static int getDays(String now, String checkInDate){
+        int yearGap = Integer.parseInt(checkInDate.substring(0,4)) - Integer.parseInt(now.substring(0,4));
+        int monthGap = Integer.parseInt(checkInDate.substring(5,7)) - Integer.parseInt(now.substring(5,7));
+        int dayGap = Integer.parseInt(checkInDate.substring(8,10)) - Integer.parseInt(now.substring(8,10));
+        return dayGap + 30*monthGap + 365*yearGap;
     }
 }

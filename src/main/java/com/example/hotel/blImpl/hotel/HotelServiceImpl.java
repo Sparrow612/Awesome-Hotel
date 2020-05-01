@@ -45,7 +45,7 @@ public class HotelServiceImpl implements HotelService {
         Hotel hotel = new Hotel();
         hotel.setDescription(hotelVO.getDescription());
         hotel.setAddress(hotelVO.getAddress());
-        hotel.setHotelName(hotelVO.getHotelName());
+        hotel.setHotelName(hotelVO.getName());
         hotel.setPhoneNum(hotelVO.getPhoneNum());
         hotel.setManagerId(hotelVO.getManagerId());
         hotel.setRate(hotelVO.getRate());
@@ -72,6 +72,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public HotelVO retrieveHotelDetails(Integer hotelId) {
         HotelVO hotelVO = hotelMapper.selectById(hotelId);
+//        Hotel hotelPO = hotelMapper.selectById()
         List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
         List<RoomVO> roomVOS = rooms.stream().map(r -> {
             RoomVO roomVO = new RoomVO();
@@ -85,15 +86,5 @@ public class HotelServiceImpl implements HotelService {
         hotelVO.setRooms(roomVOS);
 
         return hotelVO;
-    }
-    
-    /**
-     * @param hotelId
-     * @return
-     */
-    @Override
-    public List<Order> getHotelOrders(Integer hotelId) {
-        List<Order> orders = orderService.getAllOrders();
-        return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
     }
 }
