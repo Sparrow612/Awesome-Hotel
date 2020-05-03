@@ -1,0 +1,23 @@
+package com.example.hotel.blImpl.coupon;
+
+import com.example.hotel.bl.coupon.CouponMatchStrategy;
+import com.example.hotel.po.Coupon;
+import com.example.hotel.vo.OrderVO;
+
+/**
+ * @author 庄子元 181830266@smail.nju.edu.cn
+ * @date 2020/4/29 9:19
+ */
+public class ManyRoomCouponStrategyImpl implements CouponMatchStrategy {
+
+    @Override
+    public boolean isMatch(OrderVO orderVO, Coupon coupon) {
+        try {
+            return coupon.getCouponType() == 2 &&
+                    (coupon.getHotelId() == -1 || coupon.getHotelId().equals(orderVO.getHotelId())) &&
+                    orderVO.getRoomNum() >= 3;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}
