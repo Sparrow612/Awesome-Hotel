@@ -40,5 +40,7 @@ public interface AccountService {
      */
     ResponseVO updateUserInfo(int id, String password,String username,String phonenumber);
 
+    //todo
+    ResponseVO updateCredit(int id,double credit);
 
 }

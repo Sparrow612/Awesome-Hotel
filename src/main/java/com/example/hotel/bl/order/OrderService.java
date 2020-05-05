@@ -26,6 +26,13 @@ public interface OrderService {
     List<Order> getAllOrders();
 
     /**
+     * 查看酒店的所有订单
+     * @param hotelId
+     * @return
+     */
+    List<Order> getHotelOrders(Integer hotelId);
+
+    /**
      * 获得指定用户的所有订单信息
      * @param userid
      * @return

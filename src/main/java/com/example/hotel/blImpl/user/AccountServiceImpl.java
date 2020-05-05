@@ -59,4 +59,16 @@ public class AccountServiceImpl implements AccountService {
         }
         return ResponseVO.buildSuccess(true);
     }
+
+    //todo
+    @Override
+    public ResponseVO updateCredit(int id,double credit){
+        try {
+            accountMapper.updateCredit(id,credit);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(UPDATE_ERROR);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
 }

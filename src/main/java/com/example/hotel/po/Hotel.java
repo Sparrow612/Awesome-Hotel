@@ -44,18 +44,18 @@ public class Hotel {
         this.address = address;
     }
 
-    public String getBizRegion() {
+    public BizRegion getBizRegion() {
         // TODO change here
-        return bizRegion.toString();
+        return bizRegion;
     }
 
     public void setBizRegion(BizRegion bizRegion) {
         this.bizRegion = bizRegion;
     }
 
-    public String getHotelStar() {
+    public HotelStar getHotelStar() {
         // todo CHANGE HERE
-        return hotelStar.toString();
+        return hotelStar;
     }
 
     public void setHotelStar(HotelStar hotelStar) {
