@@ -2,7 +2,7 @@
     <div class="header">
         <div class="label">
             <img src="@/assets/logo.svg" class="logo" alt="logo" @click="jumpToHome">
-            <span class="title">NJUSE 酒店管理系统</span>
+            <span class="title">Awesome Hotel</span>
             
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
@@ -11,17 +11,22 @@
                     <a-icon type="home" />首页
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="2" @click="jumpToUserInfo" v-if="userInfo.userType=='Client'">
+            <a-menu-item key="2" @click="jumpToUserInfo" v-if="userInfo.userType==='Client'">
                 <a-icon type="user" />个人中心
             </a-menu-item>
-            <a-menu-item key="3" @click="selectMenu" v-if="userInfo.userType=='HotelManager'">
+            <a-menu-item key="3" @click="selectMenu" v-if="userInfo.userType==='HotelManager'">
                 <router-link :to="{ name: 'manageHotel'}">
                      <a-icon type="switcher" />酒店管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType=='Admin'">
+            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType==='Admin'">
                 <router-link :to="{ name: 'manageUser'}">
                      <a-icon type="user" />账户管理
+                </router-link>
+            </a-menu-item>
+            <a-menu-item key="5" @click="searchHotel" v-if="userInfo.userType==='Client'">
+                <router-link :to="{ name: 'searchHotel'}">
+                    <a-icon type="search" />搜索酒店
                 </router-link>
             </a-menu-item>
         </a-menu>
@@ -86,6 +91,7 @@ export default {
             'logout'
         ]),
         selectMenu(v){
+
         },
         async quit() {
             await this.$store.dispatch('logout')
@@ -96,6 +102,9 @@ export default {
         },
         jumpToHome() {
 
+        },
+        searchHotel(){
+            this.$router.push() // 容我研究一下这里怎么写。。。--crx 5.6
         }
     }
 }

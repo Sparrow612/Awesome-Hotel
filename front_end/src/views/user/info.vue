@@ -219,6 +219,6 @@ export default {
         }
     }
 </style>
-<style lang="less">
+<style scoped lang="less">
     
 </style>

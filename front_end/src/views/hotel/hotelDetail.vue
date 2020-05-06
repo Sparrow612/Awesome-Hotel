@@ -43,7 +43,7 @@
                         <RoomList :rooms="currentHotelInfo.rooms"></RoomList>
                     </a-tab-pane>
                     <a-tab-pane tab="酒店详情" key="2">
-
+                        <!--TODO-->
                     </a-tab-pane>
                 </a-tabs>
             </div>

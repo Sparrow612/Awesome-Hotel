@@ -14,7 +14,6 @@
         select * from Hotel where id=#{id}
     </select>
 
-
     <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
         <id column="id" property="id"/>
         <result column="address" property="address"/>
@@ -26,6 +25,5 @@
         <result column="rate" property="rate"/>
         <result column="manager_id" property="managerId"/>
     </resultMap>
-
 
 </mapper>
