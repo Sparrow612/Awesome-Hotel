@@ -25,7 +25,7 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
+    } // 只有这个没被调用？为什么？
 
     public String getPhoneNumber() {
         return phoneNumber;

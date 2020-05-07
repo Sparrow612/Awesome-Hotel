@@ -24,7 +24,7 @@ public class UserInfoVO {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
+    } // 又是这里？？？
 
     public String getPhoneNumber() {
         return phoneNumber;

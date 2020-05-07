@@ -29,6 +29,7 @@ public class AdminServiceImpl implements AdminService {
         user.setEmail(userForm.getEmail());
         user.setPassword(userForm.getPassword());
         user.setUserType(UserType.HotelManager);
+        // 似乎还需要设置姓名手机号等？
         try {
             adminMapper.addManager(user);
         } catch (Exception e) {

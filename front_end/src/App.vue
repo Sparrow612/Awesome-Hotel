@@ -1,15 +1,18 @@
 <template>
-  <div id="app" v-title data-title="NJUSE酒店管理系统">
+  <div id="app" v-title data-title="Awesome Hotel">
     <transition name="fade-transform" mode="out-in">
       <router-view/>
     </transition>
   </div>
 </template>
 <script>
+import { loginAPI } from "./api/user";
+import { message } from 'ant-design-vue'
 export default {
   components: {
     
-  }
+  },
+  
 }
 </script>
 <style>

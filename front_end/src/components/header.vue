@@ -3,7 +3,6 @@
         <div class="label">
             <img src="@/assets/logo.svg" class="logo" alt="logo" @click="jumpToHome">
             <span class="title">Awesome Hotel</span>
-            
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
             <a-menu-item key="1" @click="selectMenu">
@@ -28,6 +27,7 @@
                 <router-link :to="{ name: 'searchHotel'}">
                     <a-icon type="search" />搜索酒店
                 </router-link>
+<!--                刷新一下不显示的原因我找到了，因为刷新没有提交userInfo所以后面四项都不显示了-->
             </a-menu-item>
         </a-menu>
         <div class="logout">
@@ -73,8 +73,8 @@ export default {
         ])
     },
     mounted() {
-        if (this.$route.name === 'hotelList' || this.$route.name === 'hotelDetail') {
-            this.current = ['1']
+        if (this.$route.name === 'hotelList' || this.$route.name === 'hotelDetail' || this.$route.name === 'searchHotel') {
+            this.current = ['1']  // crx在这里做了修改 5.6 添加了第三个条件
         }else if(this.$route.name === 'userInfo') {
             this.current = ['2']
         }else if(this.$route.name === 'manageHotel') {
@@ -104,7 +104,7 @@ export default {
 
         },
         searchHotel(){
-            this.$router.push() // 容我研究一下这里怎么写。。。--crx 5.6
+            this.$router.push('/hotel/searchHotel') // 容我研究一下这里怎么写。。。--crx 5.6
         }
     }
 }

@@ -10,7 +10,7 @@ public enum UserType {
     Manager("3"),
     SalesPerson("4");
 
-    private String value;
+    private final String value;
 
     UserType(String value) {
         this.value = value;
@@ -18,6 +18,5 @@ public enum UserType {
     @Override
     public String toString() {
         return value;
-    }
-
+    } // 这里似乎并没有用上
 }

@@ -72,7 +72,7 @@ const user = {
         register: async({ commit }, data) => {
             const res = await registerAPI(data)
             if(res){
-                message.success('注册成功')
+                await message.success('注册成功')
             }
         },
         getUserInfo({ state, commit }) {

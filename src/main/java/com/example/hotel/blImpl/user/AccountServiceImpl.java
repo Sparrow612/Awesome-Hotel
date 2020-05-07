@@ -21,7 +21,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseVO registerAccount(UserVO userVO) {
         User user = new User();
-        BeanUtils.copyProperties(userVO,user);
+        BeanUtils.copyProperties(userVO, user);
         try {
             accountMapper.createNewAccount(user);
         } catch (Exception e) {
