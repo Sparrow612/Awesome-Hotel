@@ -34,9 +34,7 @@
                     @change="changeDate"
                     v-decorator="[
                         'date', 
-                        {
-                            rules: [{ required: true, message: '请选择入住时间' }]   
-                        }
+                        { rules: [{ required: true, message: '请选择入住时间' }]}
                     ]"
                     :placeholder="['入住日期','退房日期']"
                 />
@@ -203,7 +201,7 @@ export default {
 
         },
         changeDate(v) {
-            if(this.totalPrice != ''){
+            if(this.totalPrice !== ''){
                 this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)
             }
         },

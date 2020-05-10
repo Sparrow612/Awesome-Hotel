@@ -73,6 +73,7 @@ export default {
         ])
     },
     mounted() {
+        this.getUserInfo(); // 防止刷新导致的信息丢失
         if (this.$route.name === 'hotelList' || this.$route.name === 'hotelDetail' || this.$route.name === 'searchHotel') {
             this.current = ['1']  // crx在这里做了修改 5.6 添加了第三个条件
         }else if(this.$route.name === 'userInfo') {
@@ -82,13 +83,15 @@ export default {
         }else {
             this.current = ['4']
         }
+
     },
     methods: {
         ...mapMutations([
 
         ]),
         ...mapActions([
-            'logout'
+            'logout',
+            'getUserInfo'
         ]),
         selectMenu(v){
 

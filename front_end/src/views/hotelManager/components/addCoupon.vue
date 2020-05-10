@@ -7,7 +7,7 @@
             @cancel="cancel"
             @ok="handleSubmit"
     >
-        <a-form :form="form" style="margin-top: 30px" v-bind="formItemLayout">
+        <a-form :form="form" style="margin-top: 30px">
             <a-form-item label="优惠券类型" v-bind="formItemLayout">
                 <a-select
                     v-decorator="['type',{rules: [{required: true, message: '请选择类型'}]}]"

@@ -22,9 +22,7 @@ export default {
     hotel: {}
   },
   data() {
-    return{
-
-    }
+    return{}
   },
 }
 </script>
