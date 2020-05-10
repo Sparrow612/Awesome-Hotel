@@ -23,6 +23,7 @@
                     @change="handleTabClick"
             >
                 <a-tab-pane key="tab1" tab="账号密码登录">
+                    <!-- 登录邮箱 -->
                     <a-form-item>
                         <a-input
                                 size="large"
@@ -36,7 +37,7 @@
                             <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
                         </a-input>
                     </a-form-item>
-
+                    <!-- 登录密码 -->
                     <a-form-item>
                         <a-input
                                 size="large"
@@ -51,6 +52,7 @@
                             <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
                         </a-input>
                     </a-form-item>
+                    <!-- 登陆确认按钮 -->
                     <a-form-item style="margin-top:24px">
                         <a-button
                                 size="large"
@@ -64,59 +66,65 @@
                 </a-tab-pane>
 
                 <a-tab-pane key="tab2" tab="注册新账号">
+                    <!-- 邮箱  -->
                     <a-form-item>
                         <a-input
                                 size="large"
                                 type="email"
                                 placeholder="邮箱"
                                 v-decorator="[
-              'registerUserMail', 
+              'registerUserMail',
               {rules: [{ required: true, type: 'email', message: '请输入邮箱' }], validateTrigger: 'blur'}]">
                             <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
                         </a-input>
                     </a-form-item>
+                    <!-- 用户名  -->
                     <a-form-item>
                         <a-input
                                 size="large"
                                 placeholder="用户名"
                                 v-decorator="[
-              'registerUsername', 
+              'registerUsername',
               {rules: [{ required: true, message: '请输入用户名' }], validateTrigger: 'blur'}]">
                             <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
                         </a-input>
                     </a-form-item>
+                    <!-- 手机号  -->
                     <a-form-item>
                         <a-input
                                 size="large"
                                 placeholder="手机号"
                                 v-decorator="[
-              'registerPhoneNumber', 
-              {rules: [{ required: true, message: '请输入手机号' }], validateTrigger: 'blur'}]">
+              'registerPhoneNumber',
+              {rules: [{ required: true, message: '请输入手机号' }, {validator: this.handlePhoneNumber }], validateTrigger: 'blur'}]">
                             <a-icon slot="prefix" type="book" :style="{ color: 'rgba(0,0,0,.25)' }"/>
                         </a-input>
                     </a-form-item>
+                    <!-- 密码  -->
                     <a-form-item>
                         <a-input
                                 size="large"
                                 type="password"
                                 placeholder="密码"
                                 v-decorator="[
-                'registerPassword', 
+                'registerPassword',
                 {rules: [{ required: true, message: '请输入密码' }, { validator: this.handlePassword }], validateTrigger: 'blur'}]">
                             <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
                         </a-input>
                     </a-form-item>
+                    <!-- 确认密码 -->
                     <a-form-item>
                         <a-input
                                 size="large"
                                 type="password"
                                 placeholder="确认密码"
                                 v-decorator="[
-                'registerPasswordconfirm', 
+                'registerPasswordconfirm',
                 {rules: [{ required: true, message: '请输入密码' }, { validator: this.handlePasswordCheck }], validateTrigger: 'blur'}]">
                             <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
                         </a-input>
                     </a-form-item>
+                    <!-- 确认按钮 -->
                     <a-form-item style="margin-top:24px">
                         <a-button
                                 size="large"
@@ -181,7 +189,8 @@
                 }
                 callback()
             },
-            checkEmail(rule, value, callback) {
+
+            handleEmail(rule, value, callback) {
                 const re = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
                 if (re.test(value)) {
                     callback();
@@ -190,12 +199,24 @@
                 }
                 callback()
             },
+
+            handlePhoneNumber(rule, value, callback) {
+                const re = /1\d{10}/
+                if (re.test(value)) {
+                    callback();
+                } else {
+                    callback(new Error('请输入有效手机号'));
+                }
+                callback()
+            },
+
             handlePassword(rule, value, callback) {
                 if (value.length < 6) {
                     callback(new Error('密码长度至少6位'))
                 }
                 callback()
             },
+
             handlePasswordCheck(rule, value, callback) {
                 const password = this.form.getFieldValue('registerPassword')
                 console.log(password)
@@ -207,9 +228,11 @@
                 }
                 callback()
             },
+
             handleTabClick(key) {
                 this.customActiveKey = key
             },
+
             handlelogin() {
                 const validateFieldsKey = this.customActiveKey === 'tab1' ? ['username', 'password'] : ['registerUsername', 'registerUserMail', 'registerPassword', 'registerPasswordconfirm']
                 this.form.validateFields(validateFieldsKey, {force: true}, async (err, values) => {
@@ -226,11 +249,11 @@
             },
 
             handleRegister() {
-                const {form: {validateFields}} = this
+                const {form: {validateFields}} = this;
                 const validateFieldsKey = this.customActiveKey === 'tab1' ? ['username', 'password'] : ['registerUsername', 'registerPhoneNumber', 'registerUserMail', 'registerPassword', 'registerPasswordconfirm']
                 validateFields(validateFieldsKey, {force: true}, async (err, values) => {
                     if (!err) {
-                        this.registerLoading = true
+                        this.registerLoading = true;
                         const data = {
                             email: this.form.getFieldValue('registerUserMail'),
                             password: this.form.getFieldValue('registerPassword'),
@@ -240,13 +263,17 @@
                             userType: 0
                         }
                         await this.register(data).then(() => {
-                            this.customActiveKey = 'tab1'
+                            this.customActiveKey = 'tab1';
                             this.form.setFieldsValue({
+                                'username': data.email,
+                                'password': data.password,
                                 'registerUserMail': '',
+                                'registerUsername': '',
+                                'registerPhoneNumber': '',
                                 'registerPassword': '',
                                 'registerPasswordconfirm': ''
                             })
-                        })
+                        });
                         this.registerLoading = false
                     }
                 });
