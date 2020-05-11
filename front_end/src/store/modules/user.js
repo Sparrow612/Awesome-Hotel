@@ -35,7 +35,7 @@ const user = {
             state.token = '',
             state.userId = '',
             state.userInfo = {
-                
+
             },
             state.userOrderList = []
         },
