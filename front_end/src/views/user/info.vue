@@ -66,6 +66,7 @@
 
                 </a-form>
             </a-tab-pane>
+
             <a-tab-pane tab="我的订单" key="2">
                 <a-table
                     :columns="columns"
@@ -84,7 +85,8 @@
                         {{ text }}
                     </a-tag>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small">查看</a-button>
+                        <a-button type="primary" size="small" @click="showOrderDetail(record)">查看</a-button>
+
                         <a-divider type="vertical" v-if="record.orderState === '已预订'"></a-divider>
                         <a-popconfirm
                             title="你确定撤销该笔订单吗？"
@@ -101,10 +103,13 @@
                 </a-table>
             </a-tab-pane>
         </a-tabs>
+
+        <orderDetail></orderDetail>
     </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import orderDetail from '../order/orderDetail'
 import { message } from 'ant-design-vue';
 
 const columns = [
@@ -167,12 +172,14 @@ export default {
         }
     },
     components: {
+        orderDetail
     },
     computed: {
         ...mapGetters([
             'userId',
             'userInfo',
-            'userOrderList'
+            'userOrderList',
+            'orderDetailVisible',
         ])
     },
     async mounted() {
@@ -184,8 +191,15 @@ export default {
             'getUserInfo',
             'getUserOrders',
             'updateUserInfo',
-            'cancelOrder'
+            'cancelOrder',
+            'getHotelById',
         ]),
+        ...mapMutations([
+            'set_orderDetailVisible',
+            'set_orderInfo',
+            'set_currentHotelId',
+        ]),
+
         saveModify() {
              this.form.validateFields((err, values) => {
                 if (!err) {
@@ -220,6 +234,7 @@ export default {
         confirmCancelOrder(orderId){
             this.cancelOrder(orderId)
         },
+
         cancelCancelOrder() {
 
         },
@@ -252,7 +267,15 @@ export default {
             }
             callback()
         },
+
+        showOrderDetail(record) {
+            this.set_orderInfo(record)
+            this.set_currentHotelId(record.hotelId)
+            this.getHotelById(record.hotelId)
+            this.set_orderDetailVisible(true)
+        }
     }
+
 }
 </script>
 
