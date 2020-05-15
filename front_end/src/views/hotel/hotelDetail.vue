@@ -43,7 +43,7 @@
                         <RoomList :rooms="currentHotelInfo.rooms"></RoomList>
                     </a-tab-pane>
                     <a-tab-pane tab="酒店详情" key="2">
-                        <!--TODO-->
+                        <HotelOutline></HotelOutline>
                     </a-tab-pane>
                 </a-tabs>
             </div>
@@ -53,10 +53,12 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import RoomList from './components/roomList'
+import HotelOutline from './components/hotelOutline'
 export default {
     name: 'hotelDetail',
     components: {
         RoomList,
+        HotelOutline,
     },
     data() {
         return {

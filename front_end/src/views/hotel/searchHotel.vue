@@ -23,6 +23,7 @@
                     </a-form-item>
                     <a-form-item v-bind="formItemLayout">
                         <a-button @click="search" value="搜索" class="searchButton">
+                            搜索酒店
                             <a-icon type="search"/>
                         </a-button>
                     </a-form-item>
@@ -34,12 +35,13 @@
                     src="@/assets/cover.jpeg"
                     slot="cover"
                     referrerPolicy="no-referrer"
-
                 />
+                <h1>这里存放一个表格</h1>
             </div>
         </div>
         <div class="searchresult">
             <h1>这里用来展示搜索结果</h1>
+            <p>计划在这里放一个横向的滚动列表</p>
         </div>
     </div>
 </template>
@@ -106,7 +108,7 @@
         color: #fff;
     }
     .presentation{
-
+        display: flex;
     }
     .hotel_img{
         margin: 20px;
