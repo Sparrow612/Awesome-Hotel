@@ -40,21 +40,37 @@
                         <span v-if="text == 'DoubleBed'">双床房</span>
                         <span v-if="text == 'Family'">家庭房</span>
                     </span>
+                    <a-tag slot="orderState" color="blue" slot-scope="text">
+                        {{ text }}
+                    </a-tag>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="showOrderDatail(record)">订单详情</a-button>
+                        <a-button type="primary" size="small" @click="showOrderDatail(record)">详情</a-button>
+
                         <a-divider type="vertical"></a-divider>
+
+                        <a-popconfirm
+                                title="确定执行该订单吗？"
+                                @confirm="executeOrder(record)"
+                                okText="确定"
+                                cancelText="取消"
+                        >
+                            <a-button type="primary" size="small">执行</a-button>
+                        </a-popconfirm>
+
+                        <a-divider type="vertical"></a-divider>
+
                         <a-popconfirm
                             title="确定想删除该订单吗？"
                             @confirm="deleteOrder(record)"
                             okText="确定"
                             cancelText="取消"
                         >
-                            <a-button type="danger" size="small">删除订单</a-button>
+                            <a-button type="danger" size="small">删除</a-button>
                         </a-popconfirm>
                     </span>
                 </a-table>
             </a-tab-pane>
-            
+
         </a-tabs>
         <AddHotelModal></AddHotelModal>
         <AddRoomModal></AddRoomModal>
@@ -68,9 +84,10 @@ import AddHotelModal from './components/addHotelModal'
 import AddRoomModal from './components/addRoomModal'
 import Coupon from './components/coupon'
 import orderDetail from "../order/orderDetail";
-const moment = require('moment')
+const moment = require('moment');
+import { message } from 'ant-design-vue';
 const columns1 = [
-    {  
+    {
         title: '酒店名',
         dataIndex: 'name',
     },
@@ -101,11 +118,11 @@ const columns1 = [
     },
   ];
 const columns2 = [
-    {  
+    {
         title: '订单号',
         dataIndex: 'id',
     },
-    {  
+    {
         title: '酒店名',
         dataIndex: 'hotelName',
     },
@@ -131,6 +148,14 @@ const columns2 = [
     {
         title: '房价',
         dataIndex: 'price',
+    },
+    {
+        title: '状态',
+        filters: [{ text: '已预订', value: '已预订' }, { text: '已撤销', value: '已撤销' }, { text: '已入住', value: '已入住' },
+            { text: '异常订单', value: '异常订单' }, {text: '已完成', value: '已完成'}],
+        onFilter: (value, record) => record.orderState.includes(value),
+        dataIndex: 'orderState',
+        scopedSlots: { customRender: 'orderState' }
     },
     {
       title: '操作',
@@ -163,7 +188,7 @@ export default {
             'addRoomModalVisible',
             'activeHotelId',
             'couponVisible',
-            'orderDetailVisible'
+            'orderDetailVisible',
         ]),
     },
     async mounted() {
@@ -182,7 +207,8 @@ export default {
         ...mapActions([
             'getHotelList',
             'getAllOrders',
-            'getHotelCoupon'
+            'getHotelCoupon',
+            'execOrder',
         ]),
         addHotel() {
             this.set_addHotelModalVisible(true)
@@ -205,7 +231,18 @@ export default {
         showOrderDatail(record) {
             this.set_orderInfo(record)
             this.set_orderDetailVisible(true)
-        }
+        },
+        executeOrder(record) {
+            let checkInDate = new Date(record.checkInDate);
+            let now = new Date();
+            if(checkInDate.toLocaleDateString()===now.toLocaleDateString()) {
+                this.execOrder(record.id); // 执行订单
+                message.success('执行订单')
+            }
+            else {
+                message.warning('还未到入住时间')
+            }
+        },
     }
 }
 </script>
@@ -228,5 +265,5 @@ export default {
     }
 </style>
 <style lang="less">
-    
+
 </style>
