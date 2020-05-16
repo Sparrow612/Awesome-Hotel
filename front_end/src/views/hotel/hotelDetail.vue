@@ -45,7 +45,7 @@
                     <a-tab-pane tab="酒店详情" key="2">
                         <HotelOutline></HotelOutline>
                     </a-tab-pane>
-                    <a-tab-pane tab="顾客评论" key="3">
+                    <a-tab-pane tab="我的订单" key="3">
                         <!--TODO-->
                     </a-tab-pane>
                 </a-tabs>

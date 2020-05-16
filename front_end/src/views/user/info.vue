@@ -20,7 +20,8 @@
                     <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                         <a-input
                             placeholder="请填写手机号"
-                            v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }, { validator: this.handlePhoneNumber }], validateTrigger: 'blur' }]"
+                            v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' },
+                            { validator: this.handlePhoneNumber }], validateTrigger: 'blur' }]"
                             v-if="modify"
                         />
                         <span v-else>{{ userInfo.phoneNumber}}</span>
@@ -34,7 +35,8 @@
                         <a-input
                                 type="password"
                                 placeholder="请输入新密码"
-                                v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' }, { validator: this.handlePassword }], validateTrigger: 'blur' }]"
+                                v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' },
+                                { validator: this.handlePassword }], validateTrigger: 'blur' }]"
                                 v-if="modify"
                         />
                     </a-form-item>
@@ -44,7 +46,8 @@
                                 type="password"
                                 placeholder="请再次输入密码"
                                 v-decorator="['passwordConfirm',
-                                {rules: [{ required: true, message: '请输入确认密码' }, { validator: this.handlePasswordCheck }], validateTrigger: 'blur'}]">
+                                {rules: [{ required: true, message: '请输入确认密码' }, { validator: this.handlePasswordCheck }],
+                                validateTrigger: 'blur'}]">
                                 v-if="modify"
                         </a-input>
                     </a-form-item>
@@ -98,10 +101,14 @@
                         >
                             <a-button type="danger" size="small">撤销</a-button>
                         </a-popconfirm>
-
+                        <a-divider type="vertical" v-if="record.orderState === '异常订单'"></a-divider>
+                        <a-button type="default" size="small" v-if="record.orderState === '异常订单'">申诉</a-button>
+                        <a-divider type="vertical" v-if="record.orderState === '已完成'"></a-divider>
+                        <a-button type="default" size="small" v-if="record.orderState === '已完成'">评价</a-button>
                     </span>
                 </a-table>
             </a-tab-pane>
+            <a-tab-pane tab="信用记录" key="3"></a-tab-pane>
         </a-tabs>
 
         <orderDetail></orderDetail>
@@ -147,7 +154,7 @@ const columns = [
     {
         title: '状态',
         filters: [{ text: '已预订', value: '已预订' }, { text: '已撤销', value: '已撤销' }, { text: '已入住', value: '已入住' },
-            { text: '异常订单', value: '异常订单' }, {text: '已完成', value: '已完成'}],
+            {text: '已完成', value: '已完成'},{ text: '异常订单', value: '异常订单' }],
         onFilter: (value, record) => record.orderState.includes(value),
         dataIndex: 'orderState',
         scopedSlots: { customRender: 'orderState' }

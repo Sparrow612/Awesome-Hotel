@@ -54,7 +54,7 @@ const columns = [
       key: 'action',
       scopedSlots: { customRender: 'action' },
     },
-  ];
+];
 export default {
     name:'roomList',
     props: {

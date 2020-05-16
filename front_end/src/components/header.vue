@@ -5,7 +5,7 @@
             <span class="title">Awesome Hotel</span>
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
-            <a-menu-item key="1" @click="selectMenu">
+            <a-menu-item key="1" @click="selectMenu" v-if="userInfo.userType==='Client'">
                 <router-link to="/hotel/hotelList">
                     <a-icon type="home" />首页
                 </router-link>
@@ -18,16 +18,26 @@
                      <a-icon type="switcher" />酒店管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="4" @click="selectMenu" v-if="userInfo.userType==='Admin'">
-                <router-link :to="{ name: 'manageUser'}">
-                     <a-icon type="user" />账户管理
-                </router-link>
+            <a-menu-item key="4" @click="jumpToUserInfo" v-if="userInfo.userType==='Client'">
+                <a-icon type="user" />个人中心
             </a-menu-item>
-            <a-menu-item key="5" @click="searchHotel" v-if="userInfo.userType==='Client'">
+            <a-menu-item key="5" @click=jumpToManagerInfo v-if="userInfo.userType==='HotelManager'">
+                <a-icon type="user" />工作人员
+            </a-menu-item>
+            <a-menu-item key="6" @click="searchHotel" v-if="userInfo.userType==='Client'">
                 <router-link :to="{ name: 'searchHotel'}">
                     <a-icon type="search" />搜索酒店
                 </router-link>
-<!--                刷新一下不显示的原因我找到了，因为刷新没有提交userInfo所以后面四项都不显示了-->
+            </a-menu-item>
+            <a-menu-item key="7" @click="registerAsMember" v-if="userInfo.userType==='Client'">
+                <router-link :to="{ name: 'userMembership'}">
+                    <a-icon type="usergroup-add"/>注册会员
+                </router-link>
+            </a-menu-item>
+            <a-menu-item key="8" @click="registerAsMember" v-if="userInfo.userType==='HotelManager'">
+                <router-link :to="{ name: 'hotelMembership'}">
+                    <a-icon type="usergroup-add"/>注册会员
+                </router-link>
             </a-menu-item>
         </a-menu>
         <div class="logout">
@@ -38,19 +48,15 @@
                     <a-icon style="margin-left: 3px; font-size: 16px" type="down"></a-icon>
                 </div>
                 <a-menu slot="overlay">
-                    <a-menu-item  @click="jumpToHome()">
+                    <a-menu-item  @click="jumpToHome">
                         <a-icon type="home"></a-icon>
                         首页
-                    </a-menu-item>
-                    <a-menu-item @click="jumpToUserInfo()" v-if="userInfo.userType==='Client'">
-                        <a-icon type="profile"></a-icon>
-                        我的信息
                     </a-menu-item>
                     <a-menu-item>
                         <a-icon type="question-circle"></a-icon>
                         帮助
                     </a-menu-item>
-                    <a-menu-item @click="quit()">
+                    <a-menu-item @click="quit">
                         <a-icon type="poweroff"></a-icon>
                         退出登录
                     </a-menu-item>
@@ -107,11 +113,20 @@ export default {
         jumpToUserInfo() {
             this.$router.push({ name: 'userInfo', params: { userId: this.userId } })
         },
+        jumpToManagerInfo() {
+            this.$router.push({ name: 'managerInfo', params: { userId: this.userId } })
+        },
         jumpToHome() {
 
         },
         searchHotel(){
-            this.$router.push('/hotel/searchHotel') // 容我研究一下这里怎么写。。。--crx 5.6
+            this.$router.push('/hotel/searchHotel')
+        },
+        registerAsMember(){
+            if (this.userInfo.userType==='Client')
+                this.$router.push('/user/membership')
+            else if (this.userInfo.userType==='HotelManger')
+                this.$router.push('/hotel/membership')
         }
     }
 }

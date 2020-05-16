@@ -40,6 +40,21 @@ const routes = [
         component: () => import('@/views/user/info')
       },
       {
+        path: '/manager/info/:userId',
+        name: 'managerInfo',
+        component: () => import('@/views/hotelManager/info')
+      },
+      {
+        path: '/user/membership',
+        name: 'userMembership',
+        component: () => import('@/views/user/userMembership')
+      },
+      {
+        path: '/hotel/membership',
+        name: 'hotelMembership',
+        component: () => import('@/views/hotel/hotelMembership')
+      },
+      {
         path: '/hotelManager/manageHotel',
         name: 'manageHotel',
         component: () => import('@/views/hotelManager/manageHotel')
