@@ -89,7 +89,7 @@ const hotel = {
             const res = await reserveHotelAPI(data)
             console.log(res)
             if(res){
-                message.success('预定成功')
+                await message.success('预定成功')
                 commit('set_orderModalVisible', false)
             }
         },

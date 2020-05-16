@@ -1,11 +1,11 @@
 <template>
     <a-modal
-        :visible="orderModalVisible"
-        title="预定详情"
-        cancelText="取消"
-        okText="下单"
-        @cancel="cancelOrder"
-        @ok="confirmOrder"
+            :visible="orderModalVisible"
+            title="预定详情"
+            cancelText="取消"
+            okText="下单"
+            @cancel="cancelOrder"
+            @ok="confirmOrder"
     >
         <a-form :form="form">
             <a-form-item v-bind="formItemLayout" label="房型信息">
@@ -197,10 +197,6 @@ export default {
         cancelOrder() {
             this.set_orderModalVisible(false)
         },
-        confirmOrder(e) {
-            // TODO 在提交之前应该再确认一下
-            this.handleSubmit(e);
-        },
         changeDate(v) {
             if(this.totalPrice !== ''){
                 this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)
@@ -208,6 +204,19 @@ export default {
         },
         changePeopleNum(v){
             // TODO
+        },
+        confirmOrder(e) {
+            let outer = this
+            this.$confirm({
+                title: '确定填写无误?',
+                content: '点击确认按钮后，自动提交订单。如果还想检查订单请点击取消。',
+                okText: '确认',
+                cancelText: '取消',
+                onOk(){
+                    outer.handleSubmit(e)
+                },
+                onCancel() {},
+            });
         },
         changeRoomNum(v) {
             this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]),'day')
@@ -217,7 +226,7 @@ export default {
             if(this.checkedList.length>0){
                 this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!==-1).forEach(item => this.finalPrice= this.finalPrice-item.discountMoney)
             }else{
-                
+
             }
         },
         handleSubmit(e) {

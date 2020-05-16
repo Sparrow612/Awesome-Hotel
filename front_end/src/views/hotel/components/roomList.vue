@@ -68,7 +68,7 @@ export default {
         }
     },
     components: {
-        OrderModal
+        OrderModal,
     },
     computed: {
         ...mapGetters([

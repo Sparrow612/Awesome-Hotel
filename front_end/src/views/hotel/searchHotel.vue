@@ -22,9 +22,8 @@
                         />
                     </a-form-item>
                     <a-form-item v-bind="formItemLayout">
-                        <a-button @click="search" value="搜索" class="searchButton">
+                        <a-button type="primary" icon="search" @click="search" value="搜索" class="searchButton">
                             搜索酒店
-                            <a-icon type="search"/>
                         </a-button>
                     </a-form-item>
                 </a-form>
@@ -103,9 +102,6 @@
         display: block;
         width: 50%;
         float: right;
-        background-color: #00a0e9;
-        cursor: pointer;
-        color: #fff;
     }
     .presentation{
         display: flex;

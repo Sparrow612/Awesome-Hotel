@@ -297,6 +297,3 @@ export default {
         }
     }
 </style>
-<style scoped lang="less">
-
-</style>
