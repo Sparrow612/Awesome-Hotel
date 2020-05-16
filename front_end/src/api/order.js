@@ -27,3 +27,11 @@ export function cancelOrderAPI(orderId) {
         method: 'GET',
     })
 }
+// created by GLH 2020.05.15
+// TODO 与后端对接
+export function execOrderAPI(orderId) {
+    return axios({
+        url: `${api.orderPre}/${orderId}/execOrder`,
+        method: 'GET'
+    })
+}

@@ -3,7 +3,7 @@
         <a-tabs>
             <a-tab-pane tab="我的信息" key="1">
                 <a-form :form="form" style="margin-top: 30px">
-                    
+
                     <a-form-item label="用户名" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
                         <a-input
                             placeholder="请填写用户名"
@@ -12,27 +12,44 @@
                         />
                         <span v-else>{{ userInfo.userName }}</span>
                     </a-form-item>
+
                     <a-form-item label="邮箱" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                         <span>{{ userInfo.email }}</span>
                     </a-form-item>
-                    
+
                     <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                         <a-input
                             placeholder="请填写手机号"
-                            v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }] }]"
+                            v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }, { validator: this.handlePhoneNumber }], validateTrigger: 'blur' }]"
                             v-if="modify"
                         />
                         <span v-else>{{ userInfo.phoneNumber}}</span>
                     </a-form-item>
+
                     <a-form-item label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                         <span>{{ userInfo.credit }}</span>
                     </a-form-item>
-                    <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="modify">
+
+                    <a-form-item label="新密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }" v-if="modify">
                         <a-input
-                            placeholder="请输入新密码"
-                            v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' }] }]"
+                                type="password"
+                                placeholder="请输入新密码"
+                                v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' }, { validator: this.handlePassword }], validateTrigger: 'blur' }]"
+                                v-if="modify"
                         />
                     </a-form-item>
+
+                    <a-form-item label="确认密码" :label-col="{ span: 3}" :wrapper-col="{ span: 8, offset: 1}" v-if="modify">
+                        <a-input
+                                type="password"
+                                placeholder="请再次输入密码"
+                                v-decorator="['passwordConfirm',
+                                {rules: [{ required: true, message: '请输入确认密码' }, { validator: this.handlePasswordCheck }], validateTrigger: 'blur'}]">
+                                v-if="modify"
+                        </a-input>
+                    </a-form-item>
+
+                    <!-- 按钮 -->
                     <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
                         <a-button type="primary" @click="saveModify">
                             保存
@@ -41,13 +58,15 @@
                             取消
                         </a-button>
                     </a-form-item>
-                     <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
+                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
                         <a-button type="primary" @click="modifyInfo">
                             修改信息
                         </a-button>
                     </a-form-item>
+
                 </a-form>
             </a-tab-pane>
+
             <a-tab-pane tab="我的订单" key="2">
                 <a-table
                     :columns="columns"
@@ -66,7 +85,8 @@
                         {{ text }}
                     </a-tag>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small">查看</a-button>
+                        <a-button type="primary" size="small" @click="showOrderDetail(record)">查看</a-button>
+
                         <a-divider type="vertical" v-if="record.orderState === '已预订'"></a-divider>
                         <a-popconfirm
                             title="你确定撤销该笔订单吗？"
@@ -78,21 +98,26 @@
                         >
                             <a-button type="danger" size="small">撤销</a-button>
                         </a-popconfirm>
-                        
+
                     </span>
                 </a-table>
             </a-tab-pane>
         </a-tabs>
+
+        <orderDetail></orderDetail>
     </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import orderDetail from '../order/orderDetail'
+import { message } from 'ant-design-vue';
+
 const columns = [
-    {  
+    {
         title: '订单号',
         dataIndex: 'id',
     },
-    {  
+    {
         title: '酒店名',
         dataIndex: 'hotelName',
     },
@@ -132,7 +157,7 @@ const columns = [
       key: 'action',
       scopedSlots: { customRender: 'action' },
     },
-    
+
   ];
 export default {
     name: 'info',
@@ -147,12 +172,14 @@ export default {
         }
     },
     components: {
+        orderDetail
     },
     computed: {
         ...mapGetters([
             'userId',
             'userInfo',
-            'userOrderList'
+            'userOrderList',
+            'orderDetailVisible',
         ])
     },
     async mounted() {
@@ -164,10 +191,17 @@ export default {
             'getUserInfo',
             'getUserOrders',
             'updateUserInfo',
-            'cancelOrder'
+            'cancelOrder',
+            'getHotelById',
         ]),
+        ...mapMutations([
+            'set_orderDetailVisible',
+            'set_orderInfo',
+            'set_currentHotelId',
+        ]),
+
         saveModify() {
-            this.form.validateFields((err, values) => {
+             this.form.validateFields((err, values) => {
                 if (!err) {
                     const data = {
                         userName: this.form.getFieldValue('userName'),
@@ -177,9 +211,12 @@ export default {
                     this.updateUserInfo(data).then(()=>{
                         this.modify = false
                     })
+                } else {
+                    message.error("请输入正确的信息")
                 }
-            });
+            })
         },
+
         modifyInfo() {
             setTimeout(() => {
                 this.form.setFieldsValue({
@@ -189,19 +226,59 @@ export default {
             }, 0)
             this.modify = true
         },
+
         cancelModify() {
             this.modify = false
         },
+
         confirmCancelOrder(orderId){
             this.cancelOrder(orderId)
         },
+
         cancelCancelOrder() {
 
+        },
+
+        handlePhoneNumber(rule, value, callback) {
+            const re = /1\d{10}/;
+            if (re.test(value)) {
+                callback();
+            } else {
+                callback(new Error('请输入有效手机号'));
+            }
+            callback()
+        },
+
+        handlePassword(rule, value, callback) {
+            if (value.length < 6) {
+                callback(new Error('密码长度至少6位'))
+            }
+            callback()
+        },
+
+        handlePasswordCheck(rule, value, callback) {
+            const password = this.form.getFieldValue('registerPassword')
+            console.log(password)
+            if (value === undefined) {
+                callback(new Error('请输入密码'))
+            }
+            if (value && password && value.trim() !== password.trim()) {
+                callback(new Error('两次密码不一致'))
+            }
+            callback()
+        },
+
+        showOrderDetail(record) {
+            this.set_orderInfo(record)
+            this.set_currentHotelId(record.hotelId)
+            this.getHotelById(record.hotelId)
+            this.set_orderDetailVisible(true)
         }
-        
     }
+
 }
 </script>
+
 <style scoped lang="less">
     .info-wrapper {
         padding: 50px;
@@ -221,5 +298,5 @@ export default {
     }
 </style>
 <style scoped lang="less">
-    
+
 </style>

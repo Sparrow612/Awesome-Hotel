@@ -144,6 +144,7 @@
 
 <script>
     import {mapGetters, mapActions, mapMutations} from 'vuex'
+    import { message } from 'ant-design-vue';
 
     export default {
         name: 'login',
@@ -201,7 +202,7 @@
             },
 
             handlePhoneNumber(rule, value, callback) {
-                const re = /1\d{10}/
+                const re = /1\d{10}/;
                 if (re.test(value)) {
                     callback();
                 } else {
@@ -275,6 +276,8 @@
                             })
                         });
                         this.registerLoading = false
+                    } else {
+                        message.error("请输入正确的信息")
                     }
                 });
             }
