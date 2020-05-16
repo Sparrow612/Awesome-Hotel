@@ -15,7 +15,7 @@
                 <a-input
                     v-decorator="[
                         'clientName',
-                        { rules: [{required: true, message: '请填写入住人姓名', }] }
+                        { rules: [{required: true, message: '请填写入住人姓名' }], validateTrigger: 'blur' }
                     ]"
                 />
             </a-form-item>
@@ -23,7 +23,7 @@
                 <a-input
                     v-decorator="[
                         'phoneNumber',
-                        { rules: [{required: true, message: '请填写入住人联系手机', }] }
+                        { rules: [{ required: true, message: '请输入联系人手机' }, { validator: this.handlePhoneNumber }], validateTrigger: 'blur' }
                     ]"
                 />
             </a-form-item>
@@ -239,6 +239,20 @@ export default {
                     this.addOrder(data)
                 }
             });
+        },
+        handlePhoneNumber(rule, value, callback) {
+            const re = /1\d{10}/;
+            if (re.test(value)) {
+                callback();
+            } else {
+                if (value === '') {
+                    callback()
+                }
+                else {
+                    callback(new Error('请输入有效联系人手机号'));
+                }
+            }
+            callback()
         },
     },
     watch:{
