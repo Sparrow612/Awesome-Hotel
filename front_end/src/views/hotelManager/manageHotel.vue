@@ -26,6 +26,7 @@
                     </span>
                 </a-table>
             </a-tab-pane>
+
             <a-tab-pane tab="订单管理" key="2">
                 <a-table
                     :columns="columns2"
@@ -71,7 +72,12 @@
                 </a-table>
             </a-tab-pane>
 
+            <a-tab-pane tab="我的酒店" key="3">
+                <modifyHotelInfo></modifyHotelInfo>
+            </a-tab-pane>
+
         </a-tabs>
+
         <AddHotelModal></AddHotelModal>
         <AddRoomModal></AddRoomModal>
         <Coupon></Coupon>
@@ -84,6 +90,7 @@ import AddHotelModal from './components/addHotelModal'
 import AddRoomModal from './components/addRoomModal'
 import Coupon from './components/coupon'
 import orderDetail from "../order/orderDetail";
+import modifyHotelInfo from "./components/modifyHotelInfo";
 const moment = require('moment');
 import { message } from 'ant-design-vue';
 const columns1 = [
@@ -172,6 +179,16 @@ export default {
             columns1,
             columns2,
             form: this.$form.createForm(this, { name: 'manageHotel' }),
+            formItemLayout: {
+                labelCol: {
+                    xs: { span: 12 },
+                    sm: { span: 6 },
+                },
+                wrapperCol: {
+                    xs: { span: 24 },
+                    sm: { span: 16 },
+                },
+            },
         }
     },
     components: {
@@ -179,6 +196,7 @@ export default {
         AddRoomModal,
         Coupon,
         orderDetail,
+        modifyHotelInfo,
     },
     computed: {
         ...mapGetters([
@@ -264,6 +282,4 @@ export default {
         }
     }
 </style>
-<style lang="less">
 
-</style>
