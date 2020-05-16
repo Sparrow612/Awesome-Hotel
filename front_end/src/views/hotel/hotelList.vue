@@ -19,22 +19,22 @@
                     <a-icon type="eye"/>
                     浏览酒店
                 </a-layout-header>
-                <a-layout-content style="font-size: large;background-color: aliceblue;padding: 20px">
-                    <a-icon type="down-circle"/>
-                    选择地址和商圈
-                    <div style="display: flex;">
-                        <a-input placeholder="请输入地址" class="info">
-                            <a-icon slot="prefix" type="environment" />
-                        </a-input>
-                        <a-input placeholder="请输入商圈" class="info">
-                            <a-icon slot="prefix" type="compass" />
-                        </a-input>
-                        <a-button type="primary" @click="showHotels" style="margin-left: 200px">
-                            <a-icon type="monitor"/>
-                            查看
-                        </a-button>
-                    </div>
-                </a-layout-content>
+<!--                <a-layout-content style="font-size: large;background-color: aliceblue;padding: 20px">-->
+<!--                    <a-icon type="down-circle"/>-->
+<!--                    选择地址和商圈-->
+<!--                    <div style="display: flex;">-->
+<!--                        <a-input placeholder="请输入地址" class="info">-->
+<!--                            <a-icon slot="prefix" type="environment" />-->
+<!--                        </a-input>-->
+<!--                        <a-input placeholder="请输入商圈" class="info">-->
+<!--                            <a-icon slot="prefix" type="compass" />-->
+<!--                        </a-input>-->
+<!--                        <a-button type="primary" @click="showHotels" style="margin-left: 200px">-->
+<!--                            <a-icon type="monitor"/>-->
+<!--                            查看-->
+<!--                        </a-button>-->
+<!--                    </div>-->
+<!--                </a-layout-content>-->
                 <a-table
                         :columns="columns"
                         :dataSource="rooms"
