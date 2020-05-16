@@ -5,7 +5,7 @@
         cancelText="取消"
         okText="下单"
         @cancel="cancelOrder"
-        @ok="handleSubmit"
+        @ok="confirmOrder"
     >
         <a-form :form="form">
             <a-form-item v-bind="formItemLayout" label="房型信息">
@@ -118,7 +118,7 @@
                 </a-table>
             </a-checkbox-group>
              <a-form-item v-bind="formItemLayout" label="结算后总价">
-                <span>￥{{ finalPrice }}</span>
+                <span>￥{{ finalPrice ? finalPrice : totalPrice}}</span>
             </a-form-item>
         </a-form>
     </a-modal>
@@ -197,8 +197,9 @@ export default {
         cancelOrder() {
             this.set_orderModalVisible(false)
         },
-        confirmOrder() {
-
+        confirmOrder(e) {
+            // TODO 在提交之前应该再确认一下
+            this.handleSubmit(e);
         },
         changeDate(v) {
             if(this.totalPrice !== ''){
@@ -206,7 +207,7 @@ export default {
             }
         },
         changePeopleNum(v){
-
+            // TODO
         },
         changeRoomNum(v) {
             this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]),'day')
