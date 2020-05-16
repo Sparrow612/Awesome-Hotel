@@ -47,15 +47,16 @@
                     <span slot="action" slot-scope="record">
                         <a-button type="primary" size="small" @click="showOrderDatail(record)">详情</a-button>
 
-                        <a-divider type="vertical"></a-divider>
+                        <a-divider type="vertical" v-if="record.orderState === '已预订'"></a-divider>
 
                         <a-popconfirm
                                 title="确定执行该订单吗？"
                                 @confirm="executeOrder(record)"
                                 okText="确定"
                                 cancelText="取消"
+                                v-if="record.orderState === '已预订'"
                         >
-                            <a-button type="primary" size="small">执行</a-button>
+                            <a-button type="default" size="small">执行</a-button>
                         </a-popconfirm>
 
                         <a-divider type="vertical"></a-divider>
@@ -67,6 +68,18 @@
                             cancelText="取消"
                         >
                             <a-button type="danger" size="small">删除</a-button>
+                        </a-popconfirm>
+
+                        <a-divider type="vertical" v-if="record.orderState !== '异常订单'"></a-divider>
+
+                        <a-popconfirm
+                                title="确定标记为异常订单吗？"
+                                @confirm="markAsabnormalOrder(record)"
+                                okText="确定"
+                                cancelText="取消"
+                                v-if="record.orderState !== '异常订单'"
+                        >
+                            <a-button type="dashed" size="small">异常</a-button>
                         </a-popconfirm>
                     </span>
                 </a-table>
@@ -159,7 +172,7 @@ const columns2 = [
     {
         title: '状态',
         filters: [{ text: '已预订', value: '已预订' }, { text: '已撤销', value: '已撤销' }, { text: '已入住', value: '已入住' },
-            { text: '异常订单', value: '异常订单' }, {text: '已完成', value: '已完成'}],
+             {text: '已完成', value: '已完成'}, { text: '异常订单', value: '异常订单' },],
         onFilter: (value, record) => record.orderState.includes(value),
         dataIndex: 'orderState',
         scopedSlots: { customRender: 'orderState' }
@@ -261,6 +274,9 @@ export default {
                 message.warning('还未到入住时间')
             }
         },
+        markAsabnormalOrder(record){
+            // TODO
+        }
     }
 }
 </script>
