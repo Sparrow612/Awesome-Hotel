@@ -18,23 +18,20 @@
                      <a-icon type="switcher" />酒店管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="4" @click="jumpToUserInfo" v-if="userInfo.userType==='Client'">
-                <a-icon type="user" />个人中心
-            </a-menu-item>
-            <a-menu-item key="5" @click=jumpToManagerInfo v-if="userInfo.userType==='HotelManager'">
+            <a-menu-item key="4" @click=jumpToManagerInfo v-if="userInfo.userType==='HotelManager'">
                 <a-icon type="user" />工作人员
             </a-menu-item>
-            <a-menu-item key="6" @click="searchHotel" v-if="userInfo.userType==='Client'">
+            <a-menu-item key="5" @click="searchHotel" v-if="userInfo.userType==='Client'">
                 <router-link :to="{ name: 'searchHotel'}">
                     <a-icon type="search" />搜索酒店
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="7" @click="registerAsMember" v-if="userInfo.userType==='Client'">
+            <a-menu-item key="6" @click="registerAsMember" v-if="userInfo.userType==='Client'">
                 <router-link :to="{ name: 'userMembership'}">
                     <a-icon type="usergroup-add"/>注册会员
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="8" @click="registerAsMember" v-if="userInfo.userType==='HotelManager'">
+            <a-menu-item key="7" @click="registerAsMember" v-if="userInfo.userType==='HotelManager'">
                 <router-link :to="{ name: 'hotelMembership'}">
                     <a-icon type="usergroup-add"/>注册会员
                 </router-link>
