@@ -67,8 +67,7 @@ const user = {
                 // modifed by glh
                 dispatch('getUserInfo').then(()=>{
                     console.log('login')
-                    if (userInfo.userType==='Client') router.push('/hotel/hotelList')
-                    else if (userInfo.userType==='HotelManager') router.push('/hotelManager/manageHotel')
+                    router.push('/hotel/hotelList')
                 })
             }
         },
