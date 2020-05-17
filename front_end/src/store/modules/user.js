@@ -64,9 +64,12 @@ const user = {
             if(res){
                 setToken(res.id)
                 commit('set_userId', res.id)
-                dispatch('getUserInfo')
-                console.log('denglu')
-                router.push('/hotel/hotelList')
+                // modifed by glh
+                dispatch('getUserInfo').then(()=>{
+                    console.log('login')
+                    if (userInfo.userType==='Client') router.push('/hotel/hotelList')
+                    else if (userInfo.userType==='HotelManager') router.push('/hotelManager/manageHotel')
+                })
             }
         },
         register: async({ commit }, data) => {

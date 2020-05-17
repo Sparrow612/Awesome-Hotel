@@ -36,6 +36,11 @@
                     <a-icon type="usergroup-add"/>注册企业会员
                 </router-link>
             </a-menu-item>
+            <a-menu-item key="8" @click="selectMenu" v-if="userInfo.userType==='Admin'">
+                <router-link :to="{ name: 'manageUser'}">
+                    <a-icon type="user" />账户管理
+                </router-link>
+            </a-menu-item>
         </a-menu>
         <div class="logout">
             <a-dropdown placement="bottomCenter">
