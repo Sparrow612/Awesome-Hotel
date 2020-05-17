@@ -5,7 +5,7 @@
             <span class="title">Awesome Hotel</span>
         </div>
         <a-menu v-model="current" mode="horizontal" theme="light">
-            <a-menu-item key="1" @click="selectMenu" v-if="userInfo.userType==='Client'">
+            <a-menu-item key="1" @click="selectMenu">
                 <router-link to="/hotel/hotelList">
                     <a-icon type="home" />首页
                 </router-link>
@@ -15,7 +15,7 @@
             </a-menu-item>
             <a-menu-item key="3" @click="selectMenu" v-if="userInfo.userType==='HotelManager'">
                 <router-link :to="{ name: 'manageHotel'}">
-                     <a-icon type="switcher" />酒店管理
+                     <a-icon type="switcher" />酒店经营
                 </router-link>
             </a-menu-item>
             <a-menu-item key="4" @click=jumpToManagerInfo v-if="userInfo.userType==='HotelManager'">
@@ -33,7 +33,7 @@
             </a-menu-item>
             <a-menu-item key="7" @click="registerAsMember" v-if="userInfo.userType==='HotelManager'">
                 <router-link :to="{ name: 'hotelMembership'}">
-                    <a-icon type="usergroup-add"/>注册会员
+                    <a-icon type="usergroup-add"/>注册企业会员
                 </router-link>
             </a-menu-item>
         </a-menu>
@@ -79,15 +79,15 @@ export default {
             'userInfo'
         ])
     },
-    mounted() {
-        this.getUserInfo(); // 防止刷新导致的信息丢失
+    async mounted() {
+        await this.getUserInfo(); // 防止刷新导致的信息丢失
         if (this.$route.name === 'hotelList' || this.$route.name === 'hotelDetail' || this.$route.name === 'searchHotel') {
             this.current = ['1']  // crx在这里做了修改 5.6 添加了第三个条件
-        }else if(this.$route.name === 'userInfo') {
+        } else if (this.$route.name === 'userInfo') {
             this.current = ['2']
-        }else if(this.$route.name === 'manageHotel') {
+        } else if (this.$route.name === 'manageHotel') {
             this.current = ['3']
-        }else {
+        } else {
             this.current = ['4']
         }
 
@@ -101,7 +101,7 @@ export default {
             'getUserInfo'
         ]),
         selectMenu(v){
-
+            // 也许可以在这里限定酒店工作人员能看到的酒店
         },
         async quit() {
             await this.$store.dispatch('logout')

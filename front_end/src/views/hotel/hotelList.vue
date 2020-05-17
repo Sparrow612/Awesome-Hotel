@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div  v-if="userInfo.userType==='Client'">
         <div class="hotelList">
             <a-layout>
                 <a-layout-content style="min-width: 800px">
@@ -13,9 +14,9 @@
                 </a-layout-content>
             </a-layout>
         </div>
-        <div class="Browselist">
+        <div class="Browselist" v-if="userInfo.userType==='Client'">
             <a-layout>
-                <a-layout-header style="font-size: large;background-color: azure;color: black;">
+                <a-layout-header style="font-size: x-large;background-color: cornflowerblue;color: white;">
                     <a-icon type="eye"/>
                     浏览酒店
                 </a-layout-header>
@@ -37,13 +38,23 @@
 <!--                </a-layout-content>-->
                 <a-table
                         :columns="columns"
-                        :dataSource="rooms"
+                        :dataSource="hotelList"
                 >
-                    <span slot="action" slot-scope="text, record">
-                        <a-button type="primary" @click="order(record)">预定</a-button>
+
+                    <span slot="action" slot-scope="record">
+                        <a-button type="primary" size="small" @click="order(record)">查看详情</a-button>
                     </span>
                 </a-table>
             </a-layout>
+        </div>
+        </div>
+        <div  v-if="userInfo.userType==='HotelManager'">
+            <h1>酒店工作人员看到的页面</h1>
+            <p>在这里展示一下酒店的营收情况</p>
+            <p>展示酒店收到的订单</p>
+        </div>
+        <div  v-if="userInfo.userType==='Admin'">
+            <h1>网站人员看到的页面</h1>
         </div>
     </div>
 </template>
@@ -53,32 +64,37 @@ import { mapGetters, mapActions, mapMutations } from 'vuex'
 const columns = [
     {
         title: '名称',
-        dataIndex: 'hotelName',
-        key: 'hotelName',
+        dataIndex: 'name',
     },
     {
         title: '星级',
         dataIndex: 'hotelStar',
-        key: 'hotelStar',
     },
     {
         title: '评分',
         dataIndex: 'rate',
-        key: 'rate',
+    },
+    {
+        title: '商圈',
+        dataIndex: 'bizRegion',
+    },
+    {
+        title: '地址',
+        dataIndex: 'address',
     },
     {
         title: '简介',
-        key: 'description',
         dataIndex: 'description',
     },
     {
         title: '是否预定过',
-        key: 'onceOrdered',
+        filters: [{ text: '已预订', value: '已预订' }, { text: '未预定', value: '未预定' }],
+        onFilter: (value, record) => record.onceOrdered.includes(value),
         dataIndex: 'onceOrdered',
+        scopedSlots: { customRender: 'onceOrdered' }
     },
     {
-        title: 'Action',
-        key: 'action',
+        title: '操作',
         scopedSlots: { customRender: 'action' },
     },
 ];
@@ -88,16 +104,17 @@ export default {
     HotelCard
   },
   data(){
-    return{
-        columns,
-        emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}]
+    return {
+        emptyBox: [{ name: 'box1' }, { name: 'box2'}, {name: 'box3'}],
+        columns
     }
   },
   async mounted() {
-    await this.getHotelList()
+      await this.getHotelList()
   },
   computed: {
     ...mapGetters([
+        'userInfo',
         'hotelList',
         'hotelListLoading'
     ])

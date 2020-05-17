@@ -70,6 +70,9 @@ const hotel = {
     },
 
     actions: {
+        getHotelByManagerID: async({commit, state}) =>{
+            // 让酒店工作人员只能看见自己的酒店 add by crx
+        },
         getHotelList: async({commit, state}) => {
             const res = await getHotelsAPI()
             if(res){

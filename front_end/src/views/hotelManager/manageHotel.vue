@@ -6,7 +6,7 @@
                     <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>
                 </div>
                  <a-table
-                    :columns="columns1"
+                    :columns="columns_of_hotels"
                     :dataSource="hotelList"
                     bordered
                 >
@@ -29,17 +29,26 @@
 
             <a-tab-pane tab="订单管理" key="2">
                 <a-table
-                    :columns="columns2"
+                    :columns="columns_of_orders"
                     :dataSource="orderList"
                     bordered
                 >
-                    <span slot="price" slot-scope="text">
-                        <span>￥{{ text }}</span>
-                    </span>
+                    <a-tag slot="hotelName" color="orange" slot-scope="text">
+                        {{text}}
+                    </a-tag>
                     <span slot="roomType" slot-scope="text">
-                        <span v-if="text == 'BigBed'">大床房</span>
-                        <span v-if="text == 'DoubleBed'">双床房</span>
-                        <span v-if="text == 'Family'">家庭房</span>
+                        <a-tag color="green" v-if="text === 'BigBed'">大床房</a-tag>
+                        <a-tag color="green" v-if="text === 'DoubleBed'">双床房</a-tag>
+                        <a-tag color="green" v-if="text === 'Family'">家庭房</a-tag>
+                    </span>
+                    <a-tag slot="checkInDate" color="red" slot-scope="text">
+                        {{text}}
+                    </a-tag>
+                    <a-tag slot="checkOutDate" color="red" slot-scope="text">
+                        {{text}}
+                    </a-tag>
+                    <span slot="price" slot-scope="text">
+                        <span>￥ {{ text }}</span>
                     </span>
                     <a-tag slot="orderState" color="blue" slot-scope="text">
                         {{ text }}
@@ -106,7 +115,7 @@ import orderDetail from "../order/orderDetail";
 import modifyHotelInfo from "./components/modifyHotelInfo";
 const moment = require('moment');
 import { message } from 'ant-design-vue';
-const columns1 = [
+const columns_of_hotels = [
     {
         title: '酒店名',
         dataIndex: 'name',
@@ -137,7 +146,7 @@ const columns1 = [
       scopedSlots: { customRender: 'action' },
     },
   ];
-const columns2 = [
+const columns_of_orders = [
     {
         title: '订单号',
         dataIndex: 'id',
@@ -145,6 +154,7 @@ const columns2 = [
     {
         title: '酒店名',
         dataIndex: 'hotelName',
+        scopedSlots: { customRender: 'hotelName' },
     },
     {
         title: '房型',
@@ -168,6 +178,7 @@ const columns2 = [
     {
         title: '房价',
         dataIndex: 'price',
+        scopedSlots: { customRender: 'price' }
     },
     {
         title: '状态',
@@ -179,7 +190,6 @@ const columns2 = [
     },
     {
       title: '操作',
-      key: 'action',
       scopedSlots: { customRender: 'action' },
     },
   ];
@@ -189,8 +199,8 @@ export default {
         return {
             formLayout: 'horizontal',
             pagination: {},
-            columns1,
-            columns2,
+            columns_of_hotels,
+            columns_of_orders,
             form: this.$form.createForm(this, { name: 'manageHotel' }),
             formItemLayout: {
                 labelCol: {

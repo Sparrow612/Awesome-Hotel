@@ -11,7 +11,7 @@
                 <span slot="price" slot-scope="text">
                     <span>¥ {{ text }}</span>
                 </span>
-                <span slot="action" slot-scope="text, record">
+                <span slot="action" slot-scope="record">
                     <a-button type="primary" @click="order(record)">预定</a-button>
                 </span>
             </a-table>
@@ -26,32 +26,26 @@ const columns = [
     {  
       title: '房型',
       dataIndex: 'roomType',
-      key: 'roomType',
     },
     {
       title: '床型',
       dataIndex: 'bedType',
-      key: 'bedType',
     },
     {
       title: '早餐',
       dataIndex: 'breakfast',
-      key: 'breakfast',
     },
     {
       title: '入住人数',
-      key: 'peopleNum',
       dataIndex: 'peopleNum',
     },
     {
       title: '房价',
-      key: 'price',
       dataIndex: 'price',
       scopedSlots: { customRender: 'price'}
     },
     {
-      title: 'Action',
-      key: 'action',
+      title: '操作',
       scopedSlots: { customRender: 'action' },
     },
 ];

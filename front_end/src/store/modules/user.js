@@ -26,7 +26,6 @@ const getDefaultState = () => {
         ]
     }
 }
-let userInfo;
 const user = {
     state : getDefaultState(),
 
@@ -67,8 +66,7 @@ const user = {
                 commit('set_userId', res.id)
                 dispatch('getUserInfo')
                 console.log('denglu')
-                if (userInfo.userType==='Client') router.push('/hotel/hotelList')
-                else if (userInfo.userType==='HotelManager') router.push('/hotelManager/manageHotel')
+                router.push('/hotel/hotelList')
             }
         },
         register: async({ commit }, data) => {
@@ -84,7 +82,6 @@ const user = {
                 if (!data) {
                   reject('登录已过期，请重新登录')
                 }
-                userInfo = data
                 commit('set_userInfo', data)
                 commit('set_userId', data.id)
                 resolve(data)
@@ -103,6 +100,9 @@ const user = {
                 await message.success('修改成功')
                 dispatch('getUserInfo')
             }
+        },
+        getUserOrdersbyHotelId: async({ state, commit }) => {
+            // 获取在指定酒店的订单
         },
         getUserOrders: async({ state, commit }) => {
             const data = {
