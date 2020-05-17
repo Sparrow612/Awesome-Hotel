@@ -75,8 +75,40 @@
 
 ## 用户收藏、点赞酒店功能
 
-## 用户分享酒店功能
-
 ## 用户在线提问功能（类似淘宝页面下的提问）
 
-## 用户在线联系客服功能 
+## 用户在线联系客服功能（待定）
+
+## 5.17会议记录
+
+upload img --zzy
+    
+getHodelbyManagerId --zzy
+
+查找所有商圈 --zzy
+
+getOrderbyUserId --待定
+
+membership 在（user和hotel表中加条目) --glh写前端
+
+网站营销人员、审核企业会员 --glh写前端
+
+credit （在user表中加）--hx
+
+search() --韩禧
+
+execOrders and markAbnormalOrders --hx
+
+hotelDetails --crx
+
+我的酒店页面 --crx
+
+酒店注册企业会员 --crx
+
+删除酒店 --crx
+
+优惠券删除 --glh
+
+下订单的小bug 日期和手机号码
+
+帮助

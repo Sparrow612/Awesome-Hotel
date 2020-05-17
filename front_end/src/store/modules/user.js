@@ -104,7 +104,7 @@ const user = {
             }
         },
         getUserOrdersbyHotelId: async({ state, commit }) => {
-            // 获取在指定酒店的订单
+            // 获取用户在指定酒店的订单
         },
         getUserOrders: async({ state, commit }) => {
             const data = {

@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(RESERVE_ERROR);
         }
-       return ResponseVO.buildSuccess(true);
+        return ResponseVO.buildSuccess(true);
     }
 
     @Override
