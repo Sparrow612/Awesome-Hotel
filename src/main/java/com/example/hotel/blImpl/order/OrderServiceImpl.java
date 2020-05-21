@@ -25,7 +25,10 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
     private final static String RESERVE_ERROR = "预订失败";
-    private final static String ROOMNUM_LACK = "预订房间数量剩余不足";
+    private final static String ROOM_NUM_LACK = "预订房间数量剩余不足";
+    private final static String CREDIT_LOW = "信用值不足，无法预定房间";
+    public final static Integer CREDIT_BOUND = 50;
+
     @Autowired
     OrderMapper orderMapper;
     @Autowired
@@ -40,7 +43,12 @@ public class OrderServiceImpl implements OrderService {
         int reserveRoomNum = orderVO.getRoomNum();
         int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(), orderVO.getRoomType());
         if (reserveRoomNum > curNum) {
-            return ResponseVO.buildFailure(ROOMNUM_LACK);
+            return ResponseVO.buildFailure(ROOM_NUM_LACK);
+        }
+        int userID = orderVO.getUserId();
+        double credit = accountMapper.getAccountById(userID).getCredit();
+        if (credit < CREDIT_BOUND) {
+            return ResponseVO.buildFailure(CREDIT_LOW);
         }
         try {
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");

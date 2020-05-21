@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public User login(UserForm userForm) {
         User user = accountMapper.getAccountByName(userForm.getEmail());
-        // TODO 正式上线的时候要删掉以下3行，现有的管理员和酒店工作人员特殊处理
+        // 正式上线的时候要删掉以下3行，现有的管理员和酒店工作人员特殊处理
         if (null == user) return null;
         if (user.getEmail().equals("333@qq.com") || user.getEmail().equals("123@qq.com")) {
             return user;
