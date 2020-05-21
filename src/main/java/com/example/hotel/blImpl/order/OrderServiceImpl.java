@@ -4,6 +4,7 @@ import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.order.OrderMapper;
+import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.vo.OrderVO;
@@ -31,12 +32,14 @@ public class OrderServiceImpl implements OrderService {
     HotelService hotelService;
     @Autowired
     AccountService accountService;
+    @Autowired
+    AccountMapper accountMapper;
 
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
         int reserveRoomNum = orderVO.getRoomNum();
-        int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(),orderVO.getRoomType());
-        if(reserveRoomNum>curNum){
+        int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(), orderVO.getRoomType());
+        if (reserveRoomNum > curNum) {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
         try {
@@ -49,9 +52,9 @@ public class OrderServiceImpl implements OrderService {
             orderVO.setClientName(user.getUserName());
             orderVO.setPhoneNumber(user.getPhoneNumber());
             Order order = new Order();
-            BeanUtils.copyProperties(orderVO,order);
+            BeanUtils.copyProperties(orderVO, order);
             orderMapper.addOrder(order);
-            hotelService.updateRoomInfo(orderVO.getHotelId(),orderVO.getRoomType(),orderVO.getRoomNum());
+            hotelService.updateRoomInfo(orderVO.getHotelId(), orderVO.getRoomType(), orderVO.getRoomNum());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(RESERVE_ERROR);
@@ -85,14 +88,18 @@ public class OrderServiceImpl implements OrderService {
         //扣除信用积分
         String checkInDate = order.getCheckInDate();
         String now = getSystemDate();
-        int gap = getDays(now,checkInDate);
-        if(gap==1||gap==0){
+        int gap = getDays(now, checkInDate);
+        if (gap == 1 || gap == 0) {
             int userID = order.getUserId();
             User user = accountService.getUserInfo(userID);
-            double price = order.getPrice();
-            double credit = user.getCredit();
-            credit -= price*0.5;
-
+            if (user.getAnnualTime() <= 0) {
+                double price = order.getPrice();
+                double credit = user.getCredit();
+                credit -= price * 0.5;
+                accountService.updateCredit(user.getId(), credit);
+            } else {
+                accountMapper.updateAnnualTime(userID, user.getAnnualTime() - 1);
+            }
         }
         orderMapper.annulOrder(orderid);
         return ResponseVO.buildSuccess(true);
@@ -100,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
 
     // added by hx
     //获取YYYY-MM-DD格式的当前系统日期
-    public static String getSystemDate(){
+    public static String getSystemDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         return sdf.format(date);
@@ -108,10 +115,10 @@ public class OrderServiceImpl implements OrderService {
 
     // added by hx
     //计算当前日期距离入住日期还差多少天
-    public static int getDays(String now, String checkInDate){
-        int yearGap = Integer.parseInt(checkInDate.substring(0,4)) - Integer.parseInt(now.substring(0,4));
-        int monthGap = Integer.parseInt(checkInDate.substring(5,7)) - Integer.parseInt(now.substring(5,7));
-        int dayGap = Integer.parseInt(checkInDate.substring(8,10)) - Integer.parseInt(now.substring(8,10));
-        return dayGap + 30*monthGap + 365*yearGap;
+    public static int getDays(String now, String checkInDate) {
+        int yearGap = Integer.parseInt(checkInDate.substring(0, 4)) - Integer.parseInt(now.substring(0, 4));
+        int monthGap = Integer.parseInt(checkInDate.substring(5, 7)) - Integer.parseInt(now.substring(5, 7));
+        int dayGap = Integer.parseInt(checkInDate.substring(8, 10)) - Integer.parseInt(now.substring(8, 10));
+        return dayGap + 30 * monthGap + 365 * yearGap;
     }
 }

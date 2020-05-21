@@ -8,7 +8,7 @@ package com.example.hotel.blImpl.user;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class PassWordMD5 {
+public class PasswordEncryptHelper {
     /*terrible, database limits password size to 11
      * when u want to change this size, remember to change database*/
     private static final int PASSWORD_LENGTH = 11;
@@ -17,7 +17,7 @@ public class PassWordMD5 {
      * @param password raw password
      * @return md5 code
      */
-    public String getMD5(String password) {
+    public static String getMD5(String password) {
         if (password == null || password.length() == 0) {
             throw new IllegalArgumentException("password shouldn't be empty");
         }

@@ -44,4 +44,8 @@ public interface AccountMapper {
      */
 
     int updateCredit(@Param("id") int id,@Param("credit") double credit);
+
+    int updateBirthday(@Param("id") int id, @Param("birthday") String birthday);
+
+    int updateAnnualTime(@Param("id") int id, @Param("time") int time);
 }

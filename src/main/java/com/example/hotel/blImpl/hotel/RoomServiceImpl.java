@@ -2,6 +2,7 @@ package com.example.hotel.blImpl.hotel;
 
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.data.hotel.RoomMapper;
+import com.example.hotel.enums.RoomType;
 import com.example.hotel.po.HotelRoom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,9 @@ public class RoomServiceImpl implements RoomService {
         return roomMapper.getRoomCurNum(hotelId,roomType);
     }
 
+    @Override
+    public List<HotelRoom> retrieveHotelRoomInfoByType(Integer hotelId, RoomType type) {
+        return null;
+    }
 
 }

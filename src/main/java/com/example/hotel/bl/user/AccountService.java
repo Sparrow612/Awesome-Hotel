@@ -25,6 +25,7 @@ public interface AccountService {
 
     /**
      * 获取用户个人信息
+     *
      * @param id
      * @return
      */
@@ -32,15 +33,18 @@ public interface AccountService {
 
     /**
      * 更新用户个人信息
+     *
      * @param id
      * @param password
      * @param username
      * @param phonenumber
      * @return
      */
-    ResponseVO updateUserInfo(int id, String password,String username,String phonenumber);
+    ResponseVO updateUserInfo(int id, String password, String username, String phonenumber);
 
     //todo
-    ResponseVO updateCredit(int id,double credit);
+    ResponseVO updateCredit(int id, double credit);
+
+    ResponseVO personalVIP(int id, String birthday);
 
 }

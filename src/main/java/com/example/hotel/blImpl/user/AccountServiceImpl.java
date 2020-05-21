@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class AccountServiceImpl implements AccountService {
     private final static String ACCOUNT_EXIST = "账号已存在";
     private final static String UPDATE_ERROR = "修改失败";
-    private final PassWordMD5 codeFormatter = new PassWordMD5();
+
     @Autowired
     private AccountMapper accountMapper;
 
@@ -23,7 +23,8 @@ public class AccountServiceImpl implements AccountService {
     public ResponseVO registerAccount(UserVO userVO) {
         User user = new User();
         BeanUtils.copyProperties(userVO, user);
-        user.setPassword(codeFormatter.getMD5(user.getPassword()));
+        user.setPassword(PasswordEncryptHelper.getMD5(user.getPassword()));
+        user.setAnnualTime(3);
         try {
             accountMapper.createNewAccount(user);
         } catch (Exception e) {
@@ -36,13 +37,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public User login(UserForm userForm) {
         User user = accountMapper.getAccountByName(userForm.getEmail());
-        // TODO 正式上线的时候要删掉这个部分，管理员和酒店工作人员应该怎么处理？手动添加是可行的
+        // TODO 正式上线的时候要删掉以下3行，现有的管理员和酒店工作人员特殊处理
         if (null == user) return null;
         if (user.getEmail().equals("333@qq.com") || user.getEmail().equals("123@qq.com")) {
             return user;
         }
-//        if (null == user || !user.getPassword().equals(userForm.getPassword())) {
-        if (!user.getPassword().equals(codeFormatter.getMD5(userForm.getPassword()))) { // add
+        if (!user.getPassword().equals(PasswordEncryptHelper.getMD5(userForm.getPassword()))) {
             return null;
         }
         return user;
@@ -50,18 +50,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public User getUserInfo(int id) {
-        User user = accountMapper.getAccountById(id);
-        if (user == null) {
-            return null;
-        }
-        return user;
+        return accountMapper.getAccountById(id);
     }
 
     @Override
     public ResponseVO updateUserInfo(int id, String password, String username, String phoneNumber) {
         try {
-//            accountMapper.updateAccount(id, password, username, phoneNumber);
-            accountMapper.updateAccount(id, codeFormatter.getMD5(password), username, phoneNumber);
+            accountMapper.updateAccount(id, PasswordEncryptHelper.getMD5(password), username, phoneNumber);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
@@ -74,6 +69,17 @@ public class AccountServiceImpl implements AccountService {
     public ResponseVO updateCredit(int id, double credit) {
         try {
             accountMapper.updateCredit(id, credit);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.buildFailure(UPDATE_ERROR);
+        }
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO personalVIP(int id, String birthday) {
+        try {
+            accountMapper.updateBirthday(id, birthday);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);

@@ -87,4 +87,22 @@ public class HotelServiceImpl implements HotelService {
 
         return hotelVO;
     }
+
+    @Override
+    public HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime){
+        HotelVO hotelVO = hotelMapper.selectById(hotelId);
+        List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
+        List<RoomVO> roomVOS = rooms.stream().map(r -> {
+            RoomVO roomVO = new RoomVO();
+            roomVO.setId(r.getId());
+            roomVO.setPrice(r.getPrice());
+            roomVO.setRoomType(r.getRoomType().toString());
+            roomVO.setCurNum(r.getCurNum());
+            roomVO.setTotal(r.getTotal());
+            return roomVO;
+        }).collect(Collectors.toList());
+        hotelVO.setRooms(roomVOS);
+
+        return hotelVO;
+    }
 }
