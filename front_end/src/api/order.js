@@ -15,9 +15,15 @@ export function getAllOrdersAPI() {
         method: 'GET',
     })
 }
-export function getUserOrdersAPI(data) {
+export function getUserOrdersAPI(userId) {
     return axios({
-        url: `${api.orderPre}/${data.userId}/getUserOrders`,
+        url: `${api.orderPre}/${userId}/getUserOrders`,
+        method: 'GET',
+    })
+}
+export function getHotelOrdersAPI(hotelId) {
+    return axios({
+        url: `${api.orderPre}/${hotelId}/allOrders`,
         method: 'GET',
     })
 }

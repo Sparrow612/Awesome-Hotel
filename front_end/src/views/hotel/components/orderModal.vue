@@ -192,7 +192,7 @@ export default {
         ]),
         ...mapActions([
             'addOrder',
-            'getOrderMatchCoupons'
+            'getOrderMatchCoupons',
         ]),
         cancelOrder() {
             this.set_orderModalVisible(false)
@@ -203,7 +203,7 @@ export default {
             }
         },
         changePeopleNum(v){
-            // TODO
+            // room 中没有设置人数上限制
         },
         confirmOrder(e) {
             let outer = this

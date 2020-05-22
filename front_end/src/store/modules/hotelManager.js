@@ -3,7 +3,7 @@ import {
     addHotelAPI,
 } from '@/api/hotelManager'
 import {
-    getAllOrdersAPI,
+    getHotelOrdersAPI,
 } from '@/api/order'
 import {
     hotelAllCouponsAPI,
@@ -13,6 +13,7 @@ import {message} from 'ant-design-vue'
 
 const hotelManager = {
     state: {
+        manageHotelList: [], // 需要一些新的方法
         orderList: [],
         addHotelParams: {
             name: '',
@@ -39,6 +40,9 @@ const hotelManager = {
         couponList: [],
     },
     mutations: {
+        set_managerList: function (state, data) {
+            state.manageHotelList = data
+        },
         set_orderList: function (state, data) {
             state.orderList = data
         },
@@ -74,8 +78,8 @@ const hotelManager = {
         }
     },
     actions: {
-        getAllOrders: async ({state, commit}) => {
-            const res = await getAllOrdersAPI()
+        getHotelOrders: async ({state, commit}) => {
+            let res = await getHotelOrdersAPI(3) // todo
             if (res) {
                 commit('set_orderList', res)
             }

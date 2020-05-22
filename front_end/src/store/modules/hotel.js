@@ -70,9 +70,6 @@ const hotel = {
     },
 
     actions: {
-        getHotelByManagerID: async({commit, state}) =>{
-            // 让酒店工作人员只能看见自己的酒店 add by crx
-        },
         getHotelList: async({commit, state}) => {
             const res = await getHotelsAPI()
             if(res){
@@ -90,10 +87,10 @@ const hotel = {
         },
         addOrder: async({ state, commit }, data) => {
             const res = await reserveHotelAPI(data)
-            console.log(res)
             if(res){
-                await message.success('预定成功，请稍候...')
+                await message.success('提交中，请稍候...')
                 commit('set_orderModalVisible', false)
+                await message.success('预定成功')
             }
         },
         getOrderMatchCoupons: async({ state, commit }, data) => {

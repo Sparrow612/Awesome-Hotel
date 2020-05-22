@@ -11,6 +11,9 @@
                 <span slot="price" slot-scope="text">
                     <span>¥ {{ text }}</span>
                 </span>
+                <span slot="left">
+                    <a-tag color="red">无剩余房间</a-tag>
+                </span>
                 <span slot="action" slot-scope="record">
                     <a-button type="primary" @click="order(record)">预定</a-button>
                 </span>
@@ -42,7 +45,13 @@ const columns = [
     {
       title: '房价',
       dataIndex: 'price',
-      scopedSlots: { customRender: 'price'}
+      scopedSlots: { customRender: 'price'},
+        sorter: (a, b) => a.price - b.price,
+    },
+    {
+        title: '剩余房间',
+        dataIndex: 'left',
+        scopedSlots: { customRender: 'left'},
     },
     {
       title: '操作',
