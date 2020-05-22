@@ -41,6 +41,18 @@
                     <a-icon type="user" />账户管理
                 </router-link>
             </a-menu-item>
+
+            <a-menu-item key="9" @click="jumpToManageHotelMembership" v-if="userInfo.userType==='SalesPerson'">
+                <router-link :to="{ name: 'manageHotelMembership'}">
+                    <a-icon type="user" />企业会员管理
+                </router-link>
+            </a-menu-item>
+
+            <a-menu-item key="10" @click="jumpToManageSiteCoupon" v-if="userInfo.userType==='SalesPerson'">
+                <router-link :to="{ name: 'manageSiteCoupon'}">
+                    <a-icon type="user" />网站优惠券
+                </router-link>
+            </a-menu-item>
         </a-menu>
         <div class="logout">
             <a-dropdown placement="bottomCenter">
@@ -129,6 +141,12 @@ export default {
                 this.$router.push('/user/membership')
             else if (this.userInfo.userType==='HotelManger')
                 this.$router.push('/hotel/membership')
+        },
+        jumpToManageHotelMembership() {
+
+        },
+        jumpToManageSiteCoupon() {
+
         }
     }
 }

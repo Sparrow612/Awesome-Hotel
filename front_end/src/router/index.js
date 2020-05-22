@@ -64,6 +64,16 @@ const routes = [
         name: 'manageUser',
         component: () => import('@/views/admin/manageUser')
       },
+      {
+        path: '/salesPerson/manageHotelMembership',
+        name: 'manageHotelMembership',
+        component: () => import('@/views/salesPerson/manageHotelMembership')
+      },
+      {
+        path: '/salesPerson/manageSiteCoupon',
+        name: 'manageSiteCoupon',
+        component: () => import('@/views/salesPerson/siteCoupon')
+      }
     ]
   },
 ]
