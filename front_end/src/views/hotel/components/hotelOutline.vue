@@ -14,9 +14,6 @@
                     <a-tag color="blue">{{this.currentHotelInfo.rate}}</a-tag>
                 </div>
             </a-tab-pane>
-            <a-tab-pane tab="交通信息" key="2">
-
-            </a-tab-pane>
             <a-tab-pane tab="常见问题" key="3">
                 <a-comment>
                     <a-avatar

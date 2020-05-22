@@ -26,7 +26,7 @@
                     </a-layout-content>
                 </a-layout>
             </div>
-            <div class="Browselist" v-if="userInfo.userType==='Client'">
+            <div class="Browselist">
                 <a-layout>
                     <a-layout-header style="font-size: x-large;background-color: cornflowerblue;color: white;">
                         <a-icon type="eye"/>
@@ -41,9 +41,34 @@
                         <a-tag color="blue">未预定</a-tag>
                     </span>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="order(record)">查看详情</a-button>
+                        <a-button type="primary" size="small" @click="jumpToDetails(record.id)">进入酒店</a-button>
                     </span>
                     </a-table>
+                </a-layout>
+            </div>
+            <div class="footPrints">
+                <a-layout>
+                    <a-layout-header style="font-size: x-large;background-color: mediumpurple;color: white;">
+                        <a-icon type="carry-out"/>
+                        历史预定
+                    </a-layout-header>
+                    <a-list
+                            item-layout="horizontal"
+                            :data-source="hotelList">
+                        <a-list-item slot="renderItem" slot-scope="item">
+                            <a-button size="small" slot="actions">历史订单</a-button>
+                            <a-button type="primary" size="small" slot="actions" @click="jumpToDetails(item.id)">进入酒店</a-button>
+                            <a-list-item-meta
+                                    :description="item.description"
+                            >
+                                <a slot="title" href="https://www.antdv.com/">{{ item.name }}</a>
+                                <a-avatar
+                                        slot="avatar"
+                                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                />
+                            </a-list-item-meta>
+                        </a-list-item>
+                    </a-list>
                 </a-layout>
             </div>
         </div>
@@ -66,19 +91,25 @@
         {
             title: '名称',
             dataIndex: 'name',
+            align: 'center',
         },
         {
             title: '星级',
             dataIndex: 'hotelStar',
+            filters: [{text: '三星级', value: 'Three'}, {text: '四星级', value: 'Four'}, {text: '五星级', value: 'Five'}],
+            onFilter: (value, record) => record.hotelStar.includes(value),
+            align: 'center',
         },
         {
             title: '评分',
             dataIndex: 'rate',
             sorter: (a, b) => a.rate - b.rate,
+            align: 'center',
         },
         {
             title: '商圈',
             dataIndex: 'bizRegion',
+            align: 'center',
         },
         {
             title: '地址',
@@ -87,13 +118,7 @@
         {
             title: '简介',
             dataIndex: 'description',
-        },
-        {
-            title: '是否预定过',
-            filters: [{text: '已预订', value: '已预订'}, {text: '未预定', value: '未预定'}],
-            onFilter: (value, record) => record.onceOrdered.includes(value),
-            dataIndex: 'onceOrdered',
-            scopedSlots: {customRender: 'onceOrdered'}
+            ellipsis: true,
         },
         {
             title: '操作',
@@ -103,14 +128,14 @@
     export default {
         name: 'home',
         components: {
-            HotelCard
+            HotelCard,
         },
         data() {
             return {
+                emptyBox: [{name: 'box1'}, {name: 'box2'}, {name: 'box3'}],
+                columns,
                 locale: zhCN,
                 pageSize: 20,
-                emptyBox: [{name: 'box1'}, {name: 'box2'}, {name: 'box3'}],
-                columns
             }
         },
         async mounted() {
@@ -143,9 +168,6 @@
             jumpToDetails(id) {
                 this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
             },
-            showHotels() {
-
-            }
         }
     }
 </script>
@@ -165,7 +187,7 @@
             justify-content: space-around;
             flex-wrap: wrap;
             flex-grow: 3;
-            min-height: 600px
+            min-height: 800px
         }
 
         .card-wrapper .card-item {
@@ -182,5 +204,8 @@
             width: 400px;
             margin: 10px;
         }
+    }
+    .footPrints{
+
     }
 </style>

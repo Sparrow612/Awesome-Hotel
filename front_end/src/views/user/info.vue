@@ -126,7 +126,6 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import orderDetail from '../order/orderDetail'
 import { message } from 'ant-design-vue';
-
 const columns_of_orders = [
     {
         title: '订单号',
@@ -166,8 +165,8 @@ const columns_of_orders = [
         filters: [{ text: '已预订', value: '已预订' }, { text: '已撤销', value: '已撤销' }, { text: '已入住', value: '已入住' },
             {text: '已完成', value: '已完成'},{ text: '异常订单', value: '异常订单' }],
         onFilter: (value, record) => record.orderState.includes(value),
-        dataIndex: 'orderState',scopedSlots: { customRender: 'orderState' }
-
+        dataIndex: 'orderState',scopedSlots: { customRender: 'orderState' },
+        filterMultiple: false,
     },
     {
       title: '操作',

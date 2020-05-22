@@ -16,20 +16,20 @@
                     </a-card>
                     <div class="info">
                         <div class="items" v-if="currentHotelInfo.name">
-                            <span class="label">酒店名称：</span>
+                            <span class="label">酒店名称: </span>
                             <span class="value">{{ currentHotelInfo.name }}</span>
                         </div>
                         <div class="items" v-if="currentHotelInfo.address">
-                            <span class="label">地址</span>
+                            <span class="label">地址: </span>
                             <span class="value">{{ currentHotelInfo.address }}</span>
                         </div>
                         <div class="items" v-if="currentHotelInfo.rate">
-                            <span class="label">评分:</span>
+                            <span class="label">评分: </span>
                             <span class="value">{{ currentHotelInfo.rate }}</span>
                         </div>
                         <div class="items" v-if="currentHotelInfo.hotelStar">
-                            <span class="label">星级:</span>
-                            <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled allowHalf/>
+                            <span class="label">星级: </span>
+                            <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled="true"/>
                         </div>
                         <div class="items" v-if="currentHotelInfo.description">
                             <span class="label">酒店简介:</span>
@@ -45,7 +45,7 @@
                     <a-tab-pane tab="酒店详情" key="2">
                         <HotelOutline></HotelOutline>
                     </a-tab-pane>
-                    <a-tab-pane tab="我的订单" key="3">
+                    <a-tab-pane tab="历史订单" key="3">
                         <!--TODO 用户在指定酒店的订单 需要新的数据库方法-->
                     </a-tab-pane>
                 </a-tabs>
