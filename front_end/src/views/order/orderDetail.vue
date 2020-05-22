@@ -49,7 +49,7 @@
             <a-icon type="question-circle" theme="twoTone"/>
             <span> 有疑问请咨询：
                 <a-tag color="blue">
-                    TODO： 管理员电话号码
+                    {{ currentHotelInfo.phoneNum }}
                 </a-tag>
             </span>
             <a-button type="primary" @click="handleOK" style="float: right">确定</a-button>

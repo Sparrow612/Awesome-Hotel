@@ -111,10 +111,7 @@ const user = {
             // 获取用户在指定酒店的订单
         },
         getUserOrders: async({ state, commit }) => {
-            const data = {
-                userId: Number(state.userId)
-            }
-            const res = await getUserOrdersAPI(data)
+            const res = await getUserOrdersAPI(Number(state.userId))
             if(res){
                 commit('set_userOrderList', res)
                 console.log(state.userOrderList)
