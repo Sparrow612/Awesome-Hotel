@@ -8,11 +8,11 @@
                 <div class="hotel-info">
                     <a-card style="width: 240px">
                         <img
-                            alt="example"
-                            src="@/assets/cover.jpeg"
-                            slot="cover"
-                            referrerPolicy="no-referrer"
-                            />
+                                alt="example"
+                                src="@/assets/cover.jpeg"
+                                slot="cover"
+                                referrerPolicy="no-referrer"
+                        />
                     </a-card>
                     <div class="info">
                         <div class="items" v-if="currentHotelInfo.name">
@@ -46,7 +46,7 @@
                         <HotelOutline></HotelOutline>
                     </a-tab-pane>
                     <a-tab-pane tab="我的订单" key="3">
-                        <!--TODO-->
+                        <!--TODO 用户在指定酒店的订单 需要新的数据库方法-->
                     </a-tab-pane>
                 </a-tabs>
             </div>
@@ -54,65 +54,69 @@
     </a-layout>
 </template>
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex'
-import RoomList from './components/roomList'
-import HotelOutline from './components/hotelOutline'
-export default {
-    name: 'hotelDetail',
-    components: {
-        RoomList,
-        HotelOutline,
-    },
-    data() {
-        return {
+    import {mapGetters, mapActions, mapMutations} from 'vuex'
+    import RoomList from './components/roomList'
+    import HotelOutline from './components/hotelOutline'
 
+    export default {
+        name: 'hotelDetail',
+        components: {
+            RoomList,
+            HotelOutline,
+        },
+        data() {
+            return {}
+        },
+        computed: {
+            ...mapGetters([
+                'currentHotelInfo',
+            ])
+        },
+        mounted() {
+            this.set_currentHotelId(Number(this.$route.params.hotelId))
+            this.getHotelById()
+        },
+        beforeRouteUpdate(to, from, next) {
+            this.set_currentHotelId(Number(to.params.hotelId))
+            this.getHotelById()
+            next()
+        },
+        methods: {
+            ...mapMutations([
+                'set_currentHotelId',
+            ]),
+            ...mapActions([
+                'getHotelById'
+            ])
         }
-    },
-    computed: {
-        ...mapGetters([
-            'currentHotelInfo',
-        ])
-    },
-    mounted() {
-        this.set_currentHotelId(Number(this.$route.params.hotelId))
-        this.getHotelById()
-    },
-    beforeRouteUpdate(to, from, next) {
-        this.set_currentHotelId(Number(to.params.hotelId))
-        this.getHotelById()
-        next()
-    },
-    methods: {
-        ...mapMutations([
-            'set_currentHotelId',
-        ]),
-        ...mapActions([
-            'getHotelById'
-        ])
     }
-}
 </script>
 <style scoped lang="less">
     .hotelDetailCard {
         padding: 50px 50px;
     }
+
     .hotel-info {
         display: flex;
         align-items: stretch;
         justify-content: flex-start;
-        .info{
+
+        .info {
             padding: 10px 0;
             display: flex;
             flex-direction: column;
             margin-left: 20px;
+
             .items {
                 display: flex;
                 align-items: center;
                 margin-bottom: 10px;
-                .label{
+
+                .label {
                     margin-right: 10px;
                     font-size: 18px;
                 }
+
                 .value {
                     margin-right: 15px
                 }

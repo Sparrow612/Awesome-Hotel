@@ -22,7 +22,7 @@
                         />
                     </a-form-item>
                     <a-form-item v-bind="formItemLayout">
-                        <a-button type="primary" icon="search" @click="search" value="搜索" class="searchButton">
+                        <a-button type="primary" icon="search" size="small" @click="search" value="搜索" class="searchButton">
                             搜索酒店
                         </a-button>
                     </a-form-item>
@@ -100,7 +100,8 @@
     }
     .searchButton{
         display: block;
-        width: 50%;
+        width: 40%;
+        text-align: center;
         float: right;
     }
     .presentation{

@@ -23,9 +23,9 @@
                 {{ currentHotelInfo.bizRegion }} - {{ currentHotelInfo.address }}
             </a-descriptions-item>
             <a-descriptions-item label="房间类型">
-                <span v-if="orderInfo.roomType == 'BigBed'">大床房</span>
-                <span v-else-if="orderInfo.roomType == 'DoubleBed'">双床房</span>
-                <span v-else-if="orderInfo.roomType == 'Family'">家庭房</span>
+                <span v-if="orderInfo.roomType === 'BigBed'">大床房</span>
+                <span v-else-if="orderInfo.roomType === 'DoubleBed'">双床房</span>
+                <span v-else-if="orderInfo.roomType === 'Family'">家庭房</span>
                 <span v-else>{{ orderInfo.roomType }}</span>
             </a-descriptions-item>
             <a-descriptions-item label="房间数量">
@@ -47,7 +47,11 @@
         <br/>
         <div>
             <a-icon type="question-circle" theme="twoTone"/>
-            <span> 有疑问请咨询： (TODO)获取管理员的电话号码</span>
+            <span> 有疑问请咨询：
+                <a-tag color="blue">
+                    TODO： 管理员电话号码
+                </a-tag>
+            </span>
             <a-button type="primary" @click="handleOK" style="float: right">确定</a-button>
         </div>
     </a-modal>
@@ -59,6 +63,7 @@ export default {
     name: "orderDetail",
     data () {
         return  {
+
         }
     },
 

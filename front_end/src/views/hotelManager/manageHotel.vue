@@ -47,9 +47,9 @@
                     <a-tag slot="checkOutDate" color="red" slot-scope="text">
                         {{text}}
                     </a-tag>
-                    <span slot="price" slot-scope="text">
-                        <span>￥ {{ text }}</span>
-                    </span>
+                    <a-tag slot="price" color="pink" slot-scope="text">
+                        ￥ {{ text }}
+                    </a-tag>
                     <a-tag slot="orderState" color="blue" slot-scope="text">
                         {{ text }}
                     </a-tag>
@@ -115,6 +115,7 @@ import orderDetail from "../order/orderDetail";
 import modifyHotelInfo from "./components/modifyHotelInfo";
 const moment = require('moment');
 import { message } from 'ant-design-vue';
+import hotelList from "../hotel/hotelList";
 const columns_of_hotels = [
     {
         title: '酒店名',
@@ -223,8 +224,10 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'orderList',
+            'userId',
             'hotelList',
+            'orderList',
+            // 'manageHotelList',
             'addHotelModalVisible',
             'addRoomModalVisible',
             'activeHotelId',
@@ -234,7 +237,8 @@ export default {
     },
     async mounted() {
         await this.getHotelList()
-        await this.getAllOrders()
+        console.log()
+        await this.getHotelOrders()
     },
     methods: {
         ...mapMutations([
@@ -247,7 +251,7 @@ export default {
         ]),
         ...mapActions([
             'getHotelList',
-            'getAllOrders',
+            'getHotelOrders',
             'getHotelCoupon',
             'execOrder',
         ]),
@@ -284,9 +288,6 @@ export default {
                 message.warning('还未到入住时间')
             }
         },
-        markAsabnormalOrder(record){
-            // TODO
-        }
     }
 }
 </script>
