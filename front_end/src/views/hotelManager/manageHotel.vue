@@ -27,7 +27,11 @@
                 </a-table>
             </a-tab-pane>
 
-            <a-tab-pane tab="订单管理" key="2">
+            <a-tab-pane tab="我的酒店" key="2">
+                <modifyHotelInfo></modifyHotelInfo>
+            </a-tab-pane>
+
+            <a-tab-pane tab="订单管理" key="3">
                 <a-table
                     :columns="columns_of_orders"
                     :dataSource="orderList"
@@ -94,10 +98,13 @@
                 </a-table>
             </a-tab-pane>
 
-            <a-tab-pane tab="我的酒店" key="3">
-                <modifyHotelInfo></modifyHotelInfo>
+            <a-tab-pane tab="优惠管理" key="4">
+                <hotel-coupon></hotel-coupon>
             </a-tab-pane>
 
+            <a-tab-pane tab="客房管理" key="5">
+                <hotel-room></hotel-room>
+            </a-tab-pane>
         </a-tabs>
 
         <AddHotelModal></AddHotelModal>
@@ -112,9 +119,11 @@ import AddHotelModal from './components/addHotelModal'
 import AddRoomModal from './components/addRoomModal'
 import Coupon from './components/coupon'
 import orderDetail from "../order/orderDetail";
-import modifyHotelInfo from "./components/modifyHotelInfo";
+import modifyHotelInfo from "./components/hotelInfo";
+import hotelRoom from "./components/hotelRoom";
 const moment = require('moment');
 import { message } from 'ant-design-vue';
+import HotelCoupon from "./components/hotelCoupon";
 const columns_of_hotels = [
     {
         title: '酒店名',
@@ -215,11 +224,13 @@ export default {
         }
     },
     components: {
+        HotelCoupon,
         AddHotelModal,
         AddRoomModal,
         Coupon,
         orderDetail,
         modifyHotelInfo,
+        hotelRoom,
     },
     computed: {
         ...mapGetters([

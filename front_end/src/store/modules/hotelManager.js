@@ -32,7 +32,7 @@ const hotelManager = {
             total: 0,
             curNum: 0,
         },
-        addRoomsModalVisible: false,
+        addRoomModalVisible: false,
         couponVisible: false,
         addCouponVisible: false,
         activeHotelId: 0,

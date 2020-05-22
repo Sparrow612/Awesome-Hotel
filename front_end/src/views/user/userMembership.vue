@@ -3,8 +3,8 @@
         <div style="float: left; margin-left: 5%">
             <membership-coupon ></membership-coupon>
         </div>
-        <div style="float: left; margin-left: 5%; text-align: center; width: 300px">
-            <a-card style="width: 300px;">
+        <div style="float: left; margin-left: 5%; text-align: center; width: 270px">
+            <a-card style="width: 270px;">
                 <p>VIP会员特权</p>
                 <img
                     alt="example"
