@@ -10,6 +10,9 @@ public class User {
     private String phoneNumber;
     private double credit;
     private UserType userType;
+    private String birthday;
+    private String corporate;
+    private Integer annualTime = 3;
 
     public Integer getId() {
         return id;
@@ -65,5 +68,29 @@ public class User {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    public String getBirthday() {
+        return this.birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getCorporate() {
+        return this.corporate;
+    }
+
+    public void setCorporate(String corporate) {
+        this.corporate = corporate;
+    }
+
+    public Integer getAnnualTime() {
+        return this.annualTime;
+    }
+
+    public void setAnnualTime(Integer annualTime) {
+        this.annualTime = annualTime;
     }
 }

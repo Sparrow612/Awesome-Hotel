@@ -26,7 +26,7 @@ public class HotelController {
     }
 
     @GetMapping("/all")
-    public ResponseVO retrieveAllHotels(){
+    public ResponseVO retrieveAllHotels() {
         return ResponseVO.buildSuccess(hotelService.retrieveHotels());
     }
 
@@ -39,6 +39,13 @@ public class HotelController {
     @GetMapping("/{hotelId}/detail")
     public ResponseVO retrieveHotelDetail(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId));
+    }
+
+    @GetMapping("/{hotelId}/getAvailableRoom")
+    public ResponseVO getAvailableRoom(@PathVariable Integer hotelId,
+                                       @RequestBody String startTime,
+                                       @RequestBody String endTime) {
+        return ResponseVO.buildSuccess(hotelService.retrieveAvailableHotelDetails(hotelId, startTime, endTime));
     }
 
 }

@@ -23,7 +23,8 @@ const getDefaultState = () => {
         },
         userOrderList: [
 
-        ]
+        ],
+        registerMembershipModalVisible: false,
     }
 }
 const user = {
@@ -55,6 +56,9 @@ const user = {
         },
         set_userOrderList: (state, data) => {
             state.userOrderList = data
+        },
+        set_registerMembershipModalVisible: (state, data) => {
+            state.registerMembershipModalVisible = data
         }
     },
 

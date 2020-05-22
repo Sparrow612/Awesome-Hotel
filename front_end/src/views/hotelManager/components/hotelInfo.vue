@@ -1,6 +1,7 @@
 <template>
     <div class="hotel-info">
-        <div class="info">
+        <h1>TODO: 要先获取当前酒店管理员对应的酒店</h1>
+        <div class="base-info">
             <a-form :form="form">
                 <a-form-item label="酒店名称" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
                     <a-input
@@ -10,8 +11,6 @@
                     />
                     <span v-else>TODO: 获取酒店名称</span>
                 </a-form-item>
-
-
 
                 <a-form-item label="酒店地址" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }">
                     <a-input
@@ -53,23 +52,25 @@
 </template>
 
 <script>
-    export default {
-        name: "modifyHotelInfo",
-        data() {
-            return {
-                modify: false,
-                form: this.$form.createForm(this, { name: 'modifyHotelInfo' }),
-            }
-        },
-        methods: {
-            modifyInfo() {
-                this.modify = true
-            },
-            saveModify() {
-                this.modify = false
-            },
+
+
+export default {
+    name: "modifyHotelInfo",
+    data() {
+        return {
+            modify: false,
+            form: this.$form.createForm(this, { name: 'modifyHotelInfo' }),
         }
+    },
+    methods: {
+        modifyInfo() {
+            this.modify = true
+        },
+        saveModify() {
+            this.modify = false
+        },
     }
+}
 </script>
 
 <style scoped lang="less">
