@@ -32,8 +32,6 @@ Eg. 1.feat: 查看酒店信息功能完成  2.fix: 浏览酒店bug修复
 
 http://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html
 
-
-
 ## 开发流程
 
 只有release分支可以进行Test环境部署，clone项目之后新建release分支
