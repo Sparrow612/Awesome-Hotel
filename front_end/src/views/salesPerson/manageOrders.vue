@@ -38,11 +38,47 @@
 
                 <a-tab-pane key="2">
                     <span slot="tab">
+                        今日未执行
+                        <sup style="color: red">{{ todayUnExecutedOrders.length }}</sup>
+                    </span>
+                    <a-table
+                            :columns="columns_of_orders_nofilter"
+                            :dataSource="todayUnExecutedOrders"
+                            bordered
+                    >
+                        <a-tag slot="hotelName" color="orange" slot-scope="text">
+                            {{text}}
+                        </a-tag>
+                        <span slot="roomType" slot-scope="text">
+                        <a-tag color="green" v-if="text === 'BigBed'">大床房</a-tag>
+                        <a-tag color="green" v-if="text === 'DoubleBed'">双床房</a-tag>
+                        <a-tag color="green" v-if="text === 'Family'">家庭房</a-tag>
+                    </span>
+                        <a-tag slot="checkInDate" color="red" slot-scope="text">
+                            {{text}}
+                        </a-tag>
+                        <a-tag slot="checkOutDate" color="red" slot-scope="text">
+                            {{text}}
+                        </a-tag>
+                        <span slot="price" slot-scope="text">
+                        <span>￥ {{ text }}</span>
+                    </span>
+                        <a-tag slot="orderState" color="blue" slot-scope="text">
+                            {{ text }}
+                        </a-tag>
+                        <span slot="action" slot-scope="record">
+                        <a-button type="primary" size="small" @click="showOrderDetail(record)">查看详情</a-button>
+                    </span>
+                    </a-table>
+                </a-tab-pane>
+
+                <a-tab-pane key="3">
+                    <span slot="tab">
                         异常订单
                         <sup style="color: red">{{ allAbnormalOrders.length }}</sup>
                     </span>
                     <a-table
-                            :columns="columns_of_orders"
+                            :columns="columns_of_orders_nofilter"
                             :dataSource="allAbnormalOrders"
                             bordered
                     >
@@ -71,6 +107,8 @@
                     </span>
                     </a-table>
                 </a-tab-pane>
+
+
             </a-tabs>
 
         </div>
@@ -83,6 +121,7 @@
 import orderDetail from "../order/orderDetail";
 import handleAbnormalOrder from "./components/handleAbnormalOrder";
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import {message} from "ant-design-vue";
 const columns_of_orders = [
     {
         title: '订单号',
@@ -132,11 +171,58 @@ const columns_of_orders = [
     },
 
 ];
+const columns_of_orders_nofilter = [
+    {
+        title: '订单号',
+        dataIndex: 'id',
+    },
+    {
+        title: '酒店名',
+        dataIndex: 'hotelName',
+        scopedSlots: { customRender: 'hotelName' }
+    },
+    {
+        title: '房型',
+        dataIndex: 'roomType',
+        scopedSlots: { customRender: 'roomType' }
+    },
+    {
+        title: '入住时间',
+        dataIndex: 'checkInDate',
+        scopedSlots: { customRender: 'checkInDate' }
+    },
+    {
+        title: '离店时间',
+        dataIndex: 'checkOutDate',
+        scopedSlots: { customRender: 'checkOutDate' }
+    },
+    {
+        title: '入住人数',
+        dataIndex: 'peopleNum',
+    },
+    {
+        title: '订单价格',
+        dataIndex: 'price',
+        scopedSlots: { customRender: 'price' }
+    },
+    {
+        title: '状态',
+        dataIndex: 'orderState',
+        scopedSlots: { customRender: 'orderState' },
+    },
+    {
+        title: '操作',
+        key: 'action',
+        scopedSlots: { customRender: 'action' },
+    },
+
+];
 export default {
     name: "manageOrders",
     data() {
         return {
             columns_of_orders,
+            columns_of_orders_nofilter,
         }
     },
     components: {
@@ -151,6 +237,13 @@ export default {
         allAbnormalOrders () {
             return this.allOrderList.filter(function(x) {
                 return x.orderState === '异常订单'
+            })
+        },
+        todayUnExecutedOrders () {
+            return this.allOrderList.filter(function(x) {
+                let checkInDate = new Date(x.checkInDate);
+                let now = new Date();
+                return x.orderState === '已预订' && checkInDate.toLocaleDateString()===now.toLocaleDateString()
             })
         },
     },
