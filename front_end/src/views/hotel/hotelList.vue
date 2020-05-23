@@ -80,10 +80,15 @@
         <div v-if="userInfo.userType==='Admin'">
             <h1>网站人员看到的页面</h1>
         </div>
+        <div v-if="userInfo.userType==='SalesPerson'">
+            <h1>网站营销人员看到的页面</h1>
+            <salesPerformance></salesPerformance>
+        </div>
     </div>
 </template>
 <script>
     import HotelCard from './components/hotelCard'
+    import salesPerformance from "../salesPerson/salesPerformance";
     import {mapGetters, mapActions, mapMutations} from 'vuex'
     import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
 
@@ -129,6 +134,7 @@
         name: 'home',
         components: {
             HotelCard,
+            salesPerformance,
         },
         data() {
             return {

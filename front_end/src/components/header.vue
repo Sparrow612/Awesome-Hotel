@@ -36,21 +36,20 @@
                     <a-icon type="usergroup-add"/>注册企业会员
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="8" @click="selectMenu" v-if="userInfo.userType==='Admin'">
+            <a-menu-item key="8" @click="manageUser" v-if="userInfo.userType==='Admin'">
                 <router-link :to="{ name: 'manageUser'}">
                     <a-icon type="user" />账户管理
                 </router-link>
             </a-menu-item>
 
-            <a-menu-item key="9" @click="jumpToManageHotelMembership" v-if="userInfo.userType==='SalesPerson'">
-                <router-link :to="{ name: 'manageHotelMembership'}">
-                    <a-icon type="user" />企业会员管理
+            <a-menu-item key="10" @click="manageOrders" v-if="userInfo.userType==='SalesPerson'">
+                <router-link :to="{ name: 'manageOrders'}">
+                    <a-icon type="tag" />订单管理
                 </router-link>
             </a-menu-item>
-
-            <a-menu-item key="10" @click="jumpToManageSiteCoupon" v-if="userInfo.userType==='SalesPerson'">
+            <a-menu-item key="11" @click="jumpToManageSiteCoupon" v-if="userInfo.userType==='SalesPerson'">
                 <router-link :to="{ name: 'manageSiteCoupon'}">
-                    <a-icon type="user" />网站优惠券
+                    <a-icon type="tag" />优惠策略
                 </router-link>
             </a-menu-item>
         </a-menu>
@@ -146,7 +145,13 @@ export default {
 
         },
         jumpToManageSiteCoupon() {
+            this.$rouer.push('/salesPerson/manageSiteCoupon')
+        },
+        manageUser() {
 
+        },
+        manageOrders() {
+            this.$rouer.push('/salesPerson/manageOrders')
         }
     }
 }
