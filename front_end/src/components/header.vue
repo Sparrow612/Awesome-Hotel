@@ -52,6 +52,11 @@
                     <a-icon type="tag" />优惠策略
                 </router-link>
             </a-menu-item>
+            <a-menu-item key="12" @click="jumpToManageUserCredit" v-if="userInfo.userType==='SalesPerson'">
+                <router-link :to="{ name: 'manageUserCredit'}">
+                    <a-icon type="user" />信用管理
+                </router-link>
+            </a-menu-item>
         </a-menu>
         <div class="logout">
             <a-dropdown placement="bottomCenter">
@@ -152,7 +157,10 @@ export default {
         },
         manageOrders() {
             this.$router.push('/salesPerson/manageOrders')
-        }
+        },
+        jumpToManageUserCredit() {
+            this.$router.push('/salesPerson/manageUserCredit')
+        },
     }
 }
 </script>

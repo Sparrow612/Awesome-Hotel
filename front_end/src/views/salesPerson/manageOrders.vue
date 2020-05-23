@@ -36,7 +36,11 @@
                     </a-table>
                 </a-tab-pane>
 
-                <a-tab-pane tab="异常订单" key="2">
+                <a-tab-pane key="2">
+                    <span slot="tab">
+                        异常订单
+                        <sup style="color: red">{{ allAbnormalOrders.length }}</sup>
+                    </span>
                     <a-table
                             :columns="columns_of_orders"
                             :dataSource="allAbnormalOrders"
@@ -63,7 +67,7 @@
                             {{ text }}
                         </a-tag>
                         <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="showOrderDetail(record)">查看详情</a-button>
+                        <a-button type="danger" size="small" @click="handleAbnormalOrder(record)">处理异常</a-button>
                     </span>
                     </a-table>
                 </a-tab-pane>
@@ -71,11 +75,13 @@
 
         </div>
         <orderDetail></orderDetail>
+        <handleAbnormalOrder></handleAbnormalOrder>
     </div>
 </template>
 
 <script>
 import orderDetail from "../order/orderDetail";
+import handleAbnormalOrder from "./components/handleAbnormalOrder";
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 const columns_of_orders = [
     {
@@ -135,6 +141,7 @@ export default {
     },
     components: {
         orderDetail,
+        handleAbnormalOrder,
     },
     computed: {
         ...mapGetters([
@@ -142,7 +149,9 @@ export default {
             'allOrderList',
         ]),
         allAbnormalOrders () {
-            return this.allOrderList
+            return this.allOrderList.filter(function(x) {
+                return x.orderState === '异常订单'
+            })
         },
     },
     async mounted() {
@@ -157,14 +166,20 @@ export default {
             'set_orderDetailVisible',
             'set_orderInfo',
             'set_currentHotelId',
-
+            'set_handleAbnormalOrderVisible',
         ]),
         showOrderDetail(record) {
             this.set_orderInfo(record)
             this.set_currentHotelId(record.hotelId)
             this.getHotelById(record.hotelId)
             this.set_orderDetailVisible(true)
-        }
+        },
+        handleAbnormalOrder(record) {
+            this.set_orderInfo(record)
+            this.set_currentHotelId(record.hotelId)
+            this.getHotelById(record.hotelId)
+            this.set_handleAbnormalOrderVisible(true)
+        },
     }
 }
 </script>

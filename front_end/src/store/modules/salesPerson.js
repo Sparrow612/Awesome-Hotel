@@ -9,10 +9,14 @@ import {message} from "ant-design-vue";
 const salesPerson = {
     state: {
         allOrderList: [],
+        handleAbnormalOrderVisible: false,
     },
     mutations: {
         set_allOrderList: function (state, data) {
             state.allOrderList = data
+        },
+        set_handleAbnormalOrderVisible: function (state, data) {
+            state.handleAbnormalOrderVisible = data
         },
     },
     actions: {
