@@ -37,7 +37,35 @@
                 </a-tab-pane>
 
                 <a-tab-pane tab="异常订单" key="2">
-                    <h1>all the abnormal orders</h1>
+                    <a-table
+                            :columns="columns_of_orders"
+                            :dataSource="allAbnormalOrders"
+                            bordered
+                    >
+                        <a-tag slot="hotelName" color="orange" slot-scope="text">
+                            {{text}}
+                        </a-tag>
+                        <span slot="roomType" slot-scope="text">
+                        <a-tag color="green" v-if="text === 'BigBed'">大床房</a-tag>
+                        <a-tag color="green" v-if="text === 'DoubleBed'">双床房</a-tag>
+                        <a-tag color="green" v-if="text === 'Family'">家庭房</a-tag>
+                    </span>
+                        <a-tag slot="checkInDate" color="red" slot-scope="text">
+                            {{text}}
+                        </a-tag>
+                        <a-tag slot="checkOutDate" color="red" slot-scope="text">
+                            {{text}}
+                        </a-tag>
+                        <span slot="price" slot-scope="text">
+                        <span>￥ {{ text }}</span>
+                    </span>
+                        <a-tag slot="orderState" color="blue" slot-scope="text">
+                            {{ text }}
+                        </a-tag>
+                        <span slot="action" slot-scope="record">
+                        <a-button type="primary" size="small" @click="showOrderDetail(record)">查看详情</a-button>
+                    </span>
+                    </a-table>
                 </a-tab-pane>
             </a-tabs>
 
@@ -112,7 +140,10 @@ export default {
         ...mapGetters([
             'orderDetailVisible',
             'allOrderList',
-        ])
+        ]),
+        allAbnormalOrders () {
+            return this.allOrderList
+        },
     },
     async mounted() {
         await this.getAllOrders()

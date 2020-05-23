@@ -145,13 +145,13 @@ export default {
 
         },
         jumpToManageSiteCoupon() {
-            this.$rouer.push('/salesPerson/manageSiteCoupon')
+            this.$router.push('/salesPerson/manageSiteCoupon')
         },
         manageUser() {
 
         },
         manageOrders() {
-            this.$rouer.push('/salesPerson/manageOrders')
+            this.$router.push('/salesPerson/manageOrders')
         }
     }
 }
