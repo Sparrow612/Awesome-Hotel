@@ -10,6 +10,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -85,5 +87,25 @@ public class AccountServiceImpl implements AccountService {
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
         return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO corporateVIP(int id, String corporate) {
+        return null;
+    }
+
+    @Override
+    public ResponseVO normalUser(String corporate) {
+        return null;
+    }
+
+    @Override
+    public ResponseVO updatePortrait(int userId, String url) {
+        return null;
+    }
+
+    @Override
+    public List<String> getManagerTelephone(int hotelId) {
+        return null;
     }
 }

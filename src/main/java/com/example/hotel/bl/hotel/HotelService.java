@@ -1,10 +1,7 @@
 package com.example.hotel.bl.hotel;
 
-import com.example.hotel.po.HotelRoom;
-import com.example.hotel.po.Order;
 import com.example.hotel.util.ServiceException;
-import com.example.hotel.vo.CouponVO;
-import com.example.hotel.vo.HotelVO;
+import com.example.hotel.vo.*;
 
 import java.util.List;
 
@@ -54,4 +51,19 @@ public interface HotelService {
 
     HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime);
 
+    ResponseVO addLike(LikeVO likeVO);
+
+    ResponseVO removeLike(Integer userId, Integer hotelId);
+
+    boolean getLike(Integer userId, Integer hotelId);
+
+
+    ResponseVO addCollection(CollectionVO collectionVO);
+
+    // 根据用户id获取收藏酒店的id
+    List<Integer> getCollections(int userId);
+
+    ResponseVO addQuestion(QuestionVO questionVO);
+
+    ResponseVO annualQuestion(Integer questionId);
 }

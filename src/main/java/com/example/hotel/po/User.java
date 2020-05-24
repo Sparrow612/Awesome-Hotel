@@ -13,6 +13,24 @@ public class User {
     private String birthday;
     private String corporate;
     private Integer annualTime = 3;
+    private String portrait;
+    private String jobNumber;
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public String getJobNumber() {
+        return this.jobNumber;
+    }
+
+    public void setJobNumber(String jobNumber) {
+        this.jobNumber = jobNumber;
+    }
 
     public Integer getId() {
         return id;

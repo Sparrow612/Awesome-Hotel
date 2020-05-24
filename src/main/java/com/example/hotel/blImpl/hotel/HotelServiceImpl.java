@@ -10,11 +10,9 @@ import com.example.hotel.enums.HotelStar;
 import com.example.hotel.enums.UserType;
 import com.example.hotel.po.Hotel;
 import com.example.hotel.po.HotelRoom;
-import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
 import com.example.hotel.util.ServiceException;
-import com.example.hotel.vo.HotelVO;
-import com.example.hotel.vo.RoomVO;
+import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +37,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public void addHotel(HotelVO hotelVO) throws ServiceException {
         User manager = accountService.getUserInfo(hotelVO.getManagerId());
-        if(manager == null || !manager.getUserType().equals(UserType.HotelManager)){
+        if (manager == null || !manager.getUserType().equals(UserType.HotelManager)) {
             throw new ServiceException("管理员不存在或者无权限！创建酒店失败！");
         }
         Hotel hotel = new Hotel();
@@ -56,12 +54,12 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public void updateRoomInfo(Integer hotelId, String roomType, Integer rooms) {
-        roomService.updateRoomInfo(hotelId,roomType,rooms);
+        roomService.updateRoomInfo(hotelId, roomType, rooms);
     }
 
     @Override
     public int getRoomCurNum(Integer hotelId, String roomType) {
-        return roomService.getRoomCurNum(hotelId,roomType);
+        return roomService.getRoomCurNum(hotelId, roomType);
     }
 
     @Override
@@ -79,11 +77,8 @@ public class HotelServiceImpl implements HotelService {
             roomVO.setId(r.getId());
             roomVO.setPrice(r.getPrice());
             roomVO.setRoomType(r.getRoomType().toString());
-            roomVO.setBedType(r.getBedType().toString());
-            roomVO.setBreakfast(r.getBreakfast());
             roomVO.setCurNum(r.getCurNum());
             roomVO.setTotal(r.getTotal());
-            roomVO.setPeopleNum(r.getPeopleNum());
             return roomVO;
         }).collect(Collectors.toList());
         hotelVO.setRooms(roomVOS);
@@ -92,7 +87,55 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime){
-        return retrieveHotelDetails(hotelId); // 待完善
+    public HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime) {
+        HotelVO hotelVO = hotelMapper.selectById(hotelId);
+        List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
+        List<RoomVO> roomVOS = rooms.stream().map(r -> {
+            RoomVO roomVO = new RoomVO();
+            roomVO.setId(r.getId());
+            roomVO.setPrice(r.getPrice());
+            roomVO.setRoomType(r.getRoomType().toString());
+            roomVO.setCurNum(r.getCurNum());
+            roomVO.setTotal(r.getTotal());
+            return roomVO;
+        }).collect(Collectors.toList());
+        hotelVO.setRooms(roomVOS);
+
+        return hotelVO;
+    }
+
+    @Override
+    public ResponseVO addLike(LikeVO likeVO) {
+        return null;
+    }
+
+    @Override
+    public ResponseVO removeLike(Integer userId, Integer hotelId) {
+        return null;
+    }
+
+    @Override
+    public boolean getLike(Integer userId, Integer hotelId) {
+        return false;
+    }
+
+    @Override
+    public ResponseVO addCollection(CollectionVO collectionVO) {
+        return null;
+    }
+
+    @Override
+    public List<Integer> getCollections(int userId) {
+        return null;
+    }
+
+    @Override
+    public ResponseVO addQuestion(QuestionVO questionVO) {
+        return null;
+    }
+
+    @Override
+    public ResponseVO annualQuestion(Integer questionId) {
+        return null;
     }
 }

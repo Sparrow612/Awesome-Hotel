@@ -1,6 +1,7 @@
 package com.example.hotel.bl.order;
 
 import com.example.hotel.po.Order;
+import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 
@@ -14,6 +15,7 @@ public interface OrderService {
 
     /**
      * 预订酒店
+     *
      * @param orderVO
      * @return
      */
@@ -21,12 +23,14 @@ public interface OrderService {
 
     /**
      * 获得所有订单信息
+     *
      * @return
      */
     List<Order> getAllOrders();
 
     /**
      * 查看酒店的所有订单
+     *
      * @param hotelId
      * @return
      */
@@ -34,6 +38,7 @@ public interface OrderService {
 
     /**
      * 获得指定用户的所有订单信息
+     *
      * @param userid
      * @return
      */
@@ -41,9 +46,17 @@ public interface OrderService {
 
     /**
      * 撤销订单
+     *
      * @param orderid
      * @return
      */
     ResponseVO annulOrder(int orderid);
+
+    CommentVO getComment(int orderId);
+
+    // 根据酒店Id获取所有对应的评价
+    List<CommentVO> getHotelComment(int hotelId);
+
+    ResponseVO addComment(CommentVO commentVO);
 
 }
