@@ -9,10 +9,10 @@
                 :dataSource="rooms"
             >
                 <span slot="price" slot-scope="text">
-                    <span>¥ {{ text }}</span>
+                    <a-tag color="pink">¥ {{ text }}</a-tag>
                 </span>
-                <span slot="left">
-                    <a-tag color="red">无剩余房间</a-tag>
+                <span slot="curNum" slot-scope="text">
+                    <a-tag color="purple">剩余房间：{{text}}</a-tag>
                 </span>
                 <span slot="action" slot-scope="record">
                     <a-button type="primary" @click="order(record)">预定</a-button>
@@ -50,8 +50,8 @@ const columns = [
     },
     {
         title: '剩余房间',
-        dataIndex: 'left',
-        scopedSlots: { customRender: 'left'},
+        dataIndex: 'curNum',
+        scopedSlots: { customRender: 'curNum'},
     },
     {
       title: '操作',

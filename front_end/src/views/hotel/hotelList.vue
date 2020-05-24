@@ -12,13 +12,13 @@
                                      class="emptyBox ant-col-xs-7 ant-col-lg-5 ant-col-xxl-3"></div>
                                 <a-config-provider :locale="locale">
                                     <a-pagination
-                                        show-less-items
-                                        show-size-changer
-                                        show-quick-jumper
-                                        :page-size.sync="pageSize"
-                                        :total="hotelList.length"
-                                        :defaultCurrent="1"
-                                        @change="pageChange">
+                                            show-less-items
+                                            show-size-changer
+                                            show-quick-jumper
+                                            :page-size.sync="pageSize"
+                                            :total="hotelList.length"
+                                            :defaultCurrent="1"
+                                            @change="pageChange">
                                     </a-pagination>
                                 </a-config-provider>
                             </div>
@@ -40,7 +40,7 @@
                     <span slot="onceOrdered">
                         <a-tag color="blue">未预定</a-tag>
                     </span>
-                    <span slot="action" slot-scope="record">
+                        <span slot="action" slot-scope="record">
                         <a-button type="primary" size="small" @click="jumpToDetails(record.id)">进入酒店</a-button>
                     </span>
                     </a-table>
@@ -54,10 +54,12 @@
                     </a-layout-header>
                     <a-list
                             item-layout="horizontal"
-                            :data-source="hotelList">
+                            :locale="{emptyText: '暂时没有您的预定记录'}"
+                            :data-source="onceOrderedList">
                         <a-list-item slot="renderItem" slot-scope="item">
-                            <a-button size="small" slot="actions">历史订单</a-button>
-                            <a-button type="primary" size="small" slot="actions" @click="jumpToDetails(item.id)">进入酒店</a-button>
+                            <a-button size="small" slot="actions" @click="jumpToDetails(item.id)">
+                                再次光顾
+                            </a-button>
                             <a-list-item-meta
                                     :description="item.description"
                             >
@@ -146,12 +148,14 @@
         },
         async mounted() {
             await this.getHotelList()
+            await this.getOnceOrderedList()
         },
         computed: {
             ...mapGetters([
                 'userInfo',
                 'hotelList',
-                'hotelListLoading'
+                'hotelListLoading',
+                'onceOrderedList',
             ])
         },
         methods: {
@@ -160,7 +164,8 @@
                 'set_hotelListLoading'
             ]),
             ...mapActions([
-                'getHotelList'
+                'getHotelList',
+                'getOnceOrderedList',
             ]),
             pageChange(page, pageSize) {
                 const data = {
@@ -211,7 +216,8 @@
             margin: 10px;
         }
     }
-    .footPrints{
+
+    .footPrints {
 
     }
 </style>

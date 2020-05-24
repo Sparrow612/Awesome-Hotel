@@ -1,13 +1,13 @@
 package com.example.hotel.enums;
 
-public enum RoomType {
-    BigBed("大床房"),
-    DoubleBed("双床房"),
-    Family("家庭房");
+public enum BedType {
+    BigBed("单人床"),
+    DoubleBed("双人床"),
+    Family("三人床");
 
     private final String value;
 
-    RoomType(String value) {
+    BedType(String value) {
         this.value = value;
     }
 

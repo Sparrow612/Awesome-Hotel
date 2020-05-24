@@ -29,24 +29,67 @@
                         </div>
                         <div class="items" v-if="currentHotelInfo.hotelStar">
                             <span class="label">星级: </span>
-                            <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" disabled="true"/>
+                            <a-rate style="font-size: 15px" :value="currentHotelInfo.rate" :disabled="true"/>
                         </div>
-                        <div class="items" v-if="currentHotelInfo.description">
+                        <div class="items" v-if="currentHotelInfo.descriptions">
                             <span class="label">酒店简介:</span>
                             <span class="value">{{ currentHotelInfo.description }}</span>
+                        </div>
+                        <div class="items" v-if="currentHotelInfo.phoneNum">
+                            <span class="label">联系电话:</span>
+                            <span class="value">{{ currentHotelInfo.phoneNum }}</span>
                         </div>
                     </div>
                 </div>
                 <a-divider></a-divider>
                 <a-tabs>
                     <a-tab-pane tab="房间信息" key="1">
+                        <a-row>
+                            <h1>入住-退房时间</h1>
+                        </a-row>
+                        <a-range-picker
+                                @change="changeDate"
+                                v-decorator="['date', { rules: [{ required: true, message: '请选择入住时间' }]}]"
+                                :default-value="dateRange"
+                                :format="dateFormat"
+                        />
                         <RoomList :rooms="currentHotelInfo.rooms"></RoomList>
                     </a-tab-pane>
                     <a-tab-pane tab="酒店详情" key="2">
                         <HotelOutline></HotelOutline>
                     </a-tab-pane>
                     <a-tab-pane tab="历史订单" key="3">
-                        <!--TODO 用户在指定酒店的订单 需要新的数据库方法-->
+                        <a-page-header
+                                style="border: 1px solid rgb(235, 237, 240)"
+                                title="您在这家酒店有如下的订单"
+                                sub-title="若要对订单进行撤销或者申诉，请前往个人中心-我的订单进行相关操作"
+                        />
+                        <a-table
+                                :columns="columns_of_orders"
+                                :dataSource="userOrderList.filter(order=>order.hotelId===currentHotelInfo.id)"
+                                bordered
+                        >
+                            <a-tag slot="hotelName" color="orange" slot-scope="text">
+                                {{text}}
+                            </a-tag>
+                            <span slot="roomType" slot-scope="text">
+                                <a-tag color="green" v-if="text === 'BigBed'">大床房</a-tag>
+                                <a-tag color="green" v-if="text === 'DoubleBed'">双床房</a-tag>
+                                <a-tag color="green" v-if="text === 'Family'">家庭房</a-tag>
+                            </span>
+                            <a-tag slot="checkInDate" color="red" slot-scope="text">
+                                {{text}}
+                            </a-tag>
+                            <a-tag slot="checkOutDate" color="red" slot-scope="text">
+                                {{text}}
+                            </a-tag>
+                            <span slot="price" slot-scope="text">
+                                <a-tag color="pink">￥ {{ text }}</a-tag>
+                            </span>
+                            <a-tag slot="orderState" color="blue" slot-scope="text">
+                                {{ text }}
+                            </a-tag>
+                        </a-table>
                     </a-tab-pane>
                 </a-tabs>
             </div>
@@ -57,7 +100,50 @@
     import {mapGetters, mapActions, mapMutations} from 'vuex'
     import RoomList from './components/roomList'
     import HotelOutline from './components/hotelOutline'
-
+    import moment from 'moment';
+    const columns_of_orders = [
+        {
+            title: '订单号',
+            dataIndex: 'id',
+        },
+        {
+            title: '酒店名',
+            dataIndex: 'hotelName',
+            scopedSlots: {customRender: 'hotelName'}
+        },
+        {
+            title: '房型',
+            dataIndex: 'roomType',
+            scopedSlots: {customRender: 'roomType'}
+        },
+        {
+            title: '入住时间',
+            dataIndex: 'checkInDate',
+            scopedSlots: {customRender: 'checkInDate'}
+        },
+        {
+            title: '离店时间',
+            dataIndex: 'checkOutDate',
+            scopedSlots: {customRender: 'checkOutDate'}
+        },
+        {
+            title: '入住人数',
+            dataIndex: 'peopleNum',
+        },
+        {
+            title: '订单价格',
+            dataIndex: 'price',
+            scopedSlots: {customRender: 'price'}
+        },
+        {
+            title: '状态',
+            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已入住', value: '已入住'},
+                {text: '已完成', value: '已完成'}, {text: '异常订单', value: '异常订单'}],
+            onFilter: (value, record) => record.orderState.includes(value),
+            dataIndex: 'orderState', scopedSlots: {customRender: 'orderState'},
+            filterMultiple: false,
+        },
+    ];
     export default {
         name: 'hotelDetail',
         components: {
@@ -65,16 +151,23 @@
             HotelOutline,
         },
         data() {
-            return {}
+            return {
+                columns_of_orders,
+                dateFormat: 'YYYY-MM-DD',
+                dateRange: [moment(), moment().add(1,'d')]
+            }
         },
         computed: {
             ...mapGetters([
                 'currentHotelInfo',
+                'userOrderList',
             ])
         },
-        mounted() {
+        async mounted() {
             this.set_currentHotelId(Number(this.$route.params.hotelId))
             this.getHotelById()
+            await this.getUserInfo()
+            await this.getUserOrders()
         },
         beforeRouteUpdate(to, from, next) {
             this.set_currentHotelId(Number(to.params.hotelId))
@@ -86,8 +179,13 @@
                 'set_currentHotelId',
             ]),
             ...mapActions([
-                'getHotelById'
-            ])
+                'getHotelById',
+                'getUserInfo',
+                'getUserOrders',
+            ]),
+            changeDate() {
+
+            },
         }
     }
 </script>

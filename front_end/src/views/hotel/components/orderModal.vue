@@ -8,6 +8,13 @@
             @ok="confirmOrder"
     >
         <a-form :form="form">
+            <a-form-item v-bind="formItemLayout" label="入住日期">
+                <a-range-picker
+                        format="YYYY-MM-DD"
+                        :default-value="dateRange"
+                        :disabled="true"
+                />
+            </a-form-item>
             <a-form-item v-bind="formItemLayout" label="房型信息">
                 <span>{{ currentOrderRoom.roomType }}</span>
             </a-form-item>
@@ -27,18 +34,7 @@
                     ]"
                 />
             </a-form-item>
-            
-            <a-form-item v-bind="formItemLayout" label="入住日期">
-                <a-range-picker
-                    format="YYYY-MM-DD"
-                    @change="changeDate"
-                    v-decorator="[
-                        'date', 
-                        { rules: [{ required: true, message: '请选择入住时间' }]}
-                    ]"
-                    :placeholder="['入住日期','退房日期']"
-                />
-            </a-form-item>
+
             <a-form-item v-bind="formItemLayout" label="入住人数">
                 <a-select
                     v-decorator="[
@@ -125,6 +121,7 @@
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import hotelDetail from '../hotelDetail'
 const moment = require('moment')
 const columns = [
     {  
@@ -166,6 +163,7 @@ export default {
                     sm: { span: 16 },
                 },
             },
+            dateRange: hotelDetail.data().dateRange,
             totalPrice: '',
             columns,
             checkedList: [],

@@ -49,7 +49,7 @@
             <a-icon type="question-circle" theme="twoTone"/>
             <span> 有疑问请咨询：
                 <a-tag color="blue">
-                    {{ currentHotelInfo.phoneNum }}
+                    {{ currentHotelInfo.phoneNum }} // 这个有错
                 </a-tag>
             </span>
             <a-button type="primary" @click="handleOK" style="float: right">确定</a-button>

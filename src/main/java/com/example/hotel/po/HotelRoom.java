@@ -1,10 +1,13 @@
 package com.example.hotel.po;
 
+import com.example.hotel.enums.BedType;
 import com.example.hotel.enums.RoomType;
 
 public class HotelRoom {
     private Integer id;
     private RoomType roomType;
+    private BedType bedType;
+    private String breakfast;
     private Integer hotelId;
     private double price;
     /**
@@ -15,6 +18,8 @@ public class HotelRoom {
      * 某类型房间总数
      */
     private int total;
+
+    private Integer peopleNum;
 
     public Integer getId() {
         return id;
@@ -32,6 +37,22 @@ public class HotelRoom {
         this.roomType = roomType;
     }
 
+    public BedType getBedType() {
+        return bedType;
+    }
+
+    public void setBedType(BedType bedType) {
+        this.bedType = bedType;
+    }
+
+    public String getBreakfast() {
+        return breakfast;
+    }
+
+    public void setBreakfast(String breakfast) {
+        this.breakfast = breakfast;
+    }
+
     public Integer getHotelId() {
         return hotelId;
     }
@@ -47,6 +68,10 @@ public class HotelRoom {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public Integer getPeopleNum() { return peopleNum; }
+
+    public void setPeopleNum(Integer peopleNum) { this.peopleNum = peopleNum; }
 
     public int getCurNum() {
         return curNum;

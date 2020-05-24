@@ -23,7 +23,7 @@
                     />
                     <div slot="content">
                         <a-form-item>
-                            <a-textarea :rows="4" :value="value" @change="handleChange" />
+                            <a-textarea :rows="4" :placeholder="hint" @change="handleChange" />
                         </a-form-item>
                         <a-form-item>
                             <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
@@ -43,7 +43,10 @@
     export default {
         name: "hotelOutline",
         data() {
-            return {}
+            return {
+                hint: '输入您的问题',
+                submitting: false,
+            }
         },
         computed: {
             ...mapGetters([
@@ -59,7 +62,13 @@
             },
             star() {
                 console.log('收藏')
-            }
+            },
+            handleChange() {
+
+            },
+            handleSubmit() {
+
+            },
         }
     }
 </script>

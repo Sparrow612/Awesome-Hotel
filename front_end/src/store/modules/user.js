@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import router from '@/router'
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
-import { message } from 'ant-design-vue'
+import {getToken, setToken, removeToken} from '@/utils/auth'
+import {resetRouter} from '@/router'
+import {message} from 'ant-design-vue'
 import {
     loginAPI,
     registerAPI,
@@ -15,31 +15,30 @@ import {
     cancelOrderAPI,
 } from '@/api/order'
 
+import {
+    getHotelByIdAPI
+} from "@/api/hotel";
+
 const getDefaultState = () => {
     return {
         userId: '',
-        userInfo: {
-
-        },
-        userOrderList: [
-
-        ],
+        userInfo: {},
+        userOrderList: [],
+        onceOrderedList: [],
         registerMembershipModalVisible: false,
     }
 }
 const user = {
-    state : getDefaultState(),
+    state: getDefaultState(),
 
     mutations: {
-        reset_state: function(state) {
-            state.token = '',
-            state.userId = '',
-            state.userInfo = {
-
-            },
+        reset_state: function (state) {
+            state.token = ''
+            state.userId = ''
+            state.userInfo = {}
             state.userOrderList = []
         },
-        set_token: function(state, token){
+        set_token: function (state, token) {
             state.token = token
         },
         set_email: (state, data) => {
@@ -57,82 +56,95 @@ const user = {
         set_userOrderList: (state, data) => {
             state.userOrderList = data
         },
+        set_onceOrderedList: (state, data) => {
+            state.onceOrderedList = data
+        },
         set_registerMembershipModalVisible: (state, data) => {
             state.registerMembershipModalVisible = data
         }
     },
 
     actions: {
-        login: async ({ dispatch, commit }, userData) => {
+        login: async ({dispatch, commit}, userData) => {
             const res = await loginAPI(userData)
-            if(res){
+            if (res) {
                 setToken(res.id)
                 commit('set_userId', res.id)
                 // modifed by glh
-                dispatch('getUserInfo').then(()=>{
+                dispatch('getUserInfo').then(() => {
                     console.log('login')
                     router.push('/hotel/hotelList')
                 })
             }
         },
-        register: async({ commit }, data) => {
+        register: async ({commit}, data) => {
             const res = await registerAPI(data)
-            if(res){
+            if (res) {
                 await message.success('注册成功')
             }
         },
-        getUserInfo({ state, commit }) {
+        getUserInfo: ({state, commit}) => {
             return new Promise((resolve, reject) => {
-              getUserInfoAPI(state.userId).then(response => {
-                const data = response
-                if (!data) {
-                  reject('登录已过期，请重新登录')
-                }
-                commit('set_userInfo', data)
-                commit('set_userId', data.id)
-                resolve(data)
-              }).catch(error => {
-                reject(error)
-              })
+                getUserInfoAPI(state.userId).then(response => {
+                    const data = response
+                    if (!data) {
+                        reject('登录已过期，请重新登录')
+                    }
+                    commit('set_userInfo', data)
+                    commit('set_userId', data.id)
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
             })
         },
-        updateUserInfo: async({ state, dispatch }, data) => {
+        updateUserInfo: async ({state, dispatch}, data) => {
             const params = {
                 id: state.userId,
                 ...data,
             }
             const res = await updateUserInfoAPI(params)
-            if(res){
+            if (res) {
                 await message.success('修改成功')
                 dispatch('getUserInfo')
             }
         },
-        getUserOrdersbyHotelId: async({ state, commit }) => {
+        getUserOrdersbyHotelId: async ({state, commit}) => {
             // 获取用户在指定酒店的订单
         },
-        getUserOrders: async({ state, commit }) => {
-            const res = await getUserOrdersAPI(Number(state.userId))
-            if(res){
+        getUserOrders: async ({state, commit}) => {
+            const res = await getUserOrdersAPI(state.userId)
+            if (res) {
                 commit('set_userOrderList', res)
-                console.log(state.userOrderList)
             }
         },
-        cancelOrder: async({ state, dispatch }, orderId) => {
+        getOnceOrderedList: async ({state, commit}) => {
+            const data = await getUserOrdersAPI(state.userId)
+            let res = []
+            for (const item of data) {
+                const hotel = await getHotelByIdAPI(item.hotelId)
+                res=[...res, hotel]
+            }
+            if (res) {
+                commit('set_onceOrderedList', res)
+            }
+        },
+        cancelOrder: async ({state, dispatch}, orderId) => {
             const res = await cancelOrderAPI(orderId)
-            if(res) {
+            if (res) {
                 dispatch('getUserOrders')
                 await message.success('撤销成功')
-            }else{
+            } else {
                 await message.error('撤销失败')
             }
         },
-        logout: async({ commit }) => {
+        logout: async ({commit}) => {
             removeToken()
             resetRouter()
             commit('reset_state')
         },
-          // remove token
-        resetToken({ commit }) {
+        // remove token
+        resetToken({commit}) {
             return new Promise(resolve => {
                 removeToken() // must remove  token  first
                 commit('reset_state')
