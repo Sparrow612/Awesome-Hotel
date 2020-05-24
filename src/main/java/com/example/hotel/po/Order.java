@@ -23,6 +23,64 @@ public class Order {
     private String phoneNumber;
     private String orderState;
 
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+
+    public void setSanitation(Integer sanitation) {
+        this.sanitation = sanitation;
+    }
+
+    public void setEnvironment(Integer environment) {
+        this.environment = environment;
+    }
+
+    public void setService(Integer service) {
+        this.service = service;
+    }
+
+    public void setEquipment(Integer equipment) {
+        this.equipment = equipment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public Integer getSanitation() {
+        return sanitation;
+    }
+
+    public Integer getEnvironment() {
+        return environment;
+    }
+
+    public Integer getService() {
+        return service;
+    }
+
+    public Integer getEquipment() {
+        return equipment;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    /**
+     * Comments
+     */
+    private Integer points;
+    private Integer sanitation;
+    private Integer environment;
+    private Integer service;
+    private Integer equipment;
+    private String comment;
+
     public Integer getId() {
         return id;
     }

@@ -7,6 +7,7 @@ import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
+import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.BeanUtils;
@@ -111,6 +112,21 @@ public class OrderServiceImpl implements OrderService {
         }
         orderMapper.annulOrder(orderid);
         return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public CommentVO getComment(int orderId) {
+        return null;
+    }
+
+    @Override
+    public List<CommentVO> getHotelComment(int hotelId) {
+        return null;
+    }
+
+    @Override
+    public ResponseVO addComment(CommentVO commentVO) {
+        return null;
     }
 
     // added by hx

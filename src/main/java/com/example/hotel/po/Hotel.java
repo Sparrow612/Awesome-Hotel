@@ -15,10 +15,69 @@ public class Hotel {
     private Double rate;
     private String description;
     private String phoneNum;
+
+    public void setCommentTime(Integer commentTime) {
+        this.commentTime = commentTime;
+    }
+
+    public void setPoints(double points) {
+        this.points = points;
+    }
+
+    public void setSanitation(double sanitation) {
+        this.sanitation = sanitation;
+    }
+
+    public void setEnvironment(double environment) {
+        this.environment = environment;
+    }
+
+    public void setService(double service) {
+        this.service = service;
+    }
+
+    public void setEquipment(double equipment) {
+        this.equipment = equipment;
+    }
+
     /**
      * 酒店管理员id
      */
     private Integer managerId;
+
+    public Integer getCommentTime() {
+        return commentTime;
+    }
+
+    public double getPoints() {
+        return points;
+    }
+
+    public double getSanitation() {
+        return sanitation;
+    }
+
+    public double getEnvironment() {
+        return environment;
+    }
+
+    public double getService() {
+        return service;
+    }
+
+    public double getEquipment() {
+        return equipment;
+    }
+
+    /**
+     * 酒店评价
+     */
+    private Integer commentTime;
+    private double points;
+    private double sanitation;
+    private double environment;
+    private double service;
+    private double equipment;
 
     public Integer getId() {
         return id;
