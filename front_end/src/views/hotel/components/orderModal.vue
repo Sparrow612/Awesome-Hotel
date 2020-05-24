@@ -8,19 +8,23 @@
             @ok="confirmOrder"
     >
         <a-form :form="form">
-            <a-form-item v-bind="formItemLayout" label="入住日期">
-                <a-range-picker
-                        format="YYYY-MM-DD"
-                        :default-value="dateRange"
-                        :disabled="true"
-                />
-            </a-form-item>
             <a-form-item v-bind="formItemLayout" label="房型信息">
                 <span>{{ currentOrderRoom.roomType }}</span>
             </a-form-item>
+            <a-form-item v-bind="formItemLayout" label="入住-退房日期">
+                <a-range-picker
+                        format="YYYY-MM-DD"
+                        @change="changeDate"
+                        v-decorator="[
+                            'date',
+                            { rules: [{ required: true, message: '请选择入住时间' }], initialValue: dateRange},
+                        ]"
+                        :disabled="true"
+                />
+            </a-form-item>
             <a-form-item v-bind="formItemLayout" label="入住人姓名">
                 <a-input
-                    v-decorator="[
+                        v-decorator="[
                         'clientName',
                         { rules: [{required: true, message: '请填写入住人姓名' }], validateTrigger: 'blur' }
                     ]"
@@ -28,7 +32,7 @@
             </a-form-item>
             <a-form-item v-bind="formItemLayout" label="手机号">
                 <a-input
-                    v-decorator="[
+                        v-decorator="[
                         'phoneNumber',
                         { rules: [{ required: true, message: '请输入联系人手机' }, { validator: this.handlePhoneNumber }], validateTrigger: 'blur' }
                     ]"
@@ -37,30 +41,30 @@
 
             <a-form-item v-bind="formItemLayout" label="入住人数">
                 <a-select
-                    v-decorator="[
+                        v-decorator="[
                         'peopleNum',
                         { rules: [{ required: true, message: '请选择入住人数' }] },
                     ]"
-                    placeholder="请选择入住人数"
-                    @change="changePeopleNum"
+                        placeholder="请选择入住人数"
+                        @change="changePeopleNum"
                 >
                     <a-select-option :value="1">
-                    1
+                        1
                     </a-select-option>
                     <a-select-option :value="2">
-                    2
+                        2
                     </a-select-option>
-                     <a-select-option :value="3">
-                    3
+                    <a-select-option :value="3">
+                        3
                     </a-select-option>
                     <a-select-option :value="4">
-                    4
+                        4
                     </a-select-option>
                 </a-select>
             </a-form-item>
             <a-form-item v-bind="formItemLayout" label="有无儿童">
                 <a-radio-group
-                    v-decorator="[
+                        v-decorator="[
                         'haveChild',
                         { rules: [{required: true, message: '请选择有无儿童入住', }] }
                     ]"
@@ -71,21 +75,21 @@
             </a-form-item>
             <a-form-item v-bind="formItemLayout" label="房间数">
                 <a-select
-                    v-decorator="[
+                        v-decorator="[
                         'roomNum',
                         { rules: [{ required: true, message: '请选择房间数' }] },
                     ]"
-                    placeholder="请选择房间数"
-                    @change="changeRoomNum"
+                        placeholder="请选择房间数"
+                        @change="changeRoomNum"
                 >
                     <a-select-option :value="1">
-                    1
+                        1
                     </a-select-option>
                     <a-select-option :value="2">
-                    2
+                        2
                     </a-select-option>
-                     <a-select-option :value="3">
-                    3
+                    <a-select-option :value="3">
+                        3
                     </a-select-option>
                 </a-select>
             </a-form-item>
@@ -99,182 +103,183 @@
             <h2 v-if="orderMatchCouponList.length>0">优惠</h2>
             <a-checkbox-group v-model="checkedList" @change="onchange">
                 <a-table
-                    :columns="columns"
-                    :dataSource="orderMatchCouponList"
-                    :showHeader="false"
-                    bordered
-                    v-if="orderMatchCouponList.length>0"
+                        :columns="columns"
+                        :dataSource="orderMatchCouponList"
+                        :showHeader="false"
+                        bordered
+                        v-if="orderMatchCouponList.length>0"
                 >
                     <a-checkbox
-                        slot="id"
-                        slot-scope="record"
-                        :value="record"
+                            slot="id"
+                            slot-scope="record"
+                            :value="record"
                     >
                     </a-checkbox>
                 </a-table>
             </a-checkbox-group>
-             <a-form-item v-bind="formItemLayout" label="结算后总价">
+            <a-form-item v-bind="formItemLayout" label="结算后总价">
                 <span>￥{{ finalPrice ? finalPrice : totalPrice}}</span>
             </a-form-item>
         </a-form>
     </a-modal>
 </template>
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
-import hotelDetail from '../hotelDetail'
-const moment = require('moment')
-const columns = [
-    {  
-        title: '勾选',
-        dataIndex: 'id',
-        scopedSlots: {customRender: 'id'}
-    },
-    {
-        title: '优惠类型',
-        dataIndex: 'couponName',
-        scopedSlots: {customRender: 'couponName'}
-    },
-    {
-        title: '折扣',
-        dataIndex: 'discount',
-    },
+    import {mapGetters, mapMutations, mapActions} from 'vuex'
+    import hotelDetail from '../hotelDetail'
 
-    {
-        title: '优惠简介',
-        dataIndex: 'description',
-        
-    },
-    {
-        title: '优惠金额',
-        dataIndex: 'discountMoney',
-    },
-  ];
-export default {
-    name: 'orderModal',
-    data() {
-        return {
-            formItemLayout: {
-                labelCol: {
-                    xs: { span: 12 },
-                    sm: { span: 6 },
+    const moment = require('moment')
+    const columns = [
+        {
+            title: '勾选',
+            dataIndex: 'id',
+            scopedSlots: {customRender: 'id'}
+        },
+        {
+            title: '优惠类型',
+            dataIndex: 'couponName',
+            scopedSlots: {customRender: 'couponName'}
+        },
+        {
+            title: '折扣',
+            dataIndex: 'discount',
+        },
+
+        {
+            title: '优惠简介',
+            dataIndex: 'description',
+
+        },
+        {
+            title: '优惠金额',
+            dataIndex: 'discountMoney',
+        },
+    ];
+    export default {
+        name: 'orderModal',
+        data() {
+            return {
+                formItemLayout: {
+                    labelCol: {
+                        xs: {span: 12},
+                        sm: {span: 6},
+                    },
+                    wrapperCol: {
+                        xs: {span: 24},
+                        sm: {span: 16},
+                    },
                 },
-                wrapperCol: {
-                    xs: { span: 24 },
-                    sm: { span: 16 },
-                },
+                dateRange: hotelDetail.data().dateRange,
+                totalPrice: '',
+                columns,
+                checkedList: [],
+                finalPrice: ''
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'orderModalVisible',
+                'currentOrderRoom',
+                'currentHotelId',
+                'currentHotelInfo',
+                'userId',
+                'orderMatchCouponList'
+            ]),
+
+        },
+        beforeCreate() {
+            this.form = this.$form.createForm(this, {name: 'orderModal'});
+        },
+        methods: {
+            ...mapMutations([
+                'set_orderModalVisible'
+            ]),
+            ...mapActions([
+                'addOrder',
+                'getOrderMatchCoupons',
+            ]),
+            cancelOrder() {
+                this.set_orderModalVisible(false)
             },
-            dateRange: hotelDetail.data().dateRange,
-            totalPrice: '',
-            columns,
-            checkedList: [],
-            finalPrice: ''
-        }
-    },
-    computed: {
-        ...mapGetters([
-            'orderModalVisible',
-            'currentOrderRoom',
-            'currentHotelId',
-            'currentHotelInfo',
-            'userId',
-            'orderMatchCouponList'
-        ]),
-        
-    },
-    beforeCreate() {
-        this.form = this.$form.createForm(this, { name: 'orderModal' });
-    },
-    methods: {
-        ...mapMutations([
-            'set_orderModalVisible'
-        ]),
-        ...mapActions([
-            'addOrder',
-            'getOrderMatchCoupons',
-        ]),
-        cancelOrder() {
-            this.set_orderModalVisible(false)
-        },
-        changeDate(v) {
-            if(this.totalPrice !== ''){
-                this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)
-            }
-        },
-        changePeopleNum(v){
-            // room 中没有设置人数上限制
-        },
-        confirmOrder(e) {
-            let outer = this
-            this.$confirm({
-                title: '确定填写无误?',
-                content: '点击确认按钮后，自动提交订单。如果还想检查订单请点击取消。',
-                okText: '确认',
-                cancelText: '取消',
-                onOk(){
-                    outer.handleSubmit(e)
-                },
-                onCancel() {},
-            });
-        },
-        changeRoomNum(v) {
-            this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]),'day')
-        },
-        onchange() {
-            this.finalPrice = this.totalPrice
-            if(this.checkedList.length>0){
-                this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id)!==-1).forEach(item => this.finalPrice= this.finalPrice-item.discountMoney)
-            }else{
+            changeDate(v) {
+                if (this.totalPrice !== '') {
+                    this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)
+                }
+            },
+            changePeopleNum(v) {
+                // room 中没有设置人数上限制
+            },
+            confirmOrder(e) {
+                let outer = this
+                this.$confirm({
+                    title: '确定填写无误?',
+                    content: '点击确认按钮后，自动提交订单。如果还想检查订单请点击取消。',
+                    okText: '确认',
+                    cancelText: '取消',
+                    onOk() {
+                        outer.handleSubmit(e)
+                    },
+                    onCancel() {
+                    },
+                });
+            },
+            changeRoomNum(v) {
+                this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
+            },
+            onchange() {
+                this.finalPrice = this.totalPrice
+                if (this.checkedList.length > 0) {
+                    this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id) !== -1).forEach(item => this.finalPrice = this.finalPrice - item.discountMoney)
+                } else {
 
-            }
-        },
-        handleSubmit(e) {
-            e.preventDefault();
-            this.form.validateFieldsAndScroll((err, values) => {
-                if (!err) {
-                    const data = {
-                        hotelId: this.currentHotelId,
-                        hotelName: this.currentHotelInfo.name,
-                        userId: Number(this.userId),
-                        checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-                        checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
-                        roomType: this.currentOrderRoom.roomType === '大床房' ? 'BigBed' : this.currentOrderRoom.roomType === '双床房' ? 'DoubleBed' : 'Family',
-                        roomNum: this.form.getFieldValue('roomNum'),
-                        peopleNum: this.form.getFieldValue('peopleNum'),
-                        haveChild: this.form.getFieldValue('haveChild'),
-                        createDate: '',
-                        price: this.checkedList.length > 0 ? this.finalPrice: this.totalPrice
+                }
+            },
+            handleSubmit(e) {
+                e.preventDefault();
+                this.form.validateFieldsAndScroll((err, values) => {
+                    if (!err) {
+                        const data = {
+                            hotelId: this.currentHotelId,
+                            hotelName: this.currentHotelInfo.name,
+                            userId: Number(this.userId),
+                            checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
+                            checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                            roomType: this.currentOrderRoom.roomType === '大床房' ? 'BigBed' : this.currentOrderRoom.roomType === '双床房' ? 'DoubleBed' : 'Family',
+                            roomNum: this.form.getFieldValue('roomNum'),
+                            peopleNum: this.form.getFieldValue('peopleNum'),
+                            haveChild: this.form.getFieldValue('haveChild'),
+                            createDate: '',
+                            price: this.checkedList.length > 0 ? this.finalPrice : this.totalPrice
+                        }
+                        this.addOrder(data)
                     }
-                    this.addOrder(data)
+                });
+            },
+            handlePhoneNumber(rule, value, callback) {
+                const re = /1\d{10}/;
+                if (re.test(value)) {
+                    callback();
+                } else {
+                    if (value === '') {
+                        callback()
+                    } else {
+                        callback(new Error('请输入有效联系人手机号'));
+                    }
                 }
-            });
+                callback()
+            },
         },
-        handlePhoneNumber(rule, value, callback) {
-            const re = /1\d{10}/;
-            if (re.test(value)) {
-                callback();
-            } else {
-                if (value === '') {
-                    callback()
+        watch: {
+            totalPrice(val) {
+                let data = {
+                    userId: this.userId,
+                    hotelId: this.currentHotelId,
+                    orderPrice: this.totalPrice,
+                    roomNum: this.form.getFieldValue('roomNum'),
+                    checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
+                    checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
                 }
-                else {
-                    callback(new Error('请输入有效联系人手机号'));
-                }
+                this.getOrderMatchCoupons(data)
             }
-            callback()
-        },
-    },
-    watch:{
-        totalPrice(val) {
-            let data = {
-                userId: this.userId,
-                hotelId: this.currentHotelId,
-                orderPrice: this.totalPrice,
-                roomNum: this.form.getFieldValue('roomNum'),
-                checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-                checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
-            }
-            this.getOrderMatchCoupons(data)
         }
     }
-}
 </script>
