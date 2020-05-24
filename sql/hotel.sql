@@ -73,11 +73,48 @@ CREATE TABLE `Hotel`
     `phoneNum`         int(11)      DEFAULT NULL,
     `rate`             double       DEFAULT NULL,
     `manager_id`       int(11)      DEFAULT NULL,
+    `commentTime`      int(11)      DEFAULT 0,
+    `points`           double       DEFAULT 5,
+    `sanitation`       double       DEFAULT 5,
+    `environment`      double       DEFAULT 5,
+    `service`          double       DEFAULT 5,
+    `equipment`        double       DEFAULT 5,
+    `picture`          varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `Answers`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Answers`
+(
+    `id`         int(11) NOT NULL AUTO_INCREMENT,
+    `userId`     int(11) NOT NULL,
+    `questionId` int(11) NOT NULL,
+    `answer`     varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARSET = utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `Collections`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Collections`
+(
+    `id`      int(11) NOT NULL AUTO_INCREMENT,
+    `userId`  int(11) NOT NULL,
+    `hotelId` int(11) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARSET = utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Dumping data for table `Hotel`
@@ -87,22 +124,22 @@ BEGIN;
 /*!40000 ALTER TABLE `Hotel`
     DISABLE KEYS */;
 INSERT INTO `Hotel`
-VALUES (1, '汉庭酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829373819, 4.8, 1),
-       (2, '如家酒店', '欢迎您入住', '南京市鼓楼区珠江路268号', 'XiDan', 'Four', 1829373819, 4.8, 2),
-       (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (4, '格林豪泰', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (5, '布丁酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (6, '维也纳酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (7, '凯利酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (8, '莫泰酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (9, '青年酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (10, '凯悦酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (11, '皇冠假日酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (12, '豪生酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (13, '法莱德酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (14, '茂悦酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (15, '艾美酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
-       (16, '索菲特酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6);;
+VALUES (1, '汉庭酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829373819, 4.8, 1, 0, 5, 5, 5, 5, 5, NULL),
+       (2, '如家酒店', '欢迎您入住', '南京市鼓楼区珠江路268号', 'XiDan', 'Four', 1829373819, 4.8, 2, 0, 5, 5, 5, 5, 5, NULL),
+       (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6, 0, 5, 5, 5, 5, 5, NULL);
+#        (4, '格林豪泰', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
+#        (5, '布丁酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
+#        (6, '维也纳酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
+#        (7, '凯利酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
+#        (8, '莫泰酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
+#        (9, '青年酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
+#        (10, '凯悦酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
+#        (11, '皇冠假日酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
+#        (12, '豪生酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
+#        (13, '法莱德酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
+#        (14, '茂悦酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
+#        (15, '艾美酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
+#        (16, '索菲特酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6);;
 /*!40000 ALTER TABLE `Hotel`
     ENABLE KEYS */;
 COMMIT;
@@ -131,6 +168,12 @@ CREATE TABLE `OrderList`
     `clientName`   varchar(255)   DEFAULT NULL,
     `phoneNumber`  varchar(255)   DEFAULT NULL,
     `orderState`   varchar(255)   DEFAULT NULL,
+    `comments`     varchar(255)   DEFAULT NULL,
+    `points`       int(5)         DEFAULT 5,
+    `sanitation`   int(5)         DEFAULT 5,
+    `environment`  int(5)         DEFAULT 5,
+    `service`      int(5)         DEFAULT 5,
+    `equipment`    int(5)         DEFAULT 5,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 14
@@ -155,15 +198,12 @@ DROP TABLE IF EXISTS `Room`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Room`
 (
-    `id`        int(11) NOT NULL AUTO_INCREMENT,
-    `price`     double      DEFAULT NULL,
-    `curNum`    int(11)     DEFAULT NULL,
-    `total`     int(11)     DEFAULT NULL,
-    `hotel_id`  int(11)     DEFAULT NULL,
-    `roomType`  varchar(50) DEFAULT NULL,
-    `bedType`   varchar(50) DEFAULT NULL,
-    `breakfast` varchar(50) DEFAULT NULL,
-    `peopleNum` int(11)     DEFAULT NULL,
+    `id`       int(11) NOT NULL AUTO_INCREMENT,
+    `price`    double      DEFAULT NULL,
+    `curNum`   int(11)     DEFAULT NULL,
+    `total`    int(11)     DEFAULT NULL,
+    `hotel_id` int(11)     DEFAULT NULL,
+    `roomType` varchar(50) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 7
@@ -178,10 +218,10 @@ BEGIN;
 /*!40000 ALTER TABLE `Room`
     DISABLE KEYS */;
 INSERT INTO `Room`
-VALUES (2, 199, 20, 20, 1, 'BigBed', 'BigBed', '无', 1),
-       (3, 299, 30, 30, 1, 'DoubleBed', 'DoubleBed', '无', 2),
-       (4, 399, 10, 10, 1, 'Family', 'Family', '有', 3),
-       (5, 399, 10, 10, 2, 'Family', 'Family', '有', 3);
+VALUES (2, 199, 20, 20, 1, 'BigBed'),
+       (3, 299, 30, 30, 1, 'DoubleBed'),
+       (4, 399, 10, 10, 1, 'Family'),
+       (5, 399, 10, 10, 2, 'Family');
 /*!40000 ALTER TABLE `Room`
     ENABLE KEYS */;
 COMMIT;
@@ -205,6 +245,10 @@ CREATE TABLE `User`
     `birthday`    varchar(255)   DEFAULT NULL,
     `corporation` varchar(255)   DEFAULT NULL,
     `annualTime`  int(5)         DEFAULT 0,
+    `jobNumber`   int(11)        DEFAULT NULL,
+    `hotelID`     int(11)        DEFAULT NULL,
+    `VIPType`     varchar(255)   DEFAULT NULL,
+    `portrait`    varchar(255)   DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 7
@@ -237,3 +281,85 @@ COMMIT;
 
 -- Dump completed on 2020-04-12 10:08:42
 SET FOREIGN_KEY_CHECKS = 1;
+
+--
+-- Table structure for table `Likes`
+--
+
+DROP TABLE IF EXISTS `Likes`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Likes`
+(
+    `id`      int(11) NOT NULL AUTO_INCREMENT,
+    `userID`  int(11) NOT NULL,
+    `hotelID` int(11) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARSET = utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `Collections`
+--
+
+DROP TABLE IF EXISTS `Collections`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Collections`
+(
+    `id`      int(11) NOT NULL AUTO_INCREMENT,
+    `userID`  int(11) NOT NULL,
+    `hotelID` int(11) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARSET = utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `Questions`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Questions`
+(
+    `id`        int(11) NOT NULL AUTO_INCREMENT,
+    `userID`    int(11) NOT NULL,
+    `hotelID`   int(11) NOT NULL,
+    `question`  varchar(255) DEFAULT NULL,
+    `available` bool         DEFAULT TRUE,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARSET = utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `Answers`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Answers`
+(
+    `id`         int(11) NOT NULL AUTO_INCREMENT,
+    `userId`     int(11) NOT NULL,
+    `questionId` int(11) NOT NULL,
+    `answers`    varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARSET = utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+DROP TABLE IF EXISTS `credits`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `credits`
+(
+    `id`     int(11) NOT NULL AUTO_INCREMENT,
+    `userID` int(11) NOT NULL,
+    `change` int(11) DEFAULT 0,
+    `now`    int(11) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARSET = utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
