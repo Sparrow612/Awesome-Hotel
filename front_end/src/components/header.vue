@@ -44,7 +44,7 @@
 
             <a-menu-item key="10" @click="manageOrders" v-if="userInfo.userType==='SalesPerson'">
                 <router-link :to="{ name: 'manageOrders'}">
-                    <a-icon type="tag" />订单管理
+                    <a-icon type="shopping-cart" />订单管理
                 </router-link>
             </a-menu-item>
             <a-menu-item key="11" @click="jumpToManageSiteCoupon" v-if="userInfo.userType==='SalesPerson'">

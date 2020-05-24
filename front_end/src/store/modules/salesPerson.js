@@ -3,13 +3,21 @@
 import {
     getAllOrdersAPI
 } from "../../api/order";
-
+import {
+    getUserInfoAPI
+} from "../../api/user";
 import {message} from "ant-design-vue";
+
 
 const salesPerson = {
     state: {
         allOrderList: [],
         handleAbnormalOrderVisible: false,
+        currentUserId: '',
+        currentUserInfo: {
+
+        },
+        addSiteCouponVisible: false,
     },
     mutations: {
         set_allOrderList: function (state, data) {
@@ -18,6 +26,18 @@ const salesPerson = {
         set_handleAbnormalOrderVisible: function (state, data) {
             state.handleAbnormalOrderVisible = data
         },
+        set_currentUserId: function (state,data) {
+            state.currentUserId = data
+        },
+        set_currentUserInfo: function(state, data) {
+            state.currentUserInfo = {
+                ...state.currentUserInfo,
+                ...data
+            }
+        },
+        set_addSiteCouponVisible:function (state, data) {
+            state.addSiteCouponVisible = data
+        },
     },
     actions: {
         getAllOrders: async ({state, commit}) => {
@@ -25,7 +45,13 @@ const salesPerson = {
             if (res) {
                 commit('set_allOrderList', res)
             }
-        }
+        },
+        getCurrentUserInfo: async ({state, commit}) => {
+            let res = await getUserInfoAPI(state.currentUserId)
+            if (res) {
+                commit('set_currentUserInfo', res)
+            }
+        },
     }
 }
 export default salesPerson

@@ -29,6 +29,9 @@ const getters = {
   //salesPerson
   allOrderList: state => state.salesPerson.allOrderList,
   handleAbnormalOrderVisible: state => state.salesPerson.handleAbnormalOrderVisible,
+  addSiteCouponVisible: state => state.salesPerson.addSiteCouponVisible,
+  currentUserId: state => state.salesPerson.currentUserId,
+  currentUserInfo: state => state.salesPerson.currentUserInfo,
   //order
   orderDetailVisible: state => state.order.orderDetailVisible,
   orderInfo: state => state.order.orderInfo,
