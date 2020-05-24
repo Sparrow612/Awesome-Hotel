@@ -35,58 +35,125 @@ public class SearchHotel {
     private Integer minPrice = 0;
     private double minScore = 2.5;
 
-List<HotelVO> search(){
-    List<HotelVO> hotelVOS = hotelService.retrieveHotels();
-    List<HotelVO> targetHotels = null;     //关联度高的hotel
-    List<HotelVO> others = null;   //关联度较小的hotel
-
-    for(HotelVO hotel:hotelVOS){    //对所有的hotel，调取房间信息并检验
-        ResponseVO response = hotelController.getAvailableRoom(hotel.getId(),chechInDate,checkOutDate);
-        hotel = (HotelVO)response.getContent();
-
-        //数据锁定的遍历，得到时间和地址都符合的hotel
-        List<RoomVO> rooms = hotel.getRooms();
-        if(!rooms.isEmpty())
-            if(checkAddress(hotel,address))
-                others.add(hotel);
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,String keyWords,Integer maxPrice,double minScore){
+        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar,maxPrice,minScore);
+        this.keyWords = keyWords;
     }
 
-    for(HotelVO hotel:others){
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,Integer maxPrice,double minScore){
+        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar,maxPrice);
+        this.minScore = minScore;
+    }
+
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,Integer maxPrice){
+        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar);
+        this.maxPrice = maxPrice;
+    }
+
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,double minScore){
+        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar);
+        this.minScore = minScore;
+    }
+
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,Integer maxPrice){
+        setInfo(checkInDate,checkOutDate,address,bizRegion);
+        this.maxPrice = maxPrice;
+    }
+
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,double minScore){
+        setInfo(checkInDate,checkOutDate,address,bizRegion);
+        this.minScore = minScore;
+    }
+
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar,String keyWords){
+        setInfo(checkInDate,checkOutDate,address,bizRegion,hotelStar);
+        this.keyWords = keyWords;
+    }
+
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion,String hotelStar){
+        setInfo(checkInDate,checkOutDate,address,bizRegion);
+        this.hotelStar = hotelStar;
+    }
+
+    public void setInfo(String checkInDate,String checkOutDate,String address,String bizRegion){
+        setInfo(checkInDate,checkOutDate,address);
+        this.bizRegion = bizRegion;
+    }
+
+
+    public void setInfo(String checkInDate,String checkOutDate,String address){
+        this.chechInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.address = address;
+    }
+
+    public List<HotelVO> search(){
+        List<HotelVO> hotelVOS = hotelService.retrieveHotels();
+        List<HotelVO> targetHotels = null;     //关联度高的hotel
+        List<HotelVO> others = null;   //关联度较小的hotel
+
+        for(HotelVO hotel:hotelVOS){    //对所有的hotel，调取房间信息并检验
+            ResponseVO response = hotelController.getAvailableRoom(hotel.getId(),chechInDate,checkOutDate);
+            hotel = (HotelVO)response.getContent();
+
+            //数据锁定的遍历，得到时间和地址都符合的hotel
+            List<RoomVO> rooms = hotel.getRooms();
+            if(!rooms.isEmpty())
+                if(checkAddress(hotel,address))
+                    others.add(hotel);
+        }
+
+        for(HotelVO hotel:others){
+            int score = 0;
+            score += checkBizRegion(hotel,bizRegion);
+            score += checkKeyWords(hotel,keyWords);
+            score += checkHotelStar(hotel,hotelStar);
+            if(score>6)
+                targetHotels.add(hotel);
+        }
+
+        return targetHotels;
+    }
+
+    private boolean checkAddress(HotelVO hotel,String address){
+        return hotel.getAddress().equals(address);
+    }
+
+
+    private int checkBizRegion(HotelVO hotel,String bizRegion){
+        if(bizRegion == hotel.getBizRegion())
+            return 5;
+        else
+            return 0;
+    }
+
+    private int checkKeyWords(HotelVO hotel,String keyWords){
+        String[] keyWord = keyWords.split(" ");
+        String description = hotel.getDescription();
+        int l = keyWord.length;
         int score = 0;
-        score += checkBizRegion(hotel,bizRegion);
-        score += checkKeyWords(hotel,keyWords);
-        if(score>6)
-            targetHotels.add(hotel);
+        for(int i=0;i<l;i++){
+            if(description.contains(keyWord[i]))
+                score++;
+        }
+        return score;
     }
 
-    return targetHotels;
-}
-
-boolean checkAddress(HotelVO hotel,String address){
-    if(hotel.getAddress().equals(address))
-        return true;
-    else
-        return false;
-}
-
-
-int checkBizRegion(HotelVO hotel,String bizRegion){
-    if(bizRegion == hotel.getBizRegion())
-        return 5;
-    else
-        return 0;
-}
-
-int checkKeyWords(HotelVO hotel,String keyWords){
-    String[] keyWord = keyWords.split(" ");
-    String description = hotel.getDescription();
-    int l = keyWord.length;
-    int score = 0;
-    for(int i=0;i<l;i++){
-        if(description.contains(keyWord[i]))
-            score++;
+    private int checkHotelStar(HotelVO hotel,String hotelStar){
+        String star = hotel.getHotelStar();
+        char[] stars = hotelStar.toCharArray();
+        int score = 0;
+        if(stars[0]=='1'){
+            if(star=="三星级")
+                score += 2;
+        }else if(stars[1]=='1'){
+            if(star=="四星级")
+                score += 2;
+        }else if(stars[2]=='1'){
+            if(star=="五星级")
+                score += 2;
+        }
+        return score;
     }
-    return score;
-}
 
 }
