@@ -8,9 +8,9 @@ export function getHotelsAPI() {
         method: 'get',
     })
 }
-export function getHotelByIdAPI(param) {
+export function getHotelByIdAPI(hotelId) {
     return axios({
-        url: `${api.hotelPre}/${param.hotelId}/detail`,
+        url: `${api.hotelPre}/${hotelId}/detail`,
         method: 'GET',
     })
 }

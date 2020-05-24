@@ -79,8 +79,11 @@ public class HotelServiceImpl implements HotelService {
             roomVO.setId(r.getId());
             roomVO.setPrice(r.getPrice());
             roomVO.setRoomType(r.getRoomType().toString());
+            roomVO.setBedType(r.getBedType().toString());
+            roomVO.setBreakfast(r.getBreakfast());
             roomVO.setCurNum(r.getCurNum());
             roomVO.setTotal(r.getTotal());
+            roomVO.setPeopleNum(r.getPeopleNum());
             return roomVO;
         }).collect(Collectors.toList());
         hotelVO.setRooms(roomVOS);
@@ -90,19 +93,6 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime){
-        HotelVO hotelVO = hotelMapper.selectById(hotelId);
-        List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
-        List<RoomVO> roomVOS = rooms.stream().map(r -> {
-            RoomVO roomVO = new RoomVO();
-            roomVO.setId(r.getId());
-            roomVO.setPrice(r.getPrice());
-            roomVO.setRoomType(r.getRoomType().toString());
-            roomVO.setCurNum(r.getCurNum());
-            roomVO.setTotal(r.getTotal());
-            return roomVO;
-        }).collect(Collectors.toList());
-        hotelVO.setRooms(roomVOS);
-
-        return hotelVO;
+        return retrieveHotelDetails(hotelId); // 待完善
     }
 }

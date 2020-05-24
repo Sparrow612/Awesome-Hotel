@@ -24,9 +24,12 @@
     <resultMap id="room" type="com.example.hotel.po.HotelRoom">
         <id column="id" property="id"/>
         <result column="roomType" property="roomType"/>
+        <result column="bedType" property="bedType"/>
+        <result column="breakfast" property="breakfast"/>
         <result column="price" property="price"/>
         <result column="curNum" property="curNum"/>
         <result column="total" property="total"/>
+        <result column="peopleNum" property="peopleNum"/>
         <result column="hotel_id" property="hotelId"/>
     </resultMap>
 

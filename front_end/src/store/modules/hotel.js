@@ -78,9 +78,7 @@ const hotel = {
             }
         },
         getHotelById: async({commit, state}) => {
-            const res = await getHotelByIdAPI({
-                hotelId: state.currentHotelId
-            })
+            const res = await getHotelByIdAPI(state.currentHotelId)
             if(res){
                 commit('set_currentHotelInfo', res)
             }
