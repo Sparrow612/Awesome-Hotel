@@ -6,9 +6,7 @@
                     <a-form-item v-bind="formItemLayout" label="时间">
                         <a-range-picker
                                 format="YYYY-MM-DD"
-                                @change="changeDate"
-                                v-decorator="['date', { rules: [{ required: true, message: '请选择入住时间' }]}]"
-                                :placeholder="['入住日期','退房日期']"
+                                v-decorator="['date', { rules: [{ required: true, message: '请选择入住时间' }], initialValue: dateRange}]"
                         />
                     </a-form-item>
                     <a-form-item v-bind="formItemLayout" label="地址">
@@ -86,6 +84,8 @@
 </template>
 
 <script>
+    import moment from "moment";
+
     const hotelStarOptions = ['三星级', '四星级', '五星级']
     const defaultCheckedList = ['三星级', '四星级', '五星级']
     export default {
@@ -111,6 +111,7 @@
                 indeterminate: false,
                 hotelStarOptions,
                 checkList: defaultCheckedList,
+                dateRange: [moment(), moment().add(1,'d')],
             }
         },
         beforeCreate() {
