@@ -69,6 +69,9 @@
                                 :dataSource="userOrderList.filter(order=>order.hotelId===currentHotelInfo.id)"
                                 bordered
                         >
+                            <a-tag slot="createDate" color="red" slot-scope="text">
+                                {{text}}
+                            </a-tag>
                             <a-tag slot="hotelName" color="orange" slot-scope="text">
                                 {{text}}
                             </a-tag>
@@ -105,6 +108,11 @@
         {
             title: '订单号',
             dataIndex: 'id',
+        },
+        {
+            title: '下单时间',
+            dataIndex: 'createDate',
+            scopedSlots: {customRender: 'createDate'},
         },
         {
             title: '酒店名',

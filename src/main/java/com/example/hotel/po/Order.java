@@ -11,6 +11,7 @@ public class Order {
     private Integer userId;
     private Integer hotelId;
     private String hotelName;
+    private String hotelPhoneNum;
     private String checkInDate;
     private String checkOutDate;
     private String roomType;
@@ -104,6 +105,10 @@ public class Order {
     public void setHotelId(Integer hotelId) {
         this.hotelId = hotelId;
     }
+
+    public String getHotelPhoneNum() { return hotelPhoneNum; }
+
+    public void setHotelPhoneNum(String hotelPhoneNum) { this.hotelPhoneNum = hotelPhoneNum; }
 
     public String getCheckInDate() {
         return checkInDate;

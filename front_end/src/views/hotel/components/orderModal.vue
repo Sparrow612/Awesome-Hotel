@@ -237,9 +237,11 @@
                 e.preventDefault();
                 this.form.validateFieldsAndScroll((err, values) => {
                     if (!err) {
+                        console.log(this.currentHotelInfo)
                         const data = {
                             hotelId: this.currentHotelId,
                             hotelName: this.currentHotelInfo.name,
+                            hotelPhoneNum: this.currentHotelInfo.phoneNum,
                             userId: Number(this.userId),
                             checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
                             checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),

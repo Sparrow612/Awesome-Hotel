@@ -11,7 +11,8 @@ public class OrderVO {
     private Integer userId;
     private Integer hotelId;
     private String hotelName;
-    private String checkInDate; // YYYY-MM-DD
+    private String hotelPhoneNum;
+    private String checkInDate;
     private String checkOutDate;
     private String roomType;
     private Integer roomNum;
@@ -46,6 +47,11 @@ public class OrderVO {
     public void setHotelId(Integer hotelId) {
         this.hotelId = hotelId;
     }
+
+    public String getHotelPhoneNum() { return hotelPhoneNum; }
+
+    public void setHotelPhoneNum(String hotelPhoneNum) { this.hotelPhoneNum = hotelPhoneNum; }
+
     public String getCheckInDate() {
         return checkInDate;
     }
@@ -101,7 +107,6 @@ public class OrderVO {
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
-
 
     public Double getPrice() {
         return price;
