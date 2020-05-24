@@ -66,7 +66,7 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess(true);
     }
 
-    //todo
+
     @Override
     public ResponseVO updateCredit(int id, double credit) {
         try {
