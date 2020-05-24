@@ -120,6 +120,7 @@ CREATE TABLE `OrderList`
     `userId`       int(11)        DEFAULT NULL,
     `hotelId`      int(11)        DEFAULT NULL,
     `hotelName`    varchar(255)   DEFAULT NULL,
+    `hotelPhoneNum` varchar(255)   DEFAULT NULL,
     `checkInDate`  varchar(255)   DEFAULT NULL,
     `checkOutDate` varchar(255)   DEFAULT NULL,
     `roomType`     varchar(255)   DEFAULT NULL,
