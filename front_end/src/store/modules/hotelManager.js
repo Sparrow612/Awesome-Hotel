@@ -99,9 +99,9 @@ const hotelManager = {
                     managerId: '',
                 })
                 commit('set_addHotelModalVisible', false)
-                await message.success('添加成功')
+                message.success('添加成功')
             } else {
-                await message.error('添加失败')
+                message.error('添加失败')
             }
         },
         addRoom: async ({state, dispatch, commit}) => {
@@ -114,10 +114,10 @@ const hotelManager = {
                     price: '',
                     total: 0,
                     curNum: 0,
-                }) // 为什么要进行这步覆盖操作？？？初始化？ -- crx 2020.04.24
-                await message.success('添加成功')
+                })
+                message.success('添加成功')
             } else {
-                await message.error('添加失败')
+                message.error('添加失败')
             }
         },
         getHotelCoupon: async ({state, commit}) => {
@@ -134,9 +134,9 @@ const hotelManager = {
                 dispatch('getHotelCoupon')
                 commit('set_addCouponVisible', false)
                 commit('set_couponVisible', true)
-                await message.success('添加策略成功')
+                message.success('添加策略成功')
             } else {
-                await message.error('添加失败')
+                message.error('添加失败')
             }
         }
     }
