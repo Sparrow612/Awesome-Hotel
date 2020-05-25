@@ -13,7 +13,7 @@ import {message} from 'ant-design-vue'
 
 const hotelManager = {
     state: {
-        manageHotelList: [], // 需要一些新的方法
+        manageHotelId: 0, // 需要一些新的方法
         orderList: [],
         addHotelParams: {
             name: '',
@@ -79,7 +79,7 @@ const hotelManager = {
     },
     actions: {
         getHotelOrders: async ({state, commit}) => {
-            let res = await getHotelOrdersAPI(3) // todo
+            let res = await getHotelOrdersAPI(state.manageHotelId)
             if (res) {
                 commit('set_orderList', res)
             }
@@ -105,8 +105,8 @@ const hotelManager = {
             }
         },
         addRoom: async ({state, dispatch, commit}) => {
-            const res = await addRoomAPI(state.addRoomParams) // res返回值是null
-            if (!res) { // 这段代码什么意思 返回的res为null才能正确提示？--crx
+            const res = await addRoomAPI(state.addRoomParams)
+            if (res) {
                 commit('set_addRoomModalVisible', false)
                 commit('set_addRoomParams', {
                     roomType: '',
