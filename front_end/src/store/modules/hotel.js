@@ -140,12 +140,14 @@ const hotel = {
             const res = await addQuestionAPI(data)
             if (res) {
                 dispatch('getHotelQuestion')
+                message.success('提问成功')
             }
         },
         addAnswer: async ({state, dispatch}, data) => {
             const res = await addAnswerAPI(data)
             if (res) {
                 dispatch('getHotelQuestion')
+                message.success('回答成功')
             }
         }
     }
