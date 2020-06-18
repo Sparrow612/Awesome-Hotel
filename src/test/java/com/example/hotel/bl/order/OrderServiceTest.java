@@ -125,7 +125,7 @@ public class OrderServiceTest {
     @Transactional
     public void abnormalOrder() {
         ResponseVO responseVO = orderService.abnormalOrder(1,0.5);
-        Assert.assertThat(responseVO,is("已标记为异常订单"));
+        Assert.assertThat(responseVO.getContent().toString(),is("已标记为异常订单"));
     }
 
     @Test

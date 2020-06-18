@@ -52,6 +52,12 @@ public class HotelServiceImpl implements HotelService {
         hotelMapper.deleteHotel(hotelId);
     }
 
+    /**
+     * 用于办理入住，在curNum中减去房间数
+     * @param hotelId
+     * @param roomType
+     * @param rooms
+     */
     @Override
     public void updateRoomInfo(Integer hotelId, String roomType, Integer rooms) {
         roomService.updateRoomInfo(hotelId, roomType, rooms);
@@ -110,7 +116,6 @@ public class HotelServiceImpl implements HotelService {
             return roomVO;
         }).collect(Collectors.toList());
         hotelVO.setRooms(roomVOS);
-
         return hotelVO;
     }
 
@@ -134,7 +139,6 @@ public class HotelServiceImpl implements HotelService {
             orders = orderService.filterOrders(orders, beginTime, endTime);
             roomVOS = checkRoom(rooms, orders);
         }
-
         return roomVOS;
     }
 
