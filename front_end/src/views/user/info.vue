@@ -111,6 +111,7 @@
 
                 </a-form>
             </a-tab-pane>
+
             <a-tab-pane key="2" tab="我的订单">
                 <a-table
                         :columns="columns_of_orders"
@@ -157,10 +158,11 @@
                         <a-divider type="vertical" v-if="record.orderState === '异常订单'"></a-divider>
                         <a-button size="small" type="default" v-if="record.orderState === '异常订单'">申诉</a-button>
                         <a-divider type="vertical" v-if="record.orderState === '已完成'"></a-divider>
-                        <a-button size="small" type="default" v-if="record.orderState === '已完成'">评价</a-button>
+                        <a-button size="small" type="default" v-if="record.orderState === '已完成'" @click="commentOrder(record)">评价</a-button>
                     </span>
                 </a-table>
             </a-tab-pane>
+
             <a-tab-pane key="3" tab="信用记录">
                 <a-table
                         :columns="columns_of_credit"
@@ -177,11 +179,13 @@
         </a-tabs>
 
         <orderDetail></orderDetail>
+        <comment-order></comment-order>
     </div>
 </template>
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import orderDetail from '../order/orderDetail'
+    import commentOrder from "../order/commentOrder";
     import {message} from 'ant-design-vue';
 
     const columns_of_orders = [
@@ -283,7 +287,8 @@
             }
         },
         components: {
-            orderDetail
+            orderDetail,
+            commentOrder,
         },
         computed: {
             ...mapGetters([
@@ -316,6 +321,8 @@
                 'set_orderDetailVisible',
                 'set_orderInfo',
                 'set_currentHotelId',
+                'set_commentOrderModalVisible',
+                'set_orderInfo',
             ]),
 
             saveModify() {
@@ -394,7 +401,11 @@
             },
             goToMembership() {
                 // TODO 修改header上面的current
-            }
+            },
+            commentOrder(record) {
+                this.set_commentOrderModalVisible(true)
+                this.set_orderInfo(record)
+            },
         }
     }
 </script>

@@ -42,3 +42,19 @@ export function execOrderAPI(orderId) {
     })
 }
 // 标记异常订单
+
+//对订单发表评论
+export function addCommentAPI(data) {
+    return axios({
+        url: `${api.orderPre}/addComment`,
+        method: 'POST',
+        data
+    })
+}
+//获取某个订单的评论
+export function getOrderCommentAPI(orderId) {
+    return axios({
+        url: `${api.orderPre}/${orderId}/getComment`,
+        method: 'GET',
+    })
+}
