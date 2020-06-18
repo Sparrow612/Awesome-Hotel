@@ -82,4 +82,26 @@ public class CollectionServiceImpl implements CollectionService {
         }
         return false;
     }
+
+    @Override
+    public ResponseVO addCollectionByUserId(Integer hotelId, Integer userId) {
+        Collection collection = new Collection() {{
+            setHotelID(hotelId);
+            setUserID(userId);
+        }};
+        collectionMapper.addCollection(collection);
+        return ResponseVO.buildSuccess("添加收藏成功");
+    }
+
+    @Override
+    public ResponseVO annulCollectionByUserId(Integer hotelId, Integer userId) {
+        List<Collection> collections = collectionMapper.getUserCollection(userId);
+        for (Collection collection : collections) {
+            if (collection.getHotelID().equals(hotelId)) {
+                collectionMapper.annualCollection(collection.getId());
+                return ResponseVO.buildSuccess("取消收藏成功");
+            }
+        }
+        return ResponseVO.buildFailure("没有收藏这个酒店");
+    }
 }

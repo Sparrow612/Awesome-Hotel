@@ -105,6 +105,17 @@ public class AccountController {
         return collectionService.annulCollection(collectionId);
     }
 
+    @PostMapping("/{hotelId}/addCollectionByUserId")
+    public ResponseVO addCollectionByUserId(@PathVariable Integer hotelId, @RequestParam Integer userId) {
+        return collectionService.addCollectionByUserId(hotelId, userId);
+    }
+
+    @PostMapping("/{hotelId}/annulCollectionByUserId")
+    public ResponseVO annulCollectionByUserId(@PathVariable Integer hotelId, @RequestParam Integer userId) {
+        return collectionService.annulCollectionByUserId(hotelId, userId);
+    }
+
+
     @GetMapping("/{userId}/getUserCollection")
     public ResponseVO getUserCollection(@PathVariable Integer userId) {
         return ResponseVO.buildSuccess(collectionService.getUserCollection(userId));
@@ -121,7 +132,7 @@ public class AccountController {
     }
 
     @PostMapping("/{creditId}/argueCredit")
-    public ResponseVO argueCredit(@PathVariable Integer creditId,@RequestParam String argue) {
+    public ResponseVO argueCredit(@PathVariable Integer creditId, @RequestParam String argue) {
         return accountService.argueCredit(creditId, argue);
     }
 
