@@ -10,10 +10,7 @@ import com.example.hotel.enums.RoomType;
 import com.example.hotel.po.Comment;
 import com.example.hotel.po.Hotel;
 import com.example.hotel.po.Order;
-import com.example.hotel.vo.CommentVO;
-import com.example.hotel.vo.OrderVO;
-import com.example.hotel.vo.ResponseVO;
-import com.example.hotel.vo.UserVO;
+import com.example.hotel.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,8 +56,8 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
         String now = getSystemDate();
-        int gap = getGap(orderVO.getCheckInDate(),now);
-        if(gap < 0){
+        int gap = getGap(orderVO.getCheckInDate(), now);
+        if (gap < 0) {
             return ResponseVO.buildFailure(WRONG_TIME);
         }
         try {
@@ -175,6 +172,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVO annulComment(int orderId) {
+        CommentVO commentVO = getComment(orderId);
+        Order order = orderMapper.getOrderById(orderId);
+        hotelService.annulComment(commentVO, order.getHotelId());
         return ResponseVO.buildSuccess(orderMapper.annulComment(orderId));
     }
 
@@ -207,6 +207,8 @@ public class OrderServiceImpl implements OrderService {
             this.setUserId(commentVO.getUserId());
             this.setService(commentVO.getService());
         }};
+        Order order = orderMapper.getOrderById(commentVO.getOrderId());
+        hotelService.addComment(commentVO, order.getHotelId());
         return ResponseVO.buildSuccess(orderMapper.updateComment(comment));
     }
 
@@ -285,38 +287,40 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-        /**
-         * 获取YYYY-MM-DD格式的当前系统日期
-         * @return
-         */
-        private static String getSystemDate () {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = new Date();
-            return sdf.format(date);
-        }
-
-        /**
-         * 当前日期到订单中入住日期的时间差
-         * @param checkInDate
-         * @return
-         */
-        private int getDays (String checkInDate){
-            String now = getSystemDate();
-            return getGap(checkInDate, now);
-        }
-
-        /**
-         * 返回两个日期之间相差的天数
-         */
-        private int getGap (String date1, String date2){
-            LocalDate Date1 = LocalDate.of(Integer.parseInt(date1.substring(0, 4)),
-                    Integer.parseInt(date1.substring(5, 7)), Integer.parseInt(date1.substring(8, 10)));
-            LocalDate Date2 = LocalDate.of(Integer.parseInt(date2.substring(0, 4)),
-                    Integer.parseInt(date2.substring(5, 7)), Integer.parseInt(date2.substring(8, 10)));
-            return (int) (Date1.toEpochDay() - Date2.toEpochDay());
-        }
-
+    /**
+     * 获取YYYY-MM-DD格式的当前系统日期
+     *
+     * @return
+     */
+    private static String getSystemDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        return sdf.format(date);
     }
+
+    /**
+     * 当前日期到订单中入住日期的时间差
+     *
+     * @param checkInDate
+     * @return
+     */
+    private int getDays(String checkInDate) {
+        String now = getSystemDate();
+        return getGap(checkInDate, now);
+    }
+
+    /**
+     * 返回两个日期之间相差的天数
+     */
+    private int getGap(String date1, String date2) {
+        LocalDate Date1 = LocalDate.of(Integer.parseInt(date1.substring(0, 4)),
+                Integer.parseInt(date1.substring(5, 7)), Integer.parseInt(date1.substring(8, 10)));
+        LocalDate Date2 = LocalDate.of(Integer.parseInt(date2.substring(0, 4)),
+                Integer.parseInt(date2.substring(5, 7)), Integer.parseInt(date2.substring(8, 10)));
+        return (int) (Date1.toEpochDay() - Date2.toEpochDay());
+    }
+
+}
 
 
 

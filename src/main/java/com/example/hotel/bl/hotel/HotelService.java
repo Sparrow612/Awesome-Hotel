@@ -43,22 +43,14 @@ public interface HotelService {
 
     HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime);
 
-    List<RoomVO> checkRoom(Integer hotelId, List<RoomVO> rooms, String beginTime,String endTime);
+    List<RoomVO> checkRoom(Integer hotelId, List<RoomVO> rooms, String beginTime, String endTime);
 
     List<RoomVO> checkRoom(List<RoomVO> rooms, List<Order> orders);
-
-    ResponseVO addLike(LikeVO likeVO);
-
-    ResponseVO removeLike(Integer userId, Integer hotelId);
-
-    boolean getLike(Integer userId, Integer hotelId);
-
-
-    ResponseVO addCollection(CollectionVO collectionVO);
-
-    // 根据用户id获取收藏酒店的id
-    List<Integer> getCollections(int userId);
-
+    
     void updateHotelPicture(Integer hotelId, String url);
+
+    void addComment(CommentVO commentVO, Integer hotelId);
+
+    void annulComment(CommentVO commentVO, Integer hotelId);
 
 }
