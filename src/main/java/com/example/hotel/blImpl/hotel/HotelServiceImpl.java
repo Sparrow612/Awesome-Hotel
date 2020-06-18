@@ -10,6 +10,7 @@ import com.example.hotel.enums.RoomType;
 import com.example.hotel.po.Hotel;
 import com.example.hotel.po.HotelRoom;
 import com.example.hotel.po.Order;
+import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,13 @@ public class HotelServiceImpl implements HotelService {
         hotel.setBizRegion(BizRegion.valueOf(hotelForm.getBizRegion()));
         hotel.setHotelStar(HotelStar.valueOf(hotelForm.getHotelStar()));
         hotelMapper.insertHotel(hotel);
+    }
+
+    @Override
+    public void updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws ServiceException {
+        hotelMapper.updateHotelName(hotelId,hotelForm.getName());
+        hotelMapper.updateHotelAddress(hotelId,hotelForm.getAddress());
+        hotelMapper.updateHotelDescription(hotelId,hotelForm.getDescription());
     }
 
     @Override

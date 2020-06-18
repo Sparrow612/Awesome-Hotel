@@ -14,6 +14,8 @@ public interface HotelService {
      */
     void addHotel(HotelForm hotelForm) throws ServiceException;
 
+    void updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws  ServiceException;
+
     /**
      * 删除酒店
      */

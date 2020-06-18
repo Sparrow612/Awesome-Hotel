@@ -33,6 +33,12 @@ public class HotelController {
         return ResponseVO.buildSuccess(true);
     }
 
+    @PostMapping("/updateHotel")
+    public ResponseVO updateHotelInfo(@PathVariable Integer hotelId, @RequestBody HotelForm hotelForm) throws ServiceException {
+        hotelService.updateHotelInfo(hotelId, hotelForm);
+        return ResponseVO.buildSuccess(true);
+    }
+
     @GetMapping("/all")
     public ResponseVO retrieveAllHotels() {
         return ResponseVO.buildSuccess(hotelService.retrieveHotels());
