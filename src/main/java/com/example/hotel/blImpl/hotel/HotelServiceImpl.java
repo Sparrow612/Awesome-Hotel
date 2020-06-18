@@ -149,9 +149,9 @@ public class HotelServiceImpl implements HotelService {
             Type2Num.put(room.getRoomType(), room.getTotal());
         }
         for (Order order : orders) {
-            if (Type2Num.containsKey(order.getRoomType())) {
-                int curNum = Type2Num.get(order.getRoomType()) - order.getRoomNum();
-                Type2Num.put(order.getRoomType(), curNum);
+            if (Type2Num.containsKey(RoomType.valueOf(order.getRoomType()).toString())) {
+                int curNum = Type2Num.get(RoomType.valueOf(order.getRoomType()).toString()) - order.getRoomNum();
+                Type2Num.put(RoomType.valueOf(order.getRoomType()).toString(), curNum);
             }
         }
 

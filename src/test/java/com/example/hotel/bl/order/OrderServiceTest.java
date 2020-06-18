@@ -103,8 +103,8 @@ public class OrderServiceTest {
     @Test
     @Transactional
     public void annulOrder() {
-        ResponseVO responseVO = orderService.annulOrder(100);
-        Assert.assertThat(responseVO.getMessage(),is("请输入正确的订单号"));
+        ResponseVO responseVO = orderService.annulOrder(1);
+        Assert.assertThat(responseVO.getContent(),is(true));
     }
 
     @Test

@@ -278,7 +278,7 @@ public class OrderServiceImpl implements OrderService {
             if (!((gap1 < 0) || (gap2 < 0))) {
                 //确保订单为未入住的有效订单
                 if (order.getOrderState().equals("未入住") || order.getOrderState().equals("已入住")) {
-                    order.setRoomType(RoomType.valueOf(order.getRoomType()).toString());
+                    order.setRoomType(order.getRoomType());
                     relatedOrder.add(order);
                 }
             }
