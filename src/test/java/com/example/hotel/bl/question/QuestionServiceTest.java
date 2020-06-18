@@ -43,7 +43,15 @@ public class QuestionServiceTest {
     }
 
     @Test
+    @Transactional
     public void annulQuestion() {
+        questionService.addQuestion(form);
+        List<QuestionVO> questionVOS = questionService.getHotelQuestion(5);
+        QuestionVO questionVO = questionVOS.get(0);
+        int id = questionVO.getId();
+        questionService.annulQuestion(id);
+        assertEquals(questionService.getHotelQuestion(5).size(), 0);
+
     }
 
     @Test

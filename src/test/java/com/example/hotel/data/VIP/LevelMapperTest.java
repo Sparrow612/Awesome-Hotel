@@ -23,19 +23,19 @@ public class LevelMapperTest {
     @Test
     @Transactional
     public void formulateVIPLevel() {
-        int val = levelMapper.formulateVIPLevel(5, 20);
+        int val = levelMapper.formulateVIPLevel(8, 20);
         Assert.assertEquals(val, 1);
-        Assert.assertThat(levelMapper.getTheRequestOfLevel(5), is(20));
+        Assert.assertThat(levelMapper.getTheRequestOfLevel(8), is(20));
 
     }
 
     @Test
     @Transactional
     public void changeLevelRequest() {
-        levelMapper.formulateVIPLevel(5, 20);
-        int val = levelMapper.changeLevelRequest(5, 17);
+        levelMapper.formulateVIPLevel(8, 20);
+        int val = levelMapper.changeLevelRequest(8, 17);
         Assert.assertEquals(val, 1);
-        Assert.assertThat(levelMapper.getTheRequestOfLevel(5), is(17));
+        Assert.assertThat(levelMapper.getTheRequestOfLevel(8), is(17));
     }
 
     @Test
