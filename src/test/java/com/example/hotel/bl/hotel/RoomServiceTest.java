@@ -1,6 +1,7 @@
 package com.example.hotel.bl.hotel;
 
 import com.example.hotel.enums.RoomType;
+import com.example.hotel.po.HotelRoom;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -27,6 +30,8 @@ public class RoomServiceTest {
     @Test
     @Transactional
     public void retrieveHotelRoomInfo() {
+        List<HotelRoom> hotelRooms = roomService.retrieveHotelRoomInfo(1);
+        Assert.assertThat(hotelRooms.size(),is(3));
     }
 
     @Test
