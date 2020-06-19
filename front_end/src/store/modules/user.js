@@ -41,6 +41,7 @@ const getDefaultState = () => {
         userOrderList: [],
         onceOrderedList: [],
         creditChangeList: [],
+        userCollections: [],
         registerSiteMembershipModalVisible: false,
         registerCorporationMembershipModalVisible: false,
     }
@@ -55,6 +56,7 @@ const user = {
             state.userOrderList = []
             state.onceOrderedList = []
             state.creditChangeList = []
+            state.userCollections = []
             state.registerSiteMembershipModalVisible = false
             state.registerCorporationMembershipModalVisible = false
         },
@@ -84,6 +86,9 @@ const user = {
         },
         set_creditChangeList: (state, data) => {
             state.creditChangeList = data
+        },
+        set_userCollections: (state, data) => {
+            state.userCollections = data
         },
         set_registerSiteMembershipModalVisible: (state, data) => {
             state.registerSiteMembershipModalVisible = data
@@ -236,12 +241,25 @@ const user = {
         getUserCollections: async ({state, commit}, id) => {
             const res = await getUserCollectionsAPI(id)
             if (res) {
-                commit('')
+                commit('set_userCollections', res)
             }
         },
-        addCollection: async ({state}, data) => {
-
+        addCollection: async ({state, commit}, data) => {
+            const res = await addCollectionAPI(data)
+            if (res) {
+                message.success('收藏成功')
+                commit('set_currHotelCollectedByUser', true)
+                commit('update_currCollections', 1)
+            }
         },
+        annulCollection: async ({state, commit}, data) => {
+            const res = await annulCollectionAPI(data)
+            if (res){
+                message.success('取消收藏成功')
+                commit('set_currHotelCollectedByUser', false)
+                commit('update_currCollections', -1)
+            }
+        }
     }
 }
 

@@ -8,6 +8,7 @@ const getters = {
     userOrderList: state => state.user.userOrderList,
     creditChangeList: state => state.user.creditChangeList,
     onceOrderedList: state => state.user.onceOrderedList,
+    userCollections: state => state.user.userCollections,
     registerSiteMembershipModalVisible: state => state.user.registerSiteMembershipModalVisible,
     registerCorporationMembershipModalVisible: state => state.user.registerCorporationMembershipModalVisible,
     //hotel

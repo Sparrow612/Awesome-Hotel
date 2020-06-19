@@ -110,8 +110,8 @@ public class AccountController {
         return collectionService.addCollectionByUserId(hotelId, userId);
     }
 
-    @PostMapping("/{hotelId}/annulCollectionByUserId")
-    public ResponseVO annulCollectionByUserId(@PathVariable Integer hotelId, @RequestParam Integer userId) {
+    @PostMapping("/annulCollectionByUserId")
+    public ResponseVO annulCollectionByUserId(@RequestParam(value = "hotelId") Integer hotelId, @RequestParam(value = "userId") Integer userId) {
         return collectionService.annulCollectionByUserId(hotelId, userId);
     }
 

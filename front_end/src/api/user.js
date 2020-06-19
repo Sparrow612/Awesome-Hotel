@@ -71,10 +71,11 @@ export function addCollectionAPI(data) {
         data,
     })
 }
-export function annulCollectionAPI(collectionId){
+export function annulCollectionAPI(params){
     return axios({
-        url: `${api.userPre}/${collectionId}/annulCollection`,
-        method: 'POST'
+        url: `${api.userPre}/annulCollectionByUserId`,
+        method: 'POST',
+        params
     })
 }
 export function getUserCollectionsAPI(userId) {

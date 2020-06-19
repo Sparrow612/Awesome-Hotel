@@ -61,7 +61,7 @@
                         />
                         <RoomList :rooms="currentHotelInfo.rooms"></RoomList>
                     </a-tab-pane>
-                    <a-tab-pane key="2" tab="酒店详情">
+                    <a-tab-pane key="2" tab="了解详情">
                         <HotelOutline></HotelOutline>
                     </a-tab-pane>
                     <a-tab-pane key="3" tab="历史订单">

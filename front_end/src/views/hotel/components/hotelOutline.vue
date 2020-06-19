@@ -6,7 +6,7 @@
                     <a-icon class="eval" type="crown"/>
                     酒店评分：<a-tag color="orange">{{this.currentHotelInfo.rate}}</a-tag>
                     <a-tag style="margin-left: 20px" color="pink">当前酒店收藏人数: {{this.currCollections}}</a-tag>
-                    <a-button @click="star" icon="close-circle" style="float: right" v-if="currHotelCollectedByUser">
+                    <a-button @click="unstar" icon="close-circle" style="float: right" v-if="currHotelCollectedByUser">
                         取消收藏
                     </a-button>
                     <a-button @click="star" type="primary" icon="star" style="float: right" v-else>
@@ -171,6 +171,7 @@
         },
         computed: {
             ...mapGetters([
+                'currentHotelId',
                 'currentHotelInfo',
                 'userId',
                 'userInfo',
@@ -198,13 +199,27 @@
                 'addAnswer',
                 'getHotelQuestion',
                 'getCurrCollections',
-                'getUserCollectHotel'
+                'getUserCollectHotel',
+                'addCollection',
+                'annulCollection',
             ]),
             ...mapMutations([
                 'set_answersVisible',
+                'set_currCollections',
             ]),
             star() {
-
+                const params = {
+                    userID: this.userId,
+                    hotelID: this.currentHotelId,
+                }
+                this.addCollection(params)
+            },
+            unstar(){
+                const params = {
+                    hotelId: this.currentHotelId,
+                    userId: this.userId,
+                }
+                this.annulCollection(params)
             },
             showOrHideAnswers(id) {
                 this.answersVisible.set(id, !this.answersVisible.get(id))

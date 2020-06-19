@@ -85,6 +85,15 @@ const hotel = {
         set_answersVisible: function (state, data) {
             state.answersVisible = data
         },
+        set_currCollections: function (state, data) {
+            state.currCollections = data
+        },
+        set_currHotelCollectedByUser: function (state, data) {
+            state.currHotelCollectedByUser = data
+        },
+        update_currCollections: function (state, data) {
+            state.currCollections += data
+        }
     },
     actions: {
         getHotelList: async ({commit, state}) => {
