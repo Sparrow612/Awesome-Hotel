@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -117,5 +119,15 @@ public class AccountServiceTest {
         Assert.assertThat(userVO.getPortrait(), is("www.xxhub.com"));
     }
 
-
+    @Test
+    @Transactional
+    public void getAllPhoneNumOfSalesPerson() {
+        List<String> phoneNums = accountService.getAllPhoneNumOfSalesPerson();
+        String str = null;
+        Assert.assertThat(phoneNums.get(0), is(str));
+        accountService.updateUserInfo(7,"123456","营销人员1","13345626722");
+        phoneNums = accountService.getAllPhoneNumOfSalesPerson();
+        Assert.assertThat(phoneNums.size(), is(1));
+        Assert.assertThat(phoneNums.get(0), is("13345626722"));
+    }
 }

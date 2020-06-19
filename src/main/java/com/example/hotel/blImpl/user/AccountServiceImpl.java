@@ -4,6 +4,7 @@ import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.data.user.CreditMapper;
 import com.example.hotel.enums.HotelService;
+import com.example.hotel.enums.UserType;
 import com.example.hotel.enums.VIPType;
 import com.example.hotel.po.Credit;
 import com.example.hotel.po.User;
@@ -241,5 +242,16 @@ public class AccountServiceImpl implements AccountService {
             userVOs.add(userVO);
         }
         return userVOs;
+    }
+
+    @Override
+    public List<String> getAllPhoneNumOfSalesPerson() {
+        List<UserVO> userVOS = getAllUsers();
+        List<String> phoneNum = new ArrayList<>();
+        for(UserVO userVO : userVOS){
+            if(userVO.getUserType().equals(UserType.SalesPerson))
+                phoneNum.add(userVO.getPhoneNumber());
+        }
+        return phoneNum;
     }
 }

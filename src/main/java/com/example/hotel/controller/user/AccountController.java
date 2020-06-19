@@ -146,4 +146,9 @@ public class AccountController {
         return ResponseVO.buildSuccess(accountService.getArgueCredits());
     }
 
+    @GetMapping("/getSalesPhoneNum")
+    public ResponseVO getSalesPhoneNum() {
+        return ResponseVO.buildSuccess(accountService.getAllPhoneNumOfSalesPerson());
+    }
+
 }

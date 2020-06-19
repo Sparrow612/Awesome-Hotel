@@ -26,7 +26,7 @@ class Node{
     Node before = null;
     Node next = null;
 
-    public Node(HotelVO hotel,int score){
+    Node(HotelVO hotel, int score){
         this.hotel = hotel;
         this.score = score;
     }
@@ -38,9 +38,6 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     @Autowired
     private HotelService hotelService;
 
-    @Autowired
-    private OrderService orderService;
-
     private String checkInDate = null;
     private String checkOutDate = null;
     private String address = null;
@@ -50,7 +47,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     private double maxPrice = 999;
     private double minScore = 0;
 
-    Node head;
+    private Node head;
 
 
     @Override
@@ -122,9 +119,9 @@ public class HotelSearchServiceImpl implements HotelSearchService {
             }
         }
         head = null;
-        if(targetHotels.size()==0){
+        //if(targetHotels.size()==0){
             //targetHotels = secondarySearch();
-        }
+       // }
         return targetHotels;
     }
 
@@ -164,7 +161,6 @@ public class HotelSearchServiceImpl implements HotelSearchService {
     private boolean checkHotelScore(HotelVO hotel, double minScore){
         double hotelScore = hotel.getRate();
         return hotelScore >= minScore;
-
     }
 
 
@@ -214,8 +210,8 @@ public class HotelSearchServiceImpl implements HotelSearchService {
             String description = hotel.getDescription();
             int l = keyWords.length;
             int score = 0;
-            for(int i=0;i<l;i++){
-                if(description.contains(keyWords[i]))
+            for (String keyWord : keyWords) {
+                if (description.contains(keyWord))
                     score += 2;
             }
             return score;

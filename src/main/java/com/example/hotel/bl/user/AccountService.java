@@ -63,4 +63,6 @@ public interface AccountService {
     ResponseVO getUserCreditChanges(int userId);
 
     List<UserVO> getAllUsers();
+
+    List<String> getAllPhoneNumOfSalesPerson();
 }
