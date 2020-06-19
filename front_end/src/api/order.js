@@ -58,3 +58,10 @@ export function getOrderCommentAPI(orderId) {
         method: 'GET',
     })
 }
+//撤回对某个订单的评论
+export function annulOrderCommentAPI(orderId) {
+    return axios({
+        url: `${api.orderPre}/${orderId}/annulComment`,
+        method: 'GET',
+    })
+}

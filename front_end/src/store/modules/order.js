@@ -5,6 +5,7 @@ import {
     execOrderAPI,
     addCommentAPI,
     getOrderCommentAPI,
+    annulOrderCommentAPI,
 } from '@/api/order'
 
 const order = {
@@ -12,7 +13,7 @@ const order = {
         orderDetailVisible: false,
         orderInfo: {},
         commentOrderModalVisible: false,
-        orderComment: '',
+        currentOrderComment: {},
     },
     mutations: {
         set_orderDetailVisible: function (state, data) {
@@ -24,8 +25,8 @@ const order = {
         set_commentOrderModalVisible: function (state, data) {
             state.commentOrderModalVisible = data
         },
-        set_orderComment: function (state, data) {
-            state.orderComment = data
+        set_currentOrderComment: function (state, data) {
+            state.currentOrderComment = data
         }
     },
     actions: {
@@ -38,15 +39,25 @@ const order = {
                 message.error('撤销失败')
             }
         },
-        addComment: async ({state, commit}, data) => {
+        addComment: async ({state, commit, dispatch}, data) => {
             const res = await addCommentAPI(data)
             if (res) {
                 commit('set_commentOrderModalVisible', false)
                 message.success('评论成功')
+                dispatch('getOrderComment', state.orderInfo.id)
             }
         },
         getOrderComment: async ({state, commit}, orderId) => {
-
+            const res = await getOrderCommentAPI(orderId)
+            if (res) {
+                commit('set_currentOrderComment', res)
+            }
+        },
+        annulOrderComment: async ({state, commit, dispatch}, orderId) => {
+            const res = await annulOrderCommentAPI(orderId)
+            if (res) {
+                message.success('撤回成功')
+            }
         }
     }
 }

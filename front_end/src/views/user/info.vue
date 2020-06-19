@@ -316,10 +316,10 @@
                 'cancelOrder',
                 'getHotelById',
                 'getUserCredits',
+                'getOrderComment',
             ]),
             ...mapMutations([
                 'set_orderDetailVisible',
-                'set_orderInfo',
                 'set_currentHotelId',
                 'set_commentOrderModalVisible',
                 'set_orderInfo',
@@ -403,8 +403,10 @@
                 // TODO 修改header上面的current
             },
             commentOrder(record) {
-                this.set_commentOrderModalVisible(true)
-                this.set_orderInfo(record)
+                this.getOrderComment(Number(record.id)).then(() => {
+                    this.set_commentOrderModalVisible(true)
+                    this.set_orderInfo(record)
+                })
             },
         }
     }
