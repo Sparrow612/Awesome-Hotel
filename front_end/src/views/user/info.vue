@@ -157,7 +157,7 @@
                         <a-divider type="vertical" v-if="record.orderState === '异常订单'"></a-divider>
                         <a-button size="small" type="default" v-if="record.orderState === '异常订单'">申诉</a-button>
                         <a-divider type="vertical" v-if="record.orderState === '已完成'"></a-divider>
-                        <a-button size="small" type="default" v-if="record.orderState === '已完成'">评价</a-button>
+                        <a-button size="small" type="default" v-if="record.orderState === '已完成'" @click="commentOrder(record)">评价</a-button>
                     </span>
                 </a-table>
             </a-tab-pane>
@@ -178,11 +178,13 @@
         </a-tabs>
 
         <orderDetail></orderDetail>
+        <comment-order></comment-order>
     </div>
 </template>
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import orderDetail from '../order/orderDetail'
+    import commentOrder from "../order/commentOrder";
     import {message} from 'ant-design-vue';
 
     const columns_of_orders = [
@@ -284,7 +286,8 @@
             }
         },
         components: {
-            orderDetail
+            orderDetail,
+            commentOrder,
         },
         computed: {
             ...mapGetters([
@@ -312,11 +315,13 @@
                 'cancelOrder',
                 'getHotelById',
                 'getUserCredits',
+                'getOrderComment',
             ]),
             ...mapMutations([
                 'set_orderDetailVisible',
-                'set_orderInfo',
                 'set_currentHotelId',
+                'set_commentOrderModalVisible',
+                'set_orderInfo',
             ]),
 
             saveModify() {
@@ -395,7 +400,13 @@
             },
             goToMembership() {
                 // TODO 修改header上面的current
-            }
+            },
+            commentOrder(record) {
+                this.getOrderComment(Number(record.id)).then(() => {
+                    this.set_commentOrderModalVisible(true)
+                    this.set_orderInfo(record)
+                })
+            },
         }
     }
 </script>
