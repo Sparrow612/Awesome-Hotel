@@ -3,12 +3,7 @@
         <div class="base-info">
             <a-form :form="form">
                 <a-form-item :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" label="酒店名称">
-                    <a-input
-                            placeholder="请填写酒店名称"
-                            v-decorator="['name', { rules: [{ required: true, message: '请输入酒店名称!' }], initialValue: hotelName }]"
-                            v-if="modify"
-                    />
-                    <span v-else>{{ hotelName }}</span>
+                    <span>{{ hotelName }}</span>
                 </a-form-item>
 
                 <a-form-item :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" label="酒店地址">
@@ -77,12 +72,26 @@
             },
         },
         methods: {
+            ...mapActions([
+                'updateHotelInfo'
+            ]),
             modifyInfo() {
                 this.modify = true
             },
             saveModify() {
-                message.error('TODO 修改信息')
-                this.modify = false
+                this.form.validateFields((err, values) => {
+                    if (!err) {
+                        const data = {
+                            name: this.hotelInfo.name,
+                            address: this.form.getFieldValue('address'),
+                            description: this.form.getFieldValue('description')
+                        }
+                        this.updateHotelInfo(data)
+                        this.modify = false
+                    } else {
+                        message.error("请输入正确的信息")
+                    }
+                })
             },
             cancelModify() {
                 message.info('取消修改')

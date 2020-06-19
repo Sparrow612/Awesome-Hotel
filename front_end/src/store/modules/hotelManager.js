@@ -12,7 +12,9 @@ import {
     hotelManyRoomCouponAPI,
     deleteCouponAPI,
 } from '../../api/coupon'
-
+import {
+    updateHotelInfoAPI
+} from "../../api/hotel";
 import {
     getHotelByIdAPI
 } from "../../api/hotel";
@@ -152,6 +154,13 @@ const hotelManager = {
                 commit('set_couponList', res)
             }
         },
+        updateHotelInfo: async ({state, dispatch}, data) => {
+            const res = await updateHotelInfoAPI(state.hotelInfo.id, data)
+            if (res) {
+                message.success('修改成功')
+                dispatch('getHotelInfo', state.hotelInfo.id)
+            }
+        }
     }
 }
 
