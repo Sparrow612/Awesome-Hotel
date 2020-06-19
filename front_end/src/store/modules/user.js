@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import router from '@/router'
-import {getToken, setToken, removeToken} from '@/utils/auth'
-import {resetRouter} from '@/router'
+import router from '../../router'
+import {getToken, setToken, removeToken} from '../../utils/auth'
+import {resetRouter} from '../../router'
 import {message} from 'ant-design-vue'
 import {
     loginAPI,
@@ -10,22 +10,25 @@ import {
     updateUserInfoAPI,
     updateUserBirthdayAPI,
     getUserCreditAPI,
-} from '@/api/user'
+    getUserCollectionsAPI,
+    annulCollectionAPI,
+    addCollectionAPI,
+} from '../../api/user'
 
 import {
     getUserOrdersAPI,
     cancelOrderAPI,
-} from '@/api/order'
+} from '../../api/order'
 
 import {
     getHotelByIdAPI
-} from "@/api/hotel";
+} from "../../api/hotel";
 
 import {
     registerClientMembershipAPI,
     registerCorpMembershipAPI,
     getUserVIPAPI,
-} from "@/api/membership"
+} from "../../api/membership"
 
 import moment from "moment";
 
@@ -38,6 +41,7 @@ const getDefaultState = () => {
         userOrderList: [],
         onceOrderedList: [],
         creditChangeList: [],
+        userCollections: [],
         registerSiteMembershipModalVisible: false,
         registerCorporationMembershipModalVisible: false,
     }
@@ -52,6 +56,7 @@ const user = {
             state.userOrderList = []
             state.onceOrderedList = []
             state.creditChangeList = []
+            state.userCollections = []
             state.registerSiteMembershipModalVisible = false
             state.registerCorporationMembershipModalVisible = false
         },
@@ -81,6 +86,9 @@ const user = {
         },
         set_creditChangeList: (state, data) => {
             state.creditChangeList = data
+        },
+        set_userCollections: (state, data) => {
+            state.userCollections = data
         },
         set_registerSiteMembershipModalVisible: (state, data) => {
             state.registerSiteMembershipModalVisible = data
@@ -229,8 +237,29 @@ const user = {
             if (res) {
                 commit('set_creditChangeList', res)
             }
+        },
+        getUserCollections: async ({state, commit}, id) => {
+            const res = await getUserCollectionsAPI(id)
+            if (res) {
+                commit('set_userCollections', res)
+            }
+        },
+        addCollection: async ({state, commit}, data) => {
+            const res = await addCollectionAPI(data)
+            if (res) {
+                message.success('收藏成功')
+                commit('set_currHotelCollectedByUser', true)
+                commit('update_currCollections', 1)
+            }
+        },
+        annulCollection: async ({state, commit}, data) => {
+            const res = await annulCollectionAPI(data)
+            if (res){
+                message.success('取消收藏成功')
+                commit('set_currHotelCollectedByUser', false)
+                commit('update_currCollections', -1)
+            }
         }
-
     }
 }
 

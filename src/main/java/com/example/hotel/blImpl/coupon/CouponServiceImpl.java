@@ -133,7 +133,7 @@ public class CouponServiceImpl implements CouponService {
         Coupon coupon = iniCoupon(couponVO);
         coupon.setVipLevel(couponVO.getVipLevel());
         coupon.setBizRegion(couponVO.getRegion());
-        coupon.setSrcId(-1);
+        coupon.setDiscount(couponVO.getDiscount());
         couponVO.setId(addCoupon(coupon));
         return couponVO;
     }

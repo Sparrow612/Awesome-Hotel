@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/coupon")
 public class CouponController {
+    private static final int SITE = 0;
 
     @Autowired
     private CouponService couponService;
@@ -53,6 +54,11 @@ public class CouponController {
     @GetMapping("/hotelAllCoupons")
     public ResponseVO getHotelAllCoupons(@RequestParam Integer hotelId) {
         return ResponseVO.buildSuccess(couponService.getHotelAllCoupon(hotelId));
+    }
+
+    @GetMapping("/siteAllCoupons")
+    public ResponseVO getSiteAllCoupons(){
+        return ResponseVO.buildSuccess(couponService.getHotelAllCoupon(SITE));
     }
 
     @PostMapping("/annulCoupons")

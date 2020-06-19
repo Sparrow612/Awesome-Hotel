@@ -35,6 +35,13 @@ export function addHotelAPI(data) {
         data,
     })
 }
+export function updateHotelInfoAPI(hotelId, data) {
+    return axios({
+        url: `${api.hotelPre}/${hotelId}/updateHotel`,
+        method: 'POST',
+        data,
+    })
+}
 export function deleteHotelAPI(hotelId) {
     return axios({
         url: `${api.hotelPre}/${hotelId}/deleteHotel`,

@@ -3,6 +3,7 @@ package com.example.hotel.blImpl.hotel;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
+import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.enums.BizRegion;
 import com.example.hotel.enums.HotelStar;
@@ -10,6 +11,8 @@ import com.example.hotel.enums.RoomType;
 import com.example.hotel.po.Hotel;
 import com.example.hotel.po.HotelRoom;
 import com.example.hotel.po.Order;
+import com.example.hotel.po.User;
+import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,9 @@ public class HotelServiceImpl implements HotelService {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private AccountService accountService;
+
 
     @Override
     public void addHotel(HotelForm hotelForm) {
@@ -45,6 +51,16 @@ public class HotelServiceImpl implements HotelService {
         hotel.setBizRegion(BizRegion.valueOf(hotelForm.getBizRegion()));
         hotel.setHotelStar(HotelStar.valueOf(hotelForm.getHotelStar()));
         hotelMapper.insertHotel(hotel);
+    }
+
+    @Override
+    public void updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws ServiceException {
+        System.out.println(hotelForm.getName());
+        System.out.println(hotelForm.getAddress());
+        System.out.println(hotelForm.getDescription());
+        hotelMapper.updateHotelName(hotelId,hotelForm.getName());
+        hotelMapper.updateHotelAddress(hotelId,hotelForm.getAddress());
+        hotelMapper.updateHotelDescription(hotelId,hotelForm.getDescription());
     }
 
     @Override
@@ -149,9 +165,9 @@ public class HotelServiceImpl implements HotelService {
             Type2Num.put(room.getRoomType(), room.getTotal());
         }
         for (Order order : orders) {
-            if (Type2Num.containsKey(order.getRoomType())) {
-                int curNum = Type2Num.get(order.getRoomType()) - order.getRoomNum();
-                Type2Num.put(order.getRoomType(), curNum);
+            if (Type2Num.containsKey(RoomType.valueOf(order.getRoomType()).toString())) {
+                int curNum = Type2Num.get(RoomType.valueOf(order.getRoomType()).toString()) - order.getRoomNum();
+                Type2Num.put(RoomType.valueOf(order.getRoomType()).toString(), curNum);
             }
         }
 
@@ -202,4 +218,11 @@ public class HotelServiceImpl implements HotelService {
     }
 
 
+
+    @Override
+    public String getManagerTelephone(int hotelId) {
+        HotelVO hotelVO = retrieveHotelDetails(hotelId);
+        UserVO userVO = accountService.getUserInfo(hotelVO.getManagerId());
+        return userVO.getPhoneNumber();
+    }
 }

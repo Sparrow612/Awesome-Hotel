@@ -14,6 +14,8 @@ public interface HotelService {
      */
     void addHotel(HotelForm hotelForm) throws ServiceException;
 
+    void updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws  ServiceException;
+
     /**
      * 删除酒店
      */
@@ -52,5 +54,7 @@ public interface HotelService {
     void addComment(CommentVO commentVO, Integer hotelId);
 
     void annulComment(CommentVO commentVO, Integer hotelId);
+
+    String getManagerTelephone(int hotelId);
 
 }

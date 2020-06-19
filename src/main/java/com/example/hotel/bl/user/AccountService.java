@@ -34,7 +34,7 @@ public interface AccountService {
     /**
      * 更新用户个人信息
      */
-    ResponseVO updateUserInfo(int id, String password, String username, String phonenumber);
+    ResponseVO updateUserInfo(int id, String password, String username, String phoneNumber);
 
     ResponseVO updateCredit(int id, double credit);
 
@@ -58,11 +58,11 @@ public interface AccountService {
 
     ResponseVO updatePortrait(int userId, String url);
 
-    List<String> getManagerTelephone(int hotelId); // ?
-
     ResponseVO chargeCredit(int userId, int change, String reason);
 
     ResponseVO getUserCreditChanges(int userId);
 
     List<UserVO> getAllUsers();
+
+    List<String> getAllPhoneNumOfSalesPerson();
 }

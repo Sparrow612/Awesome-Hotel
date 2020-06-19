@@ -1,18 +1,20 @@
 import {
     addRoomAPI,
-} from '@/api/hotelManager'
+} from '../../api/hotelManager'
 import {
-    getHotelOrdersAPI,
-} from '@/api/order'
+    getHotelOrdersAPI
+} from "../../api/order";
 import {
     hotelAllCouponsAPI,
     hotelTargetMoneyAPI,
     hotelBirthdayCouponAPI,
-    hotelTimeCouponAPI,
+    TimeCouponAPI,
     hotelManyRoomCouponAPI,
     deleteCouponAPI,
-} from '@/api/coupon'
-
+} from '../../api/coupon'
+import {
+    updateHotelInfoAPI
+} from "../../api/hotel";
 import {
     getHotelByIdAPI
 } from "../../api/hotel";
@@ -107,7 +109,7 @@ const hotelManager = {
                     res = await hotelTargetMoneyAPI(data)
                     break
                 case 4:
-                    res = await hotelTimeCouponAPI(data)
+                    res = await TimeCouponAPI(data)
                     break
             }
             if (res) {
@@ -152,6 +154,13 @@ const hotelManager = {
                 commit('set_couponList', res)
             }
         },
+        updateHotelInfo: async ({state, dispatch}, data) => {
+            const res = await updateHotelInfoAPI(state.hotelInfo.id, data)
+            if (res) {
+                message.success('修改成功')
+                dispatch('getHotelInfo', state.hotelInfo.id)
+            }
+        }
     }
 }
 

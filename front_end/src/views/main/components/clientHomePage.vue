@@ -32,6 +32,7 @@
                 <a-table
                         :columns="hotelColumns"
                         :dataSource="hotelList"
+                        style="padding: 10px"
                         bordered
                 >
                     <div
@@ -100,7 +101,7 @@
                         :columns="hotelColumns"
                         :dataSource="onceOrderedList"
                         :locale="{emptyText: '暂时没有您的预定记录'}"
-                        style="background-color: white"
+                        style="background-color: white; padding: 10px"
                         bordered
                 >
                     <span slot="action" slot-scope="record">

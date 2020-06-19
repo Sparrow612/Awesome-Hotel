@@ -1,6 +1,7 @@
 package com.example.hotel.bl.hotel;
 
 import com.example.hotel.bl.order.OrderService;
+import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.po.Hotel;
 import com.example.hotel.po.Order;
 import com.example.hotel.util.ServiceException;
@@ -29,6 +30,8 @@ public class HotelServiceTest {
 
     @Autowired
     private HotelService hotelService;
+    @Autowired
+    private AccountService accountService;
 
 
     @Test
@@ -48,6 +51,21 @@ public class HotelServiceTest {
         int size = hotelVOS.size();
         HotelVO hotelVO = hotelVOS.get(size-1);
         Assert.assertThat(hotelVO.getName(),is("6667"));
+    }
+
+    @Test
+    @Transactional
+    public void updateHotelInfo() throws ServiceException {
+        HotelForm hotelForm = new HotelForm(){{
+           setName("123");
+           setAddress("456");
+           setDescription("789");
+        }};
+       hotelService.updateHotelInfo(1,hotelForm);
+       HotelVO hotel = hotelService.retrieveHotelDetails(1);
+       Assert.assertThat(hotel.getName(),is("123"));
+       Assert.assertThat(hotel.getAddress(),is("456"));
+       Assert.assertThat(hotel.getDescription(),is("789"));
     }
 
     @Test
@@ -112,6 +130,14 @@ public class HotelServiceTest {
         List<RoomVO> roomVOS = hotelService.checkRoom(1,hotel.getRooms(),"2020-06-01","2020-06-02");
         RoomVO roomVO = roomVOS.get(0);
         Assert.assertThat(roomVO.getCurNum(),is(19));
+    }
+
+    @Test
+    @Transactional
+    public void getManagerTelephone() {
+        accountService.updateUserInfo(6,"123","123123","12312300");
+        String phoneNumber = hotelService.getManagerTelephone(3);
+        Assert.assertThat(phoneNumber, is("12312300"));
     }
 
     @Test

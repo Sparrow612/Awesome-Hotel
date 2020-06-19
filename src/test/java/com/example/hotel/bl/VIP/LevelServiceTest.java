@@ -23,8 +23,8 @@ public class LevelServiceTest {
     @Test
     @Transactional
     public void formulateVIPLevel() {
-        levelService.formulateVIPLevel(8, 200);
-        ResponseVO responseVO = levelService.getTheRequestOfLevel(8);
+        levelService.formulateVIPLevel(8, "Client",200, 0.01);
+        ResponseVO responseVO = levelService.getTheRequestOfLevel(8, "Client");
         Assert.assertEquals(responseVO.getContent(), 200);
     }
 

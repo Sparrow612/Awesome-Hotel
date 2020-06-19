@@ -3,6 +3,7 @@
         <a-table
                 :columns="columns"
                 :dataSource="allClientVIPList"
+                :locale="{emptyText: '暂时没有普通会员'}"
                 bordered
         >
             <a-tag slot="userId" color="orange" slot-scope="text">

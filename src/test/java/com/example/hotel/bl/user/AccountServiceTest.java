@@ -1,6 +1,12 @@
 package com.example.hotel.bl.user;
 
 import com.example.hotel.data.user.AccountMapper;
+import com.example.hotel.enums.UserType;
+import com.example.hotel.enums.VIPType;
+import com.example.hotel.po.User;
+import com.example.hotel.vo.UserForm;
+import com.example.hotel.vo.UserVO;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 /**
@@ -24,65 +33,101 @@ public class AccountServiceTest {
     @Test
     @Transactional
     public void registerAccount() {
+        UserVO userVO = new UserVO(){{
+            setEmail("12345@qq.com");
+            setPassword("123456");
+            setUserName("测测");
+            setPhoneNumber("1234567");
+            setCredit(100.0);
+            setUserType(UserType.Client);
+        }};
+        accountService.registerAccount(userVO);
+        UserVO userVO1 = accountService.getUserInfoByEmail("12345@qq.com");
+        Assert.assertThat(userVO1.getUserName(), is("测测"));
     }
 
     @Test
     @Transactional
     public void login() {
+        UserForm userForm = new UserForm(){{
+           setEmail("555@qq.com");
+           setPassword("123456");
+        }};
+        UserVO userVO = accountService.login(userForm);
+        Assert.assertThat(userVO.getUserName(), is("管理人员1"));
     }
 
     @Test
     @Transactional
     public void getUserInfo() {
+        UserVO userVO = accountService.getUserInfo(6);
+        Assert.assertThat(userVO.getEmail(), is("333@qq.com"));
     }
 
     @Test
     @Transactional
     public void getUserInfoByEmail() {
+        UserVO userVO = accountService.getUserInfoByEmail("333@qq.com");
+        Assert.assertThat(userVO.getId(), is(6));
     }
 
     @Test
     @Transactional
     public void updateUserInfo() {
+        accountService.updateUserInfo(6,"123456","测6","123qwe");
+        UserVO userVO = accountService.getUserInfo(6);
+        Assert.assertThat(userVO.getUserName(), is("测6"));
     }
 
     @Test
     @Transactional
     public void updateCredit() {
-    }
-
-    @Test
-    @Transactional
-    public void personalVIP() {
+        accountService.updateCredit(6,50.0);
+        UserVO userVO = accountService.getUserInfo(6);
+        Assert.assertThat(userVO.getCredit(),is(50.0));
     }
 
     @Test
     @Transactional
     public void corporateVIP() {
-    }
-
-    @Test
-    @Transactional
-    public void normalUser() {
+        accountService.corporateVIP(6,"test");
+        UserVO userVO = accountService.getUserInfo(6);
+        Assert.assertThat(userVO.getVipType(), is(VIPType.Corporation));
     }
 
     @Test
     @Transactional
     public void updateBirthday() {
+        accountService.updateBirthday(6,"2000-01-01");
+        UserVO userVO = accountService.getUserInfo(6);
+        Assert.assertThat(userVO.getBirthday(), is("2000-01-01"));
     }
 
     @Test
     @Transactional
     public void registerAsVIP() {
+        accountService.registerAsVIP(6);
+        UserVO userVO = accountService.getUserInfo(6);
+        Assert.assertThat(userVO.getVipType(), is(VIPType.Client));
     }
 
     @Test
     @Transactional
     public void updatePortrait() {
+        accountService.updatePortrait(6,"www.xxhub.com");
+        UserVO userVO = accountService.getUserInfo(6);
+        Assert.assertThat(userVO.getPortrait(), is("www.xxhub.com"));
     }
 
     @Test
     @Transactional
-    public void getManagerTelephone() {
+    public void getAllPhoneNumOfSalesPerson() {
+        List<String> phoneNums = accountService.getAllPhoneNumOfSalesPerson();
+        String str = null;
+        Assert.assertThat(phoneNums.get(0), is(str));
+        accountService.updateUserInfo(7,"123456","营销人员1","13345626722");
+        phoneNums = accountService.getAllPhoneNumOfSalesPerson();
+        Assert.assertThat(phoneNums.size(), is(1));
+        Assert.assertThat(phoneNums.get(0), is("13345626722"));
     }
 }

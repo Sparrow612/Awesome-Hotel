@@ -38,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
     private final static String ABNORMAL_ORDER = "异常订单不可撤销";
     private final static String LABEL_ABNORMAL = "已标记为异常订单";
     private final static String CHECK_IN = "办理入住成功";
+    private final static String LOW_CREDIT = "信用值过低，无法预订酒店";
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
     @Autowired
     private OrderMapper orderMapper;
@@ -50,6 +51,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
+        //判断用户信用值
+        UserVO user = accountService.getUserInfo(orderVO.getUserId());
+        double credit = user.getCredit();
+        if(!(credit > 0))
+            return ResponseVO.buildFailure(LOW_CREDIT);
+
         int reserveRoomNum = orderVO.getRoomNum();
         int curNum = roomService.getRoomCurNumByTime(orderVO.getHotelId(), orderVO.getCheckInDate(), orderVO.getCheckOutDate(), orderVO.getRoomType());
         if (reserveRoomNum > curNum) {
@@ -279,7 +286,7 @@ public class OrderServiceImpl implements OrderService {
             if (!((gap1 < 0) || (gap2 < 0))) {
                 //确保订单为未入住的有效订单
                 if (order.getOrderState().equals("未入住") || order.getOrderState().equals("已入住")) {
-                    order.setRoomType(RoomType.valueOf(order.getRoomType()).toString());
+                    order.setRoomType(order.getRoomType());
                     relatedOrder.add(order);
                 }
             }

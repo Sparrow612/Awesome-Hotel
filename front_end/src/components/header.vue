@@ -55,7 +55,7 @@
                     订单管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item @click="jumpToManageSiteCoupon" key="11" v-if="userInfo.userType==='SalesPerson'">
+            <a-menu-item key="11" v-if="userInfo.userType==='SalesPerson'">
                 <router-link :to="{ name: 'manageSiteCoupon'}">
                     <a-icon type="tag"/>
                     优惠策略
@@ -65,6 +65,12 @@
                 <router-link :to="{ name: 'manageMembership'}">
                     <a-icon type="user"/>
                     会员管理
+                </router-link>
+            </a-menu-item>
+            <a-menu-item key="7">
+                <router-link :to="{ name: 'helper'}">
+                    <a-icon type="question-circle"/>
+                    帮助
                 </router-link>
             </a-menu-item>
         </a-menu>
@@ -82,7 +88,7 @@
                         <a-icon type="home"></a-icon>
                         首页
                     </a-menu-item>
-                    <a-menu-item>
+                    <a-menu-item @click="openHelper">
                         <a-icon type="question-circle"></a-icon>
                         帮助
                     </a-menu-item>
@@ -93,7 +99,6 @@
                 </a-menu>
             </a-dropdown>
         </div>
-
     </div>
 </template>
 <script>
@@ -103,7 +108,7 @@
         name: 'Header',
         data() {
             return {
-                current: ['1']
+                current: ['1'],
             }
         },
         computed: {
@@ -133,7 +138,9 @@
                 case 'userMembership':
                     this.current = ['6']
                     break
-                // 删除了7 酒店会员页面，这是个错误的需求
+                case 'helper':
+                    this.current = ['7']
+                    break
                 case 'manageUser':
                     this.current = ['8']
                     break
@@ -146,7 +153,7 @@
                 case 'manageSiteCoupon':
                     this.current = ['11']
                     break
-                case 'manageUserCredit':
+                case 'manageMembership':
                     this.current = ['12']
                     break
             }
@@ -202,6 +209,10 @@
             },
             manageAdminInfo() {
 
+            },
+            openHelper(){
+                this.current = ['7']
+                this.$router.push('/helper')
             }
         }
     }
