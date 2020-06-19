@@ -113,7 +113,7 @@ public class OrderServiceImpl implements OrderService {
             case "异常订单":
                 return ResponseVO.buildFailure(ABNORMAL_ORDER);
         }
-        order.setOrderState("已撤销");
+        orderMapper.annulOrder(orderId);
 
         //扣除信用积分
         String checkInDate = order.getCheckInDate();
@@ -126,7 +126,8 @@ public class OrderServiceImpl implements OrderService {
             credit -= price * 0.5;
             accountService.updateCredit(userID, credit);
         }
-        orderMapper.annulOrder(orderId);
+        hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), -order.getRoomNum());
+
         return ResponseVO.buildSuccess(true);
     }
 
@@ -228,31 +229,44 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 获取输入的订单中，发生在最近一个月的
-     * 此方法获取的订单均为
+     * 此方法获取的订单均为事实订单，即用户已经付费（已入住 或 已退房）
+     * 返回数据的格式为 List<List<Order>> ，大小为31，代变从距今0天（当天）到30天中的订单，第i天的索引为i
      */
     @Override
-    public List<Order> getOrdersInMonth(List<Order> orders) {
+    public List<List<Order>> getOrdersInMonth(List<Order> orders) {
         String now = getSystemDate();
         List<Order> temp = new ArrayList<>();
+        List<List<Order>> summary = new ArrayList<>();
+
+        //整理orders并归入temp中转
         for (Order order : orders) {
             String createDate = order.getCreateDate();
             int days = getGap(now, createDate);
             if (days <= 30 && (order.getOrderState().equals("已入住") || order.getOrderState().equals("已退房")))
                 temp.add(order);
         }
-        return temp;
+        //将order按天放入summary中
+        for(int i=0;i<31;i++){
+            List<Order> orderList = new ArrayList<>();
+            for(Order order : temp){
+                int day = getGap(now,order.getCreateDate());
+                if(day==i){
+                    orderList.add(order);
+                    orders.remove(order);
+                }
+            }
+            summary.add(orderList);
+        }
+        return summary;
     }
 
     /**
      * 获取特定酒店近一个月的所有订单
      */
     @Override
-    public ResponseVO getOrdersInMonthOfHotel(Integer hotelId) {
+    public List<List<Order>> getOrdersInMonthOfHotel(Integer hotelId) {
         List<Order> orders = getHotelOrders(hotelId);
-        orders = getOrdersInMonth(orders);
-        List<List<Order>> temp = new ArrayList<>();
-        temp.add(orders);
-        return ResponseVO.buildSuccess(temp);
+        return getOrdersInMonth(orders);
     }
 
 
@@ -260,12 +274,9 @@ public class OrderServiceImpl implements OrderService {
      * 获取最近一个月产生的所有订单
      */
     @Override
-    public ResponseVO getOrdersInMonthOfAll() {
+    public List<List<Order>> getOrdersInMonthOfAll() {
         List<Order> orders = getAllOrders();
-        orders = getOrdersInMonth(orders);
-        List<List<Order>> temp = new ArrayList<>();
-        temp.add(orders);
-        return ResponseVO.buildSuccess(temp);
+        return getOrdersInMonth(orders);
     }
 
     /**
@@ -285,7 +296,7 @@ public class OrderServiceImpl implements OrderService {
 
             if (!((gap1 < 0) || (gap2 < 0))) {
                 //确保订单为未入住的有效订单
-                if (order.getOrderState().equals("未入住") || order.getOrderState().equals("已入住")) {
+                if (order.getOrderState().equals("已预订") || order.getOrderState().equals("未入住") ||order.getOrderState().equals("已入住")) {
                     order.setRoomType(order.getRoomType());
                     relatedOrder.add(order);
                 }

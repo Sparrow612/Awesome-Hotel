@@ -57,11 +57,11 @@ public interface OrderService {
 
     ResponseVO getUserComments(Integer userId);
 
-    List<Order> getOrdersInMonth(List<Order> orders);  //从输入流的订单中找到近30天的并返回
+    List<List<Order>> getOrdersInMonth(List<Order> orders);  //从输入流的订单中找到近30天的并返回
 
-    ResponseVO getOrdersInMonthOfHotel(Integer hotelId);
+    List<List<Order>> getOrdersInMonthOfHotel(Integer hotelId);
 
-    ResponseVO getOrdersInMonthOfAll();
+    List<List<Order>> getOrdersInMonthOfAll();
 
     List<Order> filterOrders(List<Order> orders,String beginTime, String endTime);  //找到与入住及退房时间有关联的订单
 

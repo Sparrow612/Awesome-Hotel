@@ -32,11 +32,13 @@ public class RoomServiceImpl implements RoomService {
         roomMapper.insertRoom(hotelRoom);
     }
 
+    //需要用英文版roomType
     @Override
     public void updateRoomInfo(Integer hotelId, String roomType, Integer rooms) {
         roomMapper.updateRoomInfo(hotelId,roomType,rooms);
     }
 
+    //需要用英文版roomType
     @Override
     public int getRoomCurNum(Integer hotelId, String roomType) {
         return roomMapper.getRoomCurNum(hotelId,roomType);
@@ -48,7 +50,7 @@ public class RoomServiceImpl implements RoomService {
         List<RoomVO> rooms = hotelVO.getRooms();
         int curNum = 0;
         for(RoomVO room : rooms){
-            if(room.getRoomType().equals(type)){
+            if(room.getRoomType().equals(RoomType.valueOf(type).toString())){
                 curNum = room.getCurNum();
                 break;
             }

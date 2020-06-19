@@ -93,12 +93,12 @@ public class OrderController {
 
     @GetMapping("/{hotelId}/getOrdersInMonthOfAll")
     public ResponseVO getOrdersInMonthOfHotel(@PathVariable Integer hotelId) {
-        return orderService.getOrdersInMonthOfHotel(hotelId);
+        return ResponseVO.buildSuccess(orderService.getOrdersInMonthOfHotel(hotelId));
     }
 
     @GetMapping("/getOrdersInMonthOfAll")
     public ResponseVO getOrdersInMonthOfAll() {
-        return orderService.getOrdersInMonthOfAll();
+        return ResponseVO.buildSuccess(orderService.getOrdersInMonthOfAll());
     }
 
 }

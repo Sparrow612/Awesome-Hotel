@@ -47,7 +47,7 @@ public class OrderServiceTest {
             setHotelName("汉庭酒店");
             setHotelPhoneNum("123456777");
             setPeopleNum(2);
-            setRoomType("大床房");
+            setRoomType("BigBed");
             setId(4);
         }};
         ResponseVO responseVO = orderService.addOrder(orderVO1);
@@ -65,12 +65,12 @@ public class OrderServiceTest {
             setOrderState("未入住");
             setPrice(399.0);
             setRoomNum(1);
-            setUserId(17);
+            setUserId(4);
             setHaveChild(false);
             setHotelName("汉庭酒店");
             setHotelPhoneNum("123456777");
             setPeopleNum(2);
-            setRoomType("大床房");
+            setRoomType("BigBed");
             setId(4);
         }};
         ResponseVO responseVO = orderService.addOrder(orderVO2);
@@ -105,15 +105,21 @@ public class OrderServiceTest {
     public void getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
         int num = orders.size();
+        addOrder1();
+        orders = orderService.getAllOrders();
+        num = orders.size() - num;
         Assert.assertThat(num,is(1));
     }
 
     @Test
     @Transactional
     public void getHotelOrders() {
-        List<Order> orders = orderService.getHotelOrders(2);
+        List<Order> orders = orderService.getHotelOrders(1);
         int num = orders.size();
-        Assert.assertThat(num,is(0));
+        addOrder1();
+        orders = orderService.getHotelOrders(1);
+        num = orders.size() - num;
+        Assert.assertThat(num,is(1));
     }
 
     @Test
@@ -175,16 +181,16 @@ public class OrderServiceTest {
     @Test
     @Transactional
     public void getHotelComment() {
-        List<CommentVO> commentVOS = orderService.getHotelComment(1);
-        Assert.assertThat(commentVOS.size(),is(1));
+        List<CommentVO> commentVOS = orderService.getHotelComment(3);
+        Assert.assertThat(commentVOS.size(),is(0));
     }
 
     @Test
     @Transactional
     public void addComment() {
         CommentVO commentVO = new CommentVO(){{
-            setUserId(1);
-            setOrderId(1);
+            setUserId(18);
+            setOrderId(11);
             setComment("Just so so ~ ");
             setEnvironment(4);
             setEquipment(4);
@@ -192,8 +198,9 @@ public class OrderServiceTest {
             setSanitation(5);
             setService(4);
         }};
-        ResponseVO responseVO = orderService.addComment(commentVO);
-        Assert.assertThat(responseVO.getContent(),is(1));
+        orderService.addComment(commentVO);
+        CommentVO comment = orderService.getComment(11);
+        Assert.assertThat(comment.getComment(), is("Just so so ~ "));
     }
 
     @Test
@@ -206,19 +213,21 @@ public class OrderServiceTest {
     @Test
     @Transactional
     public void getOrdersInMonthOfHotel() {
-        ResponseVO responseVO = orderService.getOrdersInMonthOfHotel(1);
-        List<Order> orders = (List<Order>) responseVO.getContent();
-        int num = orders.size();
-        Assert.assertThat(num,is(1));
+        List<List<Order>> summary = orderService.getOrdersInMonthOfHotel(1);
+        int num = summary.size();
+        Assert.assertThat(num,is(31));
+        //测试内部，由于结果随时间改变，故测试完成后注释掉
+        //Assert.assertThat(summary.get(19).size(), is(0));
     }
 
     @Test
     @Transactional
     public void getOrdersInMonthOfAll() {
-        ResponseVO responseVO = orderService.getOrdersInMonthOfAll();
-        List<Order> orders = (List<Order>) responseVO.getContent();
-        int num = orders.size();
-        Assert.assertThat(num,is(1));
+        List<List<Order>> summary = orderService.getOrdersInMonthOfAll();
+        int num = summary.size();
+        Assert.assertThat(num,is(31));
+        //测试内部，由于结果随时间改变，故测试完成后注释掉
+        //Assert.assertThat(summary.get(19).size(), is(0));
     }
 
     @Test
