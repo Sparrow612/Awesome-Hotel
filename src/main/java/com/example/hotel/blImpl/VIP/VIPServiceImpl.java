@@ -30,17 +30,17 @@ public class VIPServiceImpl implements VIPService {
     @Autowired
     private AccountService accountService;
 
-    private void clientLevelUp(Integer userId) {
+    private void clientLevelUp(Integer userId, double reduction) {
         try{
-            vipMapper.clientLevelUp(userId);
+            vipMapper.clientLevelUp(userId, reduction);
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private void corpLevelUp(String corporationName) {
+    private void corpLevelUp(String corporationName, double reduction) {
         try{
-            vipMapper.corpLevelUp(corporationName);
+            vipMapper.corpLevelUp(corporationName, reduction);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -105,9 +105,10 @@ public class VIPServiceImpl implements VIPService {
         try{
             vipMapper.addVIPClientConsumption(userId,amount);
             ClientVIP clientVIP = vipMapper.getVIPbyUserId(userId);
-            int nextLevelConsum = levelMapper.getTheRequestOfLevel(clientVIP.getLevel()+1);
+            int nextLevelConsum = levelMapper.getTheRequestOfLevel(clientVIP.getLevel()+1, "Client");
+            double nextLevelReduction = levelMapper.getTheReduOfLevel(clientVIP.getLevel()+1, "Client");
             if (clientVIP.getConsumption()>=nextLevelConsum){
-                clientLevelUp(userId);
+                clientLevelUp(userId, nextLevelReduction);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -167,9 +168,10 @@ public class VIPServiceImpl implements VIPService {
         try{
             vipMapper.addVIPCorpConsumption(corporationName, amount);
             CorpVIP corpVIP = vipMapper.getVIPbyCorpName(corporationName);
-            int nextLevelConsum = levelMapper.getTheRequestOfLevel(corpVIP.getLevel()+1);
+            int nextLevelConsum = levelMapper.getTheRequestOfLevel(corpVIP.getLevel()+1, "Corporation");
+            double nextLevelReduction = levelMapper.getTheReduOfLevel(corpVIP.getLevel()+1, "Corporation");
             if (corpVIP.getConsumption()>=nextLevelConsum){
-                corpLevelUp(corporationName);
+                corpLevelUp(corporationName, nextLevelReduction);
             }
         }catch (Exception e){
             e.printStackTrace();

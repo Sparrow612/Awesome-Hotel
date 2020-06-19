@@ -157,11 +157,72 @@
                         <a-divider type="vertical" v-if="record.orderState === '异常订单'"></a-divider>
                         <a-button size="small" type="default" v-if="record.orderState === '异常订单'">申诉</a-button>
                         <a-divider type="vertical" v-if="record.orderState === '已完成'"></a-divider>
-                        <a-button size="small" type="default" v-if="record.orderState === '已完成'" @click="commentOrder(record)">评价</a-button>
+                        <a-button @click="commentOrder(record)" size="small" type="default"
+                                  v-if="record.orderState === '已完成'">评价</a-button>
                     </span>
                 </a-table>
             </a-tab-pane>
-            <a-tab-pane key="3" tab="我的收藏"></a-tab-pane>
+            <a-tab-pane key="3" tab="我的收藏">
+                <a-table
+                        :columns="columns_of_collections"
+                        :dataSource="userCollections"
+                        style="background-color: white"
+                >
+                    <div
+                            slot="filterDropdown"
+                            slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+                            style="padding: 8px"
+                    >
+                        <a-input
+                                :placeholder="`查询${column.title}`"
+                                :value="selectedKeys[0]"
+                                @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                                @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                                style="width: 188px; margin-bottom: 8px; display: block;"
+                                v-ant-ref="c => (this.searchInput = c)"
+                        />
+                        <a-button
+                                @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                                icon="search"
+                                size="small"
+                                style="width: 90px; margin-right: 8px"
+                                type="primary"
+                        >
+                            查询
+                        </a-button>
+                        <a-button @click="() => handleReset(clearFilters)" size="small" style="width: 90px">
+                            重置
+                        </a-button>
+                    </div>
+                    <a-icon
+                            :style="{ color: filtered ? '#108ee9' : undefined }"
+                            slot="filterIcon"
+                            slot-scope="filtered"
+                            type="search"
+                    />
+                    <span slot="action" slot-scope="record">
+                        <a-button @click="jumpToDetails(record.hotelID)" size="small" type="primary">进入酒店</a-button>
+                    </span>
+                    <template slot="customRender" slot-scope="text, record, index, column">
+                        <span v-if="searchText && searchedColumn === column.dataIndex">
+                            <template
+                                    v-for="(fragment, i) in text.split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'g'))">
+                                <mark
+                                        :key="i"
+                                        style="background-color: #83c2f8"
+                                        v-if="fragment === searchText"
+                                >
+                                    {{ fragment }}
+                                </mark>
+                                <template v-else>{{ fragment }}</template>
+                            </template>
+                        </span>
+                        <template v-else>
+                            {{ text }}
+                        </template>
+                    </template>
+                </a-table>
+            </a-tab-pane>
             <a-tab-pane key="4" tab="信用记录">
                 <a-table
                         :columns="columns_of_credit"
@@ -170,13 +231,12 @@
                         bordered
                 >
                     <span slot="type" slot-scope="record">
-                        <a-icon type="plus-circle" theme="twoTone" v-if="record.change>0"/>
-                        <a-icon type="minus-circle" theme="twoTone" two-tone-color="red" v-else/>
+                        <a-icon theme="twoTone" type="plus-circle" v-if="record.change>0"/>
+                        <a-icon theme="twoTone" two-tone-color="red" type="minus-circle" v-else/>
                     </span>
                 </a-table>
             </a-tab-pane>
         </a-tabs>
-
         <orderDetail></orderDetail>
         <comment-order></comment-order>
     </div>
@@ -229,7 +289,7 @@
         },
         {
             title: '状态',
-            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已入住', value: '已入住'},
+            filters: [{text: '未入住', value: '未入住'}, {text: '已撤销', value: '已撤销'}, {text: '已入住', value: '已入住'},
                 {text: '已完成', value: '已完成'}, {text: '异常订单', value: '异常订单'}],
             onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState', scopedSlots: {customRender: 'orderState'},
@@ -241,6 +301,79 @@
             scopedSlots: {customRender: 'action'},
         },
 
+    ];
+    const columns_of_collections = [
+        {
+            title: '酒店名称',
+            dataIndex: 'hotelName',
+            align: 'center',
+            scopedSlots: {
+                filterDropdown: 'filterDropdown',
+                filterIcon: 'filterIcon',
+                customRender: 'customRender',
+            },
+            onFilter: (value, record) => record.name.includes(value),
+            onFilterDropdownVisibleChange: visible => {
+                if (visible) {
+                    setTimeout(() => {
+                        this.searchInput.focus();
+                    });
+                }
+            },
+        },
+        {
+            title: '星级',
+            dataIndex: 'hotelStar',
+            filters: [{text: '三星级', value: '三星级'}, {text: '四星级', value: '四星级'},
+                {text: '五星级', value: '五星级'}],
+            onFilter: (value, record) => record.hotelStar.includes(value),
+            align: 'center',
+        },
+        {
+            title: '评分',
+            dataIndex: 'rate',
+            sorter: (a, b) => a.rate - b.rate,
+            align: 'center',
+        },
+        {
+            title: '商圈',
+            dataIndex: 'bizRegion',
+            align: 'center',
+            scopedSlots: {
+                filterDropdown: 'filterDropdown',
+                filterIcon: 'filterIcon',
+                customRender: 'customRender',
+            },
+            onFilter: (value, record) => record.bizRegion.includes(value),
+            onFilterDropdownVisibleChange: visible => {
+                if (visible) {
+                    setTimeout(() => {
+                        this.searchInput.focus();
+                    });
+                }
+            },
+        },
+        {
+            title: '地址',
+            dataIndex: 'address',
+            scopedSlots: {
+                filterDropdown: 'filterDropdown',
+                filterIcon: 'filterIcon',
+                customRender: 'customRender',
+            },
+            onFilter: (value, record) => record.address.includes(value),
+            onFilterDropdownVisibleChange: visible => {
+                if (visible) {
+                    setTimeout(() => {
+                        this.searchInput.focus();
+                    });
+                }
+            },
+        },
+        {
+            title: '操作',
+            scopedSlots: {customRender: 'action'},
+        },
     ];
     const columns_of_credit = [
         {
@@ -281,8 +414,12 @@
                 },
                 pagination: {},
                 columns_of_orders,
+                columns_of_collections,
                 columns_of_credit,
                 form: this.$form.createForm(this, {name: 'coordinated'}),
+                searchText: '',
+                searchInput: null,
+                searchedColumn: '',
             }
         },
         components: {
@@ -297,6 +434,7 @@
                 'userOrderList',
                 'creditChangeList',
                 'orderDetailVisible',
+                'userCollections',
             ])
         },
         async mounted() {
@@ -305,6 +443,8 @@
                 this.getUserVIP(Number(this.userInfo.id))
             this.getUserOrders()
             this.getUserCredits(this.userId)
+            await this.getUserCollections(this.userId)
+            console.log(this.userCollections)
         },
         methods: {
             ...mapActions([
@@ -316,6 +456,7 @@
                 'getHotelById',
                 'getUserCredits',
                 'getOrderComment',
+                'getUserCollections',
             ]),
             ...mapMutations([
                 'set_orderDetailVisible',
@@ -400,12 +541,26 @@
             },
             goToMembership() {
                 // TODO 修改header上面的current
+                // 不行就砍
             },
             commentOrder(record) {
                 this.getOrderComment(Number(record.id)).then(() => {
                     this.set_commentOrderModalVisible(true)
                     this.set_orderInfo(record)
                 })
+            },
+            jumpToDetails(id) {
+                this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
+            },
+            handleSearch(selectedKeys, confirm, dataIndex) {
+                confirm();
+                this.searchText = selectedKeys[0];
+                this.searchedColumn = dataIndex;
+            },
+
+            handleReset(clearFilters) {
+                clearFilters();
+                this.searchText = '';
             },
         }
     }

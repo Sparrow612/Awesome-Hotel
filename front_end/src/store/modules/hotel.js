@@ -14,6 +14,10 @@ import {
 import {
     orderMatchCouponsAPI,
 } from '@/api/coupon'
+import {
+    getHotelCollectionNumAPI,
+    userCollectHotelAPI,
+}from '@/api/user'
 
 const hotel = {
     state: {
@@ -31,7 +35,9 @@ const hotel = {
         currentOrderRoom: {},
         orderMatchCouponList: [],
         hotelQuestion: [],
-        answersVisible: new Map()
+        answersVisible: new Map(),
+        currCollections: 0,
+        currHotelCollectedByUser: false
     },
     mutations: {
         set_hotelList: function (state, data) {
@@ -78,6 +84,15 @@ const hotel = {
         },
         set_answersVisible: function (state, data) {
             state.answersVisible = data
+        },
+        set_currCollections: function (state, data) {
+            state.currCollections = data
+        },
+        set_currHotelCollectedByUser: function (state, data) {
+            state.currHotelCollectedByUser = data
+        },
+        update_currCollections: function (state, data) {
+            state.currCollections += data
         }
     },
     actions: {
@@ -140,14 +155,26 @@ const hotel = {
             const res = await addQuestionAPI(data)
             if (res) {
                 dispatch('getHotelQuestion')
+                message.success('提问成功')
             }
         },
         addAnswer: async ({state, dispatch}, data) => {
             const res = await addAnswerAPI(data)
             if (res) {
                 dispatch('getHotelQuestion')
+                message.success('回答成功')
             }
-        }
+        },
+        getCurrCollections: async ({state}) => {
+            state.currCollections = await getHotelCollectionNumAPI(state.currentHotelId)
+        },
+        getUserCollectHotel: async ({state}, uid) => {
+            const params = {
+                userId: uid,
+                hotelId: state.currentHotelId
+            }
+            state.currHotelCollectedByUser = await userCollectHotelAPI(params)
+        },
     }
 }
 

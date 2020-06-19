@@ -93,8 +93,12 @@ const routes = [
         path: '/salesPerson/manageMembership',
         name: 'manageMembership',
         component: () => import('@/views/salesPerson/manageMembership')
+      },
+      {
+        path: '/helper',
+        name: 'helper',
+        component: () => import('@/views/helper')
       }
-
     ]
   },
 ]

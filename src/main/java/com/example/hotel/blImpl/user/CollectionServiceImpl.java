@@ -2,6 +2,7 @@ package com.example.hotel.blImpl.user;
 
 import com.example.hotel.bl.user.CollectionService;
 import com.example.hotel.data.collection.CollectionMapper;
+import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.po.Collection;
 import com.example.hotel.vo.CollectionVO;
 import com.example.hotel.vo.ResponseVO;
@@ -25,6 +26,8 @@ public class CollectionServiceImpl implements CollectionService {
     private static final String ANNUL_FAIL = "撤销失败";
     @Autowired
     private CollectionMapper collectionMapper;
+    @Autowired
+    private HotelMapper hotelMapper;
 
     @Override
     public ResponseVO addCollection(CollectionVO collectionVO) {
@@ -61,6 +64,7 @@ public class CollectionServiceImpl implements CollectionService {
         for (Collection collection : collections) {
             CollectionVO collectionVO = new CollectionVO();
             BeanUtils.copyProperties(collection, collectionVO);
+            collectionVO.setHotelInfo(hotelMapper.selectById(collection.getHotelID()));
             collectionVOS.add(collectionVO);
         }
         return collectionVOS;

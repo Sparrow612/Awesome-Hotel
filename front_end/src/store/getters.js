@@ -8,6 +8,7 @@ const getters = {
     userOrderList: state => state.user.userOrderList,
     creditChangeList: state => state.user.creditChangeList,
     onceOrderedList: state => state.user.onceOrderedList,
+    userCollections: state => state.user.userCollections,
     registerSiteMembershipModalVisible: state => state.user.registerSiteMembershipModalVisible,
     registerCorporationMembershipModalVisible: state => state.user.registerCorporationMembershipModalVisible,
     //hotel
@@ -22,6 +23,8 @@ const getters = {
     orderMatchCouponList: state => state.hotel.orderMatchCouponList,
     hotelQuestion: state => state.hotel.hotelQuestion,
     answersVisible: state => state.hotel.answersVisible,
+    currCollections: state => state.hotel.currCollections,
+    currHotelCollectedByUser: state => state.hotel.currHotelCollectedByUser,
     //admin
     managerList: state => state.admin.managerList,
     addManagerModalVisible: state => state.admin.addManagerModalVisible,
@@ -49,11 +52,12 @@ const getters = {
     addSiteCouponVisible: state => state.salesPerson.addSiteCouponVisible,
     currentUserId: state => state.salesPerson.currentUserId,
     currentUserInfo: state => state.salesPerson.currentUserInfo,
-    searchSuccess:state => state.salesPerson.searchSuccess,
+    searchSuccess: state => state.salesPerson.searchSuccess,
     allUserList: state => state.salesPerson.allUserList,
     allClientVIPList: state => state.salesPerson.allClientVIPList,
     allCorpVIPList: state => state.salesPerson.allCorpVIPList,
-    levelConsumption: state => state.salesPerson.levelConsumption,
+    levels: state => state.salesPerson.levels,
+    corpLevels: state => state.salesPerson.corpLevels,
     levelModifyModalVisible: state => state.salesPerson.levelModifyModalVisible,
     currentLevel: state => state.salesPerson.currentLevel,
     //order
