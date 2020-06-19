@@ -42,7 +42,7 @@ public class OrderServiceTest {
             setOrderState("未入住");
             setPrice(399.0);
             setRoomNum(1);
-            setUserId(1);
+            setUserId(5);
             setHaveChild(false);
             setHotelName("汉庭酒店");
             setHotelPhoneNum("123456777");
@@ -65,7 +65,7 @@ public class OrderServiceTest {
             setOrderState("未入住");
             setPrice(399.0);
             setRoomNum(1);
-            setUserId(1);
+            setUserId(17);
             setHaveChild(false);
             setHotelName("汉庭酒店");
             setHotelPhoneNum("123456777");
@@ -75,6 +75,29 @@ public class OrderServiceTest {
         }};
         ResponseVO responseVO = orderService.addOrder(orderVO2);
         Assert.assertThat(responseVO.getMessage(),is("预订时间错误"));
+    }
+
+    @Test
+    @Transactional
+    public void addOrder3() {
+        OrderVO orderVO2 = new OrderVO(){{
+            setCheckInDate("2020-06-29");
+            setCheckOutDate("2020-07-01");
+            setCreateDate("2020-06-17");
+            setHotelId(1);
+            setOrderState("未入住");
+            setPrice(399.0);
+            setRoomNum(1);
+            setUserId(8);
+            setHaveChild(false);
+            setHotelName("汉庭酒店");
+            setHotelPhoneNum("123456777");
+            setPeopleNum(2);
+            setRoomType("大床房");
+            setId(4);
+        }};
+        ResponseVO responseVO = orderService.addOrder(orderVO2);
+        Assert.assertThat(responseVO.getMessage(),is("信用值过低，无法预订酒店"));
     }
 
     @Test
