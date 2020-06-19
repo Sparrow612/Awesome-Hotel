@@ -4,17 +4,13 @@ import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
-import com.example.hotel.blImpl.coupon.TimeFormatHelper;
 import com.example.hotel.data.order.OrderMapper;
-import com.example.hotel.enums.RoomType;
 import com.example.hotel.po.Comment;
-import com.example.hotel.po.Hotel;
 import com.example.hotel.po.Order;
 import com.example.hotel.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -75,7 +71,6 @@ public class OrderServiceImpl implements OrderService {
             Order order = new Order();
             BeanUtils.copyProperties(orderVO, order);
             orderMapper.addOrder(order);
-            hotelService.updateRoomInfo(orderVO.getHotelId(), orderVO.getRoomType(), orderVO.getRoomNum());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(RESERVE_ERROR);
@@ -135,6 +130,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseVO checkIn(int orderId) {
         orderMapper.checkIn(orderId);
+        Order order = orderMapper.getOrderById(orderId);
+        hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), order.getRoomNum());
         return ResponseVO.buildSuccess(CHECK_IN);
     }
 
@@ -229,7 +226,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 获取输入的订单中，发生在最近一个月的
-     * 此方法获取的订单均为事实订单，即用户已经付费（已入住 或 已退房）
+     * 此方法获取的订单均为事实订单，即用户已经付费（已入住 或 已完成）
      * 返回数据的格式为 List<List<Order>> ，大小为31，代变从距今0天（当天）到30天中的订单，第i天的索引为i
      */
     @Override
@@ -242,7 +239,7 @@ public class OrderServiceImpl implements OrderService {
         for (Order order : orders) {
             String createDate = order.getCreateDate();
             int days = getGap(now, createDate);
-            if (days <= 30 && (order.getOrderState().equals("已入住") || order.getOrderState().equals("已退房")))
+            if (days <= 30 && (order.getOrderState().equals("已入住") || order.getOrderState().equals("已完成")))
                 temp.add(order);
         }
         //将order按天放入summary中
