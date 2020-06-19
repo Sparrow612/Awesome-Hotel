@@ -28,7 +28,7 @@ CREATE TABLE `Coupon`
 (
     `id`              int(11)      NOT NULL AUTO_INCREMENT,
     `description`     varchar(255) DEFAULT NULL,
-    `hotelId`         int(11)      DEFAULT '-1',
+    `hotelId`         int(11)      DEFAULT 0,
     `couponType`      int(11)      NOT NULL,
     `couponName`      varchar(255) NOT NULL,
     `target_money`    int(11)      DEFAULT NULL,

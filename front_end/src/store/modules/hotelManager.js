@@ -1,17 +1,17 @@
 import {
     addRoomAPI,
-} from '@/api/hotelManager'
+} from '../../api/hotelManager'
 import {
-    getHotelOrdersAPI,
-} from '@/api/order'
+    getHotelOrdersAPI
+} from "../../api/order";
 import {
     hotelAllCouponsAPI,
     hotelTargetMoneyAPI,
     hotelBirthdayCouponAPI,
-    hotelTimeCouponAPI,
+    TimeCouponAPI,
     hotelManyRoomCouponAPI,
     deleteCouponAPI,
-} from '@/api/coupon'
+} from '../../api/coupon'
 
 import {
     getHotelByIdAPI
@@ -107,7 +107,7 @@ const hotelManager = {
                     res = await hotelTargetMoneyAPI(data)
                     break
                 case 4:
-                    res = await hotelTimeCouponAPI(data)
+                    res = await TimeCouponAPI(data)
                     break
             }
             if (res) {

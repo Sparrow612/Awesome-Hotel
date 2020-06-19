@@ -5,14 +5,14 @@ import {
     addSalesPersonAPI,
     deleteHotelManagerAPI,
     deleteSalesPersonAPI,
-} from '@/api/admin'
+} from '../../api/admin'
 import {
     updateUserInfoAPI
-} from "@/api/user";
+} from "../../api/user";
 import {
     addHotelAPI,
     deleteHotelAPI
-} from "@/api/hotel";
+} from "../../api/hotel";
 
 import { message } from 'ant-design-vue'
 

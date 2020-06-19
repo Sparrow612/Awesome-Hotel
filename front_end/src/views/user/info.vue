@@ -115,6 +115,8 @@
                 <a-table
                         :columns="columns_of_orders"
                         :dataSource="userOrderList"
+                        :locale="{emptyText: '您还没有订单'}"
+                        style="background-color: white; padding: 10px"
                         bordered
                 >
                     <a-tag color="red" slot="createDate" slot-scope="text">
@@ -166,7 +168,9 @@
                 <a-table
                         :columns="columns_of_collections"
                         :dataSource="userCollections"
-                        style="background-color: white"
+                        :locale="{emptyText: '您还没有收藏任何酒店'}"
+                        style="background-color: white; padding: 10px"
+                        bordered
                 >
                     <div
                             slot="filterDropdown"
@@ -228,6 +232,7 @@
                         :columns="columns_of_credit"
                         :dataSource="creditChangeList"
                         :locale="{emptyText: '暂时没有信用变更记录'}"
+                        style="background-color: white; padding: 10px"
                         bordered
                 >
                     <span slot="type" slot-scope="record">

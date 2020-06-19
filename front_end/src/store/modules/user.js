@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import router from '@/router'
-import {getToken, setToken, removeToken} from '@/utils/auth'
-import {resetRouter} from '@/router'
+import router from '../../router'
+import {getToken, setToken, removeToken} from '../../utils/auth'
+import {resetRouter} from '../../router'
 import {message} from 'ant-design-vue'
 import {
     loginAPI,
@@ -13,22 +13,22 @@ import {
     getUserCollectionsAPI,
     annulCollectionAPI,
     addCollectionAPI,
-} from '@/api/user'
+} from '../../api/user'
 
 import {
     getUserOrdersAPI,
     cancelOrderAPI,
-} from '@/api/order'
+} from '../../api/order'
 
 import {
     getHotelByIdAPI
-} from "@/api/hotel";
+} from "../../api/hotel";
 
 import {
     registerClientMembershipAPI,
     registerCorpMembershipAPI,
     getUserVIPAPI,
-} from "@/api/membership"
+} from "../../api/membership"
 
 import moment from "moment";
 

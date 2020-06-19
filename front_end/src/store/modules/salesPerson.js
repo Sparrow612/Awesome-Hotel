@@ -8,10 +8,13 @@ import {
     getAllUsersAPI,
 } from "../../api/user";
 import {
-    chargeCreditAPI
+    chargeCreditAPI,
 } from "../../api/salesPerson";
 import {
-    CorporateCouponAPI
+    BizRegionCouponAPI,
+    CorporateCouponAPI,
+    TimeCouponAPI,
+    getSiteCouponsAPI,
 } from "../../api/coupon";
 import {
     getAllClientVIPAPI,
@@ -47,6 +50,9 @@ const salesPerson = {
     mutations: {
         set_allOrderList: function (state, data) {
             state.allOrderList = data
+        },
+        set_siteCouponList: function(state, data){
+            state.siteCouponList = data
         },
         set_handleAbnormalOrderVisible: function (state, data) {
             state.handleAbnormalOrderVisible = data
@@ -125,15 +131,20 @@ const salesPerson = {
                 message.error("充值失败")
             }
         },
-        getSiteCoupon: async ({commit}) => {
-            // todo
+        getSiteCoupon: async ({ state, commit}) => {
+            const res = await getSiteCouponsAPI()
+            if (res) {
+                commit('set_siteCouponList', res)
+            }
         },
         addSiteCoupon: async ({commit, dispatch}, data) => {
             let res = null
             switch (data.type) {
                 case 1:
+                    res = await TimeCouponAPI(data)
                     break
                 case 2:
+                    res = await BizRegionCouponAPI(data)
                     break
                 case 3:
                     res = await CorporateCouponAPI(data)

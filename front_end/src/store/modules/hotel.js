@@ -7,17 +7,17 @@ import {
     addQuestionAPI,
     getHotelQuestionAPI,
     addAnswerAPI,
-} from '@/api/hotel'
+} from '../../api/hotel'
 import {
     reserveHotelAPI
-} from '@/api/order'
+} from '../../api/order'
 import {
     orderMatchCouponsAPI,
-} from '@/api/coupon'
+} from '../../api/coupon'
 import {
     getHotelCollectionNumAPI,
     userCollectHotelAPI,
-}from '@/api/user'
+}from '../../api/user'
 
 const hotel = {
     state: {

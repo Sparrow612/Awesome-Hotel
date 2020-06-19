@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a-table :columns="columns" :data-source="levels" style="background-color: white" bordered>
+        <a-table :columns="columns" :data-source="levels" style="background-color: white; padding: 10px" bordered>
             <template slot="title">
                 <h3>普通会员</h3>
             </template>
@@ -19,7 +19,7 @@
         </a-table>
         <br/>
         <br/>
-        <a-table :columns="columns" :data-source="corpLevels" style="background-color: white" bordered>
+        <a-table :columns="columns" :data-source="corpLevels" style="background-color: white; padding: 10px" bordered>
             <template slot="title">
                 <h3>企业会员</h3>
             </template>

@@ -10,12 +10,13 @@
 
         <a-table
                 :columns="columns"
-
+                :dataSource="siteCouponList"
+                :locale="{emptyText: '暂时没有网站优惠'}"
                 bordered
         >
-            <a-tag color="red" slot="couponName" slot-scope="text">
-                {{text}}
-            </a-tag>
+            <a-tag color="purple" slot="couponName" slot-scope="text">{{text}}</a-tag>
+            <a-tag color="red" slot="discount" slot-scope="text">{{text*100}}%</a-tag>
+            <a-tag color="blue" slot="vipLevel" slot-scope="text">{{text}}</a-tag>
         </a-table>
         <addSiteCoupon></addSiteCoupon>
     </div>
@@ -26,21 +27,23 @@
     import addSiteCoupon from "./components/addSiteCoupon";
     const columns = [
         {
-            title: '优惠类型',
+            title: '优惠名称',
             dataIndex: 'couponName',
             scopedSlots: {customRender: 'couponName'},
         },
         {
             title: '折扣',
             dataIndex: 'discount',
+            scopedSlots: {customRender: 'discount'},
         },
         {
             title: '优惠简介',
             dataIndex: 'description',
         },
         {
-            title: '优惠金额',
-            dataIndex: 'discountMoney',
+            title: '受用VIP等级（VIP指定商圈优惠）',
+            dataIndex: 'vipLevel',
+            scopedSlots: {customRender: 'vipLevel'},
         },
     ];
     export default {
@@ -56,11 +59,18 @@
         computed: {
             ...mapGetters([
                 'addSiteCouponVisible',
+                'siteCouponList',
             ])
+        },
+        mounted() {
+            this.getSiteCoupon()
         },
         methods: {
             ...mapMutations([
                 'set_addSiteCouponVisible',
+            ]),
+            ...mapActions([
+                'getSiteCoupon',
             ]),
             addSiteCoupon() {
                 this.set_addSiteCouponVisible(true)

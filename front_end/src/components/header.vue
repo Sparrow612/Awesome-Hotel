@@ -55,7 +55,7 @@
                     订单管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item @click="jumpToManageSiteCoupon" key="11" v-if="userInfo.userType==='SalesPerson'">
+            <a-menu-item key="11" v-if="userInfo.userType==='SalesPerson'">
                 <router-link :to="{ name: 'manageSiteCoupon'}">
                     <a-icon type="tag"/>
                     优惠策略

@@ -6,7 +6,7 @@ import {
     addCommentAPI,
     getOrderCommentAPI,
     annulOrderCommentAPI,
-} from '@/api/order'
+} from '../../api/order'
 
 const order = {
     state: {
