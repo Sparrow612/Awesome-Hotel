@@ -145,4 +145,5 @@ public class AccountController {
     public ResponseVO getArgueCredit() {
         return ResponseVO.buildSuccess(accountService.getArgueCredits());
     }
+
 }

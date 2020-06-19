@@ -55,4 +55,6 @@ public interface HotelService {
 
     void annulComment(CommentVO commentVO, Integer hotelId);
 
+    String getManagerTelephone(int hotelId);
+
 }

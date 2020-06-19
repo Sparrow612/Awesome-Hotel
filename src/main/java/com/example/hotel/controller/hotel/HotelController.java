@@ -87,6 +87,11 @@ public class HotelController {
         return ResponseVO.buildSuccess(true);
     }
 
+    @GetMapping("/{hotelId}/getPhoneNumber")
+    public ResponseVO getManagerTelephone(@PathVariable Integer hotelId) {
+        return ResponseVO.buildSuccess(hotelService.getManagerTelephone(hotelId));
+    }
+
     @PostMapping("/addQuestion")
     public ResponseVO addQuestion(@RequestBody QuestionForm questionForm) {
         return questionService.addQuestion(questionForm);
@@ -126,4 +131,5 @@ public class HotelController {
     public ResponseVO getQuestionAnswer(@PathVariable Integer questionId) {
         return ResponseVO.buildSuccess(answerService.getQuestionAnswers(questionId));
     }
+
 }

@@ -122,9 +122,16 @@ public class HotelSearchServiceImpl implements HotelSearchService {
             }
         }
         head = null;
+        if(targetHotels.size()==0){
+            //targetHotels = secondarySearch();
+        }
         return targetHotels;
     }
 
+    private List<HotelVO> secondarySearch(){
+
+        return null;
+    }
 
 
     /**
