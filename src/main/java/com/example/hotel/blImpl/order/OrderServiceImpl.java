@@ -159,6 +159,7 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.finishOrder(orderId);
         // 更新酒店房间数量，因为那个就是直接减法了，那我现在就减个负数叭
         hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), -order.getRoomNum());
+        accountService.chargeCredit(order.getUserId(), (int) (order.getPrice() * 0.5), "完成订单" + orderId);
         return ResponseVO.buildSuccess(FINISH_ORDER);
     }
 

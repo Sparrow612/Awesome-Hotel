@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author 庄子元 181830266@smail.nju.edu.cn
@@ -20,6 +21,7 @@ public class LevelServiceTest {
     private LevelService levelService;
 
     @Test
+    @Transactional
     public void formulateVIPLevel() {
         levelService.formulateVIPLevel(8, 200);
         ResponseVO responseVO = levelService.getTheRequestOfLevel(8);
@@ -27,6 +29,7 @@ public class LevelServiceTest {
     }
 
     @Test
+    @Transactional
     public void getTheRequestOfLevel() {
         // same as formulate VIP level
     }
