@@ -116,7 +116,7 @@ public class AccountController {
     }
 
     @GetMapping("/userCollection")
-    public ResponseVO userCollection(@RequestParam Integer userId, @RequestParam Integer hotelId) {
+    public ResponseVO userCollection(@RequestParam(value = "userId") Integer userId, @RequestParam(value = "hotelId") Integer hotelId) {
         return ResponseVO.buildSuccess(collectionService.userCollection(userId, hotelId));
     }
 }

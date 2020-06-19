@@ -158,7 +158,7 @@ const columns_of_orders = [
     },
     {
         title: '状态',
-        filters: [{ text: '已预订', value: '已预订' }, { text: '已撤销', value: '已撤销' }, { text: '已入住', value: '已入住' },
+        filters: [{ text: '未入住', value: '未入住' }, { text: '已撤销', value: '已撤销' }, { text: '已入住', value: '已入住' },
             {text: '已完成', value: '已完成'},{ text: '异常订单', value: '异常订单' }],
         onFilter: (value, record) => record.orderState.includes(value),
         dataIndex: 'orderState',scopedSlots: { customRender: 'orderState' },

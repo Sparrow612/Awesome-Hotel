@@ -67,7 +67,7 @@
                     <a-tab-pane key="3" tab="历史订单">
                         <a-page-header
                                 style="border: 1px solid rgb(235, 237, 240)"
-                                sub-title="若要对订单进行撤销或者申诉，请前往个人中心-我的订单进行相关操作"
+                                sub-title="若要对订单进行撤销，请前往个人中心-我的订单页面进行相关操作"
                                 title="您在这家酒店有如下的订单"
                         />
                         <a-table
@@ -151,7 +151,7 @@
         },
         {
             title: '状态',
-            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已入住', value: '已入住'},
+            filters: [{text: '未入住', value: '未入住'}, {text: '已撤销', value: '已撤销'}, {text: '已入住', value: '已入住'},
                 {text: '已完成', value: '已完成'}, {text: '异常订单', value: '异常订单'}],
             onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState', scopedSlots: {customRender: 'orderState'},

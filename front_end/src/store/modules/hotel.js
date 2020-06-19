@@ -14,6 +14,10 @@ import {
 import {
     orderMatchCouponsAPI,
 } from '@/api/coupon'
+import {
+    getHotelCollectionNumAPI,
+    userCollectHotelAPI,
+}from '@/api/user'
 
 const hotel = {
     state: {
@@ -31,7 +35,9 @@ const hotel = {
         currentOrderRoom: {},
         orderMatchCouponList: [],
         hotelQuestion: [],
-        answersVisible: new Map()
+        answersVisible: new Map(),
+        currCollections: 0,
+        currHotelCollectedByUser: false
     },
     mutations: {
         set_hotelList: function (state, data) {
@@ -78,7 +84,7 @@ const hotel = {
         },
         set_answersVisible: function (state, data) {
             state.answersVisible = data
-        }
+        },
     },
     actions: {
         getHotelList: async ({commit, state}) => {
@@ -149,7 +155,17 @@ const hotel = {
                 dispatch('getHotelQuestion')
                 message.success('回答成功')
             }
-        }
+        },
+        getCurrCollections: async ({state}) => {
+            state.currCollections = await getHotelCollectionNumAPI(state.currentHotelId)
+        },
+        getUserCollectHotel: async ({state}, uid) => {
+            const params = {
+                userId: uid,
+                hotelId: state.currentHotelId
+            }
+            state.currHotelCollectedByUser = await userCollectHotelAPI(params)
+        },
     }
 }
 

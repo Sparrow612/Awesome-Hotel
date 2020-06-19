@@ -4,14 +4,14 @@
             <a-tab-pane key="1" tab="酒店点评">
                 <div style="font-size: large;padding: 10px">
                     <a-icon class="eval" type="crown"/>
-                    评分
-                    <a-tag color="orange">{{this.currentHotelInfo.rate}}</a-tag>
-                    <a-button @click="like" class="eval" icon="like"/>
-                    点赞
-                    <a-tag color="pink">{{this.currentHotelInfo.rate}}</a-tag>
-                    <a-button @click="star" class="eval" icon="star"/>
-                    收藏
-                    <a-tag color="blue">{{this.currentHotelInfo.rate}}</a-tag>
+                    酒店评分：<a-tag color="orange">{{this.currentHotelInfo.rate}}</a-tag>
+                    <a-tag style="margin-left: 20px" color="pink">当前酒店收藏人数: {{this.currCollections}}</a-tag>
+                    <a-button @click="star" icon="close-circle" style="float: right" v-if="currHotelCollectedByUser">
+                        取消收藏
+                    </a-button>
+                    <a-button @click="star" type="primary" icon="star" style="float: right" v-else>
+                        收藏该酒店
+                    </a-button>
                 </div>
             </a-tab-pane>
             <a-tab-pane key="2" tab="常见问题">
@@ -166,7 +166,7 @@
                 submitting: false,
                 columns,
                 answerFormVisible: false,
-                activeQuestionId: 0
+                activeQuestionId: 0,
             }
         },
         computed: {
@@ -177,11 +177,15 @@
                 'couponList',
                 'hotelQuestion',
                 'answersVisible',
+                'currCollections',
+                'currHotelCollectedByUser',
             ])
         },
         async mounted() {
             this.getHotelCoupon(this.currentHotelInfo.id)
             this.getHotelQuestion()
+            this.getCurrCollections()
+            this.getUserCollectHotel(this.userId)
         },
         beforeCreate() {
             this.form = this.$form.createForm(this, {name: 'question'});
@@ -193,15 +197,14 @@
                 'addQuestion',
                 'addAnswer',
                 'getHotelQuestion',
+                'getCurrCollections',
+                'getUserCollectHotel'
             ]),
             ...mapMutations([
                 'set_answersVisible',
             ]),
-            like() {
-                console.log('点赞')
-            },
             star() {
-                console.log('收藏')
+
             },
             showOrHideAnswers(id) {
                 this.answersVisible.set(id, !this.answersVisible.get(id))

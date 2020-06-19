@@ -57,3 +57,35 @@ export function getAllUsersAPI() {
         method: 'GET'
     })
 }
+export function userCollectHotelAPI(params) {
+    return axios({
+        url: `${api.userPre}/userCollection`,
+        method: 'GET',
+        params,
+    })
+}
+export function addCollectionAPI(data) {
+    return axios({
+        url: `${api.userPre}/addCollection`,
+        method: 'POST',
+        data,
+    })
+}
+export function annulCollectionAPI(collectionId){
+    return axios({
+        url: `${api.userPre}/${collectionId}/annulCollection`,
+        method: 'POST'
+    })
+}
+export function getUserCollectionsAPI(userId) {
+    return axios({
+        url: `${api.userPre}/${userId}/getUserCollection`,
+        method: 'GET'
+    })
+}
+export function getHotelCollectionNumAPI(hotelId){
+    return axios({
+        url: `${api.userPre}/${hotelId}/getHotelCollection`,
+        method: 'GET'
+    })
+}

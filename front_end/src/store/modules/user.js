@@ -10,6 +10,9 @@ import {
     updateUserInfoAPI,
     updateUserBirthdayAPI,
     getUserCreditAPI,
+    getUserCollectionsAPI,
+    annulCollectionAPI,
+    addCollectionAPI,
 } from '@/api/user'
 
 import {
@@ -229,8 +232,16 @@ const user = {
             if (res) {
                 commit('set_creditChangeList', res)
             }
-        }
+        },
+        getUserCollections: async ({state, commit}, id) => {
+            const res = await getUserCollectionsAPI(id)
+            if (res) {
+                commit('')
+            }
+        },
+        addCollection: async ({state}, data) => {
 
+        },
     }
 }
 

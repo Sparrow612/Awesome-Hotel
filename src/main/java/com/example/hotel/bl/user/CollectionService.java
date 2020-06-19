@@ -10,6 +10,7 @@ import java.util.List;
  * @date 2020/6/15 21:48
  */
 public interface CollectionService {
+
     public ResponseVO addCollection(CollectionVO collectionVO);
 
     public ResponseVO annulCollection(Integer collectionId);
