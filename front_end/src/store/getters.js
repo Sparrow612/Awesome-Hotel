@@ -61,6 +61,8 @@ const getters = {
     //order
     orderDetailVisible: state => state.order.orderDetailVisible,
     orderInfo: state => state.order.orderInfo,
+    commentOrderModalVisible: state => state.order.commentOrderModalVisible,
+    currentOrderComment: state => state.order.currentOrderComment,
     //coupon
     couponDetailVisible: state => state.coupon.couponDetailVisible,
     currentCouponInfo: state => state.coupon.currentCouponInfo,

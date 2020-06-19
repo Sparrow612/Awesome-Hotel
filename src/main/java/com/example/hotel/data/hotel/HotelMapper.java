@@ -14,6 +14,12 @@ public interface HotelMapper {
 
     int insertHotel(Hotel hotel);
 
+    int updateHotelName(@Param("id") Integer id, @Param("hotelName") String hotelName);
+
+    int updateHotelAddress(@Param("id") Integer id, @Param("address") String hotelAddress);
+
+    int updateHotelDescription(@Param("id") Integer id, @Param("description") String hotelDescription);
+
     int deleteHotel(Integer id);
 
     List<Hotel> selectAllHotel();

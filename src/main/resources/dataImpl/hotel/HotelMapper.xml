@@ -7,6 +7,18 @@
         values (#{address},#{bizRegion},#{description},#{hotelStar},#{hotelName},#{phoneNum},#{rate})
     </insert>
 
+    <update id="updateHotelName">
+        update hotel set hotelName = #{hotelName} where id = #{id}
+    </update>
+
+    <update id="updateHotelAddress">
+        update hotel set address = #{address} where id = #{id}
+    </update>
+
+    <update id="updateHotelDescription">
+        update hotel set hotelDescription = #{description} where id = #{id}
+    </update>
+
     <delete id="deleteHotel">
         delete from Hotel where id = #{id}
     </delete>

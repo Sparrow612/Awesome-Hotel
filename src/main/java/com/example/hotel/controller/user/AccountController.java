@@ -105,6 +105,17 @@ public class AccountController {
         return collectionService.annulCollection(collectionId);
     }
 
+    @PostMapping("/{hotelId}/addCollectionByUserId")
+    public ResponseVO addCollectionByUserId(@PathVariable Integer hotelId, @RequestParam Integer userId) {
+        return collectionService.addCollectionByUserId(hotelId, userId);
+    }
+
+    @PostMapping("/{hotelId}/annulCollectionByUserId")
+    public ResponseVO annulCollectionByUserId(@PathVariable Integer hotelId, @RequestParam Integer userId) {
+        return collectionService.annulCollectionByUserId(hotelId, userId);
+    }
+
+
     @GetMapping("/{userId}/getUserCollection")
     public ResponseVO getUserCollection(@PathVariable Integer userId) {
         return ResponseVO.buildSuccess(collectionService.getUserCollection(userId));
@@ -118,5 +129,20 @@ public class AccountController {
     @GetMapping("/userCollection")
     public ResponseVO userCollection(@RequestParam(value = "userId") Integer userId, @RequestParam(value = "hotelId") Integer hotelId) {
         return ResponseVO.buildSuccess(collectionService.userCollection(userId, hotelId));
+    }
+
+    @PostMapping("/{creditId}/argueCredit")
+    public ResponseVO argueCredit(@PathVariable Integer creditId, @RequestParam String argue) {
+        return accountService.argueCredit(creditId, argue);
+    }
+
+    @PostMapping("/{creditId}/handleArgue")
+    public ResponseVO handleArgue(@PathVariable Integer creditId, @RequestParam boolean accept) {
+        return accountService.handleArgue(creditId, accept);
+    }
+
+    @GetMapping("/getArgueCredit")
+    public ResponseVO getArgueCredit() {
+        return ResponseVO.buildSuccess(accountService.getArgueCredits());
     }
 }

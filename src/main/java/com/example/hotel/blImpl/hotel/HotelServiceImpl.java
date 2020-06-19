@@ -10,6 +10,7 @@ import com.example.hotel.enums.RoomType;
 import com.example.hotel.po.Hotel;
 import com.example.hotel.po.HotelRoom;
 import com.example.hotel.po.Order;
+import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,10 +49,23 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    public void updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws ServiceException {
+        hotelMapper.updateHotelName(hotelId,hotelForm.getName());
+        hotelMapper.updateHotelAddress(hotelId,hotelForm.getAddress());
+        hotelMapper.updateHotelDescription(hotelId,hotelForm.getDescription());
+    }
+
+    @Override
     public void deleteHotel(Integer hotelId) {
         hotelMapper.deleteHotel(hotelId);
     }
 
+    /**
+     * 用于办理入住，在curNum中减去房间数
+     * @param hotelId
+     * @param roomType
+     * @param rooms
+     */
     @Override
     public void updateRoomInfo(Integer hotelId, String roomType, Integer rooms) {
         roomService.updateRoomInfo(hotelId, roomType, rooms);
@@ -66,7 +80,7 @@ public class HotelServiceImpl implements HotelService {
     public List<HotelVO> retrieveHotels() {
         List<Hotel> hotels = hotelMapper.selectAllHotel();
         List<HotelVO> hotelVOs = new ArrayList<>();
-        for (Hotel hotel:hotels){
+        for (Hotel hotel : hotels) {
             hotelVOs.add(new HotelVO(hotel));
         }
 
@@ -74,16 +88,16 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<HotelVO> retrieveHotels(int start, int end){   //左闭右开,返回区间内的hotel组成的list
+    public List<HotelVO> retrieveHotels(int start, int end) {   //左闭右开,返回区间内的hotel组成的list
         //返回某个区间内的酒店
         List<HotelVO> targetHotels = new ArrayList<>();
         List<HotelVO> hotelVOS = retrieveHotels();
         int l = hotelVOS.size();
-        if(start>=0 && start<end && end<l) {
+        if (start >= 0 && start < end && end < l) {
             for (int i = start; i < end; i++) {
                 targetHotels.add(hotelVOS.get(i));
             }
-        }else if(end>=l){
+        } else if (end >= l) {
             for (int i = start; i < l; i++) {
                 targetHotels.add(hotelVOS.get(i));
             }
@@ -110,7 +124,6 @@ public class HotelServiceImpl implements HotelService {
             return roomVO;
         }).collect(Collectors.toList());
         hotelVO.setRooms(roomVOS);
-
         return hotelVO;
     }
 
@@ -129,66 +142,71 @@ public class HotelServiceImpl implements HotelService {
         List<RoomVO> roomVOS = new ArrayList<>();
 
         //确保输入的房间情况不为空
-        if(!rooms.isEmpty()){
+        if (!rooms.isEmpty()) {
             List<Order> orders = orderService.getHotelOrders(hotelId);
-            orders = orderService.filterOrders(orders,beginTime,endTime);
-            roomVOS = checkRoom(rooms,orders);
+            orders = orderService.filterOrders(orders, beginTime, endTime);
+            roomVOS = checkRoom(rooms, orders);
         }
-
         return roomVOS;
     }
 
     @Override
-    public List<RoomVO> checkRoom(List<RoomVO> rooms, List<Order> orders){
-        HashMap<String,Integer> Type2Num = new HashMap<>();
+    public List<RoomVO> checkRoom(List<RoomVO> rooms, List<Order> orders) {
+        HashMap<String, Integer> Type2Num = new HashMap<>();
         for (RoomVO room : rooms) {
-            Type2Num.put(room.getRoomType(),room.getTotal());
+            Type2Num.put(room.getRoomType(), room.getTotal());
         }
-        for(Order order : orders){
-            if(Type2Num.containsKey(order.getRoomType())){
-                int curNum = Type2Num.get(order.getRoomType()) - order.getRoomNum();
-                Type2Num.put(order.getRoomType(),curNum);
+        for (Order order : orders) {
+            if (Type2Num.containsKey(RoomType.valueOf(order.getRoomType()).toString())) {
+                int curNum = Type2Num.get(RoomType.valueOf(order.getRoomType()).toString()) - order.getRoomNum();
+                Type2Num.put(RoomType.valueOf(order.getRoomType()).toString(), curNum);
             }
         }
 
         List<RoomVO> roomVOS = new ArrayList<>();
 
-        for(RoomVO room : rooms){
-            if(Type2Num.get(room.getRoomType())>0)
+        for (RoomVO room : rooms) {
+            if (Type2Num.get(room.getRoomType()) > 0)
                 room.setCurNum(Type2Num.get(room.getRoomType()));
-                roomVOS.add(room);
+            roomVOS.add(room);
         }
         return roomVOS;
     }
 
     @Override
-    public ResponseVO addLike(LikeVO likeVO) {
-        return null;
-    }
-
-    @Override
-    public ResponseVO removeLike(Integer userId, Integer hotelId) {
-        return null;
-    }
-
-    @Override
-    public boolean getLike(Integer userId, Integer hotelId) {
-        return false;
-    }
-
-    @Override
-    public ResponseVO addCollection(CollectionVO collectionVO) {
-        return null;
-    }
-
-    @Override
-    public List<Integer> getCollections(int userId) {
-        return null;
-    }
-
-    @Override
     public void updateHotelPicture(Integer hotelId, String url) {
         hotelMapper.updatePicture(hotelId, url);
+    }
+
+    @Override
+    public void addComment(CommentVO commentVO, Integer hotelId) {
+        Hotel hotel = hotelMapper.selectById(hotelId);
+        int time = hotel.getCommentTime();
+        int new_time = time + 1;
+        double n_point = calComment(hotel.getPoints(), time, new_time, commentVO.getPoints());
+        double n_sanitation = calComment(hotel.getSanitation(), time, new_time, commentVO.getSanitation());
+        double n_environment = calComment(hotel.getEnvironment(), time, new_time, commentVO.getEnvironment());
+        double n_service = calComment(hotel.getService(), time, new_time, commentVO.getService());
+        double n_equipment = calComment(hotel.getEquipment(), time, new_time, commentVO.getEquipment());
+        hotelMapper.updateHotelPoints(hotelId, new_time, n_point, n_sanitation, n_environment, n_service, n_equipment);
+
+    }
+
+    @Override
+    public void annulComment(CommentVO commentVO, Integer hotelId) {
+        Hotel hotel = hotelMapper.selectById(hotelId);
+        int time = hotel.getCommentTime();
+        int new_time = time - 1;
+        double n_point = calComment(hotel.getPoints(), time, new_time, -commentVO.getPoints());
+        double n_sanitation = calComment(hotel.getSanitation(), time, new_time, -commentVO.getSanitation());
+        double n_environment = calComment(hotel.getEnvironment(), time, new_time, -commentVO.getEnvironment());
+        double n_service = calComment(hotel.getService(), time, new_time, -commentVO.getService());
+        double n_equipment = calComment(hotel.getEquipment(), time, new_time, -commentVO.getEquipment());
+        hotelMapper.updateHotelPoints(hotelId, new_time, n_point, n_sanitation, n_environment, n_service, n_equipment);
+    }
+
+    private double calComment(double origin, double time, double new_time, double change) {
+        return (origin * time + change) / new_time;
     }
 
 

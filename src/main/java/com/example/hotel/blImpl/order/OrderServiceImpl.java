@@ -10,10 +10,7 @@ import com.example.hotel.enums.RoomType;
 import com.example.hotel.po.Comment;
 import com.example.hotel.po.Hotel;
 import com.example.hotel.po.Order;
-import com.example.hotel.vo.CommentVO;
-import com.example.hotel.vo.OrderVO;
-import com.example.hotel.vo.ResponseVO;
-import com.example.hotel.vo.UserVO;
+import com.example.hotel.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +32,13 @@ public class OrderServiceImpl implements OrderService {
     private final static String RESERVE_ERROR = "预订失败";
     private final static String ROOMNUM_LACK = "预订房间数量剩余不足";
     private final static String FINISH_ORDER = "退房成功";
-    private final static String ABNORMAL_ORDER = "已设定为异常订单";
+    private final static String WRONG_TIME = "预订时间错误";
+    private final static String REPEAT_ANNUL = "不可重复撤销订单";
+    private final static String COMPLETED_ORDER = "已经入住过的订单不可撤销";
+    private final static String ABNORMAL_ORDER = "异常订单不可撤销";
+    private final static String LABEL_ABNORMAL = "已标记为异常订单";
+    private final static String CHECK_IN = "办理入住成功";
+    private final static String LOW_CREDIT = "信用值过低，无法预订酒店";
     private final static SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
     @Autowired
     private OrderMapper orderMapper;
@@ -46,14 +49,23 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private RoomService roomService;
 
-    // TODO 时间有误，注意下面那个时间；然后updateRoomInfo是在退房部份才修改curNum
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
+        //判断用户信用值
+        UserVO user = accountService.getUserInfo(orderVO.getUserId());
+        double credit = user.getCredit();
+        if(!(credit > 0))
+            return ResponseVO.buildFailure(LOW_CREDIT);
+
         int reserveRoomNum = orderVO.getRoomNum();
-        int curNum = hotelService.getRoomCurNum(orderVO.getHotelId(), orderVO.getRoomType());
-//        int curNum = roomService.getRoomCurNumByTime(orderVO.getHotelId(), orderVO.getCheckInDate(), orderVO.getCheckOutDate(), orderVO.getRoomType());
+        int curNum = roomService.getRoomCurNumByTime(orderVO.getHotelId(), orderVO.getCheckInDate(), orderVO.getCheckOutDate(), orderVO.getRoomType());
         if (reserveRoomNum > curNum) {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
+        }
+        String now = getSystemDate();
+        int gap = getGap(orderVO.getCheckInDate(), now);
+        if (gap < 0) {
+            return ResponseVO.buildFailure(WRONG_TIME);
         }
         try {
             Date date = new Date(System.currentTimeMillis());
@@ -92,13 +104,21 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVO annulOrder(int orderId) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
         Order order = orderMapper.getOrderById(orderId);
-        //String orderState = order.getOrderState();
-        order.setOrderState("已撤销");//这里暂时不考虑重复撤销的情况
+        switch (order.getOrderState()) {
+            case "已撤销":
+                return ResponseVO.buildFailure(REPEAT_ANNUL);
+            case "已入住":
+            case "已退房":
+                return ResponseVO.buildFailure(COMPLETED_ORDER);
+            case "异常订单":
+                return ResponseVO.buildFailure(ABNORMAL_ORDER);
+        }
+        order.setOrderState("已撤销");
+
         //扣除信用积分
         String checkInDate = order.getCheckInDate();
-
         int gap = getDays(checkInDate);
-        if (gap == 1 || gap == 0) {
+        if (gap == 0) {
             int userID = order.getUserId();
             UserVO user = accountService.getUserInfo(userID);
             double price = order.getPrice();
@@ -113,7 +133,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVO checkIn(int orderId) {
-        return ResponseVO.buildSuccess(orderMapper.checkIn(orderId));
+        orderMapper.checkIn(orderId);
+        return ResponseVO.buildSuccess(CHECK_IN);
     }
 
     @Override
@@ -124,7 +145,7 @@ public class OrderServiceImpl implements OrderService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         for (Order order : orders) {
             LocalDate beginDateTime = LocalDate.parse(order.getCheckInDate(), formatter);
-            if (date.isBefore(beginDateTime) && order.getOrderState().equals("已预订")) {
+            if (date.isAfter(beginDateTime) && order.getOrderState().equals("未入住")) {
                 abnormal.add(order);
             }
         }
@@ -135,7 +156,8 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVO abnormalOrder(int orderId, double minCreditRatio) {
         Order order = orderMapper.getOrderById(orderId);
         accountService.chargeCredit(order.getUserId(), (int) (order.getPrice() * minCreditRatio), "异常订单");
-        return null;
+        orderMapper.abnormalOrder(orderId);
+        return ResponseVO.buildSuccess(LABEL_ABNORMAL);
     }
 
     @Override
@@ -157,6 +179,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVO annulComment(int orderId) {
+        CommentVO commentVO = getComment(orderId);
+        Order order = orderMapper.getOrderById(orderId);
+        hotelService.annulComment(commentVO, order.getHotelId());
         return ResponseVO.buildSuccess(orderMapper.annulComment(orderId));
     }
 
@@ -189,6 +214,8 @@ public class OrderServiceImpl implements OrderService {
             this.setUserId(commentVO.getUserId());
             this.setService(commentVO.getService());
         }};
+        Order order = orderMapper.getOrderById(commentVO.getOrderId());
+        hotelService.addComment(commentVO, order.getHotelId());
         return ResponseVO.buildSuccess(orderMapper.updateComment(comment));
     }
 
@@ -200,18 +227,19 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 获取输入的订单中，发生在最近一个月的
+     * 此方法获取的订单均为
      */
     @Override
     public List<Order> getOrdersInMonth(List<Order> orders) {
         String now = getSystemDate();
+        List<Order> temp = new ArrayList<>();
         for (Order order : orders) {
             String createDate = order.getCreateDate();
             int days = getGap(now, createDate);
-            if (days > 30)
-                orders.remove(order);
+            if (days <= 30 && (order.getOrderState().equals("已入住") || order.getOrderState().equals("已退房")))
+                temp.add(order);
         }
-
-        return orders;
+        return temp;
     }
 
     /**
@@ -257,7 +285,7 @@ public class OrderServiceImpl implements OrderService {
             if (!((gap1 < 0) || (gap2 < 0))) {
                 //确保订单为未入住的有效订单
                 if (order.getOrderState().equals("未入住") || order.getOrderState().equals("已入住")) {
-                    order.setRoomType(RoomType.valueOf(order.getRoomType()).toString());
+                    order.setRoomType(order.getRoomType());
                     relatedOrder.add(order);
                 }
             }
@@ -266,38 +294,40 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-        /**
-         * 获取YYYY-MM-DD格式的当前系统日期
-         * @return
-         */
-        private static String getSystemDate () {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = new Date();
-            return sdf.format(date);
-        }
-
-        /**
-         * 当前日期到订单中入住日期的时间差
-         * @param checkInDate
-         * @return
-         */
-        private int getDays (String checkInDate){
-            String now = getSystemDate();
-            return getGap(checkInDate, now);
-        }
-
-        /**
-         * 返回两个日期之间相差的天数
-         */
-        private int getGap (String date1, String date2){
-            LocalDate Date1 = LocalDate.of(Integer.parseInt(date1.substring(0, 4)),
-                    Integer.parseInt(date1.substring(5, 7)), Integer.parseInt(date1.substring(8, 10)));
-            LocalDate Date2 = LocalDate.of(Integer.parseInt(date2.substring(0, 4)),
-                    Integer.parseInt(date2.substring(5, 7)), Integer.parseInt(date2.substring(8, 10)));
-            return (int) (Date1.toEpochDay() - Date2.toEpochDay());
-        }
-
+    /**
+     * 获取YYYY-MM-DD格式的当前系统日期
+     *
+     * @return
+     */
+    private static String getSystemDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        return sdf.format(date);
     }
+
+    /**
+     * 当前日期到订单中入住日期的时间差
+     *
+     * @param checkInDate
+     * @return
+     */
+    private int getDays(String checkInDate) {
+        String now = getSystemDate();
+        return getGap(checkInDate, now);
+    }
+
+    /**
+     * 返回两个日期之间相差的天数
+     */
+    private int getGap(String date1, String date2) {
+        LocalDate Date1 = LocalDate.of(Integer.parseInt(date1.substring(0, 4)),
+                Integer.parseInt(date1.substring(5, 7)), Integer.parseInt(date1.substring(8, 10)));
+        LocalDate Date2 = LocalDate.of(Integer.parseInt(date2.substring(0, 4)),
+                Integer.parseInt(date2.substring(5, 7)), Integer.parseInt(date2.substring(8, 10)));
+        return (int) (Date1.toEpochDay() - Date2.toEpochDay());
+    }
+
+}
 
 
 
