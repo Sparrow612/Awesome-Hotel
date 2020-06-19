@@ -417,9 +417,11 @@ DROP TABlE IF EXISTS `VIPLevel`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `VIPLevel`
 (
-    `level`              int(11) UNIQUE NOT NULL,
-    `requestConsumption` int(11)        NOT NULL,
-    PRIMARY KEY (`level`)
+    `level`              int(11) NOT NULL,
+    `type`               varchar(255) NOT NULL,
+    `requestConsumption` int(11) NOT NULL,
+    `reduction`          double NOT NULL,
+    PRIMARY KEY (`level`, `type`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -432,11 +434,14 @@ BEGIN;
 /*!40000 ALTER TABLE `VIPLevel`
     DISABLE KEYS */;
 INSERT INTO `VIPLevel`
-VALUES (1, 500),
-       (2, 1000),
-       (3, 1500),
-       (4, 2000),
-       (5, 2500);
+VALUES (1, 'Client',0, 0.01),
+       (2, 'Client',1000, 0.02),
+       (3, 'Client',2500, 0.03),
+       (4, 'Client',5000, 0.04),
+       (5, 'Client',10000, 0.05),
+       (1, 'Corporation', 10000, 0.01),
+       (2, 'Corporation', 20000, 0.02),
+       (3, 'Corporation', 30000, 0.03);
 /*!40000 ALTER TABLE `VIPLevel`
     ENABLE KEYS */;
 COMMIT;

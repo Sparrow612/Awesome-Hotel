@@ -56,7 +56,8 @@ const getters = {
     allUserList: state => state.salesPerson.allUserList,
     allClientVIPList: state => state.salesPerson.allClientVIPList,
     allCorpVIPList: state => state.salesPerson.allCorpVIPList,
-    levelConsumption: state => state.salesPerson.levelConsumption,
+    levels: state => state.salesPerson.levels,
+    corpLevels: state => state.salesPerson.corpLevels,
     levelModifyModalVisible: state => state.salesPerson.levelModifyModalVisible,
     currentLevel: state => state.salesPerson.currentLevel,
     //order

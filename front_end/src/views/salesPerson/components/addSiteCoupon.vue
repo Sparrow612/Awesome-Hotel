@@ -21,12 +21,14 @@
             </a-form-item>
             <a-form-item label="券名" v-bind="formItemLayout">
                 <a-input
+                        allow-clear
                         placeholder="请填写券名"
                         v-decorator="['name',{rules: [{required: true, message: '请输入券名'}]}]"
                 />
             </a-form-item>
             <a-form-item label="优惠简介" v-bind="formItemLayout">
                 <a-input
+                        allow-clear
                         type="textarea"
                         :rows="4"
                         placeholder="请填写优惠券简介"
@@ -63,7 +65,7 @@
                 >
                 </a-input>
             </a-form-item>
-            <a-form-item label="折扣" v-bind="formItemLayout">
+            <a-form-item label="折扣" v-bind="formItemLayout" v-if="!isBizRegionCoupon">
                 <a-tooltip>
                     <template slot="title">
                         请输入一个小于100%的折扣
@@ -76,6 +78,51 @@
                             v-decorator="['discount',{rules: [{required: true, message: '请输入折扣'}], initialValue: 99}]"
                     />
                 </a-tooltip>
+            </a-form-item>
+            <a-form-item label="VIPLv1减免" v-bind="formItemLayout" v-if="isBizRegionCoupon">
+                <a-input-number
+                        :formatter="value => `${value}%`"
+                        :max="99"
+                        :min="1"
+                        :parser="value => value.replace('%', '')"
+                        v-decorator="['lv1',{rules: [{required: true, message: '请输入减免额度'}], initialValue: 1}]"
+                />
+            </a-form-item>
+            <a-form-item label="VIPLv2减免" v-bind="formItemLayout" v-if="isBizRegionCoupon">
+                <a-input-number
+                        :formatter="value => `${value}%`"
+                        :max="99"
+                        :min="1"
+                        :parser="value => value.replace('%', '')"
+                        v-decorator="['lv1',{rules: [{required: true, message: '请输入减免额度'}], initialValue: 2}]"
+                />
+            </a-form-item>
+            <a-form-item label="VIPLv3减免" v-bind="formItemLayout" v-if="isBizRegionCoupon">
+                <a-input-number
+                        :formatter="value => `${value}%`"
+                        :max="99"
+                        :min="1"
+                        :parser="value => value.replace('%', '')"
+                        v-decorator="['lv1',{rules: [{required: true, message: '请输入减免额度'}], initialValue: 3}]"
+                />
+            </a-form-item>
+            <a-form-item label="VIPLv4减免" v-bind="formItemLayout" v-if="isBizRegionCoupon">
+                <a-input-number
+                        :formatter="value => `${value}%`"
+                        :max="99"
+                        :min="1"
+                        :parser="value => value.replace('%', '')"
+                        v-decorator="['lv1',{rules: [{required: true, message: '请输入减免额度'}], initialValue: 4}]"
+                />
+            </a-form-item>
+            <a-form-item label="VIPLv5减免" v-bind="formItemLayout" v-if="isBizRegionCoupon">
+                <a-input-number
+                        :formatter="value => `${value}%`"
+                        :max="99"
+                        :min="1"
+                        :parser="value => value.replace('%', '')"
+                        v-decorator="['lv1',{rules: [{required: true, message: '请输入减免额度'}], initialValue: 5}]"
+                />
             </a-form-item>
         </a-form>
     </a-modal>

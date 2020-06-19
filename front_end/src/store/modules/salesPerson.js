@@ -39,9 +39,10 @@ const salesPerson = {
         allClientVIPList: [],
         allCorpVIPList: [],
         //会员等级相关
-        levelConsumption: [],
+        levels: [],
+        corpLevels: [],
         levelModifyModalVisible: false,
-        currentLevel: '',
+        currentLevel: {},
     },
     mutations: {
         set_allOrderList: function (state, data) {
@@ -97,8 +98,8 @@ const salesPerson = {
             }
             let res = await getUserInfoByEmailAPI(params)
             if (res) {
-                if(res.userType === 'Client') {
-                    if(!state.searchSuccess) {
+                if (res.userType === 'Client') {
+                    if (!state.searchSuccess) {
                         message.success('搜索成功')
                     }
                     commit('set_currentUserInfo', res)
@@ -192,21 +193,29 @@ const salesPerson = {
                 dispatch('getAllCorpVIP')
             }
         },
-        getTheRequestOfLevel: async ({state}) => {
-            state.levelConsumption = []
-            for (var i = 1; i <= 5; i++) {
-                const res = await getTheRequestOfLevelAPI(i)
-                let test = {}
-                test.level = i
-                test.consumption = res
-                state.levelConsumption.push(test)
+        getClientLevel: async ({state}) => {
+            state.levels = []
+            for (let i = 1; i <= 5; i++) {
+                const res = await getTheRequestOfLevelAPI(i, "Client")
+                state.levels.push(res)
+            }
+        },
+        getCorpLevel: async ({state}) => {
+            state.corpLevels = []
+            for (let i = 1; i <= 3; i++) {
+                const res = await getTheRequestOfLevelAPI(i, "Corporation")
+                state.corpLevels.push(res)
             }
         },
         formulateALevel: async ({state, dispatch, commit}, params) => {
             const res = await formulateALevelAPI(params)
             if (res) {
                 message.success('修改成功')
-                dispatch('getTheRequestOfLevel')
+                if (params.type === 'Client'){
+                    dispatch('getClientLevel')
+                }else{
+                    dispatch('getCorpLevel')
+                }
                 commit('set_levelModifyModalVisible', false)
             } else {
                 message.error('修改失败')

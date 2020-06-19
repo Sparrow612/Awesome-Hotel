@@ -153,7 +153,7 @@
                 case 'manageSiteCoupon':
                     this.current = ['11']
                     break
-                case 'manageUserCredit':
+                case 'manageMembership':
                     this.current = ['12']
                     break
             }
