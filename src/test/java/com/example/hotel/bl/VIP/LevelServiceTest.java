@@ -1,5 +1,6 @@
 package com.example.hotel.bl.VIP;
 
+import com.example.hotel.vo.LevelVO;
 import com.example.hotel.vo.ResponseVO;
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,9 +24,9 @@ public class LevelServiceTest {
     @Test
     @Transactional
     public void formulateVIPLevel() {
-        levelService.formulateVIPLevel(8, "Client",200, 0.01);
+        levelService.formulateVIPLevel(8, "Client", 200, 0.01);
         ResponseVO responseVO = levelService.getTheRequestOfLevel(8, "Client");
-        Assert.assertEquals(responseVO.getContent(), 200);
+        Assert.assertEquals(((LevelVO) responseVO.getContent()).getRequest(), 200);
     }
 
     @Test
