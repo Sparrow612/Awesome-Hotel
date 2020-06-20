@@ -2,7 +2,9 @@
 import Vue from 'vue'
 import { message } from 'ant-design-vue'
 import {
-    execOrderAPI,
+    checkInOrderAPI,
+    finishOrderAPI,
+    abnormalOrderAPI,
     addCommentAPI,
     getOrderCommentAPI,
     annulOrderCommentAPI,
@@ -30,13 +32,22 @@ const order = {
         }
     },
     actions: {
-        execOrder: async({ state, dispatch }, orderId) => {
-            const res = await execOrderAPI(orderId)
+        checkInOrder: async({ state, dispatch }, orderId) => {
+            const res = await checkInOrderAPI(orderId)
             if(res) {
-                dispatch('geAllOrders')
-                message.success('撤销成功')
-            }else{
-                message.error('撤销失败')
+                message.success('入住成功')
+            }
+        },
+        finishOrder: async({state, dispatch}, orderId) => {
+            const res = await finishOrderAPI(orderId)
+            if (res) {
+                message.success('执行成功')
+            }
+        },
+        abnormalOrder: async ({state, dispatch}, params) => {
+            const res = await abnormalOrderAPI(params)
+            if (res) {
+                await checkInOrderAPI(params.orderId)
             }
         },
         addComment: async ({state, commit, dispatch}, data) => {

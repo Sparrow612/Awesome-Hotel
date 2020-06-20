@@ -3,6 +3,7 @@
 import {
     getAllOrdersAPI,
     getOrdersInMonthAPI,
+    abnormalOrderAPI,
 } from "../../api/order";
 import {
     getUserInfoByEmailAPI,
@@ -262,6 +263,13 @@ const salesPerson = {
                 commit('set_levelModifyModalVisible', false)
             } else {
                 message.error('修改失败')
+            }
+        },
+        handleAbnormalOrder: async ({state, commit}, params) => {
+            const res = await abnormalOrderAPI(params)
+            if (res) {
+                message.success('处理成功')
+                commit('set_handleAbnormalOrderVisible', false)
             }
         }
     },

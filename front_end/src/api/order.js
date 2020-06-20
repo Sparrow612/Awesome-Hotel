@@ -46,15 +46,26 @@ export function cancelOrderAPI(orderId) {
     })
 }
 // created by GLH 2020.05.15
-// TODO 与后端对接
-export function execOrderAPI(orderId) {
+export function checkInOrderAPI(orderId) {
     return axios({
-        url: `${api.orderPre}/${orderId}/execOrder`,
+        url: `${api.orderPre}/${orderId}/checkIn`,
+        method: 'POST'
+    })
+}
+export function finishOrderAPI(orderId) {
+    return axios({
+        url: `${api.orderPre}/${orderId}/finishOrder`,
         method: 'POST'
     })
 }
 // 标记异常订单
-
+export function abnormalOrderAPI(params) {
+    return axios({
+        url: `${api.orderPre}/${params.orderId}/abnormalOrder`,
+        method: 'POST',
+        params
+    })
+}
 //对订单发表评论
 export function addCommentAPI(data) {
     return axios({

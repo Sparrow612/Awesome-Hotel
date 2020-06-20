@@ -1,8 +1,15 @@
 <template>
     <a-carousel autoplay>
         <div class="privilege">
-            <h3 v-for="item in this.levelConsumption" :key="item.level">
-                LV{{ item.level }}: 累计消费{{ item.consumption }} 减免{{ item.level }}% <br/>
+            <h2>网站会员</h2>
+            <h3 v-for="item in this.levels" :key="item.level">
+                LV{{ item.level }}: 累计消费{{ item.request }}￥ 减免{{ item.reduction * 100 }}% <br/>
+            </h3>
+        </div>
+        <div class="privilege">
+            <h2>企业会员</h2>
+            <h3 v-for="item in this.corpLevels" :key="item.level">
+                LV{{ item.level }}: 累计消费{{ item.request }}￥ 减免{{ item.reduction * 100 }}% <br/>
             </h3>
         </div>
         <!--  这里可以再补充优惠券的部分，暂时还没想好怎么展示   -->
@@ -21,15 +28,19 @@
         computed: {
             ...mapGetters([
                 'levelConsumption',
-            ]),
-        },
-        methods: {
-            ...mapActions([
-                'getTheRequestOfLevel'
+                'levels',
+                'corpLevels',
             ]),
         },
         async mounted() {
-            await this.getTheRequestOfLevel()
+            await this.getClientLevel()
+            await this.getCorpLevel()
+        },
+        methods: {
+            ...mapActions([
+                'getClientLevel',
+                'getCorpLevel',
+            ]),
         },
     }
 </script>
@@ -53,6 +64,10 @@
     }
 
     .privilege {
-        margin-top: 90px;
+        margin-top: 80px;
+    }
+
+    h2 {
+        color: #ffffff;
     }
 </style>
