@@ -1,7 +1,6 @@
 package com.example.hotel.data.user;
 
 import com.example.hotel.enums.UserType;
-import com.example.hotel.enums.VIPType;
 import com.example.hotel.po.User;
 import org.junit.Assert;
 import org.junit.Test;

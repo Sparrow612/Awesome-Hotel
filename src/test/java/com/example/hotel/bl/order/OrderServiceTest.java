@@ -139,7 +139,7 @@ public class OrderServiceTest {
     @Test
     @Transactional
     public void checkIn() {
-        ResponseVO responseVO = orderService.checkIn(100);
+        ResponseVO responseVO = orderService.checkIn(1);
         Assert.assertThat(responseVO.getContent().toString(),is("办理入住成功"));
     }
 
@@ -189,8 +189,8 @@ public class OrderServiceTest {
     @Transactional
     public void addComment() {
         CommentVO commentVO = new CommentVO(){{
-            setUserId(18);
-            setOrderId(11);
+            setUserId(1);
+            setOrderId(1);
             setComment("Just so so ~ ");
             setEnvironment(4);
             setEquipment(4);
@@ -199,7 +199,7 @@ public class OrderServiceTest {
             setService(4);
         }};
         orderService.addComment(commentVO);
-        CommentVO comment = orderService.getComment(11);
+        CommentVO comment = orderService.getComment(1);
         Assert.assertThat(comment.getComment(), is("Just so so ~ "));
     }
 

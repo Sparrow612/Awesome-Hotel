@@ -125,9 +125,9 @@ public class HotelServiceTest {
         List<RoomVO> roomVOS = hotelService.checkRoom(1,hotel.getRooms(),"2020-06-01","2020-06-02");
         RoomVO roomVO = roomVOS.get(0);
         Assert.assertThat(roomVO.getCurNum(),is(19));
-        roomVOS = hotelService.checkRoom(1,hotel.getRooms(),"2020-06-23","2020-06-24");
+        roomVOS = hotelService.checkRoom(1,hotel.getRooms(),"2019-06-23","2019-06-24");
         roomVO = roomVOS.get(0);
-        Assert.assertThat(roomVO.getCurNum(),is(2));
+        Assert.assertThat(roomVO.getCurNum(),is(20));
     }
 
     @Test

@@ -11,6 +11,7 @@ import com.example.hotel.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -50,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
         //判断用户信用值
         UserVO user = accountService.getUserInfo(orderVO.getUserId());
         double credit = user.getCredit();
-        if(!(credit > 0))
+        if (!(credit > 0))
             return ResponseVO.buildFailure(LOW_CREDIT);
 
         int reserveRoomNum = orderVO.getRoomNum();
@@ -243,11 +244,11 @@ public class OrderServiceImpl implements OrderService {
                 temp.add(order);
         }
         //将order按天放入summary中
-        for(int i=0;i<31;i++){
+        for (int i = 0; i < 31; i++) {
             List<Order> orderList = new ArrayList<>();
-            for(Order order : temp){
-                int day = getGap(now,order.getCreateDate());
-                if(day==i){
+            for (Order order : temp) {
+                int day = getGap(now, order.getCreateDate());
+                if (day == i) {
                     orderList.add(order);
                     orders.remove(order);
                 }
@@ -293,7 +294,7 @@ public class OrderServiceImpl implements OrderService {
 
             if (!((gap1 < 0) || (gap2 < 0))) {
                 //确保订单为未入住的有效订单
-                if (order.getOrderState().equals("已预订") || order.getOrderState().equals("未入住") ||order.getOrderState().equals("已入住")) {
+                if (order.getOrderState().equals("已预订") || order.getOrderState().equals("未入住") || order.getOrderState().equals("已入住")) {
                     order.setRoomType(order.getRoomType());
                     relatedOrder.add(order);
                 }
