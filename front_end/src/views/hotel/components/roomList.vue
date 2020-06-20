@@ -15,7 +15,7 @@
                     <a-tag color="purple">剩余房间：{{text}}</a-tag>
                 </span>
                 <span slot="action" slot-scope="record">
-                    <a-button type="primary" @click="order(record)">预定</a-button>
+                    <a-button icon="plus-circle" type="primary" @click="order(record)">预定</a-button>
                 </span>
             </a-table>
         </div>

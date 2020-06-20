@@ -4,7 +4,6 @@ import com.example.hotel.bl.coupon.CouponService;
 import com.example.hotel.bl.coupon.CouponMatchStrategy;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.data.coupon.CouponMapper;
-import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.enums.BizRegion;
 import com.example.hotel.po.Coupon;
 import com.example.hotel.vo.coupon.*;

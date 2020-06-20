@@ -37,7 +37,7 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
-    name: 'AddRoomModal',
+    name: 'addRoomModal',
     data() {
         return {
             formItemLayout: {
@@ -86,6 +86,7 @@ export default {
                         curNum: Number(this.form.getFieldValue('roomNum')),
                         hotelId: this.activeHotelId,
                     }
+                    console.log(data)
                     this.set_addRoomParams(data)
                     this.addRoom()
                 }

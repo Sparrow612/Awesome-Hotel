@@ -1,27 +1,27 @@
 <template>
     <a-modal
             :visible="orderModalVisible"
-            title="预定详情"
-            cancelText="取消"
-            okText="下单"
             @cancel="cancelOrder"
             @ok="confirmOrder"
+            cancelText="取消"
+            okText="下单"
+            title="预定详情"
     >
         <a-form :form="form">
-            <a-form-item v-bind="formItemLayout" label="房型信息">
+            <a-form-item label="房型信息" v-bind="formItemLayout">
                 <span>{{ currentOrderRoom.roomType }}</span>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="入住-退房日期">
+            <a-form-item label="入住-退房日期" v-bind="formItemLayout">
                 <a-range-picker
+                        :disabled="true"
                         format="YYYY-MM-DD"
                         v-decorator="[
                             'date',
                             { rules: [{ required: true, message: '请选择入住时间' }], initialValue: dateRange },
                         ]"
-                        :disabled="true"
                 />
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="入住人姓名">
+            <a-form-item label="入住人姓名" v-bind="formItemLayout">
                 <a-input
                         v-decorator="[
                         'clientName',
@@ -29,7 +29,7 @@
                     ]"
                 />
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="手机号">
+            <a-form-item label="手机号" v-bind="formItemLayout">
                 <a-input
                         v-decorator="[
                         'phoneNumber',
@@ -37,14 +37,14 @@
                     ]"
                 />
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="房间数">
+            <a-form-item label="房间数" v-bind="formItemLayout">
                 <a-select
+                        @change="changeRoomNum"
+                        placeholder="请选择房间数"
                         v-decorator="[
                         'roomNum',
                         { rules: [{ required: true, message: '请选择房间数' }] },
                     ]"
-                        placeholder="请选择房间数"
-                        @change="changeRoomNum"
                 >
                     <a-select-option :value="1">
                         1
@@ -57,18 +57,18 @@
                     </a-select-option>
                 </a-select>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="入住人数" v-if="this.form.getFieldValue('roomNum')">
+            <a-form-item label="入住人数" v-bind="formItemLayout" v-if="this.form.getFieldValue('roomNum')">
                 <a-input
+                        placeholder="请选择入住人数，不能超过房间容纳人数"
                         v-decorator="[
                         'peopleNum',
                         { rules: [{ required: true, message: '请输入房间能容纳的入住人数' }, { validator : this.handlePeopleNum }],
                         validateTrigger: 'blur', initialValue: this.currentOrderRoom.peopleNum*Number(this.form.getFieldValue('roomNum'))},
                     ]"
-                        placeholder="请选择入住人数，不能超过房间容纳人数"
                 >
                 </a-input>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="有无儿童">
+            <a-form-item label="有无儿童" v-bind="formItemLayout">
                 <a-radio-group
                         v-decorator="[
                         'haveChild',
@@ -80,31 +80,31 @@
                     <a-radio :value="0">无</a-radio>
                 </a-radio-group>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="房间单价">
+            <a-form-item label="房间单价" v-bind="formItemLayout">
                 <span>{{ currentOrderRoom.price }}</span>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="总价">
+            <a-form-item label="总价" v-bind="formItemLayout">
                 <span>￥{{ totalPrice }}</span>
             </a-form-item>
             <a-divider></a-divider>
             <h2 v-if="orderMatchCouponList.length>0">优惠</h2>
-            <a-checkbox-group v-model="checkedList" @change="onchange">
+            <a-checkbox-group @change="onchange" v-model="checkedList">
                 <a-table
                         :columns="columns"
                         :dataSource="orderMatchCouponList"
-                        :showHeader="false"
                         bordered
                         v-if="orderMatchCouponList.length>0"
                 >
                     <a-checkbox
+                            :value="record"
                             slot="id"
                             slot-scope="record"
-                            :value="record"
                     >
                     </a-checkbox>
+                    <span slot="discount" slot-scope="text">{{text*100}}%</span>
                 </a-table>
             </a-checkbox-group>
-            <a-form-item v-bind="formItemLayout" label="结算后总价">
+            <a-form-item label="结算后总价" v-bind="formItemLayout">
                 <span>￥{{ finalPrice ? finalPrice : totalPrice}}</span>
             </a-form-item>
         </a-form>
@@ -112,7 +112,7 @@
 </template>
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
-    import { message } from 'ant-design-vue'
+    import {message} from 'ant-design-vue'
 
     const moment = require('moment')
     const columns = [
@@ -122,13 +122,14 @@
             scopedSlots: {customRender: 'id'}
         },
         {
-            title: '优惠类型',
+            title: '优惠名称',
             dataIndex: 'couponName',
             scopedSlots: {customRender: 'couponName'}
         },
         {
             title: '折扣',
             dataIndex: 'discount',
+            scopedSlots: {customRender: 'discount'}
         },
 
         {
@@ -137,7 +138,7 @@
 
         },
         {
-            title: '优惠金额',
+            title: '优惠金额（满减）',
             dataIndex: 'discountMoney',
         },
     ];
@@ -180,12 +181,17 @@
         methods: {
             ...mapMutations([
                 'set_orderModalVisible',
+                'set_orderMatchCouponList'
             ]),
             ...mapActions([
                 'addOrder',
                 'getOrderMatchCoupons',
             ]),
             cancelOrder() {
+                this.checkedList = []
+                this.set_orderMatchCouponList([])
+                this.totalPrice = null
+                this.finalPrice = null
                 this.form.resetFields()
                 this.set_orderModalVisible(false)
             },
@@ -209,7 +215,10 @@
             onchange() {
                 this.finalPrice = this.totalPrice
                 if (this.checkedList.length > 0) {
-                    this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id) !== -1).forEach(item => this.finalPrice = this.finalPrice - item.discountMoney)
+                    this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id) !== -1).forEach(item => {
+                        if (item.discountMoney !== 0) this.finalPrice = this.finalPrice - item.discountMoney
+                        else this.finalPrice = this.finalPrice * item.discount
+                    })
                 }
             },
             handlePhoneNumber(rule, value, callback) {
@@ -226,15 +235,15 @@
                 callback()
             },
             handlePeopleNum(rule, value, callback) {
-                if (value<=0 || value > this.currentOrderRoom.peopleNum*Number(this.form.getFieldValue('roomNum'))) {
+                if (value <= 0 || value > this.currentOrderRoom.peopleNum * Number(this.form.getFieldValue('roomNum'))) {
                     callback(new Error('请输入房间能容纳的入住人数'))
-                }else{
+                } else {
                     callback()
                 }
             },
-            handleChildren(rule, value, callback){
-                if ((!this.form.getFieldValue('peopleNum') || Number(this.form.getFieldValue('peopleNum'))===1)
-                    && Number(this.form.getFieldValue('haveChild'))===1)
+            handleChildren(rule, value, callback) {
+                if ((!this.form.getFieldValue('peopleNum') || Number(this.form.getFieldValue('peopleNum')) === 1)
+                    && Number(this.form.getFieldValue('haveChild')) === 1)
                     callback(new Error('未成年人不能单独入住'))
                 else callback()
             },
@@ -269,15 +278,17 @@
         },
         watch: {
             totalPrice(val) {
-                let data = {
-                    userId: this.userId,
-                    hotelId: this.currentHotelId,
-                    orderPrice: this.totalPrice,
-                    roomNum: this.form.getFieldValue('roomNum'),
-                    checkIn: this.form.getFieldValue('date')[0].format('YYYY-MM-DD'),
-                    checkOut: this.form.getFieldValue('date')[1].format('YYYY-MM-DD'),
+                if (this.totalPrice) {
+                    let data = {
+                        userId: this.userId,
+                        hotelId: this.currentHotelId,
+                        orderPrice: this.totalPrice,
+                        roomNum: this.form.getFieldValue('roomNum'),
+                        checkIn: this.form.getFieldValue('date')[0].format('YYYY-MM-DD'),
+                        checkOut: this.form.getFieldValue('date')[1].format('YYYY-MM-DD'),
+                    }
+                    this.getOrderMatchCoupons(data)
                 }
-                this.getOrderMatchCoupons(data)
             }
         }
     }

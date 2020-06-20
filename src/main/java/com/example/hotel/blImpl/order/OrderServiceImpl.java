@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
             Date date = new Date(System.currentTimeMillis());
             String curdate = sf.format(date);
             orderVO.setCreateDate(curdate);
-            orderVO.setOrderState("已预订");
+            orderVO.setOrderState("未入住");
             Order order = new Order();
             BeanUtils.copyProperties(orderVO, order);
             orderMapper.addOrder(order);
@@ -294,7 +294,7 @@ public class OrderServiceImpl implements OrderService {
 
             if (!((gap1 < 0) || (gap2 < 0))) {
                 //确保订单为未入住的有效订单
-                if (order.getOrderState().equals("已预订") || order.getOrderState().equals("未入住") || order.getOrderState().equals("已入住")) {
+                if (order.getOrderState().equals("未入住") || order.getOrderState().equals("已入住")) {
                     order.setRoomType(order.getRoomType());
                     relatedOrder.add(order);
                 }

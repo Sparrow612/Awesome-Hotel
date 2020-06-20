@@ -189,7 +189,11 @@
         },
         beforeRouteUpdate(to, from, next) {
             this.set_currentHotelId(Number(to.params.hotelId))
-            this.getHotelById()
+            this.getHotelByIdWithTime({
+                hotelId: this.currentHotelId,
+                startTime: this.dateRange[0].format("YYYY-MM-DD"),
+                endTime: this.dateRange[1].format("YYYY-MM-DD"),
+            })
             next()
         },
         methods: {

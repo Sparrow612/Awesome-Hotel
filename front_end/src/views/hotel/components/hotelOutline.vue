@@ -4,12 +4,13 @@
             <a-tab-pane key="1" tab="酒店点评">
                 <div style="font-size: large;padding: 10px">
                     <a-icon class="eval" type="crown"/>
-                    酒店评分：<a-tag color="orange">{{this.currentHotelInfo.rate}}</a-tag>
-                    <a-tag style="margin-left: 20px" color="pink">当前酒店收藏人数: {{this.currCollections}}</a-tag>
+                    酒店评分：
+                    <a-tag color="orange">{{this.currentHotelInfo.rate}}</a-tag>
+                    <a-tag color="pink" style="margin-left: 20px">当前酒店收藏人数: {{this.currCollections}}</a-tag>
                     <a-button @click="unstar" icon="close-circle" style="float: right" v-if="currHotelCollectedByUser">
                         取消收藏
                     </a-button>
-                    <a-button @click="star" type="primary" icon="star" style="float: right" v-else>
+                    <a-button @click="star" icon="star" style="float: right" type="primary" v-else>
                         收藏该酒店
                     </a-button>
                     <br/><br/>
@@ -117,10 +118,10 @@
                         {{text}}
                     </a-tag>
                     <a-tag color="blue" slot="discount" slot-scope="disc">
-                        {{disc===0.00?'暂无':100*disc+'%'}}
+                        {{disc===0.00?'满减':100*disc+'%'}}
                     </a-tag>
                     <a-tag color="pink" slot="discountMoney" slot-scope="money">
-                        {{money===0?'暂无':money}}
+                        {{money===0?'非满减':money}}
                     </a-tag>
                     <span slot="action">
                 <a-button size="small" type="primary">查看详情</a-button>
@@ -220,7 +221,7 @@
                 }
                 this.addCollection(params)
             },
-            unstar(){
+            unstar() {
                 const params = {
                     hotelId: this.currentHotelId,
                     userId: this.userId,
@@ -254,7 +255,7 @@
             answerFormClose() {
                 this.answerFormVisible = false
             },
-            submitAnswer(e){
+            submitAnswer(e) {
                 e.preventDefault();
                 this.answerForm.validateFieldsAndScroll((err, values) => {
                     if (!err) {

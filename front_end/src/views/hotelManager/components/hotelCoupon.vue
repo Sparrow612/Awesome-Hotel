@@ -20,10 +20,10 @@
                 {{text}}
             </a-tag>
             <a-tag color="blue" slot="discount" slot-scope="disc">
-                {{disc===0.00?'暂无':disc}}
+                {{disc===0.00?'满减':disc}}
             </a-tag>
             <a-tag color="pink" slot="discountMoney" slot-scope="money">
-                {{money===0?'暂无':money}}
+                {{money===0?'非满减':money}}
             </a-tag>
             <span slot="action" slot-scope="record">
                 <a-button size="small" type="primary" @click="showCouponDetail(record)">查看详情</a-button>

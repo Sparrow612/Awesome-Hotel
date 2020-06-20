@@ -4,10 +4,6 @@ import com.example.hotel.enums.UserType;
 import com.example.hotel.enums.VIPType;
 import com.example.hotel.po.User;
 
-/**
- * @author fjj
- * @date 2019/4/11 3:22 PM
- */
 public class UserVO {
     private Integer id;
     private String email;

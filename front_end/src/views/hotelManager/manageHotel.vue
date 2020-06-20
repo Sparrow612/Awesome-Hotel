@@ -80,22 +80,18 @@
                 <hotel-room></hotel-room>
             </a-tab-pane>
         </a-tabs>
-        <AddHotelModal></AddHotelModal>
-        <AddRoomModal></AddRoomModal>
-        <Coupon></Coupon>
+<!--        <AddHotelModal></AddHotelModal>-->
+<!--        <AddRoomModal></AddRoomModal>-->
+<!--        <Coupon></Coupon>-->
         <OrderDetail></OrderDetail>
     </div>
 </template>
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
-import AddHotelModal from '../admin/components/addHotelModal'
-import AddRoomModal from './components/addRoomModal'
-import Coupon from './components/coupon'
 import OrderDetail from "../order/orderDetail";
 import ModifyHotelInfo from "./components/hotelInfo";
 import HotelCoupon from "./components/hotelCoupon";
 import HotelRoom from "./components/hotelRoom";
-const moment = require('moment');
 import { message } from 'ant-design-vue';
 
 const columns_of_hotels = [
@@ -200,9 +196,9 @@ export default {
     },
     components: {
         HotelCoupon,
-        AddHotelModal,
-        AddRoomModal,
-        Coupon,
+        // AddHotelModal,
+        // AddRoomModal,
+        // Coupon,
         OrderDetail,
         ModifyHotelInfo,
         HotelRoom,

@@ -12,7 +12,7 @@
                     <a-form-item label="用户名" v-bind="formItemLayout">
                         <a-input
                                 placeholder="请填写用户名"
-                                v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }] }]"
+                                v-decorator="['userName', { rules: [{ required: false, message: '请输入用户名' }] }]"
                                 v-if="modify"
                         />
                         <span v-else>{{ userInfo.userName }}</span>
@@ -25,7 +25,7 @@
                     <a-form-item label="手机号" v-bind="formItemLayout">
                         <a-input
                                 placeholder="请填写手机号"
-                                v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' },
+                                v-decorator="['phoneNumber', { rules: [{ required: false, message: '请输入手机号' },
                             { validator: this.handlePhoneNumber }], validateTrigger: 'blur' }]"
                                 v-if="modify"
                         />
@@ -78,13 +78,13 @@
                         <a-input
                                 placeholder="请输入新密码"
                                 type="password"
-                                v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' },
+                                v-decorator="['password', { rules: [{ required: false, message: '请输入新密码' },
                                 { validator: this.handlePassword }], validateTrigger: 'blur' }]"
                                 v-if="modify"
                         />
                     </a-form-item>
 
-                    <a-form-item label="确认密码" v-bind="formItemLayout" v-if="modify">
+                    <a-form-item label="确认密码" v-bind="formItemLayout" v-if="modify && this.form.getFieldValue('password')">
                         <a-input
                                 placeholder="请再次输入密码"
                                 type="password"
@@ -116,8 +116,8 @@
                         :columns="columns_of_orders"
                         :dataSource="userOrderList"
                         :locale="{emptyText: '您还没有订单'}"
-                        style="background-color: white; padding: 10px"
                         bordered
+                        style="background-color: white; padding: 10px"
                 >
                     <a-tag color="red" slot="createDate" slot-scope="text">
                         {{text}}
@@ -169,8 +169,8 @@
                         :columns="columns_of_collections"
                         :dataSource="userCollections"
                         :locale="{emptyText: '您还没有收藏任何酒店'}"
-                        style="background-color: white; padding: 10px"
                         bordered
+                        style="background-color: white; padding: 10px"
                 >
                     <div
                             slot="filterDropdown"
@@ -232,8 +232,8 @@
                         :columns="columns_of_credit"
                         :dataSource="creditChangeList"
                         :locale="{emptyText: '暂时没有信用变更记录'}"
-                        style="background-color: white; padding: 10px"
                         bordered
+                        style="background-color: white; padding: 10px"
                 >
                     <span slot="type" slot-scope="record">
                         <a-icon theme="twoTone" type="plus-circle" v-if="record.change>0"/>
@@ -492,7 +492,7 @@
                     this.form.setFieldsValue({
                         'userName': this.userInfo.userName,
                         'phoneNumber': this.userInfo.phoneNumber,
-                        'corporation': this.userInfo.corporate,
+                        'corporation': this.userInfo.corporation,
                     })
                 }, 0)
                 this.modify = true

@@ -60,7 +60,7 @@
                 <a-input
                         placeholder="请填写企业名称"
                         v-decorator="[
-                            'bizRegion',
+                            'corporation',
                             { rules: [{ required: true, message: '请填写企业名称' }]},
                         ]"
                 >
@@ -134,7 +134,7 @@
     import {mapGetters, mapMutations, mapActions} from 'vuex'
 
     export default {
-        name: " ",
+        name: "AddSiteCoupon",
         data() {
             return {
                 formItemLayout: {

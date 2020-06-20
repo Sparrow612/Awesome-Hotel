@@ -35,9 +35,9 @@ public class BizRegionCouponStrategyImpl implements CouponMatchStrategy {
             return false;
         }
         int level = clientVIP.getLevel();
-        return coupon.getStatus() == 1 &&
+        return coupon.getStatus() == 1 && clientVIP.getStatus() == 1 &&
+                userVO.getVipType() != VIPType.Normal &&
                 hotel.getBizRegion().toString().equals(coupon.getBizRegion()) &&
-                level == coupon.getVipLevel() &&
-                userVO.getVipType() != VIPType.Normal;
+                level == coupon.getVipLevel();
     }
 }
