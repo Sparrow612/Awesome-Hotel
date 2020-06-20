@@ -26,6 +26,7 @@ const getters = {
     answersVisible: state => state.hotel.answersVisible,
     currCollections: state => state.hotel.currCollections,
     currHotelCollectedByUser: state => state.hotel.currHotelCollectedByUser,
+    hotelComments: state => state.hotel.hotelComments,
     //admin
     managerList: state => state.admin.managerList,
     addManagerModalVisible: state => state.admin.addManagerModalVisible,

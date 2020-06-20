@@ -75,3 +75,9 @@ export function addAnswerAPI(data) {
         data
     })
 }
+export function getHotelCommentsAPI(hotelId) {
+    return axios({
+        url: `/api/order/${hotelId}/getHotelComment`,
+        method: 'GET',
+    })
+}

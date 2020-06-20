@@ -20,9 +20,14 @@
     </select>
     <update id="updateAccount">
         update User
-        set password=#{password},
-            username=#{userName},
+        set username=#{userName},
             phonenumber=#{phoneNumber}
+            corporation = #{corporation}
+        where id = #{id}
+    </update>
+    <update id="updatePassword">
+        update User
+        set password = #{password}
         where id = #{id}
     </update>
     <!--> 修改credit-->

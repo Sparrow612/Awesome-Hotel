@@ -23,14 +23,11 @@ public class BirthdayCouponStrategyImpl implements CouponMatchStrategy {
 
     @Override
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
+        // 下单当天生日
         try {
             User user = accountMapper.getAccountById(orderVO.getUserId());
-            Date in = TimeFormatHelper.string2Date(orderVO.getCheckInDate());
-            Date out = TimeFormatHelper.string2Date(orderVO.getCheckOutDate());
-            Date birth = TimeFormatHelper.string2Date(user.getBirthday());
-            assert birth != null;
-            return !birth.before(in) &&
-                    !birth.after(out) &&
+            return coupon.getCouponType() == BIRTHDAY &&
+                    orderVO.getCreateDate().equals(user.getBirthday()) &&
                     user.getVipType() == VIPType.Client &&
                     (coupon.getSrcId() == WEBSITE || coupon.getSrcId().equals(orderVO.getHotelId())) &&
                     coupon.getStatus() == 1;

@@ -5,6 +5,7 @@ import com.example.hotel.po.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 
@@ -27,13 +28,15 @@ public interface AccountMapper {
     /**
      * 更新用户信息
      */
-    void updateAccount(@Param("id") int id, @Param("password") String password, @Param("userName") String username, @Param("phoneNumber") String phonenumber);
+    void updateAccount(@Param("id") int id, @Param("userName") String username, @Param("phoneNumber") String phonenumber, @Param("corporation") String corporation);
+
+    void updatePassword(@Param("id") int id, @Param("password") String password);
 
     void updateCredit(@Param("id") int id, @Param("credit") double credit);
 
     void updateBirthday(@Param("id") int id, @Param("birthday") String birthday);
 
-    void updateVIPType(@Param("id") int id, @Param("vipType")VIPType vipType);
+    void updateVIPType(@Param("id") int id, @Param("vipType") VIPType vipType);
 
     void updateCorporate(@Param("id") int id, @Param("corporate") String corporate);
 
@@ -41,7 +44,7 @@ public interface AccountMapper {
 
     void updatePortrait(@Param("id") Integer id, @Param("url") String url);
 
-    void chargeCredit(@Param("id")Integer id, @Param("change")Integer change);
+    void chargeCredit(@Param("id") Integer id, @Param("change") Integer change);
 
     List<User> getAllUsers();
 }

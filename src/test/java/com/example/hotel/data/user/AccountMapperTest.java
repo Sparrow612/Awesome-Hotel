@@ -86,6 +86,12 @@ public class AccountMapperTest {
 
     @Test
     @Transactional
+    public void updatePassword(){
+        accountMapper.updatePassword(4,"123456");
+    }
+
+    @Test
+    @Transactional
     public void updateAnnulTime() {
         accountMapper.updateAnnulTime(4, 5);
         Assert.assertThat(accountMapper.getAccountById(4).getAnnulTime(), is(5));
