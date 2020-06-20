@@ -171,16 +171,21 @@
         },
         computed: {
             ...mapGetters([
+                'currentHotelId',
                 'currentHotelInfo',
                 'userOrderList',
                 'dateRange',
             ])
         },
         async mounted() {
-            this.set_currentHotelId(Number(this.$route.params.hotelId))
-            this.getHotelById()
+            await this.set_currentHotelId(Number(this.$route.params.hotelId))
+            this.getHotelByIdWithTime({
+                hotelId: this.currentHotelId,
+                startTime: this.dateRange[0].format("YYYY-MM-DD"),
+                endTime: this.dateRange[1].format("YYYY-MM-DD"),
+            })
             await this.getUserInfo()
-            await this.getUserOrders()
+            this.getUserOrders()
         },
         beforeRouteUpdate(to, from, next) {
             this.set_currentHotelId(Number(to.params.hotelId))
@@ -193,12 +198,17 @@
                 'set_dateRange',
             ]),
             ...mapActions([
-                'getHotelById',
+                'getHotelByIdWithTime',
                 'getUserInfo',
                 'getUserOrders',
             ]),
-            changeDate(v) {
+            async changeDate(v) {
                 this.set_dateRange(v)
+                this.getHotelByIdWithTime({
+                    hotelId: this.currentHotelId,
+                    startTime: this.dateRange[0].format("YYYY-MM-DD"),
+                    endTime: this.dateRange[1].format("YYYY-MM-DD"),
+                })
             },
         }
     }

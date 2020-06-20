@@ -3,6 +3,7 @@ import store from '@/store'
 import {
     getHotelsAPI,
     getHotelByIdAPI,
+    getHotelByIdWithTimeAPI,
     searchHotelAPI,
     addQuestionAPI,
     getHotelQuestionAPI,
@@ -32,6 +33,7 @@ const hotel = {
         currentHotelId: '',
         currentHotelInfo: {},
         orderModalVisible: false,
+        orderSuccess: false,
         currentOrderRoom: {},
         orderMatchCouponList: [],
         hotelQuestion: [],
@@ -69,6 +71,9 @@ const hotel = {
         },
         set_orderModalVisible: function (state, data) {
             state.orderModalVisible = data
+        },
+        set_orderSuccess: function(state, data){
+            state.orderSuccess = data
         },
         set_currentOrderRoom: function (state, data) {
             state.currentOrderRoom = {
@@ -121,9 +126,16 @@ const hotel = {
                 commit('set_currentHotelInfo', res)
             }
         },
+        getHotelByIdWithTime: async ({state, commit}, data) => {
+            const res = await getHotelByIdWithTimeAPI(data)
+            if (res) {
+                commit('set_currentHotelInfo', res)
+            }
+        },
         addOrder: async ({state, commit}, data) => {
             const res = await reserveHotelAPI(data)
             if (res) {
+                commit('set_orderSuccess', true)
                 commit('set_orderModalVisible', false)
                 message.success('预定成功')
             }

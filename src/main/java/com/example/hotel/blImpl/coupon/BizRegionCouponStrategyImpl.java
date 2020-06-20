@@ -30,9 +30,8 @@ public class BizRegionCouponStrategyImpl implements CouponMatchStrategy {
         UserVO userVO = accountService.getUserInfo(orderVO.getUserId());
         Hotel hotel = hotelMapper.selectById(orderVO.getHotelId());
         int level = vipMapper.getVIPbyUserId(orderVO.getUserId()).getLevel();
-        return coupon.getStatus() == 1 &&
+        return coupon.getStatus() == 1 && userVO.getVipType() != VIPType.Normal &&
                 hotel.getBizRegion().toString().equals(coupon.getBizRegion()) &&
-                level == coupon.getVipLevel() &&
-                userVO.getVipType() != VIPType.Normal;
+                level == coupon.getVipLevel();
     }
 }

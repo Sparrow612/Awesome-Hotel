@@ -84,13 +84,15 @@ export default {
     methods: {
         ...mapMutations([
             'set_orderModalVisible',
-            'set_currentOrderRoom'
+            'set_currentOrderRoom',
+            'set_orderSuccess'
         ]),
         ...mapActions([
 
         ]),
         order(record) {
             this.set_currentOrderRoom(record)
+            this.set_orderSuccess(false)
             this.set_orderModalVisible(true)
         }
     }

@@ -167,6 +167,7 @@
                 'currentOrderRoom',
                 'currentHotelId',
                 'currentHotelInfo',
+                'orderSuccess',
                 'userId',
                 'userInfo',
                 'dateRange',
@@ -185,6 +186,7 @@
                 'getOrderMatchCoupons',
             ]),
             cancelOrder() {
+                this.form.resetFields()
                 this.set_orderModalVisible(false)
             },
             confirmOrder(e) {
@@ -238,15 +240,15 @@
             },
             handleSubmit(e) {
                 e.preventDefault();
-                this.form.validateFieldsAndScroll((err, values) => {
+                this.form.validateFieldsAndScroll(async (err, values) => {
                     if (!err) {
                         const data = {
                             hotelId: this.currentHotelId,
                             hotelName: this.currentHotelInfo.name,
                             hotelPhoneNum: this.currentHotelInfo.phoneNum,
                             userId: Number(this.userId),
-                            checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-                            checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                            checkInDate: this.form.getFieldValue('date')[0].format("YYYY-MM-DD"),
+                            checkOutDate: this.form.getFieldValue('date')[1].format("YYYY-MM-DD"),
                             roomType: this.currentOrderRoom.roomType === '大床房' ? 'BigBed' : this.currentOrderRoom.roomType === '双床房' ? 'DoubleBed' : 'Family',
                             roomNum: this.form.getFieldValue('roomNum'),
                             peopleNum: this.form.getFieldValue('peopleNum'),
@@ -256,9 +258,11 @@
                             createDate: '',
                             price: this.checkedList.length > 0 ? this.finalPrice : this.totalPrice
                         }
-                        this.addOrder(data)
+                        await this.addOrder(data)
                         this.form.resetFields()
-                        this.$router.push('/successOrder')
+                        if (this.orderSuccess) {
+                            await this.$router.push('/successOrder')
+                        }
                     }
                 });
             },
@@ -270,8 +274,8 @@
                     hotelId: this.currentHotelId,
                     orderPrice: this.totalPrice,
                     roomNum: this.form.getFieldValue('roomNum'),
-                    checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-                    checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                    checkIn: this.form.getFieldValue('date')[0].format('YYYY-MM-DD'),
+                    checkOut: this.form.getFieldValue('date')[1].format('YYYY-MM-DD'),
                 }
                 this.getOrderMatchCoupons(data)
             }

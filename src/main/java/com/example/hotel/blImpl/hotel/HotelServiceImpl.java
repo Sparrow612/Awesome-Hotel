@@ -223,5 +223,5 @@ public class HotelServiceImpl implements HotelService {
         HotelVO hotelVO = retrieveHotelDetails(hotelId);
         UserVO userVO = accountService.getUserInfo(hotelVO.getManagerId());
         return userVO.getPhoneNumber();
-    }
+    }// 考虑删除
 }

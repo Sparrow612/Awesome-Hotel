@@ -61,8 +61,9 @@ public class HotelController {
         return ResponseVO.buildSuccess(hotelService.retrieveHotelDetails(hotelId));
     }
 
-    @GetMapping("/{hotelId}/getAvailableRoom")
-    public ResponseVO getAvailableRoom(@PathVariable Integer hotelId,
+
+    @GetMapping("/detailInTimeRange")
+    public ResponseVO retrieveHotelDetail(@RequestParam(value = "hotelId") Integer hotelId,
                                        @RequestParam(value = "startTime") String startTime,
                                        @RequestParam(value = "endTime") String endTime) {
         return ResponseVO.buildSuccess(hotelService.retrieveAvailableHotelDetails(hotelId, startTime, endTime));
