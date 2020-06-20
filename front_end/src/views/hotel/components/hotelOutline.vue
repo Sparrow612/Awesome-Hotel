@@ -12,6 +12,8 @@
                     <a-button @click="star" type="primary" icon="star" style="float: right" v-else>
                         收藏该酒店
                     </a-button>
+                    <br/><br/>
+                    <HotelComment></HotelComment>
                 </div>
             </a-tab-pane>
             <a-tab-pane key="2" tab="常见问题">
@@ -130,6 +132,7 @@
 </template>
 
 <script>
+    import HotelComment from "./HotelComment";
     import {mapActions, mapGetters, mapMutations} from "vuex";
 
     const columns = [
@@ -168,6 +171,9 @@
                 answerFormVisible: false,
                 activeQuestionId: 0,
             }
+        },
+        components: {
+            HotelComment,
         },
         computed: {
             ...mapGetters([
