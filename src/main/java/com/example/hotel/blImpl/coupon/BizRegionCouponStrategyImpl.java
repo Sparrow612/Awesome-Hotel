@@ -3,8 +3,10 @@ package com.example.hotel.blImpl.coupon;
 import com.example.hotel.bl.coupon.CouponMatchStrategy;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.VIP.VIPMapper;
+import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.enums.VIPType;
 import com.example.hotel.po.Coupon;
+import com.example.hotel.po.Hotel;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,16 @@ public class BizRegionCouponStrategyImpl implements CouponMatchStrategy {
     private AccountService accountService;
     @Autowired
     private VIPMapper vipMapper;
+    @Autowired
+    private HotelMapper hotelMapper;
 
     @Override
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
         UserVO userVO = accountService.getUserInfo(orderVO.getUserId());
+        Hotel hotel = hotelMapper.selectById(orderVO.getHotelId());
         int level = vipMapper.getVIPbyUserId(orderVO.getUserId()).getLevel();
         return coupon.getStatus() == 1 &&
+                hotel.getBizRegion().toString().equals(coupon.getBizRegion()) &&
                 level == coupon.getVipLevel() &&
                 userVO.getVipType() != VIPType.Normal;
     }

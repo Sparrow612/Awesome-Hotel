@@ -1,9 +1,6 @@
 package com.example.hotel.bl.hotel;
 
-import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
-import com.example.hotel.po.Hotel;
-import com.example.hotel.po.Order;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.HotelForm;
 import com.example.hotel.vo.HotelVO;
@@ -79,10 +76,10 @@ public class HotelServiceTest {
     @Test
     @Transactional
     public void updateRoomInfo() {
-        hotelService.updateRoomInfo(1,"BigBed",5);
+        hotelService.updateRoomInfo(1, "DoubleBed",5);
         HotelVO hotelVO = hotelService.retrieveHotelDetails(1);
         List<RoomVO> roomVOS = hotelVO.getRooms();
-        Assert.assertThat(roomVOS.get(0).getCurNum(),is(15));
+        Assert.assertThat(roomVOS.get(1).getCurNum(),is(25));
     }
 
     @Test
@@ -99,18 +96,16 @@ public class HotelServiceTest {
         HotelVO hotelVO = hotelService.retrieveHotelDetails(1);
         List<RoomVO> rooms = hotelVO.getRooms();
         int num = rooms.size();
-        int BigBed = rooms.get(0).getCurNum();
         int DoubleBed = rooms.get(1).getCurNum();
         Assert.assertThat(num,is(3));
-        Assert.assertThat(BigBed,is(20));
         Assert.assertThat(DoubleBed,is(30));
     }
 
     @Test
     @Transactional
     public void getRoomCurNum() {
-        int num = hotelService.getRoomCurNum(1,"BigBed");
-        Assert.assertThat(num,is(20));
+        int num = hotelService.getRoomCurNum(1,"DoubleBed");
+        Assert.assertThat(num,is(30));
     }
 
     @Test
@@ -130,6 +125,9 @@ public class HotelServiceTest {
         List<RoomVO> roomVOS = hotelService.checkRoom(1,hotel.getRooms(),"2020-06-01","2020-06-02");
         RoomVO roomVO = roomVOS.get(0);
         Assert.assertThat(roomVO.getCurNum(),is(19));
+        roomVOS = hotelService.checkRoom(1,hotel.getRooms(),"2020-06-23","2020-06-24");
+        roomVO = roomVOS.get(0);
+        Assert.assertThat(roomVO.getCurNum(),is(2));
     }
 
     @Test

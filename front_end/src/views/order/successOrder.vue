@@ -1,7 +1,7 @@
 <template>
     <a-result
             status="success"
-            title="预定成功"
+            title="订单提交成功"
 
     >
         <template>

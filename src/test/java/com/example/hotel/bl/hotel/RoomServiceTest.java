@@ -89,7 +89,9 @@ public class RoomServiceTest {
     @Test
     @Transactional
     public void  getRoomCurNumByTime() {
-        int curNum = roomService.getRoomCurNumByTime(1,"2020-06-01","2020-06-02",RoomType.BigBed.toString());
+        int curNum = roomService.getRoomCurNumByTime(1,"2020-06-01","2020-06-02","BigBed");
         Assert.assertThat(curNum, is(19));
+        curNum = roomService.getRoomCurNumByTime(2,"2020-06-20","2020-06-21","Family");
+        System.out.println(curNum);
     }
 }
