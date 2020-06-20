@@ -7,6 +7,7 @@ import {
     addQuestionAPI,
     getHotelQuestionAPI,
     addAnswerAPI,
+    getHotelCommentsAPI,
 } from '../../api/hotel'
 import {
     reserveHotelAPI
@@ -37,7 +38,8 @@ const hotel = {
         hotelQuestion: [],
         answersVisible: new Map(),
         currCollections: 0,
-        currHotelCollectedByUser: false
+        currHotelCollectedByUser: false,
+        hotelComments: [],
     },
     mutations: {
         set_hotelList: function (state, data) {
@@ -93,7 +95,10 @@ const hotel = {
         },
         update_currCollections: function (state, data) {
             state.currCollections += data
-        }
+        },
+        set_hotelComments: function (state, data) {
+            state.hotelComments = data
+        },
     },
     actions: {
         getHotelList: async ({commit, state}) => {
@@ -175,6 +180,12 @@ const hotel = {
             }
             state.currHotelCollectedByUser = await userCollectHotelAPI(params)
         },
+        getHotelComments: async ({state, commit}) => {
+            const res = await getHotelCommentsAPI(Number(state.currentHotelId))
+            if (res) {
+                commit('set_hotelComments', res)
+            }
+        }
     }
 }
 

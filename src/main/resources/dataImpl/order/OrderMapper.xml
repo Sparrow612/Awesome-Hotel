@@ -76,7 +76,7 @@
 
     <select id="getHotelComment" resultMap="Comment">
         select * from orderlist
-        where hotelId = #{hotelId}
+        where hotelId = #{hotelId} and comments is not null
     </select>
 
     <update id="annulComment">
