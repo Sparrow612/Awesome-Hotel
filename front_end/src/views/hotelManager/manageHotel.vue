@@ -205,7 +205,6 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'userId',
             'orderList',
             'addHotelModalVisible',
             'addRoomModalVisible',
@@ -218,7 +217,8 @@ export default {
     },
     async mounted() {
         await this.getUserInfo()
-        await this.getHotelInfo(Number(this.userInfo.hotelID))
+        this.getHotelInfo(this.userInfo.hotelID)
+        this.getHotelOrders(this.userInfo.hotelID)
     },
     methods: {
         ...mapMutations([
@@ -235,6 +235,7 @@ export default {
             'execOrder',
             'getUserInfo',
             'getHotelInfo',
+            'getHotelOrders',
         ]),
         addHotel() {
             this.set_addHotelModalVisible(true)

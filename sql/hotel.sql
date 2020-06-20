@@ -169,7 +169,7 @@ CREATE TABLE `OrderList`
     `peopleNum`     int(255)       DEFAULT NULL,
     `haveChild`     tinytext,
     `createDate`    varchar(255)   DEFAULT NULL,
-    `price`         decimal(65, 0) DEFAULT NULL,
+    `price`         decimal(65, 2) DEFAULT NULL,
     `clientName`    varchar(255)   DEFAULT NULL,
     `phoneNumber`   varchar(255)   DEFAULT NULL,
     `orderState`    varchar(255)   DEFAULT NULL,

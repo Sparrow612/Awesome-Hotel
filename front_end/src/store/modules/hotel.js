@@ -11,7 +11,7 @@ import {
     getHotelCommentsAPI,
 } from '../../api/hotel'
 import {
-    reserveHotelAPI
+    reserveHotelAPI,
 } from '../../api/order'
 import {
     orderMatchCouponsAPI,

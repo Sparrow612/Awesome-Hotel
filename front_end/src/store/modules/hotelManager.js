@@ -2,7 +2,8 @@ import {
     addRoomAPI,
 } from '../../api/hotelManager'
 import {
-    getHotelOrdersAPI
+    getHotelOrdersAPI,
+    getHotelOrdersInMonthAPI,
 } from "../../api/order";
 import {
     hotelAllCouponsAPI,
@@ -22,6 +23,9 @@ import {message} from 'ant-design-vue'
 const hotelManager = {
     state: {
         orderList: [],
+        orderInMonth: [],
+        orderNumInMonth: [],
+        orderValueInMonth: [],
         latestOrderList: [],
         addRoomParams: {
             roomType: '',
@@ -33,7 +37,6 @@ const hotelManager = {
         addRoomModalVisible: false,
         couponVisible: false,
         addCouponVisible: false,
-        activeHotelId: 0,
         couponList: [],
         registerHotelMembershipModalVisible: false,
         hotelInfo: {},
@@ -44,6 +47,15 @@ const hotelManager = {
         },
         set_orderList: function (state, data) {
             state.orderList = data
+        },
+        set_orderInMonth: function (state, data) {
+            state.orderInMonth = data
+        },
+        set_orderNumInMonth: function (state, data) {
+            state.orderNumInMonth = data
+        },
+        set_orderValueInMonth: function (state, data){
+            state.orderValueInMonth = data
         },
         set_addRoomModalVisible: function (state, data) {
             state.addRoomModalVisible = data
@@ -74,10 +86,29 @@ const hotelManager = {
         },
     },
     actions: {
-        getHotelOrders: async ({state, commit}) => {
-            const res = await getHotelOrdersAPI(state.manageHotelId)
+        getHotelOrders: async ({state, commit}, id) => {
+            const res = await getHotelOrdersAPI(id)
             if (res) {
                 commit('set_orderList', res)
+            }
+        },
+        getHotelOrdersInMonth: async ({state, commit}, id) => {
+            const res = await getHotelOrdersInMonthAPI(id)
+            if (res) {
+                let num = []
+                let value = []
+                commit('set_orderInMonth', res)
+                for (let orders of res) {
+                    let n = 0, v = 0.00
+                    for (const order of orders){
+                        n++
+                        v+=order.price
+                    }
+                    num = [...num, n]
+                    value = [...value, v]
+                }
+                commit('set_orderNumInMonth', num)
+                commit('set_orderValueInMonth', value)
             }
         },
         addRoom: async ({state, dispatch, commit}) => {
