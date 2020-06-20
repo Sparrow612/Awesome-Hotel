@@ -21,7 +21,7 @@
     <update id="updateAccount">
         update User
         set username=#{userName},
-            phonenumber=#{phoneNumber}
+            phonenumber=#{phoneNumber},
             corporation = #{corporation}
         where id = #{id}
     </update>

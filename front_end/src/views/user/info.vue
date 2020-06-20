@@ -32,7 +32,7 @@
                         <span v-else>{{ userInfo.phoneNumber}}</span>
                     </a-form-item>
 
-                    <a-form-item label="VIP等级" v-bind="formItemLayout" v-if="this.userInfo.vipType==='Client'">
+                    <a-form-item label="VIP等级" v-bind="formItemLayout" v-if="this.userInfo.vipType ==='Client'">
                         <span>
                             <span :key="index" v-for="index of 5">
                             <img
@@ -67,7 +67,7 @@
                                 v-decorator="['corporation']"
                                 v-if="modify"
                         />
-                        <span v-else>{{ userInfo.corporate }}</span>
+                        <span v-else>{{ userInfo.corporation }}</span>
                     </a-form-item>
 
                     <a-form-item label="信用值" v-bind="formItemLayout">
@@ -84,13 +84,14 @@
                         />
                     </a-form-item>
 
-                    <a-form-item label="确认密码" v-bind="formItemLayout" v-if="modify && this.form.getFieldValue('password')">
+                    <a-form-item label="确认密码" v-bind="formItemLayout"
+                                 v-if="modify && this.form.getFieldValue('password')">
                         <a-input
                                 placeholder="请再次输入密码"
                                 type="password"
                                 v-decorator="['passwordConfirm',
                                 {rules: [{ required: true, message: '请输入确认密码' }, { validator: this.handlePasswordCheck }],
-                                validateTrigger: 'blur'}]">
+                                validateTrigger: 'blur', initialValue: ''}]">
                             v-if="modify"
                         </a-input>
                     </a-form-item>
@@ -448,8 +449,7 @@
                 this.getUserVIP(Number(this.userInfo.id))
             this.getUserOrders()
             this.getUserCredits(this.userId)
-            await this.getUserCollections(this.userId)
-            console.log(this.userCollections)
+            this.getUserCollections(this.userId)
         },
         methods: {
             ...mapActions([
@@ -521,20 +521,23 @@
             },
 
             handlePassword(rule, value, callback) {
-                if (value.length < 6) {
-                    callback(new Error('密码长度至少6位'))
+                if (value) {
+                    if (value.length < 6) {
+                        callback(new Error('密码长度至少6位'))
+                    }
                 }
                 callback()
             },
 
             handlePasswordCheck(rule, value, callback) {
                 const password = this.form.getFieldValue('registerPassword')
-                console.log(password)
-                if (value === undefined) {
-                    callback(new Error('请输入密码'))
-                }
-                if (value && password && value.trim() !== password.trim()) {
-                    callback(new Error('两次密码不一致'))
+                if (password) {
+                    if (value === undefined) {
+                        callback(new Error('请输入密码'))
+                    }
+                    if (value && password && value.trim() !== password.trim()) {
+                        callback(new Error('两次密码不一致'))
+                    }
                 }
                 callback()
             },
