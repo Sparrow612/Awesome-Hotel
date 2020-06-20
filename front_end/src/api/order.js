@@ -29,7 +29,13 @@ export function getHotelOrdersAPI(hotelId) {
 }
 export function getHotelOrdersInMonthAPI(hotelId) {
     return axios({
-        url: `${api.orderPre}/${hotelId}/getOrdersInMonthOfAll`,
+        url: `${api.orderPre}/${hotelId}/getOrdersInMonthOfHotel`,
+        method: 'GET',
+    })
+}
+export function getOrdersInMonthAPI() {
+    return axios({
+        url: `${api.orderPre}/getOrdersInMonthOfAll`,
         method: 'GET',
     })
 }
@@ -44,7 +50,7 @@ export function cancelOrderAPI(orderId) {
 export function execOrderAPI(orderId) {
     return axios({
         url: `${api.orderPre}/${orderId}/execOrder`,
-        method: 'GET'
+        method: 'POST'
     })
 }
 // 标记异常订单

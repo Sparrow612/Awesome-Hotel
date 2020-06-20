@@ -15,11 +15,12 @@
     import 'echarts/lib/component/legend'
     import 'echarts/lib/chart/effectScatter'
     import {mapGetters, mapActions, mapMutations} from "vuex";
+
     export default {
         name: "ManagerHomePage",
         async mounted() {
             await this.getUserInfo()
-            this.getHotelOrdersInMonth(this.userInfo.hotelID)
+            await this.getHotelOrdersInMonth(this.userInfo.hotelID)
             this.drawLine()
         },
         computed: {
@@ -39,82 +40,80 @@
                 'set_manageHotelId',
             ]),
             drawLine() {
-                if (this.userInfo.userType === 'HotelManager' || this.userInfo.userType === 'SalesPerson') {
-                    const line_div = this.$refs.chart
-                    echarts.init(line_div).setOption({
-                        title: {text: '酒店近30日营收（横轴下标为第n天，第31天表示当天）'},
-                        tooltip: {},
-                        legend: {
-                            data: ['订单', '收入']
-                        },
-                        toolbox: {
-                            feature: {
-                                dataView: {},
-                                saveAsImage: {
-                                    pixelRatio: 2
-                                },
-                            }
-                        },
-                        xAxis: {
-                            name: '天',
-                            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-                                11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-                                21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
-                            ],
-                            nameTextStyle: {
+                const line_div = this.$refs.chart
+                echarts.init(line_div).setOption({
+                    title: {text: '酒店近30日营收（横轴下标为第n天，第31天表示当天）'},
+                    tooltip: {},
+                    legend: {
+                        data: ['订单', '收入']
+                    },
+                    toolbox: {
+                        feature: {
+                            dataView: {},
+                            saveAsImage: {
+                                pixelRatio: 2
+                            },
+                        }
+                    },
+                    xAxis: {
+                        name: '天',
+                        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                            11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                            21, 22, 23, 24, 25, 26, 27, 28, 29, 30, '31(今天)'
+                        ],
+                        nameTextStyle: {
+                            fontSize: 14,
+                            fontWeight: 'bolder'
+                        }
+                    },
+                    yAxis: [
+                        {
+                            name: '执行订单数', nameTextStyle: {
                                 fontSize: 14,
                                 fontWeight: 'bolder'
                             }
                         },
-                        yAxis: [
-                            {
-                                name: '执行订单数', nameTextStyle: {
-                                    fontSize: 14,
-                                    fontWeight: 'bolder'
-                                }
-                            },
-                            {
-                                name: '收入（单位：元）', nameTextStyle: {
-                                    fontSize: 14,
-                                    fontWeight: 'bolder'
-                                }
+                        {
+                            name: '收入（单位：元）', nameTextStyle: {
+                                fontSize: 14,
+                                fontWeight: 'bolder'
                             }
-                        ],
-                        series: [{
-                            name: '订单',
-                            type: 'line',
-                            smooth: true,
-                            data: this.orderNumInMonth,
-                            yAxisIndex: 0,
-                            emphasis: {
-                                itemStyle: {
-                                    color: 'red'
-                                },
-                                label: {
-                                    show: true,
-                                    formatter: '当日订单'
-                                }
+                        }
+                    ],
+                    series: [{
+                        name: '订单',
+                        type: 'line',
+                        smooth: true,
+                        data: this.orderNumInMonth,
+                        yAxisIndex: 0,
+                        emphasis: {
+                            itemStyle: {
+                                color: 'red'
                             },
-                        }, {
-                            name: '收入',
-                            type: 'line',
-                            smooth: true,
-                            data: this.orderValueInMonth,
-                            yAxisIndex: 1,
-                            emphasis: {
-                                itemStyle: {
-                                    color: 'white'
-                                },
-                                label: {
-                                    show: true,
-                                    formatter: '当日收入'
-                                }
+                            label: {
+                                show: true,
+                                formatter: '当日订单'
+                            }
+                        },
+                    }, {
+                        name: '收入',
+                        type: 'line',
+                        smooth: true,
+                        data: this.orderValueInMonth,
+                        yAxisIndex: 1,
+                        emphasis: {
+                            itemStyle: {
+                                color: 'white'
                             },
-                        }]
-                    })
-                }
-            },
-        }
+                            label: {
+                                show: true,
+                                formatter: '当日收入'
+                            }
+                        },
+                    }]
+                })
+            }
+        },
     }
 </script>
 

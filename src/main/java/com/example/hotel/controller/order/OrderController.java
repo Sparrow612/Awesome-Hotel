@@ -91,7 +91,7 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.probableAbnormalOrder(hotelId));
     }
 
-    @GetMapping("/{hotelId}/getOrdersInMonthOfAll")
+    @GetMapping("/{hotelId}/getOrdersInMonthOfHotel")
     public ResponseVO getOrdersInMonthOfHotel(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(orderService.getOrdersInMonthOfHotel(hotelId));
     }

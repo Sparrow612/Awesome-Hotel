@@ -1,7 +1,8 @@
 // created by glh 2020-05-23
 // 网站营销人员
 import {
-    getAllOrdersAPI
+    getAllOrdersAPI,
+    getOrdersInMonthAPI,
 } from "../../api/order";
 import {
     getUserInfoByEmailAPI,
@@ -31,6 +32,9 @@ import {message} from "ant-design-vue";
 const salesPerson = {
     state: {
         allOrderList: [],
+        allOrderInMonth: [],
+        allOrderNumInMonth: [],
+        allOrderValueInMonth: [],
         siteCouponList: [],
         handleAbnormalOrderVisible: false,
         currentUserEmail: '',
@@ -50,6 +54,15 @@ const salesPerson = {
     mutations: {
         set_allOrderList: function (state, data) {
             state.allOrderList = data
+        },
+        set_allOrderInMonth: function (state, data){
+            state.allOrderInMonth = data
+        },
+        set_allOrderNumInMonth: function (state, data){
+            state.allOrderNumInMonth = data
+        },
+        set_allOrderValueInMonth: function (state, data){
+            state.allOrderValueInMonth = data
         },
         set_siteCouponList: function(state, data){
             state.siteCouponList = data
@@ -96,6 +109,25 @@ const salesPerson = {
             const res = await getAllOrdersAPI()
             if (res) {
                 commit('set_allOrderList', res)
+            }
+        },
+        getAllOrdersInMonth: async ({state, commit}) => {
+            const res = await getOrdersInMonthAPI()
+            if (res) {
+                let num = []
+                let value = []
+                commit('set_allOrderInMonth', res)
+                for (let orders of res) {
+                    let n = 0, v = 0.00
+                    for (const order of orders){
+                        n++
+                        v+=order.price
+                    }
+                    num = [...num, n]
+                    value = [...value, v]
+                }
+                commit('set_allOrderNumInMonth', num)
+                commit('set_allOrderValueInMonth', value)
             }
         },
         getCurrentUserInfoByEmail: async ({state, commit}) => {

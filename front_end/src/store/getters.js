@@ -51,6 +51,9 @@ const getters = {
     hotelInfo: state => state.hotelManager.hotelInfo,
     //salesPerson
     allOrderList: state => state.salesPerson.allOrderList,
+    allOrderInMonth: state => state.salesPerson.allOrderInMonth,
+    allOrderNumInMonth: state => state.salesPerson.allOrderNumInMonth,
+    allOrderValueInMonth: state => state.salesPerson.allOrderValueInMonth,
     siteCouponList: state => state.salesPerson.siteCouponList,
     handleAbnormalOrderVisible: state => state.salesPerson.handleAbnormalOrderVisible,
     addSiteCouponVisible: state => state.salesPerson.addSiteCouponVisible,
