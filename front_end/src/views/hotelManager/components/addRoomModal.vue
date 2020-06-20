@@ -31,6 +31,12 @@
                     v-decorator="['price', { rules: [{ required: true, message: '请输入原始价格' }] }]"
                 />
             </a-form-item>
+            <a-form-item label="入住人数" v-bind="formItemLayout">
+                <a-input
+                        placeholder="请输入入住人数"
+                        v-decorator="['peopleNum', { rules: [{ required: true, message: '请输入入住人数' }] }]"
+                />
+            </a-form-item>
         </a-form>
     </a-modal>
 </template>
@@ -83,10 +89,9 @@ export default {
                         roomType: this.form.getFieldValue('roomType'),
                         price: Number(this.form.getFieldValue('price')),
                         total: Number(this.form.getFieldValue('roomNum')),
-                        curNum: Number(this.form.getFieldValue('roomNum')),
+                        peopleNum: Number(this.form.getFieldValue('peopleNum')),
                         hotelId: this.activeHotelId,
                     }
-                    console.log(data)
                     this.set_addRoomParams(data)
                     this.addRoom()
                 }
