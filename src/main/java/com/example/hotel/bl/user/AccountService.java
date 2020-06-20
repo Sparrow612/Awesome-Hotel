@@ -34,7 +34,9 @@ public interface AccountService {
     /**
      * 更新用户个人信息
      */
-    ResponseVO updateUserInfo(int id, String password, String username, String phoneNumber);
+    ResponseVO updateUserInfo(int id, String username, String phoneNumber, String corporation);
+
+    ResponseVO updatePassword(int id, String password);
 
     ResponseVO updateCredit(int id, double credit);
 

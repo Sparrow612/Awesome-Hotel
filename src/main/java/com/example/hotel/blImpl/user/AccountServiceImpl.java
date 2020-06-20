@@ -83,14 +83,25 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ResponseVO updateUserInfo(int id, String password, String username, String phoneNumber) {
+    public ResponseVO updateUserInfo(int id, String username, String phoneNumber, String corporation) {
         try {
-            accountMapper.updateAccount(id, PasswordEncryptHelper.getMD5(password), username, phoneNumber);
+            User user = accountMapper.getAccountById(id);
+            username = username == null ? user.getUserName() : username;
+            phoneNumber = phoneNumber == null ? user.getPhoneNumber() : phoneNumber;
+            corporation = corporation == null ? user.getCorporation() : corporation;
+            accountMapper.updateAccount(id, username, phoneNumber, corporation);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(UPDATE_ERROR);
         }
         return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO updatePassword(int id, String password) {
+        String n_pass = PasswordEncryptHelper.getMD5(password);
+        accountMapper.updatePassword(id, n_pass);
+        return ResponseVO.buildSuccess();
     }
 
 
@@ -248,8 +259,8 @@ public class AccountServiceImpl implements AccountService {
     public List<String> getAllPhoneNumOfSalesPerson() {
         List<UserVO> userVOS = getAllUsers();
         List<String> phoneNum = new ArrayList<>();
-        for(UserVO userVO : userVOS){
-            if(userVO.getUserType().equals(UserType.SalesPerson))
+        for (UserVO userVO : userVOS) {
+            if (userVO.getUserType().equals(UserType.SalesPerson))
                 phoneNum.add(userVO.getPhoneNumber());
         }
         return phoneNum;
