@@ -36,7 +36,6 @@
                 <a-button icon="edit" @click="modifyLevel(record.level, 'Corporation', record.request, record.reduction)" size="small" type="primary">修改</a-button>
             </template>
         </a-table>
-
         <modify-level-consumption-modal></modify-level-consumption-modal>
     </div>
 </template>
@@ -97,14 +96,14 @@
                 'getClientLevel',
                 'getCorpLevel',
             ]),
-            modifyLevel(level, type, request, reduction) {
-                this.set_levelModifyModalVisible(true)
-                this.set_currentLevel({
+            async modifyLevel(level, type, request, reduction) {
+                await this.set_currentLevel({
                     level: level,
                     type: type,
                     request: request,
                     reduction: reduction,
                 })
+                this.set_levelModifyModalVisible(true)
             }
         },
 

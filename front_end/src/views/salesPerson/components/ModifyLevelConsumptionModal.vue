@@ -22,10 +22,12 @@
                 />
             </a-form-item>
             <a-form-item label="减免额度" v-bind="formItemLayout">
-                <a-input
-                        allow-clear
-                        placeholder="请填写减免额度"
-                        v-decorator="['reduction',{rules: [{required: true, message: '请填写减免额度'}], initialValue: currentLevel.reduction}]"
+                <a-input-number
+                        :formatter="value => `${value}%`"
+                        :max="99"
+                        :min="1"
+                        :parser="value => value.replace('%', '')"
+                        v-decorator="['reduction',{rules: [{required: true, message: '请输入减免额度'}], initialValue: currentLevel.reduction*100}]"
                 />
             </a-form-item>
         </a-form>
@@ -34,9 +36,10 @@
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
+
     export default {
         name: "ModifyLevelConsumptionModal",
-        data () {
+        data() {
             return {
                 formItemLayout: {
                     labelCol: {
@@ -72,14 +75,15 @@
             handleSubmit(e) {
                 e.preventDefault()
                 this.form.validateFieldsAndScroll((err, values) => {
-                    if(!err) {
+                    if (!err) {
                         const params = {
                             level: Number(this.currentLevel.level),
                             type: this.currentLevel.type,
                             requestConsumption: Number(this.form.getFieldValue('request')),
-                            reduction: this.form.getFieldValue('reduction')
+                            reduction: this.form.getFieldValue('reduction') / 100
                         }
                         this.formulateALevel(params)
+                        this.form.resetAll()
                     }
                 })
             }

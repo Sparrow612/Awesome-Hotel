@@ -286,7 +286,7 @@ VALUES (4, '1012681@qq.com', 'e10adc3949b', '测试一号', '12345678919', 100, 
        (5, '123@qq.com', 'e10adc3949b', '测试二号', '12345678911', 100, 'Client', NULL, NULL, 3, NULL, NULL, NULL,
         'Normal'),
        (6, '333@qq.com', 'e10adc3949b', '工作人员1', NULL, NULL, 'HotelManager', NULL, NULL, 3, NULL, 1, NULL, 'Normal'),
-       (7, '444@qq.com', 'e10adc3949b', '营销人员1', NULL, NULL, 'SalesPerson', NULL, NULL, 3, NULL, NULL, NULL, 'Normal'),
+       (7, '444@qq.com', 'e10adc3949b', '营销人员1', '13651731541', NULL, 'SalesPerson', NULL, NULL, 3, NULL, NULL, NULL, 'Normal'),
        (8, '555@qq.com', 'e10adc3949b', '管理人员1', NULL, NULL, 'Admin', NULL, NULL, 3, NULL, NULL, NULL, 'Normal');
 /*!40000 ALTER TABLE `User`
     ENABLE KEYS */;

@@ -145,7 +145,6 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public List<RoomVO> checkRoom(Integer hotelId, List<RoomVO> rooms, String beginTime, String endTime) {
         List<RoomVO> roomVOS = new ArrayList<>();
-
         //确保输入的房间情况不为空
         if (!rooms.isEmpty()) {
             List<Order> orders = orderService.getHotelOrders(hotelId);

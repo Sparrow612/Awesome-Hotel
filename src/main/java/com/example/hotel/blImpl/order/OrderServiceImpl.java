@@ -4,17 +4,13 @@ import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
-import com.example.hotel.blImpl.coupon.TimeFormatHelper;
 import com.example.hotel.data.order.OrderMapper;
-import com.example.hotel.enums.RoomType;
 import com.example.hotel.po.Comment;
-import com.example.hotel.po.Hotel;
 import com.example.hotel.po.Order;
 import com.example.hotel.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -249,9 +245,9 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVO getOrdersInMonthOfHotel(Integer hotelId) {
         List<Order> orders = getHotelOrders(hotelId);
         orders = getOrdersInMonth(orders);
-        List<List<Order>> temp = new ArrayList<>();
-        temp.add(orders);
-        return ResponseVO.buildSuccess(temp);
+        List<List<Order>> res = new ArrayList<>();
+        res.add(orders);
+        return ResponseVO.buildSuccess(res);
     }
 
 

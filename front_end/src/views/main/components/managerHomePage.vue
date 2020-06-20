@@ -1,8 +1,6 @@
 <template>
     <div>
-        <div id="line_div" ref="chart" style="width: 1200px; height:600px; margin-top: 30px">
-
-        </div>
+        <div id="line_div" ref="chart" style="width: 1200px; height:600px; margin-top: 30px"/>
         <p>展示酒店收到的订单</p>
     </div>
 </template>
