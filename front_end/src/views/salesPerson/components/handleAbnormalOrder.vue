@@ -44,9 +44,6 @@
             <a-descriptions-item label="总价">
                 {{ orderInfo.price }}
             </a-descriptions-item>
-            <a-descriptions-item label="顾客申诉" span="3">
-                TODO: 待完成 存储和读取？
-            </a-descriptions-item>
         </a-descriptions>
         <br/>
         <br/>
@@ -58,8 +55,6 @@
                 </a-tag>
             </span>
             <div style="float: right">
-                <a-button type="primary" @click="reject">撤回申诉</a-button>
-                <a-divider type="vertical"></a-divider>
                 <a-button type="primary" @click="recoverHalf">恢复50%</a-button>
                 <a-divider type="vertical"></a-divider>
                 <a-button type="primary" @click="recoverAll">恢复100%</a-button>
@@ -86,33 +81,32 @@ export default {
             'currentHotelInfo',
         ])
     },
-    mutations: {
-        ...mapMutations([
-            'set_handleAbnormalOrderVisible'
-        ])
-    },
     methods: {
         ...mapMutations([
             'set_handleAbnormalOrderVisible'
         ]),
-
+        ...mapActions([
+            'handleAbnormalOrder'
+        ]),
         handleOK() {
             this.set_handleAbnormalOrderVisible(false)
         },
         cancel() {
             this.set_handleAbnormalOrderVisible(false)
         },
-        reject() {
-            alert('撤回申诉')
-            this.set_handleAbnormalOrderVisible(false)
-        },
         recoverHalf() {
-            alert('恢复50%')
-            this.set_handleAbnormalOrderVisible(false)
+            const params = {
+                orderId: this.orderInfo.id,
+                ratio: 0.5,
+            }
+            this.handleAbnormalOrder(params)
         },
         recoverAll() {
-            alert('恢复100%')
-            this.set_handleAbnormalOrderVisible(false)
+            const params = {
+                orderId: this.orderInfo.id,
+                ratio: 1,
+            }
+            this.handleAbnormalOrder(params)
         }
     }
 }

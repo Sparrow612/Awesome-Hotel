@@ -34,39 +34,40 @@
                     <span slot="action" slot-scope="record">
                         <a-button type="primary" size="small" @click="showOrderDatail(record)">详情</a-button>
 
-                        <a-divider type="vertical" v-if="record.orderState === '已预订'"></a-divider>
+                        <a-divider type="vertical" v-if="record.orderState === '未入住'"></a-divider>
 
                         <a-popconfirm
-                                title="确定执行该订单吗？"
-                                @confirm="executeOrder(record)"
+                                title="确定执行该入住吗？"
+                                @confirm="checkIn(record)"
                                 okText="确定"
                                 cancelText="取消"
-                                v-if="record.orderState === '已预订'"
+                                v-if="record.orderState === '未入住'"
                         >
-                            <a-button type="default" size="small">执行</a-button>
+                            <a-button type="default" size="small">入住</a-button>
                         </a-popconfirm>
 
-                        <a-divider type="vertical"></a-divider>
+                        <a-divider type="vertical" v-if="record.orderState === '已入住'"></a-divider>
 
                         <a-popconfirm
-                            title="确定想删除该订单吗？"
-                            @confirm="deleteOrder(record)"
-                            okText="确定"
-                            cancelText="取消"
-                        >
-                            <a-button type="danger" size="small">删除</a-button>
-                        </a-popconfirm>
-
-                        <a-divider type="vertical" v-if="record.orderState !== '异常订单'"></a-divider>
-
-                        <a-popconfirm
-                                title="确定标记为异常订单吗？"
-                                @confirm="markAsabnormalOrder(record)"
+                                title="确定完成该订单吗？"
+                                @confirm="finish(record)"
                                 okText="确定"
                                 cancelText="取消"
-                                v-if="record.orderState !== '异常订单'"
+                                v-if="record.orderState === '已入住'"
                         >
-                            <a-button type="dashed" size="small">异常</a-button>
+                            <a-button type="default" size="small">完成</a-button>
+                        </a-popconfirm>
+
+                        <a-divider type="vertical" v-if="record.orderState === '异常订单'"></a-divider>
+
+                        <a-popconfirm
+                                title="确定为用户补登入住？"
+                                @confirm="abnormal(record)"
+                                okText="确定"
+                                cancelText="取消"
+                                v-if="record.orderState === '异常订单'"
+                        >
+                            <a-button type="danger" size="small">处理异常</a-button>
                         </a-popconfirm>
                     </span>
                 </a-table>
@@ -214,11 +215,13 @@ export default {
             'orderDetailVisible',
             'userInfo',
             'hotelInfo',
+            'handleAbnormalOrderVisible',
         ]),
     },
     async mounted() {
         await this.getUserInfo()
         await this.getHotelInfo(Number(this.userInfo.hotelID))
+        await this.getHotelOrders(Number(this.userInfo.hotelID))
     },
     methods: {
         ...mapMutations([
@@ -228,11 +231,14 @@ export default {
             'set_activeHotelId',
             'set_orderDetailVisible',
             'set_orderInfo',
+            'set_handleAbnormalModalVisible",'
         ]),
         ...mapActions([
             'getHotelOrders',
             'getHotelCoupon',
-            'execOrder',
+            'checkInOrder',
+            'finishOrder',
+            'abnormalOrder',
             'getUserInfo',
             'getHotelInfo',
         ]),
@@ -251,24 +257,36 @@ export default {
         deleteHotel(){
 
         },
-        deleteOrder(record){
-            console.log(record)
-        },
         showOrderDatail(record) {
             this.set_orderInfo(record)
             this.set_orderDetailVisible(true)
         },
-        executeOrder(record) {
+       checkIn(record) {
             let checkInDate = new Date(record.checkInDate);
             let now = new Date();
             if(checkInDate.toLocaleDateString()===now.toLocaleDateString()) {
-                this.execOrder(record.id); // 执行订单
-                message.success('执行订单')
+                this.checkInOrder(record.id).then(() => {
+                    this.getHotelOrders(Number(this.userInfo.hotelID))
+                })
             }
             else {
                 message.warning('还未到入住时间')
             }
         },
+       finish(record) {
+           this.finishOrder(record.id).then(() => {
+               this.getHotelOrders(Number(this.userInfo.hotelID))
+           })
+       },
+       abnormal(record) {
+            const params = {
+                orderId: record.id,
+                ratio: 1
+            }
+            this.abnormalOrder(params).then(() => {
+                this.getHotelOrders(Number(this.userInfo.hotelID))
+            })
+       }
     }
 }
 </script>
