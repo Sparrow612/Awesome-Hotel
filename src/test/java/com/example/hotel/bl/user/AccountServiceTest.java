@@ -74,9 +74,9 @@ public class AccountServiceTest {
     @Test
     @Transactional
     public void updateUserInfo() {
-        accountService.updateUserInfo(6,"123456","测6","123qwe");
+        accountService.updateUserInfo(6,"测试","12345678910","123qwe");
         UserVO userVO = accountService.getUserInfo(6);
-        Assert.assertThat(userVO.getUserName(), is("测6"));
+        Assert.assertThat(userVO.getUserName(), is("测试"));
     }
 
     @Test
@@ -122,11 +122,8 @@ public class AccountServiceTest {
     @Test
     @Transactional
     public void getAllPhoneNumOfSalesPerson() {
+        accountService.updateUserInfo(7,"营销人员1","13345626722","南京大学");
         List<String> phoneNums = accountService.getAllPhoneNumOfSalesPerson();
-        String str = null;
-        Assert.assertThat(phoneNums.get(0), is(str));
-        accountService.updateUserInfo(7,"123456","营销人员1","13345626722");
-        phoneNums = accountService.getAllPhoneNumOfSalesPerson();
         Assert.assertThat(phoneNums.size(), is(1));
         Assert.assertThat(phoneNums.get(0), is("13345626722"));
     }

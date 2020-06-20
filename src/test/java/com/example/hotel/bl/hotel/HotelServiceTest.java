@@ -130,13 +130,13 @@ public class HotelServiceTest {
         Assert.assertThat(roomVO.getCurNum(),is(20));
     }
 
-    @Test
-    @Transactional
-    public void getManagerTelephone() {
-        accountService.updateUserInfo(6,"123","123123","12312300");
-        String phoneNumber = hotelService.getManagerTelephone(3);
-        Assert.assertThat(phoneNumber, is("12312300"));
-    }
+//    @Test
+//    @Transactional
+//    public void getManagerTelephone() {
+//        accountService.updateUserInfo(6,"123","123123","12312300");
+//        String phoneNumber = hotelService.getManagerTelephone(3);
+//        Assert.assertThat(phoneNumber, is("12312300"));
+//    }
 
     @Test
     @Transactional

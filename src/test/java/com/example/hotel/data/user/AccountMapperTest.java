@@ -59,8 +59,8 @@ public class AccountMapperTest {
     @Test
     @Transactional
     public void updateAccount() {
-        accountMapper.updateAccount(4, "123123", "test one", "12312312312");
-        Assert.assertThat(accountMapper.getAccountById(4).getUserName(), is("test one"));
+        accountMapper.updateAccount(4, "testone", "12312312312", "12312312312");
+        Assert.assertThat(accountMapper.getAccountById(4).getUserName(), is("testone"));
     }
 
     @Test
