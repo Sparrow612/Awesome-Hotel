@@ -19,6 +19,17 @@
                   <a-select-option value="Family">家庭房</a-select-option>
                 </a-select>
             </a-form-item>
+            <a-form-item label="早餐" v-bind="formItemLayout">
+                <a-select
+                        v-decorator="[
+                    'breakfast',
+                    { rules: [{ required: true, message: '请选择早餐' }] }]"
+                >
+                    <a-select-option value="None">无</a-select-option>
+                    <a-select-option value="Porridge">粥</a-select-option>
+                    <a-select-option value="Noodles">面条</a-select-option>
+                </a-select>
+            </a-form-item>
             <a-form-item label="房间数量" v-bind="formItemLayout">
                 <a-input
                     placeholder="请填写房间数量"
@@ -87,8 +98,11 @@ export default {
                 if (!err) {
                     const data = {
                         roomType: this.form.getFieldValue('roomType'),
+                        bedType: this.form.getFieldValue('roomType'),
+                        breakfast: this.form.getFieldValue('breakfast'),
                         price: Number(this.form.getFieldValue('price')),
                         total: Number(this.form.getFieldValue('roomNum')),
+                        curNum: Number(this.form.getFieldValue('roomNum')),
                         peopleNum: Number(this.form.getFieldValue('peopleNum')),
                         hotelId: this.activeHotelId,
                     }
