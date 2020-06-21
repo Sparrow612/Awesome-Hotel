@@ -72,7 +72,7 @@ export default {
     computed: {
         ...mapGetters([
             'addRoomModalVisible',
-            'activeHotelId'
+            'userInfo',
         ])
     },
     beforeCreate() {
@@ -104,7 +104,7 @@ export default {
                         total: Number(this.form.getFieldValue('roomNum')),
                         curNum: Number(this.form.getFieldValue('roomNum')),
                         peopleNum: Number(this.form.getFieldValue('peopleNum')),
-                        hotelId: this.activeHotelId,
+                        hotelId: this.userInfo.hotelID,
                     }
                     this.set_addRoomParams(data)
                     this.addRoom()
