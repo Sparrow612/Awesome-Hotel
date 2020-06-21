@@ -28,8 +28,26 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void insertRoomInfo(HotelRoom hotelRoom) {
+    public void insertRoomInfo(RoomVO room) {
+        HotelRoom hotelRoom = new HotelRoom(room);
+        List<HotelRoom> hotelRooms = roomMapper.selectRoomsByHotelId(hotelRoom.getHotelId());
+        int curNum;
+        for(HotelRoom hotelRoom1 : hotelRooms){
+            if(hotelRoom1.getRoomType().toString().equals(hotelRoom.getRoomType().toString())){
+                curNum = hotelRoom1.getCurNum() + hotelRoom.getTotal() - hotelRoom1.getTotal();
+                hotelRoom.setCurNum(curNum);
+                roomMapper.deleteRoom(room.getId(), room.getRoomType());
+                break;
+            }
+        }
+
         roomMapper.insertRoom(hotelRoom);
+
+    }
+
+    @Override
+    public void deleteRoom(Integer hotelId, String roomType) {
+        roomMapper.deleteRoom(hotelId, roomType);
     }
 
     //需要用英文版roomType

@@ -17,5 +17,18 @@ public enum RoomType {
         return value;
     }
 
+    public static String getType(String value){
+        switch (value) {
+            case "大床房":
+                return "BigBed";
+            case "双床房":
+                return "DoubleBed";
+            case "家庭房":
+                return "Family";
+            case "豪华套房":
+                return "Luxury";
+        }
+        return null;
+    }
 
 }
