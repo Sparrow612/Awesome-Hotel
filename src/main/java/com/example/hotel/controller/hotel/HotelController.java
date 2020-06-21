@@ -45,10 +45,14 @@ public class HotelController {
     }
 
     @PostMapping("/roomInfo")
-    public ResponseVO addRoomInfo(@RequestBody HotelRoom hotelRoom) {
-        System.out.println(hotelRoom.getTotal());
-        System.out.println(hotelRoom.getRoomType().toString());
+    public ResponseVO addRoomInfo(@RequestBody RoomVO hotelRoom) {
         roomService.insertRoomInfo(hotelRoom);
+        return ResponseVO.buildSuccess(true);
+    }
+
+    @PostMapping("/deleteRoom")
+    public ResponseVO deleteRoom(@RequestParam Integer hotelId, @RequestParam String roomType) {
+        roomService.deleteRoom(hotelId,roomType);
         return ResponseVO.buildSuccess(true);
     }
 

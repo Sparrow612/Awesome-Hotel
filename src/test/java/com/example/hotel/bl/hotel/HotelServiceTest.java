@@ -1,6 +1,5 @@
 package com.example.hotel.bl.hotel;
 
-import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.util.ServiceException;
 import com.example.hotel.vo.HotelForm;
 import com.example.hotel.vo.HotelVO;
@@ -27,8 +26,6 @@ public class HotelServiceTest {
 
     @Autowired
     private HotelService hotelService;
-    @Autowired
-    private AccountService accountService;
 
 
     @Test
