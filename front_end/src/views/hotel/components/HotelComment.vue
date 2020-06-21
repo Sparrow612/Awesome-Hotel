@@ -6,7 +6,7 @@
             :data-source="hotelComments"
     >
         <a-list-item slot="renderItem" slot-scope="item">
-            <a-comment :author="getUserNameById(item.userId)" :avatar="avatar_url" class="hotelComment">
+            <a-comment :author="getUserNameById(item.userId)" :avatar="userLogo(item.userId)" class="hotelComment">
                 <p slot="content">
                     总体评分: <a-rate :default-value="2" disabled /><br/>
                     卫生: <a-rate :default-value="2" disabled />&nbsp;
@@ -28,17 +28,7 @@
         name: "HotelComment",
         data() {
             return {
-                data: [
-                    {
-                        author: 'Han Solo',
-                        avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                        content:
-                            'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-                        datetime: moment().subtract(1, 'days'),
-                    },
-                ],
                 moment,
-                avatar_url: 'https://colarhua-pic.oss-cn-shenzhen.aliyuncs.com/gary-jw-3/user_logo.svg',
             }
         },
         computed: {
@@ -50,7 +40,6 @@
         async mounted() {
             await this.getHotelComments()
             await this.getAllUsers()
-
         },
         methods:{
             ...mapActions([
@@ -64,6 +53,17 @@
                     }
                 }
                 return '未知用户'
+            },
+            userLogo(userId) {
+                for (let i = 0; i < this.allUserList.length; i++) {
+                    if(this.allUserList[i].id === userId) {
+                        if(this.allUserList[i].vipType === 'Normal')
+                            return 'https://colarhua-pic.oss-cn-shenzhen.aliyuncs.com/gary-jw-3/用户.svg'
+                        else
+                            return 'https://colarhua-pic.oss-cn-shenzhen.aliyuncs.com/gary-jw-3/会员.svg'
+                    }
+                }
+                return 'https://colarhua-pic.oss-cn-shenzhen.aliyuncs.com/gary-jw-3/用户.svg'
             }
         },
 
