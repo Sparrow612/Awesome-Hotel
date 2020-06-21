@@ -9,6 +9,8 @@
         <a-table
                 :columns="columns_of_rooms"
                 :dataSource="roomList"
+                style="background-color: white; padding: 10px; border-radius: 20px"
+                :locale="{emptyText: '暂时没有客房信息'}"
                 bordered
         >
             <span slot="price" slot-scope="text">

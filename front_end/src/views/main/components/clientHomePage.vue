@@ -195,11 +195,13 @@
                                 });
                             }
                         },
+                        align: 'center',
                     },
                     {
                         title: '简介',
                         dataIndex: 'description',
                         ellipsis: true,
+                        align: 'center',
                     },
                     {
                         title: '操作',

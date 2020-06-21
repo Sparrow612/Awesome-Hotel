@@ -2,7 +2,7 @@
     <div class="box">
 
         <div class="searchbox">
-            <a-form :form="form">
+            <a-form :form="form" style="border-radius: 20px; background-color: antiquewhite; padding: 10px; horiz-align: center">
                 <a-form-item label="时间" v-bind="formItemLayout">
                     <a-range-picker
                             format="YYYY-MM-DD"
@@ -183,7 +183,8 @@
 
 <style lang="less" scoped>
     .box {
-        display: block;
+        padding: 20px;
+        align-content: center;
     }
 
     .searchtab {
@@ -195,12 +196,17 @@
     .searchbox {
         margin-top: 80px;
         width: 100%;
+        align-self: center;
     }
 
     .searchButton {
         width: 200px;
+        height: auto;
+        padding: 5px;
         text-align: center;
         float: right;
+        font-size: large;
+        background-color: orange;
     }
 
     .searchresult {

@@ -117,8 +117,8 @@
                         :columns="columns_of_orders"
                         :dataSource="userOrderList"
                         :locale="{emptyText: '您还没有订单'}"
+                        style="background-color: white; padding: 10px; border-radius: 20px"
                         bordered
-                        style="background-color: white; padding: 10px"
                 >
                     <a-tag color="red" slot="createDate" slot-scope="text">
                         {{text}}
@@ -127,9 +127,9 @@
                         {{text}}
                     </a-tag>
                     <span slot="roomType" slot-scope="text">
-                        <a-tag color="green" v-if="text === 'BigBed'">大床房</a-tag>
-                        <a-tag color="green" v-if="text === 'DoubleBed'">双床房</a-tag>
-                        <a-tag color="green" v-if="text === 'Family'">家庭房</a-tag>
+                        <a-tag color="pink" v-if="text === 'BigBed'">大床房</a-tag>
+                        <a-tag color="pink" v-if="text === 'DoubleBed'">双床房</a-tag>
+                        <a-tag color="pink" v-if="text === 'Family'">家庭房</a-tag>
                     </span>
                     <a-tag color="red" slot="checkInDate" slot-scope="text">
                         {{text}}
@@ -169,7 +169,7 @@
                         :dataSource="userCollections"
                         :locale="{emptyText: '您还没有收藏任何酒店'}"
                         bordered
-                        style="background-color: white; padding: 10px"
+                        style="background-color: white; padding: 10px; border-radius: 20px"
                 >
                     <div
                             slot="filterDropdown"
@@ -232,7 +232,7 @@
                         :dataSource="creditChangeList"
                         :locale="{emptyText: '暂时没有信用变更记录'}"
                         bordered
-                        style="background-color: white; padding: 10px"
+                        style="background-color: white; padding: 10px; border-radius: 20px"
                 >
                     <span slot="type" slot-scope="record">
                         <a-icon theme="twoTone" type="plus-circle" v-if="record.change>0"/>

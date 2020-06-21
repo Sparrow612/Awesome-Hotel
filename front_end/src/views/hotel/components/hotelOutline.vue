@@ -27,7 +27,9 @@
                     <div slot="content">
                         <a-form :form="this.form">
                             <a-form-item>
-                                <a-textarea :placeholder="hint" :rows="4"
+                                <a-textarea
+                                        style="border-radius: 20px; "
+                                        :placeholder="hint" :rows="4"
                                             v-decorator="[
                                             'question', { rules: [{ required: true, message: '请输入您的问题' }]}
                                         ]"
@@ -49,7 +51,7 @@
                         :locale="{emptyText: '暂时没有问题'}"
                         class="comment-list"
                         item-layout="horizontal"
-                        style="background-color: white; font-size: larger"
+                        style="background-color: white; font-size: larger; padding: 10px; border-radius: 20px; "
                 >
                     <a-list-item slot="renderItem" slot-scope="item" style="display: inline">
                         <a-tag color="blue" v-if="item.userId===userId">您的提问</a-tag>
@@ -108,8 +110,8 @@
                 <a-table
                         :columns="columns"
                         :dataSource="couponList"
+                        style="background-color: white; padding: 10px; border-radius: 20px"
                         bordered
-
                 >
                     <template slot="title">
                         <h3>只有满减优惠有具体的优惠金额，其他类型的优惠券的优惠方式都是折扣。</h3>
