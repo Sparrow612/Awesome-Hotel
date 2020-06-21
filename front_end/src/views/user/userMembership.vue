@@ -5,6 +5,18 @@
         </div>
         <div style="float: left; margin-left: 5%; text-align: center; width: 270px">
             <a-card style="width: 270px;">
+                <p>VIP企业会员特权</p>
+                <img
+                        alt="example"
+                        src="@/assets/couponLogo.svg"
+                        class="logo"
+                />
+                <span> 丰富优惠</span>
+            </a-card>
+            <a-button type="primary" @click="registerCorporationMembership" style="margin-top: 20px"><a-icon type="user" />注册企业会员</a-button>
+
+
+            <a-card style="width: 270px; margin-top: 20px;">
                 <p>VIP网站会员特权</p>
                 <img
                     alt="example"
@@ -49,10 +61,11 @@
                 <a-button type="primary" @click="registerSiteMembership" style="margin-top: 20px"><a-icon type="user" />注册会员</a-button>
             </span>
 
-            <a-form :form="form" style="margin-top: 30px; margin-left: 17px; text-align: left" v-show="this.userInfo.vipType==='Client'">
+            <a-form :form="form" style="margin-top: 30px; text-align: left" v-show="this.userInfo.vipType==='Client'">
                 <a-form-item label="您的生日" v-bind="formItemLayout">
                     <a-date-picker :disabled="!modify"
-                                   v-decorator="['birthday', { rules: [{ required: true, message: '请选择您的生日' }], initialValue: moment(this.userInfo.birthday, dateFormat)}]" />
+                                   v-decorator="['birthday', { rules: [{ required: true, message: '请选择您的生日' }], initialValue: moment(this.userInfo.birthday, dateFormat)}]" v-if="modify"/>
+                    <span v-else>{{ userInfo.birthday }}</span>
                 </a-form-item>
 
                 <a-form-item label="" :wrapper-col="{ span: 16, offset: 9 }" v-if="modify">
@@ -70,14 +83,18 @@
                 </a-form-item>
 
             </a-form>
+
+
         </div>
         <RegisterSiteMembership></RegisterSiteMembership>
+        <RegisterCorporationMembership></RegisterCorporationMembership>
     </div>
 </template>
 
 <script>
 import membershipCoupon from "./components/membershipCoupon";
 import RegisterSiteMembership from "./components/RegisterSiteMembership";
+import RegisterCorporationMembership from "./components/RegisterCorporationMembership";
 import moment from 'moment';
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import {message} from "ant-design-vue";
@@ -105,6 +122,7 @@ export default {
     components: {
         membershipCoupon,
         RegisterSiteMembership,
+        RegisterCorporationMembership,
     },
     async mounted() {
         await this.getUserInfo()
@@ -130,6 +148,9 @@ export default {
         ]),
         registerSiteMembership() {
             this.set_registerSiteMembershipModalVisible(true);
+        },
+        registerCorporationMembership() {
+            this.set_registerCorporationMembershipModalVisible(true);
         },
 
         modifyInfo() {
