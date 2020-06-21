@@ -122,6 +122,7 @@ const hotelManager = {
                     total: 0,
                     curNum: 0,
                 })
+                dispatch('getHotelInfo', state.addRoomParams.id)
                 message.success('添加成功')
             } else {
                 message.error('添加失败')

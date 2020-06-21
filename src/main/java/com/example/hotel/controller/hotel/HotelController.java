@@ -45,7 +45,7 @@ public class HotelController {
     }
 
     @PostMapping("/roomInfo")
-    public ResponseVO addRoomInfo(@RequestParam HotelRoom hotelRoom) {
+    public ResponseVO addRoomInfo(@RequestBody HotelRoom hotelRoom) {
         System.out.println(hotelRoom.getTotal());
         System.out.println(hotelRoom.getRoomType().toString());
         roomService.insertRoomInfo(hotelRoom);
