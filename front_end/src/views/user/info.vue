@@ -157,8 +157,6 @@
                         >
                             <a-button size="small" type="danger">撤销</a-button>
                         </a-popconfirm>
-                        <a-divider type="vertical" v-if="record.orderState === '异常订单'"></a-divider>
-                        <a-button size="small" type="default" v-if="record.orderState === '异常订单'">申诉</a-button>
                         <a-divider type="vertical" v-if="record.orderState === '已完成'"></a-divider>
                         <a-button @click="commentOrder(record)" size="small" type="default"
                                   v-if="record.orderState === '已完成'">评价</a-button>

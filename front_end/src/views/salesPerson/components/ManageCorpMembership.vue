@@ -36,7 +36,7 @@
     const columns = [
         {
             title: '企业名',
-            dataIndex: 'corporation',
+            dataIndex: 'corporationName',
             scopedSlots: { customRender: 'corporation' }
         },
         {
