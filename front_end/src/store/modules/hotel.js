@@ -155,6 +155,7 @@ const hotel = {
             const res = await searchHotelAPI(data)
             if (res) {
                 commit('set_searchList', res)
+                message.success('搜索成功')
             }
         },
         getHotelQuestion: async ({state, commit}) => {

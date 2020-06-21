@@ -1,8 +1,20 @@
 <template>
     <div class="box">
 
+        <div class="searchBar">
+            <a-button class="searchButton" type="primary" @click="searchOpen" icon="search" value="搜索">
+                开始搜索
+            </a-button>
+        </div>
+
         <div class="searchbox">
-            <a-form :form="form" style="border-radius: 20px; background-color: antiquewhite; padding: 10px; horiz-align: center">
+            <a-drawer
+                    :visible="searchVisible"
+                    width="45%"
+                    @close="searchClose"
+                    title="搜索信息"
+            >
+                <a-form :form="form" style="border-radius: 20px; background-color: antiquewhite; padding: 10px;">
                 <a-form-item label="时间" v-bind="formItemLayout">
                     <a-range-picker
                             format="YYYY-MM-DD"
@@ -66,14 +78,19 @@
                     />
                 </a-form-item>
                 <a-form-item v-bind="formItemLayout">
-                    <a-button @click="search" class="searchButton" icon="search" type="primary" value="搜索">
+                    <a-button style="background-color: orange" @click="search" class="searchButton" icon="search" type="primary">
                         搜索酒店
                     </a-button>
                 </a-form-item>
             </a-form>
+            </a-drawer>
         </div>
 
-        <div class="searchresult">
+        <div class="gallery">
+
+        </div>
+
+        <div class="searchresult" v-if="searchList.length>0">
             <div class="card-wrapper">
                 <HotelCard :hotel="item" :key="item.index" @click.native="jumpToDetails(item.id)"
                            v-for="item in searchList"></HotelCard>
@@ -131,7 +148,8 @@
                     '情侣酒店',
                     '浪漫',
                     '安全',
-                ]
+                ],
+                searchVisible: false,
             }
         },
         beforeCreate() {
@@ -159,6 +177,12 @@
             jumpToDetails(id) {
                 this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
             },
+            searchOpen(){
+                this.searchVisible = true
+            },
+            searchClose(){
+                this.searchVisible = false
+            },
             search(e) {
                 e.preventDefault();
                 this.form.validateFieldsAndScroll((err, values) => {
@@ -174,6 +198,8 @@
                             hotelStar: this.form.getFieldValue('stars'),
                         }
                         this.searchHotel(data)
+                        this.form.resetFields()
+                        this.searchVisible = false
                     }
                 });
             },
@@ -182,19 +208,19 @@
 </script>
 
 <style lang="less" scoped>
+
     .box {
         padding: 20px;
         align-content: center;
     }
 
-    .searchtab {
-        width: 100%;
-        display: flex;
-        margin: 10px;
+    .searchBar {
+        padding: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 
     .searchbox {
-        margin-top: 80px;
         width: 100%;
         align-self: center;
     }
@@ -206,7 +232,6 @@
         text-align: center;
         float: right;
         font-size: large;
-        background-color: orange;
     }
 
     .searchresult {

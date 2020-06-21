@@ -206,6 +206,7 @@
                     {
                         title: '操作',
                         scopedSlots: {customRender: 'action'},
+                        align: 'center',
                     },
                 ],
                 locale: zhCN,

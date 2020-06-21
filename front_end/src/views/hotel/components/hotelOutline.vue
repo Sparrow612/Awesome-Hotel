@@ -2,11 +2,16 @@
     <div>
         <a-tabs>
             <a-tab-pane key="1" tab="酒店点评">
-                <div style="font-size: large;padding: 10px">
-                    <a-icon class="eval" type="crown"/>
-                    酒店评分：
-                    <a-tag color="orange">{{this.currentHotelInfo.rate}}</a-tag>
-                    <a-tag color="pink" style="margin-left: 20px">当前酒店收藏人数: {{this.currCollections}}</a-tag>
+                <div style="font-size: large;padding: 10px;">
+                    <div style="display: inline-flex">
+                        <a-statistic :value="this.currentHotelInfo.rate" class="statistic" title="酒店评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.sanitation" class="statistic" title="卫生评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.environment" class="statistic" title="环境评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.service" class="statistic" title="服务评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.equipment" class="statistic" title="设施评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.commentTime" class="statistic" title="当前被评价次数"></a-statistic>
+                        <a-statistic :value="this.currCollections" class="statistic" title="当前酒店收藏数"></a-statistic>
+                    </div>
                     <a-button @click="unstar" icon="close-circle" style="float: right" v-if="currHotelCollectedByUser">
                         取消收藏
                     </a-button>
@@ -28,9 +33,9 @@
                         <a-form :form="this.form">
                             <a-form-item>
                                 <a-textarea
-                                        style="border-radius: 20px; "
-                                        :placeholder="hint" :rows="4"
-                                            v-decorator="[
+                                        :placeholder="hint"
+                                        :rows="4" style="border-radius: 20px; "
+                                        v-decorator="[
                                             'question', { rules: [{ required: true, message: '请输入您的问题' }]}
                                         ]"
                                 />
@@ -110,8 +115,8 @@
                 <a-table
                         :columns="columns"
                         :dataSource="couponList"
-                        style="background-color: white; padding: 10px; border-radius: 20px"
                         bordered
+                        style="background-color: white; padding: 10px; border-radius: 20px"
                 >
                     <template slot="title">
                         <h3>只有满减优惠有具体的优惠金额，其他类型的优惠券的优惠方式都是折扣。</h3>
@@ -278,9 +283,7 @@
 </script>
 
 <style scoped>
-    .eval {
-        margin-left: 50px;
-        background-color: transparent;
-        border: transparent;
+    .statistic {
+        margin: 5px;
     }
 </style>

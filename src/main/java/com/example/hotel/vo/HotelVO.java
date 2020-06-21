@@ -15,26 +15,31 @@ public class HotelVO {
     private String phoneNum;
     private Integer managerId;
     private Integer commentTime;
-    private double points;
     private double sanitation;
     private double environment;
     private double service;
     private double equipment;
     private String url;
 
-    public HotelVO(){}
+    public HotelVO() {
+    }
 
-    public HotelVO(Hotel hotel){
-        if(hotel!=null){
-            id=hotel.getId();
-            name=hotel.getHotelName();
-            address=hotel.getAddress();
+    public HotelVO(Hotel hotel) {
+        if (hotel != null) {
+            id = hotel.getId();
+            name = hotel.getHotelName();
+            address = hotel.getAddress();
             bizRegion = hotel.getBizRegion().toString();
             hotelStar = hotel.getHotelStar().toString();
             rate = hotel.getRate();
-            description=hotel.getDescription();
-            phoneNum=hotel.getPhoneNum();
-            managerId=hotel.getManagerId();
+            description = hotel.getDescription();
+            phoneNum = hotel.getPhoneNum();
+            managerId = hotel.getManagerId();
+            commentTime = hotel.getCommentTime();
+            sanitation = hotel.getSanitation();
+            environment = hotel.getEnvironment();
+            service = hotel.getService();
+            equipment = hotel.getEquipment();
             //如果需要还可以再加
         }
     }
@@ -135,14 +140,6 @@ public class HotelVO {
 
     public void setCommentTime(Integer commentTime) {
         this.commentTime = commentTime;
-    }
-
-    public double getPoints() {
-        return points;
-    }
-
-    public void setPoints(double points) {
-        this.points = points;
     }
 
     public double getSanitation() {
