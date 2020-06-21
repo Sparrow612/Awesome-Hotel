@@ -53,7 +53,7 @@
 
     .ant-carousel >>> .slick-slide {
         text-align: center;
-        height: 340px;
+        height: 470px;
 
         background: #83c2f8;
         overflow: hidden;
@@ -64,7 +64,7 @@
     }
 
     .privilege {
-        margin-top: 80px;
+        margin-top: 140px;
     }
 
     h2 {

@@ -51,21 +51,17 @@
                 'set_registerCorporationMembershipModalVisible'
             ]),
             ...mapActions([
-                'registerCorporationMembership'
+                'registerCorporationMembership',
             ]),
             cancelRegister() {
                 this.set_registerCorporationMembershipModalVisible(false);
             },
             confirmRegister(e) {
-                // TODO 注册会员的逻辑
                 e.preventDefault();
                 this.form.validateFields((err, values) => {
                     if (!err) {
-                        const data = {
-                            corporation: String(this.form.getFieldValue('corporation'))
-                        }
-                        console.log(data)
-                        this.registerCorporationMembership(data).then(() => {
+                        let corpName = String(this.form.getFieldValue('corporation'))
+                        this.registerCorporationMembership(corpName).then(() => {
                             this.set_registerCorporationMembershipModalVisible(false);
                         })
                         this.form.setFieldsValue({

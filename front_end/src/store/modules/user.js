@@ -28,6 +28,7 @@ import {
     registerClientMembershipAPI,
     registerCorpMembershipAPI,
     getUserVIPAPI,
+    VIPCorpCheckAPI,
 } from "../../api/membership"
 
 import moment from "moment";
@@ -203,12 +204,8 @@ const user = {
                 dispatch('getUserVIP', Number(state.userId))
             }
         },
-        registerCorporationMembership: async ({state, dispatch}, data) => {
-            const params = {
-                id: Number(state.userId),
-                ...data,
-            }
-            const res = await registerCorpMembershipAPI(params)
+        registerCorporationMembership: async ({state, dispatch}, corpName) => {
+            const res = await registerCorpMembershipAPI(corpName)
             if (res) {
                 message.success('注册成功')
                 dispatch('getUserInfo')
@@ -259,7 +256,7 @@ const user = {
                 commit('set_currHotelCollectedByUser', false)
                 commit('update_currCollections', -1)
             }
-        }
+        },
     }
 }
 

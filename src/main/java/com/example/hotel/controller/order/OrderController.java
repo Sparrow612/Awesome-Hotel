@@ -86,6 +86,7 @@ public class OrderController {
         return orderService.abnormalOrder(orderId, ratio);
     }
 
+
     @GetMapping("/{hotelId}/probableAbnormalOrder")
     public ResponseVO probableAbnormalOrder(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(orderService.probableAbnormalOrder(hotelId));
