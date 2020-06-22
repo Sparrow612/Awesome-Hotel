@@ -7,6 +7,8 @@
             <a-table
                 :columns="columns"
                 :dataSource="rooms"
+                style="background-color: white; padding: 10px; margin-top: 20px; border-radius: 20px; "
+                bordered
             >
                 <span slot="price" slot-scope="text">
                     <a-tag color="pink">¥ {{ text }}</a-tag>

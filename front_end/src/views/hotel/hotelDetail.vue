@@ -51,6 +51,7 @@
                             <h1>入住-退房时间</h1>
                         </a-row>
                         <a-range-picker
+                                style="border-radius: 15px"
                                 :default-value="dateRange"
                                 @change="changeDate"
                                 format="YYYY-MM-DD"
@@ -73,6 +74,7 @@
                         <a-table
                                 :columns="columns_of_orders"
                                 :dataSource="userOrderList.filter(order=>order.hotelId===currentHotelInfo.id)"
+                                style="border-radius: 25px; background-color: white; padding: 10px"
                                 bordered
                         >
                             <a-tag color="red" slot="createDate" slot-scope="text">
@@ -82,9 +84,9 @@
                                 {{text}}
                             </a-tag>
                             <span slot="roomType" slot-scope="text">
-                                <a-tag color="green" v-if="text === 'BigBed'">大床房</a-tag>
-                                <a-tag color="green" v-if="text === 'DoubleBed'">双床房</a-tag>
-                                <a-tag color="green" v-if="text === 'Family'">家庭房</a-tag>
+                                <a-tag color="pink" v-if="text === 'BigBed'">大床房</a-tag>
+                                <a-tag color="pink" v-if="text === 'DoubleBed'">双床房</a-tag>
+                                <a-tag color="pink" v-if="text === 'Family'">家庭房</a-tag>
                             </span>
                             <a-tag color="red" slot="checkInDate" slot-scope="text">
                                 {{text}}

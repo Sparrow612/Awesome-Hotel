@@ -106,6 +106,7 @@ export default {
                         peopleNum: Number(this.form.getFieldValue('peopleNum')),
                         id: this.userInfo.hotelID,
                     }
+                    console.log(data)
                     this.set_addRoomParams(data)
                     this.addRoom()
                 }

@@ -12,7 +12,7 @@
                     卫生: <a-rate :default-value="2" disabled />&nbsp;
                     环境: <a-rate :default-value="2" disabled />&nbsp;
                     服务: <a-rate :default-value="2" disabled />&nbsp;
-                    设备: <a-rate :default-value="2" disabled /><br/><br/>
+                    设施: <a-rate :default-value="2" disabled /><br/><br/>
                     <a-tag color="cyan">评价:</a-tag>{{ item.comment }}
                 </p>
             </a-comment>

@@ -10,8 +10,8 @@
         <a-table
                 :columns="columns"
                 :dataSource="couponList"
+                style="background-color: white; padding: 10px; border-radius: 20px"
                 bordered
-
         >
             <template slot="title">
                 <h3>只有满减优惠有具体的优惠金额，其他类型的优惠券的优惠方式都是折扣。</h3>

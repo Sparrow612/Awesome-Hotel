@@ -51,7 +51,7 @@ public class HotelController {
     }
 
     @PostMapping("/deleteRoom")
-    public ResponseVO deleteRoom(@RequestParam Integer hotelId, @RequestParam String roomType) {
+    public ResponseVO deleteRoom(@RequestParam(value = "hotelId") Integer hotelId, @RequestParam(value = "roomType") String roomType) {
         roomService.deleteRoom(hotelId,roomType);
         return ResponseVO.buildSuccess(true);
     }

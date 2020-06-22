@@ -9,15 +9,16 @@
                 <a-table
                     :columns="columns_of_orders"
                     :dataSource="orderList"
+                    style="background-color: white; padding: 10px; border-radius: 20px"
                     bordered
                 >
                     <a-tag slot="hotelName" color="orange" slot-scope="text">
                         {{text}}
                     </a-tag>
                     <span slot="roomType" slot-scope="text">
-                        <a-tag color="green" v-if="text === 'BigBed'">大床房</a-tag>
-                        <a-tag color="green" v-if="text === 'DoubleBed'">双床房</a-tag>
-                        <a-tag color="green" v-if="text === 'Family'">家庭房</a-tag>
+                        <a-tag color="pink" v-if="text === 'BigBed'">大床房</a-tag>
+                        <a-tag color="pink" v-if="text === 'DoubleBed'">双床房</a-tag>
+                        <a-tag color="pink" v-if="text === 'Family'">家庭房</a-tag>
                     </span>
                     <a-tag slot="checkInDate" color="red" slot-scope="text">
                         {{text}}

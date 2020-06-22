@@ -1,5 +1,6 @@
 import {
     addRoomAPI,
+    deleteRoomAPI,
 } from '../../api/hotelManager'
 import {
     getHotelOrdersAPI,
@@ -14,9 +15,7 @@ import {
     deleteCouponAPI,
 } from '../../api/coupon'
 import {
-    updateHotelInfoAPI
-} from "../../api/hotel";
-import {
+    updateHotelInfoAPI,
     getHotelByIdAPI
 } from "../../api/hotel";
 import {message} from 'ant-design-vue'
@@ -122,9 +121,17 @@ const hotelManager = {
                     total: 0,
                     curNum: 0,
                 })
+                dispatch('getHotelInfo', state.addRoomParams.id)
                 message.success('添加成功')
             } else {
                 message.error('添加失败')
+            }
+        },
+        deleteRoom: async ({state, dispatch}, params) => {
+            const res = await deleteRoomAPI(params)
+            if (res) {
+                dispatch('getHotelInfo', params.hotelId)
+                message.success('删除成功')
             }
         },
         addHotelCoupon: async ({state, commit, dispatch}, data) => {
