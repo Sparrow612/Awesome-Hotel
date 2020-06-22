@@ -15,6 +15,7 @@ public class HotelVO {
     private String phoneNum;
     private Integer managerId;
     private Integer commentTime;
+    private double points;
     private double sanitation;
     private double environment;
     private double service;
@@ -31,7 +32,7 @@ public class HotelVO {
             address = hotel.getAddress();
             bizRegion = hotel.getBizRegion().toString();
             hotelStar = hotel.getHotelStar().toString();
-            rate = hotel.getRate();
+            rate = hotel.getPoints();
             description = hotel.getDescription();
             phoneNum = hotel.getPhoneNum();
             managerId = hotel.getManagerId();

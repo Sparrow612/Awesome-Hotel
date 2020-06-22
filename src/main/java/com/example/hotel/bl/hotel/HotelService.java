@@ -55,6 +55,7 @@ public interface HotelService {
 
     void annulComment(CommentVO commentVO, Integer hotelId);
 
+    @Deprecated
     String getManagerTelephone(int hotelId);
 
 }

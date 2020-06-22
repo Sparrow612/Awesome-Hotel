@@ -47,7 +47,6 @@ public class HotelServiceImpl implements HotelService {
         hotel.setAddress(hotelForm.getAddress());
         hotel.setHotelName(hotelForm.getName());
         hotel.setPhoneNum(hotelForm.getPhoneNum());
-        hotel.setRate(hotelForm.getRate());
         hotel.setBizRegion(BizRegion.valueOf(hotelForm.getBizRegion()));
         hotel.setHotelStar(HotelStar.valueOf(hotelForm.getHotelStar()));
         hotelMapper.insertHotel(hotel);
@@ -58,9 +57,9 @@ public class HotelServiceImpl implements HotelService {
         System.out.println(hotelForm.getName());
         System.out.println(hotelForm.getAddress());
         System.out.println(hotelForm.getDescription());
-        hotelMapper.updateHotelName(hotelId,hotelForm.getName());
-        hotelMapper.updateHotelAddress(hotelId,hotelForm.getAddress());
-        hotelMapper.updateHotelDescription(hotelId,hotelForm.getDescription());
+        hotelMapper.updateHotelName(hotelId, hotelForm.getName());
+        hotelMapper.updateHotelAddress(hotelId, hotelForm.getAddress());
+        hotelMapper.updateHotelDescription(hotelId, hotelForm.getDescription());
     }
 
     @Override
@@ -70,6 +69,7 @@ public class HotelServiceImpl implements HotelService {
 
     /**
      * 用于办理入住，在curNum中减去房间数
+     *
      * @param hotelId
      * @param roomType
      * @param rooms
@@ -203,6 +203,10 @@ public class HotelServiceImpl implements HotelService {
     public void annulComment(CommentVO commentVO, Integer hotelId) {
         Hotel hotel = hotelMapper.selectById(hotelId);
         int time = hotel.getCommentTime();
+        if (time == 1) {
+            hotelMapper.updateHotelPoints(hotelId, 0, 5, 5, 5, 5, 5);
+            return;
+        }
         int new_time = time - 1;
         double n_point = calComment(hotel.getPoints(), time, new_time, -commentVO.getPoints());
         double n_sanitation = calComment(hotel.getSanitation(), time, new_time, -commentVO.getSanitation());
@@ -215,7 +219,6 @@ public class HotelServiceImpl implements HotelService {
     private double calComment(double origin, double time, double new_time, double change) {
         return (origin * time + change) / new_time;
     }
-
 
 
     @Override

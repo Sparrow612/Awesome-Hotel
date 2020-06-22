@@ -84,7 +84,7 @@ public class CollectionVO {
         hotelName = hotel.getHotelName();
         bizRegion = hotel.getBizRegion().toString();
         address = hotel.getAddress();
-        rate = hotel.getRate();
+        rate = hotel.getPoints();
         hotelStar = hotel.getHotelStar().toString();
     }
 }

@@ -75,8 +75,8 @@ CREATE TABLE `Hotel`
     `bizRegion`        varchar(255) DEFAULT NULL,
     `hotelStar`        varchar(255) DEFAULT NULL,
     `phoneNum`         int(11)      DEFAULT NULL,
-    `rate`             double       DEFAULT NULL,
     `commentTime`      int(11)      DEFAULT 0,
+    `points`           double       DEFAULT 5,
     `sanitation`       double       DEFAULT 5,
     `environment`      double       DEFAULT 5,
     `service`          double       DEFAULT 5,
@@ -126,9 +126,9 @@ BEGIN;
 /*!40000 ALTER TABLE `Hotel`
     DISABLE KEYS */;
 INSERT INTO `Hotel`
-VALUES (1, '汉庭酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Three', 1829373819, 4.8, 1, 5, 5, 5, 5, NULL),
-       (2, '如家酒店', '欢迎您入住', '南京市鼓楼区珠江路268号', 'XiDan', 'Four', 1829373819, 4.8, 0, 5, 5, 5, 5, NULL),
-       (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Five', 1829553719, 4.8, 0, 5, 5, 5, 5, NULL);
+VALUES (1, '汉庭酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Three', 1829373819, 0, 5, 5, 5, 5, 5, NULL),
+       (2, '如家酒店', '欢迎您入住', '南京市鼓楼区珠江路268号', 'XiDan', 'Four', 1829373819, 0, 5, 5, 5, 5, 5, NULL),
+       (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Five', 1829553719, 0, 5, 5, 5, 5, 5, NULL);
 #        (4, '格林豪泰', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
 #        (5, '布丁酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
 #        (6, '维也纳酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
@@ -201,6 +201,10 @@ VALUES (1, 1, 1, '国际会议中心', 12312312312, '2020-06-01', '2020-06-02', 
 /*!40000 ALTER TABLE `OrderList`
     ENABLE KEYS */;
 COMMIT;
+
+DROP TABLE IF EXISTS `likes`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 
 --
 -- Table structure for table `Room`
@@ -301,24 +305,6 @@ COMMIT;
 
 -- Dump completed on 2020-04-12 10:08:42
 SET FOREIGN_KEY_CHECKS = 1;
-
---
--- Table structure for table `Likes`
---
-
-DROP TABLE IF EXISTS `Likes`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Likes`
-(
-    `id`      int(11) NOT NULL AUTO_INCREMENT,
-    `userID`  int(11) NOT NULL,
-    `hotelID` int(11) NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 4
-  DEFAULT CHARSET = utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `Collections`
