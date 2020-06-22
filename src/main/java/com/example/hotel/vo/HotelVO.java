@@ -31,7 +31,7 @@ public class HotelVO {
             address=hotel.getAddress();
             bizRegion = hotel.getBizRegion().toString();
             hotelStar = hotel.getHotelStar().toString();
-            rate = hotel.getRate();
+            rate = hotel.getPoints();
             description=hotel.getDescription();
             phoneNum=hotel.getPhoneNum();
             managerId=hotel.getManagerId();

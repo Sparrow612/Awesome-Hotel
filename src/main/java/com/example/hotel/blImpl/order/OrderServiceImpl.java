@@ -204,6 +204,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVO addComment(CommentVO commentVO) {
+        Order order = orderMapper.getOrderById(commentVO.getOrderId());
+        if (order.getOrderState().equals("未入住")) {
+            return ResponseVO.buildFailure("订单未入住，无法评价");
+        }
         Comment comment = new Comment() {{
             this.setComment(commentVO.getComment());
             this.setEnvironment(commentVO.getEnvironment());
@@ -214,7 +218,6 @@ public class OrderServiceImpl implements OrderService {
             this.setUserId(commentVO.getUserId());
             this.setService(commentVO.getService());
         }};
-        Order order = orderMapper.getOrderById(commentVO.getOrderId());
         hotelService.addComment(commentVO, order.getHotelId());
         return ResponseVO.buildSuccess(orderMapper.updateComment(comment));
     }
