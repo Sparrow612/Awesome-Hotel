@@ -68,6 +68,7 @@
         text-align: center;
         float: left;
         font-size: large;
+        border-radius: 20px;
     }
 
     .searchbox {

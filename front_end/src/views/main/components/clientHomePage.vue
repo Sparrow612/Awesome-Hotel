@@ -109,7 +109,7 @@
         </div>
         <div class="browseList">
             <a-layout>
-                <a-layout-header style="font-size: x-large;background-color: cornflowerblue;color: white;">
+                <a-layout-header style="font-size: x-large;background-color: cornflowerblue;color: white; margin: 5px;border-radius: 15px">
                     <a-icon type="eye"/>
                     浏览全部酒店
                 </a-layout-header>
@@ -117,7 +117,7 @@
                         :columns="hotelColumns"
                         :dataSource="hotelList"
                         bordered
-                        style="padding: 10px"
+                        style="background-color: whitesmoke;padding: 10px; border-radius: 20px"
                 >
                     <div
                             slot="filterDropdown"
@@ -177,7 +177,7 @@
         </div>
         <div class="footPrints">
             <a-layout>
-                <a-layout-header style="font-size: x-large;background-color: mediumpurple;color: white;">
+                <a-layout-header style="font-size: x-large;background-color: mediumpurple;color: white; margin: 5px;border-radius: 15px">
                     <a-icon type="carry-out"/>
                     历史预定
                 </a-layout-header>
@@ -186,7 +186,7 @@
                         :dataSource="onceOrderedList"
                         :locale="{emptyText: '暂时没有您的预定记录'}"
                         bordered
-                        style="background-color: white; padding: 10px"
+                        style="background-color: white; padding: 10px; border-radius: 20px"
                 >
                     <span slot="action" slot-scope="record">
                         <a-button @click="jumpToDetails(record.id)" size="small">再次光临</a-button>
@@ -437,6 +437,7 @@
         text-align: center;
         float: right;
         font-size: large;
+        border-radius: 20px;
     }
 
     .hotelList {
