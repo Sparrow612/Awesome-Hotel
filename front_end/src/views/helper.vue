@@ -10,6 +10,7 @@
                     :default-selected-keys="['1a']"
                     :inline-collapsed="collapsed"
                     mode="inline"
+                    style="border-radius: 20px"
             >
                 <a-sub-menu key="1">
                     <span slot="title"><a-icon type="appstore"/><span>总览</span></span>
@@ -70,7 +71,7 @@
                 </a-sub-menu>
             </a-menu>
         </div>
-        <div class="content">
+        <div class="content" style="border-radius: 25px">
             <h1>Awesome Hotel®奥森酒店预定系统</h1>
             <div v-if="webOverview">
                 <ul>

@@ -11,12 +11,12 @@
                     首页
                 </router-link>
             </a-menu-item>
-            <a-menu-item key="5" v-if="userInfo.userType==='Client'">
-                <router-link :to="{ name: 'searchHotel'}">
-                    <a-icon type="search"/>
-                    搜索酒店
-                </router-link>
-            </a-menu-item>
+<!--            <a-menu-item key="5" v-if="userInfo.userType==='Client'">-->
+<!--                <router-link :to="{ name: 'searchHotel'}">-->
+<!--                    <a-icon type="search"/>-->
+<!--                    搜索酒店-->
+<!--                </router-link>-->
+<!--            </a-menu-item>-->
             <a-menu-item @click="jumpToUserInfo" key="2" v-if="userInfo.userType==='Client'">
                 <a-icon type="user"/>
                 个人中心

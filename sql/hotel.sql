@@ -76,11 +76,11 @@ CREATE TABLE `Hotel`
     `hotelStar`        varchar(255) DEFAULT NULL,
     `phoneNum`         int(11)      DEFAULT NULL,
     `commentTime`      int(11)      DEFAULT 0,
-    `points`           double       DEFAULT 5,
-    `sanitation`       double       DEFAULT 5,
-    `environment`      double       DEFAULT 5,
-    `service`          double       DEFAULT 5,
-    `equipment`        double       DEFAULT 5,
+    `points`           double       DEFAULT 5.0,
+    `sanitation`       double       DEFAULT 5.0,
+    `environment`      double       DEFAULT 5.0,
+    `service`          double       DEFAULT 5.0,
+    `equipment`        double       DEFAULT 5.0,
     `picture`          varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
