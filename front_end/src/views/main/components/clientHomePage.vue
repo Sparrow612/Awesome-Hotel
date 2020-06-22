@@ -1,5 +1,89 @@
 <template>
     <div>
+        <div class="searchBar">
+            <a-button @click="searchOpen" class="searchButton" icon="search" type="primary" style="float: right">
+                开始搜索
+            </a-button>
+        </div>
+
+        <a-drawer
+                :visible="searchVisible"
+                @close="searchClose"
+                title="搜索信息"
+                width="45%"
+        >
+            <a-form :form="form" style="border-radius: 20px; background-color: antiquewhite; padding: 10px;">
+                <a-form-item label="时间" v-bind="formItemLayout">
+                    <a-range-picker
+                            format="YYYY-MM-DD"
+                            v-decorator="['date', { rules: [{ required: true, message: '请选择入住时间' }], initialValue: dateRange}]"
+                    />
+                </a-form-item>
+                <a-form-item label="地址" v-bind="formItemLayout">
+                    <a-input
+                            class="searchInput" placeholder="请输入地址" type="text"
+                            v-decorator="['address']"
+                    />
+                </a-form-item>
+                <a-form-item label="商圈" v-bind="formItemLayout">
+                    <a-input
+                            class="searchInput" placeholder="请输入商圈" type="text"
+                            v-decorator="['bizRegion']"
+                    />
+                </a-form-item>
+                <a-form-item label="关键词" v-bind="formItemLayout">
+                    <a-select
+                            mode="multiple"
+                            placeholder="请选择酒店关键词"
+                            v-decorator="['tags']"
+                    >
+                        <a-select-option :key="tag" v-for="tag in hotelTags">
+                            {{ tag }}
+                        </a-select-option>
+                    </a-select>
+                </a-form-item>
+                <a-form-item label="价位上限 ¥" v-bind="formItemLayout">
+                    <a-row>
+                        <a-col :span="16">
+                            <a-slider
+                                    :max="2000" :min="1" @change="handleValueChange" v-model="value"
+                            />
+                        </a-col>
+                        <a-col :span="4">
+                            <a-input-number
+                                    :max="2000" :min="1" style="margin-left: 16px" v-model="value"
+                            />
+                        </a-col>
+                    </a-row>
+                </a-form-item>
+                <a-form-item label="评分下限" v-bind="formItemLayout">
+                    <a-row>
+                        <a-col :span="16">
+                            <a-slider
+                                    :max="5" :min="0" :step="0.1" @change="handleRateChange" v-model="rate"
+                            />
+                        </a-col>
+                        <a-col :span="4">
+                            <a-input-number
+                                    :max="5" :min="0" :step="0.1" style="margin-left: 16px" v-model="rate"
+                            />
+                        </a-col>
+                    </a-row>
+                </a-form-item>
+                <a-form-item label="酒店星级" v-bind="formItemLayout">
+                    <a-checkbox-group :options="hotelStarOptions" @change="onChange"
+                                      v-decorator="['stars',{initialValue: defaultCheckedList}]"
+                    />
+                </a-form-item>
+                <a-form-item v-bind="formItemLayout">
+                    <a-button @click="search" class="searchButton" icon="search" style="background-color: orange"
+                              type="primary">
+                        搜索酒店
+                    </a-button>
+                </a-form-item>
+            </a-form>
+        </a-drawer>
+
         <div class="hotelList">
             <a-layout>
                 <a-layout-content style="min-width: 800px">
@@ -32,8 +116,8 @@
                 <a-table
                         :columns="hotelColumns"
                         :dataSource="hotelList"
-                        style="padding: 10px"
                         bordered
+                        style="padding: 10px"
                 >
                     <div
                             slot="filterDropdown"
@@ -101,8 +185,8 @@
                         :columns="hotelColumns"
                         :dataSource="onceOrderedList"
                         :locale="{emptyText: '暂时没有您的预定记录'}"
-                        style="background-color: white; padding: 10px"
                         bordered
+                        style="background-color: white; padding: 10px"
                 >
                     <span slot="action" slot-scope="record">
                         <a-button @click="jumpToDetails(record.id)" size="small">再次光临</a-button>
@@ -117,6 +201,10 @@
     import HotelCard from '../../hotel/components/hotelCard'
     import {mapGetters, mapActions, mapMutations} from 'vuex'
     import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
+    import moment from "moment";
+
+    const hotelStarOptions = ['三星级', '四星级', '五星级']
+    const defaultCheckedList = ['三星级', '四星级', '五星级']
 
     export default {
         name: "clientHomePage",
@@ -211,12 +299,47 @@
                 ],
                 locale: zhCN,
                 pageSize: 20,
+                searchVisible: false,
+                formItemLayout: {
+                    labelCol: {
+                        xs: {span: 10},
+                        sm: {span: 5},
+                    },
+                    wrapperCol: {
+                        xs: {span: 20},
+                        sm: {span: 10},
+                    },
+                },
+                keyword: '',
+                value: 1000,
+                rate: 3.0,
+                indeterminate: false,
+                hotelStarOptions,
+                defaultCheckedList,
+                dateRange: [moment(), moment().add(1, 'd')],
+                hotelTags: [
+                    '温泉',
+                    '干净整洁',
+                    '便宜',
+                    '早餐',
+                    '体验很棒',
+                    '晚安服务',
+                    '酒',
+                    '可乐',
+                    '安静',
+                    '情侣酒店',
+                    '浪漫',
+                    '安全',
+                ],
             }
         },
         async mounted() {
             await this.getHotelList()
             this.getLimitedHotelList()
             this.getOnceOrderedList()
+        },
+        beforeCreate() {
+            this.form = this.$form.createForm(this, {name: 'searchTable'});
         },
         computed: {
             ...mapGetters([
@@ -236,6 +359,7 @@
                 'getHotelList',
                 'getLimitedHotelList',
                 'getOnceOrderedList',
+                'searchHotel',
             ]),
             pageChange(page, pageNum) {
                 const data = {
@@ -259,11 +383,61 @@
             jumpToDetails(id) {
                 this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
             },
+            handleValueChange(value) {
+                this.value = value
+            },
+            handleRateChange(rate) {
+                this.rate = rate
+            },
+            onChange(checkedList) {
+                this.indeterminate = !!checkedList.length && checkedList.length < hotelStarOptions.length;
+            },
+            searchOpen(){
+                this.searchVisible = true
+            },
+            searchClose(){
+                this.searchVisible = false
+            },
+            search(e) {
+                e.preventDefault();
+                this.form.validateFieldsAndScroll(async (err, values) => {
+                    if (!err) {
+                        const data = {
+                            checkInDate: this.form.getFieldValue('date')[0].format('YYYY-MM-DD'),
+                            checkOutDate: this.form.getFieldValue('date')[1].format('YYYY-MM-DD'),
+                            address: this.form.getFieldValue('address') ? this.form.getFieldValue('address') : '',
+                            bizRegion: this.form.getFieldValue('bizRegion') ? this.form.getFieldValue('bizRegion') : '',
+                            keyWords: this.form.getFieldValue('tags') ? this.form.getFieldValue('tags') : [],
+                            maxPrice: this.value,
+                            minScore: this.rate,
+                            hotelStar: this.form.getFieldValue('stars'),
+                        }
+                        await this.searchHotel(data)
+                        this.form.resetFields()
+                        this.searchVisible = false
+                        this.$router.push('/hotel/searchHotel')
+                    }
+                });
+            },
         }
     }
 </script>
 
 <style lang="less" scoped>
+    .searchBar {
+        padding: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .searchButton {
+        width: 200px;
+        height: auto;
+        padding: 5px;
+        text-align: center;
+        float: right;
+        font-size: large;
+    }
 
     .hotelList {
         text-align: center;
