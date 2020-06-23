@@ -1,5 +1,6 @@
 package com.example.hotel.blImpl.order;
 
+import com.example.hotel.bl.VIP.VIPService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
@@ -45,6 +46,8 @@ public class OrderServiceImpl implements OrderService {
     private AccountService accountService;
     @Autowired
     private RoomService roomService;
+    @Autowired
+    private VIPService vipService;
 
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
@@ -167,6 +170,17 @@ public class OrderServiceImpl implements OrderService {
         // 更新酒店房间数量，因为那个就是直接减法了，那我现在就减个负数叭
         hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), -order.getRoomNum());
         accountService.chargeCredit(order.getUserId(), (int) (order.getPrice() * 0.5), "完成订单" + orderId);
+        UserVO userVO = accountService.getUserInfo(order.getUserId());
+        int price = (int) Math.round(order.getPrice());
+        switch (userVO.getVipType()) {
+            case Client:
+                vipService.addVIPClientConsumption(order.getUserId(), price);
+                break;
+            case Corporation:
+                vipService.addVIPCorpConsumption(userVO.getCorporation(), price);
+            default:
+                break;
+        }
         return ResponseVO.buildSuccess(FINISH_ORDER);
     }
 
