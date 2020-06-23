@@ -1,10 +1,12 @@
 package com.example.hotel.blImpl.order;
 
+import com.example.hotel.bl.VIP.VIPService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.order.OrderMapper;
+import com.example.hotel.enums.RoomType;
 import com.example.hotel.po.Comment;
 import com.example.hotel.po.Order;
 import com.example.hotel.vo.*;
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +48,8 @@ public class OrderServiceImpl implements OrderService {
     private AccountService accountService;
     @Autowired
     private RoomService roomService;
+    @Autowired
+    private VIPService vipService;
 
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
@@ -55,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
             return ResponseVO.buildFailure(LOW_CREDIT);
 
         int reserveRoomNum = orderVO.getRoomNum();
-        int curNum = roomService.getRoomCurNumByTime(orderVO.getHotelId(), orderVO.getCheckInDate(), orderVO.getCheckOutDate(), orderVO.getRoomType());
+        int curNum = getRoomCurNumByOrder(orderVO.getHotelId(), orderVO.getCheckInDate(), orderVO.getCheckOutDate(), orderVO.getRoomType());
         if (reserveRoomNum > curNum) {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
@@ -167,6 +172,17 @@ public class OrderServiceImpl implements OrderService {
         // 更新酒店房间数量，因为那个就是直接减法了，那我现在就减个负数叭
         hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), -order.getRoomNum());
         accountService.chargeCredit(order.getUserId(), (int) (order.getPrice() * 0.5), "完成订单" + orderId);
+        UserVO userVO = accountService.getUserInfo(order.getUserId());
+        int price = (int) Math.round(order.getPrice());
+        switch (userVO.getVipType()) {
+            case Client:
+                vipService.addVIPClientConsumption(order.getUserId(), price);
+                break;
+            case Corporation:
+                vipService.addVIPCorpConsumption(userVO.getCorporation(), price);
+            default:
+                break;
+        }
         return ResponseVO.buildSuccess(FINISH_ORDER);
     }
 
@@ -305,6 +321,62 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         return relatedOrder;
+    }
+
+    /**
+     * 通过订单号和入住时间，查找可用的房间情况，并在response中返回hotel
+     */
+    @Override
+    public HotelVO getOrderableRoom(Integer hotelId, String beginTime, String endTime) {
+        HotelVO hotel = hotelService.retrieveHotelDetails(hotelId);
+        List<RoomVO> rooms = hotel.getRooms();
+        List<RoomVO> roomVOS = new ArrayList<>();
+        //确保输入的房间情况不为空
+        if (!rooms.isEmpty()) {
+            List<Order> orders = getHotelOrders(hotelId);
+            orders = filterOrders(orders, beginTime, endTime);
+            roomVOS = checkRoomByOrder(rooms, orders);
+        }
+
+        hotel.setRooms(roomVOS);
+        return hotel;
+    }
+
+    @Override
+    public List<RoomVO> checkRoomByOrder(List<RoomVO> rooms, List<Order> orders) {
+        HashMap<String, Integer> Type2Num = new HashMap<>();
+        for (RoomVO room : rooms) {
+            Type2Num.put(room.getRoomType(), room.getTotal());
+        }
+        for (Order order : orders) {
+            if (Type2Num.containsKey(RoomType.valueOf(order.getRoomType()).toString())) {
+                int curNum = Type2Num.get(RoomType.valueOf(order.getRoomType()).toString()) - order.getRoomNum();
+                Type2Num.put(RoomType.valueOf(order.getRoomType()).toString(), curNum);
+            }
+        }
+
+        List<RoomVO> roomVOS = new ArrayList<>();
+
+        for (RoomVO room : rooms) {
+            if (Type2Num.get(room.getRoomType()) > 0)
+                room.setCurNum(Type2Num.get(room.getRoomType()));
+            roomVOS.add(room);
+        }
+        return roomVOS;
+    }
+
+    @Override
+    public Integer getRoomCurNumByOrder(Integer hotelId, String beginTime, String endTime, String type) {
+        HotelVO hotelVO = getOrderableRoom(hotelId,beginTime,endTime);
+        List<RoomVO> rooms = hotelVO.getRooms();
+        int curNum = 0;
+        for(RoomVO room : rooms){
+            if(room.getRoomType().equals(RoomType.valueOf(type).toString())){
+                curNum = room.getCurNum();
+                break;
+            }
+        }
+        return curNum;
     }
 
 

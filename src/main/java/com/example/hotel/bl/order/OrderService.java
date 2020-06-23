@@ -1,9 +1,7 @@
 package com.example.hotel.bl.order;
 
 import com.example.hotel.po.Order;
-import com.example.hotel.vo.CommentVO;
-import com.example.hotel.vo.OrderVO;
-import com.example.hotel.vo.ResponseVO;
+import com.example.hotel.vo.*;
 
 import java.util.List;
 
@@ -65,5 +63,9 @@ public interface OrderService {
 
     List<Order> filterOrders(List<Order> orders,String beginTime, String endTime);  //找到与入住及退房时间有关联的订单
 
+    HotelVO getOrderableRoom(Integer hotelId, String beginTime, String endTime);  //对特定的酒店，返回可预订的房间的信息
 
+    List<RoomVO> checkRoomByOrder(List<RoomVO> rooms, List<Order> orders); //通过房间信息和对应的订单信息，检查酒店房间情况
+
+    Integer getRoomCurNumByOrder(Integer hotelId, String beginTime, String endTime, String type); //通过订单查找酒店特定房间的可用房间数，用于addOrder时的检验
 }
