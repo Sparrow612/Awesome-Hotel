@@ -497,6 +497,7 @@
             },
 
             cancelModify() {
+                message.info('取消修改')
                 this.modify = false
             },
 

@@ -1,7 +1,7 @@
 <template>
     <div class="hotel-info">
         <div class="base-info">
-            <a-form :form="form">
+            <a-form :form="form" style="border-radius: 20px; background-color: whitesmoke">
                 <a-form-item :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" label="酒店名称">
                     <span>{{ hotelName }}</span>
                 </a-form-item>
@@ -28,15 +28,15 @@
 
                 <!-- 按钮 -->
                 <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
-                    <a-button @click="saveModify" type="primary">
+                    <a-button icon="upload" @click="saveModify" style="border-radius: 20px" type="primary">
                         保存
                     </a-button>
-                    <a-button @click="cancelModify" style="margin-left: 30px" type="default">
+                    <a-button icon="close-circle" @click="cancelModify" style="margin-left: 30px; border-radius: 20px" type="default">
                         取消
                     </a-button>
                 </a-form-item>
                 <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
-                    <a-button @click="modifyInfo" type="primary">
+                    <a-button icon="form" @click="modifyInfo" type="primary" style="border-radius: 20px">
                         修改信息
                     </a-button>
                 </a-form-item>
