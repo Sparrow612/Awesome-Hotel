@@ -5,7 +5,7 @@
             <span class="title">Awesome Hotel</span>
         </div>
         <a-menu mode="horizontal" theme="light" v-model="current">
-            <a-menu-item @click="selectMenu" key="1">
+            <a-menu-item key="1">
                 <router-link :to="{ name: 'home' }">
                     <a-icon type="home"/>
                     首页
@@ -21,7 +21,7 @@
                 <a-icon type="user"/>
                 个人中心
             </a-menu-item>
-            <a-menu-item @click="selectMenu" key="3" v-if="userInfo.userType==='HotelManager'">
+            <a-menu-item key="3" v-if="userInfo.userType==='HotelManager'">
                 <router-link :to="{ name: 'manageHotel'}">
                     <a-icon type="switcher"/>
                     酒店经营
@@ -31,25 +31,25 @@
                 <a-icon type="user"/>
                 工作人员
             </a-menu-item>
-            <a-menu-item @click="registerAsMember" key="6" v-if="userInfo.userType==='Client'">
+            <a-menu-item key="6" v-if="userInfo.userType==='Client'">
                 <router-link :to="{ name: 'userMembership'}">
                     <a-icon type="usergroup-add"/>
                     会员中心
                 </router-link>
             </a-menu-item>
-            <a-menu-item @click="manageUser" key="8" v-if="userInfo.userType==='Admin'">
+            <a-menu-item key="8" v-if="userInfo.userType==='Admin'">
                 <router-link :to="{ name: 'manageUser'}">
                     <a-icon type="user"/>
                     账户管理
                 </router-link>
             </a-menu-item>
-            <a-menu-item @click="manageAdminInfo" key="9" v-if="userInfo.userType==='Admin'">
+            <a-menu-item key="9" v-if="userInfo.userType==='Admin'">
                 <router-link :to="{ name: 'adminInfo'}">
                     <a-icon type="user"/>
                     个人信息
                 </router-link>
             </a-menu-item>
-            <a-menu-item @click="manageOrders" key="10" v-if="userInfo.userType==='SalesPerson'">
+            <a-menu-item key="10" v-if="userInfo.userType==='SalesPerson'">
                 <router-link :to="{ name: 'manageOrders'}">
                     <a-icon type="shopping-cart"/>
                     订单管理
@@ -61,7 +61,7 @@
                     优惠策略
                 </router-link>
             </a-menu-item>
-            <a-menu-item @click="jumpToManageMembership" key="12" v-if="userInfo.userType==='SalesPerson'">
+            <a-menu-item key="12" v-if="userInfo.userType==='SalesPerson'">
                 <router-link :to="{ name: 'manageMembership'}">
                     <a-icon type="user"/>
                     会员管理
@@ -169,9 +169,6 @@
                 'logout',
                 'getUserInfo'
             ]),
-            selectMenu(v) {
-                // 也许可以在这里限定酒店工作人员能看到的酒店
-            },
             async quit() {
                 await this.$store.dispatch('logout')
                 await this.$router.push(`/login?redirect=${this.$route.fullPath}`)
@@ -187,28 +184,13 @@
                 this.$router.push('/homePage')
             },
             registerAsMember() {
-                if (this.userInfo.userType === 'Client')
-                    this.$router.push('/user/membership')
-                else if (this.userInfo.userType === 'HotelManger')
-                    this.$router.push('/hotel/membership')
-            },
-            jumpToManageHotelMembership() {
-
+                this.$router.push('/user/membership')
             },
             jumpToManageSiteCoupon() {
                 this.$router.push('/salesPerson/manageSiteCoupon')
             },
-            manageUser() {
-
-            },
             manageOrders() {
                 this.$router.push('/salesPerson/manageOrders')
-            },
-            jumpToManageMembership() {
-                this.$router.push('/salesPerson/manageMembership')
-            },
-            manageAdminInfo() {
-
             },
             openHelper() {
                 this.current = ['7']

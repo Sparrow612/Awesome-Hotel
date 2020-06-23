@@ -9,6 +9,7 @@
         <a-table
                 :columns="columns_of_hotels"
                 :dataSource="hotelList"
+                :rowKey="record => record.id"
                 bordered
         >
                     <span slot="action" slot-scope="record">

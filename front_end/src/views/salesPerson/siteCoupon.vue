@@ -11,6 +11,7 @@
         <a-table
                 :columns="columns"
                 :dataSource="siteCouponList"
+                :rowKey="record => record.id"
                 :locale="{emptyText: '暂时没有网站优惠'}"
                 bordered
         >

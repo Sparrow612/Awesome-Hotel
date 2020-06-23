@@ -8,6 +8,7 @@
                 <a-table
                     :columns="columns_of_manager"
                     :dataSource="managerList"
+                    :rowKey="record => record.id"
                     bordered
                 >
                     <span slot="hotelID" slot-scope="text">
@@ -36,6 +37,7 @@
                 <a-table
                         :columns="columns_of_salesPerson"
                         :dataSource="salesPersonList"
+                        :rowKey="record => record.id"
                         bordered
                 >
                     <span slot="action" slot-scope="record">
