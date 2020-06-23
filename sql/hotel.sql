@@ -196,7 +196,7 @@ BEGIN;
 /*!40000 ALTER TABLE `OrderList`
     DISABLE KEYS */;
 INSERT INTO `OrderList`
-VALUES (1, 1, 1, '国际会议中心', 12312312312, '2020-06-01', '2020-06-02', 'BigBed', '1', 1, 0, '2020-06-01', 100, 'zzy',
+VALUES (1, 1, 1, '汉庭酒店', 12312312312, '2020-06-01', '2020-06-02', 'BigBed', '1', 1, 0, '2020-06-01', 100, 'zzy',
         '110', '未入住', '你的野区我养猪', 5, 5, 5, 5, 5);
 /*!40000 ALTER TABLE `OrderList`
     ENABLE KEYS */;

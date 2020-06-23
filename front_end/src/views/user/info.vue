@@ -2,7 +2,7 @@
     <div class="info-wrapper">
         <a-tabs>
             <a-tab-pane key="1" tab="我的信息">
-                <a-form :form="form" style="margin-top: 30px">
+                <a-form :form="form" style="margin-top: 30px; border-radius: 20px; background-color: whitesmoke">
 
                     <a-form-item label="头像" v-bind="formItemLayout">
                         <a-avatar src="./defaultAvatar.png"></a-avatar>
@@ -97,15 +97,15 @@
                     </a-form-item>
 
                     <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
-                        <a-button @click="saveModify" type="primary">
+                        <a-button icon="upload" @click="saveModify" style="border-radius: 20px" type="primary">
                             保存
                         </a-button>
-                        <a-button @click="cancelModify" style="margin-left: 30px" type="default">
+                        <a-button icon="close-circle" @click="cancelModify" style="margin-left: 30px; border-radius: 20px" type="default">
                             取消
                         </a-button>
                     </a-form-item>
                     <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
-                        <a-button @click="modifyInfo" type="primary">
+                        <a-button icon="form" @click="modifyInfo" style="border-radius: 20px" type="primary">
                             修改信息
                         </a-button>
                     </a-form-item>
