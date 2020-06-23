@@ -28,6 +28,7 @@ import {
     registerCorpMembershipAPI,
     getUserVIPAPI,
     getCorpVIPAPI,
+    VIPCorpCheckAPI,
 } from "../../api/membership"
 
 import moment from "moment";
@@ -45,6 +46,7 @@ const getDefaultState = () => {
         userCollections: [],
         registerSiteMembershipModalVisible: false,
         registerCorporationMembershipModalVisible: false,
+        isCorpVIP: false,
     }
 }
 const user = {
@@ -62,6 +64,7 @@ const user = {
             state.userCollections = []
             state.registerSiteMembershipModalVisible = false
             state.registerCorporationMembershipModalVisible = false
+            state.isCorpVIP = false
         },
         set_token: function (state, token) {
             state.token = token
@@ -227,6 +230,9 @@ const user = {
             if (res) {
                 commit('set_corpVIP', res)
             }
+        },
+        corpVIPCheck: async ({state}, name) => {
+            state.isCorpVIP = await VIPCorpCheckAPI(name)
         },
         updateUserBirthday: async ({state, dispatch}, data) => {
             const params = {

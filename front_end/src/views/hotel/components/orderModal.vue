@@ -107,11 +107,12 @@
             <a-form-item v-if="this.userInfo.vipType!=='Normal'">
                 <a-tag color="blue">您是VIP顾客，当前等级{{this.userVIP.level}}，当前享受{{this.userVIP.reduction*100}}%折扣</a-tag>
             </a-form-item>
-            <a-form-item>
-
+            <a-form-item v-if="this.isCorpVIP">
+                <a-tag color="blue">您的所属企业是我们的VIP企业，当前等级{{this.corpVIP.level}}，当前享受{{this.corpVIP.reduction*100}}%折扣
+                </a-tag>
             </a-form-item>
             <a-form-item label="结算后总价" v-bind="formItemLayout">
-                <span>￥{{ finalPrice ? finalPrice : totalPrice}}</span>
+                <span>￥{{ finalPrice ? finalPrice : Math.round(totalPrice * vipDiscount * corpDiscount*100)*0.01}}</span>
             </a-form-item>
         </a-form>
     </a-modal>
@@ -165,7 +166,9 @@
                 totalPrice: '',
                 columns,
                 checkedList: [],
-                finalPrice: ''
+                finalPrice: '',
+                vipDiscount: 1.00,
+                corpDiscount: 1.00,
             }
         },
         computed: {
@@ -179,6 +182,7 @@
                 'userInfo',
                 'userVIP',
                 'corpVIP',
+                'isCorpVIP',
                 'dateRange',
                 'orderMatchCouponList'
             ]),
@@ -186,11 +190,17 @@
         beforeCreate() {
             this.form = this.$form.createForm(this, {name: 'orderModal'});
         },
-        mounted() {
-            if (this.userInfo.vipType !== 'Normal')
-                this.getUserVIP(this.userId)
-            if (this.userInfo.corporation)
-                this.getCorpVIP(this.userInfo.corporation)
+        async mounted() {
+            await this.getUserInfo() //防止一刷新就丢失userInfo
+            if (this.userInfo.vipType !== 'Normal') {
+                await this.getUserVIP(this.userId)
+                this.vipDiscount -= this.userVIP.reduction
+            }
+            if (this.userInfo.corporation) {
+                await this.corpVIPCheck(this.userInfo.corporation)
+                await this.getCorpVIP(this.userInfo.corporation)
+                this.corpDiscount -= this.corpVIP.reduction
+            }
         },
         methods: {
             ...mapMutations([
@@ -202,6 +212,8 @@
                 'getOrderMatchCoupons',
                 'getUserVIP',
                 'getCorpVIP',
+                'corpVIPCheck',
+                'getUserInfo',
             ]),
             cancelOrder() {
                 this.checkedList = []
@@ -236,6 +248,7 @@
                         else this.finalPrice = this.finalPrice * item.discount
                     })
                 }
+                this.finalPrice = Math.round(this.finalPrice*100)*0.01
             },
             handlePhoneNumber(rule, value, callback) {
                 const re = /1\d{10}/;
@@ -293,7 +306,7 @@
             },
         },
         watch: {
-            totalPrice(val) {
+            totalPrice() {
                 if (this.totalPrice) {
                     let data = {
                         userId: this.userId,

@@ -260,7 +260,7 @@ public class OrderServiceImpl implements OrderService {
         for (Order order : orders) {
             String createDate = order.getCreateDate();
             int days = getGap(now, createDate);
-            if (days <= 30 && (order.getOrderState().equals("已入住") || order.getOrderState().equals("已完成")))
+            if (days <= 30 && order.getOrderState().equals("已完成"))
                 temp.add(order);
         }
         //将order按天放入summary中

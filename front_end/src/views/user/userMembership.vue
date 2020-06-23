@@ -71,8 +71,10 @@
 
                 <a-form-item v-if="!modify">
                     <div style="display: inline-flex; padding: 10px">
-                    <a-statistic title="当前累计消费">{{userVIP.consumption}}</a-statistic>
-                    <a-statistic style="margin-left: 10px" title="当前消费减免">{{userVIP.reduction}}</a-statistic>
+                    <a-statistic title="当前累计消费" :value="userVIP.consumption"></a-statistic>
+                    <a-statistic style="margin-left: 10px" title="当前消费减免" :value="userVIP.reduction*100">
+                        <template #suffix>%</template>
+                    </a-statistic>
                     </div>
                 </a-form-item>
 
@@ -134,8 +136,7 @@ export default {
     },
     async mounted() {
         await this.getUserInfo()
-        if (this.userInfo.vipType !== 'Normal')
-            await this.getUserVIP(Number(this.userInfo.id))
+        if (this.userInfo.vipType !== 'Normal') this.getUserVIP(Number(this.userInfo.id))
     },
     computed: {
         ...mapGetters([

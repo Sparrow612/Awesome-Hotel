@@ -190,6 +190,7 @@
                         :columns="hotelColumns"
                         :dataSource="onceOrderedList"
                         :locale="{emptyText: '暂时没有您的预定记录'}"
+                        :rowKey="record => record.id"
                         bordered
                         style="padding: 10px; border-radius: 20px"
                 >
