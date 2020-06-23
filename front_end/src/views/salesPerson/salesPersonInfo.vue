@@ -1,6 +1,18 @@
 <template>
     <div class="info-wrapper">
         <a-form :form="form" style="margin-top: 30px; background-color: whitesmoke">
+
+            <a-form-item label="头像" v-bind="formItemLayout">
+                <a-avatar src="./defaultAvatar.png"></a-avatar>
+            </a-form-item>
+
+            <a-form-item label="用户名" v-bind="formItemLayout">
+                <a-input
+                        v-decorator="['userName', { rules: [{ required: false, message: '请输入用户名' }], initialValue: userInfo.userName}]"
+                        v-if="modify"
+                />
+                <span v-else>{{ userInfo.userName }}</span>
+            </a-form-item>
             <a-form-item label="邮箱" v-bind="formItemLayout">
                 <span>{{ userInfo.email }}</span>
             </a-form-item>
@@ -24,17 +36,15 @@
                 />
             </a-form-item>
 
-            <a-form-item label="确认密码" v-bind="formItemLayout" v-if="modify&&this.form.getFieldValue('password')">
+            <a-form-item label="确认密码" v-bind="formItemLayout" v-if="modify && this.form.getFieldValue('password')">
                 <a-input
                         placeholder="请再次输入密码"
                         type="password"
                         v-decorator="['passwordConfirm',
-                            {rules: [{ required: true, message: '请输入确认密码' }, { validator: this.handlePasswordCheck }],
-                            validateTrigger: 'blur'}]">
-                    v-if="modify"
+                                {rules: [{ required: true, message: '请输入确认密码' }, { validator: this.handlePasswordCheck }],
+                                validateTrigger: 'blur'}]">
                 </a-input>
             </a-form-item>
-
             <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
                 <a-button @click="saveModify" type="primary">
                     保存
@@ -43,7 +53,6 @@
                     取消
                 </a-button>
             </a-form-item>
-
             <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
                 <a-button @click="modifyInfo" type="primary">
                     修改信息
@@ -59,7 +68,7 @@
     import {message} from 'ant-design-vue';
 
     export default {
-        name: "adminInfo",
+        name: "salesPersonInfo",
         data() {
             return {
                 modify: false,
@@ -82,7 +91,7 @@
             ])
         },
         beforeCreate() {
-            this.form = this.$form.createForm(this, {name: 'adminInfo'})
+            this.form = this.$form.createForm(this, {name: 'salesPersonInfo'})
         },
         async mounted() {
             await this.getUserInfo()
@@ -98,7 +107,7 @@
                         const data = {
                             userName: this.form.getFieldValue('userName'),
                             phoneNumber: this.form.getFieldValue('phoneNumber'),
-                            password: this.form.getFieldValue('password')
+                            password: this.form.getFieldValue('password'),
                         }
                         this.updateUserInfo(data)
                         this.modify = false
@@ -107,7 +116,6 @@
                     }
                 })
             },
-
             modifyInfo() {
                 this.modify = true
             },
@@ -140,7 +148,6 @@
 
             handlePasswordCheck(rule, value, callback) {
                 const password = this.form.getFieldValue('password')
-                console.log(password)
                 if (value === undefined) {
                     callback(new Error('请输入密码'))
                 }

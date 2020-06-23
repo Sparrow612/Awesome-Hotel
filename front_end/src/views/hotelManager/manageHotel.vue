@@ -33,7 +33,7 @@
                         {{ text }}
                     </a-tag>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="showOrderDatail(record)">详情</a-button>
+                        <a-button type="primary" size="small" @click="showOrderDatail(record)">订单详情</a-button>
 
                         <a-divider type="vertical" v-if="record.orderState === '未入住'"></a-divider>
 
@@ -271,7 +271,7 @@ export default {
                 })
             }
             else {
-                message.warning('还未到入住时间')
+                message.warning('不在入住时间段')
             }
         },
        finish(record) {

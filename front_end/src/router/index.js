@@ -75,6 +75,11 @@ const routes = [
         component: () => import('@/views/admin/adminInfo')
       },
       {
+        path: '/salesPerson/info/:userId',
+        name: 'salesPersonInfo',
+        component: () => import('@/views/salesPerson/salesPersonInfo')
+      },
+      {
         path: '/salesPerson/manageSiteCoupon',
         name: 'manageSiteCoupon',
         component: () => import('@/views/salesPerson/siteCoupon')

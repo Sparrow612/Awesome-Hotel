@@ -11,12 +11,10 @@
                     首页
                 </router-link>
             </a-menu-item>
-<!--            <a-menu-item key="5" v-if="userInfo.userType==='Client'">-->
-<!--                <router-link :to="{ name: 'searchHotel'}">-->
-<!--                    <a-icon type="search"/>-->
-<!--                    搜索酒店-->
-<!--                </router-link>-->
-<!--            </a-menu-item>-->
+            <a-menu-item key="5" @click="jumpToSalesPersonInfo" v-if="userInfo.userType==='SalesPerson'">
+                <a-icon type="user"/>
+                营销人员
+            </a-menu-item>
             <a-menu-item @click="jumpToUserInfo" key="2" v-if="userInfo.userType==='Client'">
                 <a-icon type="user"/>
                 个人中心
@@ -27,7 +25,7 @@
                     酒店经营
                 </router-link>
             </a-menu-item>
-            <a-menu-item @click=jumpToManagerInfo key="4" v-if="userInfo.userType==='HotelManager'">
+            <a-menu-item @click="jumpToManagerInfo" key="4" v-if="userInfo.userType==='HotelManager'">
                 <a-icon type="user"/>
                 工作人员
             </a-menu-item>
@@ -52,7 +50,7 @@
             <a-menu-item key="10" v-if="userInfo.userType==='SalesPerson'">
                 <router-link :to="{ name: 'manageOrders'}">
                     <a-icon type="shopping-cart"/>
-                    订单管理
+                    交易情况
                 </router-link>
             </a-menu-item>
             <a-menu-item key="11" v-if="userInfo.userType==='SalesPerson'">
@@ -132,7 +130,7 @@
                 case 'managerInfo':
                     this.current = ['4']
                     break
-                case 'searchHotel':
+                case 'salesPersonInfo':
                     this.current = ['5']
                     break
                 case 'userMembership':
@@ -178,6 +176,9 @@
             },
             jumpToManagerInfo() {
                 this.$router.push({name: 'managerInfo', params: {userId: this.userId}})
+            },
+            jumpToSalesPersonInfo() {
+                this.$router.push({name: 'salesPersonInfo', params: {userId: this.userId}})
             },
             jumpToHome() {
                 this.current = ['1']

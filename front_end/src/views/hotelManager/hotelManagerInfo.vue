@@ -1,6 +1,6 @@
 <template>
     <div class="info-wrapper">
-        <a-form :form="form" style="margin-top: 30px">
+        <a-form :form="form" style="margin-top: 30px; background-color: whitesmoke">
 
             <a-form-item label="头像" v-bind="formItemLayout">
                 <a-avatar src="./defaultAvatar.png"></a-avatar>
@@ -9,8 +9,7 @@
 
             <a-form-item label="用户名" v-bind="formItemLayout">
                 <a-input
-                        placeholder="请填写用户名"
-                        v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }] }]"
+                        v-decorator="['userName', { rules: [{ required: false, message: '请输入用户名' }], initialValue: userInfo.userName}]"
                         v-if="modify"
                 />
                 <span v-else>{{ userInfo.userName }}</span>
@@ -22,9 +21,8 @@
 
             <a-form-item label="手机号" v-bind="formItemLayout">
                 <a-input
-                        placeholder="请填写手机号"
-                        v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' },
-                            { validator: this.handlePhoneNumber }], validateTrigger: 'blur' }]"
+                        v-decorator="['phoneNumber', { rules: [{ required: false, message: '请输入手机号' },
+                        { validator: this.handlePhoneNumber }], validateTrigger: 'blur' , initialValue: userInfo.phoneNumber}]"
                         v-if="modify"
                 />
                 <span v-else>{{ userInfo.phoneNumber}}</span>
@@ -34,20 +32,19 @@
                 <a-input
                         placeholder="请输入新密码"
                         type="password"
-                        v-decorator="['password', { rules: [{ required: true, message: '请输入新密码' },
+                        v-decorator="['password', { rules: [{ required: false, message: '请输入新密码' },
                                 { validator: this.handlePassword }], validateTrigger: 'blur' }]"
                         v-if="modify"
                 />
             </a-form-item>
 
-            <a-form-item label="确认密码" v-bind="formItemLayout" v-if="modify">
+            <a-form-item label="确认密码" v-bind="formItemLayout" v-if="modify && this.form.getFieldValue('password')">
                 <a-input
                         placeholder="请再次输入密码"
                         type="password"
                         v-decorator="['passwordConfirm',
                                 {rules: [{ required: true, message: '请输入确认密码' }, { validator: this.handlePasswordCheck }],
                                 validateTrigger: 'blur'}]">
-                    v-if="modify"
                 </a-input>
             </a-form-item>
 
@@ -71,8 +68,9 @@
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import {message} from 'ant-design-vue';
+
     export default {
-        name: 'info',
+        name: 'hotelMangerInfo',
         data() {
             return {
                 modify: false,
@@ -86,7 +84,6 @@
                         offset: 1,
                     },
                 },
-                form: this.$form.createForm(this, {name: 'coordinated'}),
             }
         },
         computed: {
@@ -94,6 +91,9 @@
                 'userId',
                 'userInfo',
             ])
+        },
+        beforeCreate() {
+            this.form = this.$form.createForm(this, {name: 'hotelMangerInfo'})
         },
         async mounted() {
             await this.getUserInfo()
@@ -110,7 +110,6 @@
                             userName: this.form.getFieldValue('userName'),
                             phoneNumber: this.form.getFieldValue('phoneNumber'),
                             password: this.form.getFieldValue('password'),
-                            corporation: this.form.getFieldValue('corporation')
                         }
                         this.updateUserInfo(data)
                         this.modify = false
@@ -121,12 +120,6 @@
             },
 
             modifyInfo() {
-                setTimeout(() => {
-                    this.form.setFieldsValue({
-                        'userName': this.userInfo.userName,
-                        'phoneNumber': this.userInfo.phoneNumber,
-                    })
-                }, 0)
                 this.modify = true
             },
 
@@ -135,25 +128,28 @@
             },
 
             handlePhoneNumber(rule, value, callback) {
-                const re = /1\d{10}/;
-                if (re.test(value)) {
-                    callback();
-                } else {
-                    callback(new Error('请输入有效手机号'));
+                if (value) {
+                    const re = /1\d{10}/;
+                    if (re.test(value)) {
+                        callback();
+                    } else {
+                        callback(new Error('请输入有效手机号'));
+                    }
                 }
                 callback()
             },
 
             handlePassword(rule, value, callback) {
-                if (value.length < 6) {
-                    callback(new Error('密码长度至少6位'))
+                if (value) {
+                    if (value.length < 6) {
+                        callback(new Error('密码长度至少6位'))
+                    }
                 }
                 callback()
             },
 
             handlePasswordCheck(rule, value, callback) {
-                const password = this.form.getFieldValue('registerPassword')
-                console.log(password)
+                const password = this.form.getFieldValue('password')
                 if (value === undefined) {
                     callback(new Error('请输入密码'))
                 }

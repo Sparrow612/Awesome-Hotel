@@ -87,6 +87,7 @@ const hotelManager = {
     actions: {
         getHotelOrders: async ({state, commit}, id) => {
             const res = await getHotelOrdersAPI(id)
+            res.reverse()
             if (res) {
                 commit('set_orderList', res)
             }

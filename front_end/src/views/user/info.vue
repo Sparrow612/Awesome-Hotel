@@ -11,8 +11,7 @@
 
                     <a-form-item label="用户名" v-bind="formItemLayout">
                         <a-input
-                                placeholder="请填写用户名"
-                                v-decorator="['userName', { rules: [{ required: false, message: '请输入用户名' }] }]"
+                                v-decorator="['userName', { rules: [{ required: false, message: '请输入用户名' }], initialValue: userInfo.userName}]"
                                 v-if="modify"
                         />
                         <span v-else>{{ userInfo.userName }}</span>
@@ -24,9 +23,8 @@
 
                     <a-form-item label="手机号" v-bind="formItemLayout">
                         <a-input
-                                placeholder="请填写手机号"
                                 v-decorator="['phoneNumber', { rules: [{ required: false, message: '请输入手机号' },
-                            { validator: this.handlePhoneNumber }], validateTrigger: 'blur' }]"
+                        { validator: this.handlePhoneNumber }], validateTrigger: 'blur' , initialValue: userInfo.phoneNumber}]"
                                 v-if="modify"
                         />
                         <span v-else>{{ userInfo.phoneNumber}}</span>
@@ -97,15 +95,16 @@
                     </a-form-item>
 
                     <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
-                        <a-button icon="upload" @click="saveModify" style="border-radius: 20px" type="primary">
+                        <a-button @click="saveModify" icon="upload" style="border-radius: 20px" type="primary">
                             保存
                         </a-button>
-                        <a-button icon="close-circle" @click="cancelModify" style="margin-left: 30px; border-radius: 20px" type="default">
+                        <a-button @click="cancelModify" icon="close-circle"
+                                  style="margin-left: 30px; border-radius: 20px" type="default">
                             取消
                         </a-button>
                     </a-form-item>
                     <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
-                        <a-button icon="form" @click="modifyInfo" style="border-radius: 20px" type="primary">
+                        <a-button @click="modifyInfo" icon="form" style="border-radius: 20px" type="primary">
                             修改信息
                         </a-button>
                     </a-form-item>
@@ -118,8 +117,8 @@
                         :dataSource="userOrderList"
                         :locale="{emptyText: '您还没有订单'}"
                         :rowKey="record => record.id"
-                        style="background-color: white; padding: 10px; border-radius: 20px"
                         bordered
+                        style="background-color: white; padding: 10px; border-radius: 20px"
                 >
                     <a-tag color="red" slot="createDate" slot-scope="text">
                         {{text}}
@@ -423,7 +422,6 @@
                 columns_of_orders,
                 columns_of_collections,
                 columns_of_credit,
-                form: this.$form.createForm(this, {name: 'coordinated'}),
                 searchText: '',
                 searchInput: null,
                 searchedColumn: '',
@@ -443,6 +441,9 @@
                 'orderDetailVisible',
                 'userCollections',
             ])
+        },
+        beforeCreate() {
+            this.form = this.$form.createForm(this, {name: 'userInfo'})
         },
         async mounted() {
             await this.getUserInfo()
@@ -513,11 +514,13 @@
             },
 
             handlePhoneNumber(rule, value, callback) {
-                const re = /1\d{10}/;
-                if (re.test(value)) {
-                    callback();
-                } else {
-                    callback(new Error('请输入有效手机号'));
+                if (value) {
+                    const re = /1\d{10}/;
+                    if (re.test(value)) {
+                        callback();
+                    } else {
+                        callback(new Error('请输入有效手机号'));
+                    }
                 }
                 callback()
             },
@@ -532,14 +535,12 @@
             },
 
             handlePasswordCheck(rule, value, callback) {
-                const password = this.form.getFieldValue('registerPassword')
-                if (password) {
-                    if (value === undefined) {
-                        callback(new Error('请输入密码'))
-                    }
-                    if (value && password && value.trim() !== password.trim()) {
-                        callback(new Error('两次密码不一致'))
-                    }
+                const password = this.form.getFieldValue('password')
+                if (value === undefined) {
+                    callback(new Error('请输入密码'))
+                }
+                if (value && password && value.trim() !== password.trim()) {
+                    callback(new Error('两次密码不一致'))
                 }
                 callback()
             },
