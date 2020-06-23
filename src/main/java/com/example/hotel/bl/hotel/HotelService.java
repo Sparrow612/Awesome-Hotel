@@ -47,7 +47,7 @@ public interface HotelService {
 
 //    List<RoomVO> checkRoom(Integer hotelId, List<RoomVO> rooms, String beginTime, String endTime);
 
-    List<RoomVO> checkRoom(List<RoomVO> rooms, List<Order> orders);
+//    List<RoomVO> checkRoom(List<RoomVO> rooms, List<Order> orders);
     
     void updateHotelPicture(Integer hotelId, String url);
 

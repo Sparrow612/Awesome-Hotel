@@ -102,4 +102,10 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getOrdersInMonthOfAll());
     }
 
+    @GetMapping("/getHotelRoom")
+    public ResponseVO getOrderableRoom(@RequestParam(value = "hotelId") Integer hotelId,
+                                       @RequestParam(value = "startTime") String startTime,
+                                       @RequestParam(value = "endTime") String endTime) {
+        return ResponseVO.buildSuccess(orderService.getOrderableRoom(hotelId, startTime, endTime));
+    }
 }

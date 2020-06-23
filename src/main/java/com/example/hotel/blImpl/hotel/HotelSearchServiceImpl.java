@@ -80,10 +80,8 @@ public class HotelSearchServiceImpl implements HotelSearchService {
         List<HotelVO> targetHotels = new ArrayList<>();     //以关联度由高到底排序
 
         for(HotelVO hotel:hotelVOS){    //对所有的hotel，调取房间信息并检验
-            hotel = hotelService.retrieveAvailableHotelDetails(hotel.getId(),checkInDate,checkOutDate);
+            hotel = hotelService.retrieveHotelDetails(hotel.getId());
 
-            //数据锁定的遍历，得到时间和地址都符合的hotel
-            List<RoomVO> rooms = hotel.getRooms();
 
 
             /*
@@ -93,14 +91,13 @@ public class HotelSearchServiceImpl implements HotelSearchService {
              * 候选池中酒店信息以双链表方式存储
              *
              * 检验内容包括：
-             * 1.酒店是否有符合时间条件的空房间
-             * 2.酒店地址是否符合
-             * 3.酒店价格是否在可接受区间内
-             * 4。酒店星级是否符合要求
-             * 5.酒店评分是否符合要求
+             * 1.酒店地址是否符合
+             * 2.酒店价格是否在可接受区间内
+             * 3。酒店星级是否符合要求
+             * 4.酒店评分是否符合要求
              *
              */
-            boolean judge = (rooms!=null) && (!rooms.isEmpty()) && checkAddress(hotel,address) && checkPrice(hotel,maxPrice)
+            boolean judge = checkAddress(hotel,address) && checkPrice(hotel,maxPrice)
                     && checkHotelStar(hotel,hotelStar) && checkHotelScore(hotel, minScore);
 
             if(judge){
