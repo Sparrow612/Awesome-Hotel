@@ -30,11 +30,10 @@ public class OrderServiceTest {
     private OrderService orderService;
 
 
-
     @Test
     @Transactional
     public void addOrder1() {
-        OrderVO orderVO1 = new OrderVO(){{
+        OrderVO orderVO1 = new OrderVO() {{
             setCheckInDate("2020-07-01");
             setCheckOutDate("2020-07-05");
             setCreateDate("2020-06-17");
@@ -51,13 +50,13 @@ public class OrderServiceTest {
             setId(4);
         }};
         ResponseVO responseVO = orderService.addOrder(orderVO1);
-        Assert.assertThat(responseVO.getContent(),is(true));
+        Assert.assertThat(responseVO.getContent(), is(true));
     }
 
     @Test
     @Transactional
     public void addOrder2() {
-        OrderVO orderVO2 = new OrderVO(){{
+        OrderVO orderVO2 = new OrderVO() {{
             setCheckInDate("2020-06-05");
             setCheckOutDate("2020-07-01");
             setCreateDate("2020-06-17");
@@ -74,13 +73,13 @@ public class OrderServiceTest {
             setId(4);
         }};
         ResponseVO responseVO = orderService.addOrder(orderVO2);
-        Assert.assertThat(responseVO.getMessage(),is("预订时间错误"));
+        Assert.assertThat(responseVO.getMessage(), is("预订时间错误"));
     }
 
     @Test
     @Transactional
     public void addOrder3() {
-        OrderVO orderVO2 = new OrderVO(){{
+        OrderVO orderVO2 = new OrderVO() {{
             setCheckInDate("2020-06-29");
             setCheckOutDate("2020-07-01");
             setCreateDate("2020-06-17");
@@ -97,7 +96,7 @@ public class OrderServiceTest {
             setId(4);
         }};
         ResponseVO responseVO = orderService.addOrder(orderVO2);
-        Assert.assertThat(responseVO.getMessage(),is("信用值过低，无法预订酒店"));
+        Assert.assertThat(responseVO.getMessage(), is("信用值过低，无法预订酒店"));
     }
 
     @Test
@@ -108,7 +107,7 @@ public class OrderServiceTest {
         addOrder1();
         orders = orderService.getAllOrders();
         num = orders.size() - num;
-        Assert.assertThat(num,is(1));
+        Assert.assertThat(num, is(1));
     }
 
     @Test
@@ -119,56 +118,56 @@ public class OrderServiceTest {
         addOrder1();
         orders = orderService.getHotelOrders(1);
         num = orders.size() - num;
-        Assert.assertThat(num,is(1));
+        Assert.assertThat(num, is(1));
     }
 
     @Test
     @Transactional
     public void getUserOrders() {
         List<Order> orders = orderService.getUserOrders(1);
-        Assert.assertThat(orders.size(),is(1));
+        Assert.assertThat(orders.size(), is(1));
     }
 
     @Test
     @Transactional
     public void annulOrder() {
         ResponseVO responseVO = orderService.annulOrder(1);
-        Assert.assertThat(responseVO.getContent(),is(true));
+        Assert.assertThat(responseVO.getContent(), is(true));
     }
 
     @Test
     @Transactional
     public void checkIn() {
         ResponseVO responseVO = orderService.checkIn(1);
-        Assert.assertThat(responseVO.getContent().toString(),is("办理入住成功"));
+        Assert.assertThat(responseVO.getContent().toString(), is("办理入住成功"));
     }
 
     @Test
     @Transactional
     public void probableAbnormalOrder() {
         List<Order> orders = orderService.probableAbnormalOrder(1);
-        Assert.assertThat(orders.size(),is(1));
+        Assert.assertThat(orders.size(), is(1));
     }
 
     @Test
     @Transactional
     public void abnormalOrder() {
-        ResponseVO responseVO = orderService.abnormalOrder(1,0.5);
-        Assert.assertThat(responseVO.getContent().toString(),is("已标记为异常订单"));
+        ResponseVO responseVO = orderService.abnormalOrder(1, 0.5);
+        Assert.assertThat(responseVO.getContent(), is(true));
     }
 
     @Test
     @Transactional
     public void finishOrder() {
         ResponseVO responseVO = orderService.finishOrder(1);
-        Assert.assertThat(responseVO.getContent().toString(),is("退房成功"));
+        Assert.assertThat(responseVO.getContent().toString(), is("退房成功"));
     }
 
     @Test
     @Transactional
     public void getComment() {
         CommentVO commentVO = orderService.getComment(1);
-        Assert.assertThat(commentVO.getComment(),is("你的野区我养猪"));
+        Assert.assertThat(commentVO.getComment(), is("你的野区我养猪"));
     }
 
     @Test
@@ -182,13 +181,13 @@ public class OrderServiceTest {
     @Transactional
     public void getHotelComment() {
         List<CommentVO> commentVOS = orderService.getHotelComment(3);
-        Assert.assertThat(commentVOS.size(),is(0));
+        Assert.assertThat(commentVOS.size(), is(0));
     }
 
     @Test
     @Transactional
     public void addComment() {
-        CommentVO commentVO = new CommentVO(){{
+        CommentVO commentVO = new CommentVO() {{
             setUserId(1);
             setOrderId(1);
             setComment("Just so so ~ ");
@@ -198,6 +197,7 @@ public class OrderServiceTest {
             setSanitation(5);
             setService(4);
         }};
+        orderService.checkIn(1);
         orderService.addComment(commentVO);
         CommentVO comment = orderService.getComment(1);
         Assert.assertThat(comment.getComment(), is("Just so so ~ "));
@@ -207,7 +207,7 @@ public class OrderServiceTest {
     @Transactional
     public void getUserComments() {
         ResponseVO responseVO = orderService.getUserComments(1);
-        Assert.assertThat(((List<CommentVO>)responseVO.getContent()).size(),is(1));
+        Assert.assertThat(((List<CommentVO>) responseVO.getContent()).size(), is(1));
     }
 
     @Test
@@ -215,7 +215,7 @@ public class OrderServiceTest {
     public void getOrdersInMonthOfHotel() {
         List<List<Order>> summary = orderService.getOrdersInMonthOfHotel(1);
         int num = summary.size();
-        Assert.assertThat(num,is(31));
+        Assert.assertThat(num, is(31));
         //测试内部，由于结果随时间改变，故测试完成后注释掉
         //Assert.assertThat(summary.get(19).size(), is(0));
     }
@@ -225,7 +225,7 @@ public class OrderServiceTest {
     public void getOrdersInMonthOfAll() {
         List<List<Order>> summary = orderService.getOrdersInMonthOfAll();
         int num = summary.size();
-        Assert.assertThat(num,is(31));
+        Assert.assertThat(num, is(31));
         //测试内部，由于结果随时间改变，故测试完成后注释掉
         //Assert.assertThat(summary.get(19).size(), is(0));
     }
@@ -237,9 +237,9 @@ public class OrderServiceTest {
         List<Order> ordersOf1 = orderService.getHotelOrders(1);
         String beginTime = "2020-06-01";
         String endTime = "2020-06-03";
-        orders= orderService.filterOrders(orders,beginTime,endTime);
-        ordersOf1 = orderService.filterOrders(ordersOf1,beginTime,endTime);
-        Assert.assertThat(1,is(orders.size()));
-        Assert.assertThat(1,is(ordersOf1.size()));
+        orders = orderService.filterOrders(orders, beginTime, endTime);
+        ordersOf1 = orderService.filterOrders(ordersOf1, beginTime, endTime);
+        Assert.assertThat(1, is(orders.size()));
+        Assert.assertThat(1, is(ordersOf1.size()));
     }
 }

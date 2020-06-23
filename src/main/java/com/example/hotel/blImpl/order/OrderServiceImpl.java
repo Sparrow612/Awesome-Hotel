@@ -154,7 +154,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseVO abnormalOrder(int orderId, double minCreditRatio) {
         Order order = orderMapper.getOrderById(orderId);
-        accountService.chargeCredit(order.getUserId(), (int) (order.getPrice() * minCreditRatio), "异常订单");
+        // 每次出现异常订单要减去信用值
+        accountService.chargeCredit(order.getUserId(), -(int) (order.getPrice() * minCreditRatio), "异常订单");
         orderMapper.abnormalOrder(orderId);
         return ResponseVO.buildSuccess(true);
     }
