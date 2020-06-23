@@ -1,7 +1,7 @@
 <template>
     <div class="box">
         <div class="backBar">
-            <a-button class="backButton" @click="backToHome" icon="left-circle" type="primary">
+            <a-button @click="backToHome" class="backButton" icon="left-circle" type="primary">
                 返回首页
             </a-button>
         </div>
@@ -30,9 +30,7 @@
             ])
         },
         data() {
-            return {
-
-            }
+            return {}
         },
         destroyed() {
             this.set_searchList([]) //离开页面时清除搜索的结果
@@ -41,9 +39,12 @@
             ...mapMutations([
                 'set_searchList'
             ]),
-            backToHome(){
+            backToHome() {
                 this.$router.push('/homePage')
-            }
+            },
+            jumpToDetails(id) {
+                this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
+            },
         }
     }
 </script>

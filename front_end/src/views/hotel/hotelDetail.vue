@@ -74,6 +74,7 @@
                         <a-table
                                 :columns="columns_of_orders"
                                 :dataSource="userOrderList.filter(order=>order.hotelId===currentHotelInfo.id)"
+                                :rowKey="record => record.id"
                                 style="border-radius: 25px; background-color: white; padding: 10px"
                                 bordered
                         >

@@ -8,6 +8,7 @@
                     <a-table
                             :columns="columns_of_orders"
                             :dataSource="allOrderList"
+                            :rowKey="record => record.id"
                             bordered
                     >
                         <a-tag slot="hotelName" color="orange" slot-scope="text">
@@ -44,6 +45,7 @@
                     <a-table
                             :columns="columns_of_orders_nofilter"
                             :dataSource="todayUnExecutedOrders"
+                            :rowKey="record => record.id"
                             bordered
                     >
                         <a-tag slot="hotelName" color="orange" slot-scope="text">
@@ -80,6 +82,7 @@
                     <a-table
                             :columns="columns_of_orders_nofilter"
                             :dataSource="allAbnormalOrders"
+                            :rowKey="record => record.id"
                             bordered
                     >
                         <a-tag slot="hotelName" color="orange" slot-scope="text">

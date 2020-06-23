@@ -117,6 +117,7 @@
                         :columns="columns_of_orders"
                         :dataSource="userOrderList"
                         :locale="{emptyText: '您还没有订单'}"
+                        :rowKey="record => record.id"
                         style="background-color: white; padding: 10px; border-radius: 20px"
                         bordered
                 >
@@ -168,6 +169,7 @@
                         :columns="columns_of_collections"
                         :dataSource="userCollections"
                         :locale="{emptyText: '您还没有收藏任何酒店'}"
+                        :rowKey="record => record.id"
                         bordered
                         style="background-color: white; padding: 10px; border-radius: 20px"
                 >
@@ -231,6 +233,7 @@
                         :columns="columns_of_credit"
                         :dataSource="creditChangeList"
                         :locale="{emptyText: '暂时没有信用变更记录'}"
+                        :rowKey="record => record.id"
                         bordered
                         style="background-color: white; padding: 10px; border-radius: 20px"
                 >

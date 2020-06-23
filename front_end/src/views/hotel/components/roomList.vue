@@ -7,6 +7,7 @@
             <a-table
                 :columns="columns"
                 :dataSource="rooms"
+                :rowKey="record => record.id"
                 style="background-color: white; padding: 10px; margin-top: 20px; border-radius: 20px; "
                 bordered
             >

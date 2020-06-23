@@ -1,88 +1,90 @@
 <template>
     <div>
         <div class="searchBar">
-            <a-button @click="searchOpen" class="searchButton" icon="search" type="primary" style="float: right">
+            <a-button @click="searchOpen" class="searchButton" icon="search" style="float: right" type="primary">
                 开始搜索
             </a-button>
         </div>
 
-        <a-drawer
-                :visible="searchVisible"
-                @close="searchClose"
-                title="搜索信息"
-                width="45%"
-        >
-            <a-form :form="form" style="border-radius: 20px; background-color: antiquewhite; padding: 10px;">
-                <a-form-item label="时间" v-bind="formItemLayout">
-                    <a-range-picker
-                            format="YYYY-MM-DD"
-                            v-decorator="['date', { rules: [{ required: true, message: '请选择入住时间' }], initialValue: dateRange}]"
-                    />
-                </a-form-item>
-                <a-form-item label="地址" v-bind="formItemLayout">
-                    <a-input
-                            class="searchInput" placeholder="请输入地址" type="text"
-                            v-decorator="['address']"
-                    />
-                </a-form-item>
-                <a-form-item label="商圈" v-bind="formItemLayout">
-                    <a-input
-                            class="searchInput" placeholder="请输入商圈" type="text"
-                            v-decorator="['bizRegion']"
-                    />
-                </a-form-item>
-                <a-form-item label="关键词" v-bind="formItemLayout">
-                    <a-select
-                            mode="multiple"
-                            placeholder="请选择酒店关键词"
-                            v-decorator="['tags']"
-                    >
-                        <a-select-option :key="tag" v-for="tag in hotelTags">
-                            {{ tag }}
-                        </a-select-option>
-                    </a-select>
-                </a-form-item>
-                <a-form-item label="价位上限 ¥" v-bind="formItemLayout">
-                    <a-row>
-                        <a-col :span="16">
-                            <a-slider
-                                    :max="2000" :min="1" @change="handleValueChange" v-model="value"
-                            />
-                        </a-col>
-                        <a-col :span="4">
-                            <a-input-number
-                                    :max="2000" :min="1" style="margin-left: 16px" v-model="value"
-                            />
-                        </a-col>
-                    </a-row>
-                </a-form-item>
-                <a-form-item label="评分下限" v-bind="formItemLayout">
-                    <a-row>
-                        <a-col :span="16">
-                            <a-slider
-                                    :max="5" :min="0" :step="0.1" @change="handleRateChange" v-model="rate"
-                            />
-                        </a-col>
-                        <a-col :span="4">
-                            <a-input-number
-                                    :max="5" :min="0" :step="0.1" style="margin-left: 16px" v-model="rate"
-                            />
-                        </a-col>
-                    </a-row>
-                </a-form-item>
-                <a-form-item label="酒店星级" v-bind="formItemLayout">
-                    <a-checkbox-group :options="hotelStarOptions" @change="onChange"
-                                      v-decorator="['stars',{initialValue: defaultCheckedList}]"
-                    />
-                </a-form-item>
-                <a-form-item v-bind="formItemLayout">
-                    <a-button @click="search" class="searchButton" icon="search" style="background-color: orange"
-                              type="primary">
-                        搜索酒店
-                    </a-button>
-                </a-form-item>
-            </a-form>
-        </a-drawer>
+        <div>
+            <a-drawer
+                    :visible="searchVisible"
+                    @close="searchClose"
+                    title="搜索信息"
+                    width="45%"
+            >
+                <a-form :form="form" style="border-radius: 20px; background-color: antiquewhite; padding: 10px;">
+                    <a-form-item label="时间" v-bind="formItemLayout">
+                        <a-range-picker
+                                format="YYYY-MM-DD"
+                                v-decorator="['date', { rules: [{ required: true, message: '请选择入住时间' }], initialValue: dateRange}]"
+                        />
+                    </a-form-item>
+                    <a-form-item label="地址" v-bind="formItemLayout">
+                        <a-input
+                                class="searchInput" placeholder="请输入地址" type="text"
+                                v-decorator="['address']"
+                        />
+                    </a-form-item>
+                    <a-form-item label="商圈" v-bind="formItemLayout">
+                        <a-input
+                                class="searchInput" placeholder="请输入商圈" type="text"
+                                v-decorator="['bizRegion']"
+                        />
+                    </a-form-item>
+                    <a-form-item label="关键词" v-bind="formItemLayout">
+                        <a-select
+                                mode="multiple"
+                                placeholder="请选择酒店关键词"
+                                v-decorator="['tags']"
+                        >
+                            <a-select-option :key="tag" v-for="tag in hotelTags">
+                                {{ tag }}
+                            </a-select-option>
+                        </a-select>
+                    </a-form-item>
+                    <a-form-item label="价位上限 ¥" v-bind="formItemLayout">
+                        <a-row>
+                            <a-col :span="16">
+                                <a-slider
+                                        :max="2000" :min="1" @change="handleValueChange" v-model="value"
+                                />
+                            </a-col>
+                            <a-col :span="4">
+                                <a-input-number
+                                        :max="2000" :min="1" style="margin-left: 16px" v-model="value"
+                                />
+                            </a-col>
+                        </a-row>
+                    </a-form-item>
+                    <a-form-item label="评分下限" v-bind="formItemLayout">
+                        <a-row>
+                            <a-col :span="16">
+                                <a-slider
+                                        :max="5" :min="0" :step="0.1" @change="handleRateChange" v-model="rate"
+                                />
+                            </a-col>
+                            <a-col :span="4">
+                                <a-input-number
+                                        :max="5" :min="0" :step="0.1" style="margin-left: 16px" v-model="rate"
+                                />
+                            </a-col>
+                        </a-row>
+                    </a-form-item>
+                    <a-form-item label="酒店星级" v-bind="formItemLayout">
+                        <a-checkbox-group :options="hotelStarOptions" @change="onChange"
+                                          v-decorator="['stars',{initialValue: defaultCheckedList}]"
+                        />
+                    </a-form-item>
+                    <a-form-item v-bind="formItemLayout">
+                        <a-button @click="search" class="searchButton" icon="search" style="background-color: orange"
+                                  type="primary">
+                            搜索酒店
+                        </a-button>
+                    </a-form-item>
+                </a-form>
+            </a-drawer>
+        </div>
 
         <div class="hotelList">
             <a-layout>
@@ -109,7 +111,8 @@
         </div>
         <div class="browseList">
             <a-layout>
-                <a-layout-header style="font-size: x-large;background-color: cornflowerblue;color: white; margin: 5px;border-radius: 15px">
+                <a-layout-header
+                        style="font-size: x-large;background-color: cornflowerblue;color: white; margin: 5px;border-radius: 15px">
                     <a-icon type="eye"/>
                     浏览全部酒店
                 </a-layout-header>
@@ -118,6 +121,7 @@
                         :dataSource="hotelList"
                         bordered
                         style="background-color: whitesmoke;padding: 10px; border-radius: 20px"
+                        :rowKey="record => record.id"
                 >
                     <div
                             slot="filterDropdown"
@@ -177,7 +181,8 @@
         </div>
         <div class="footPrints">
             <a-layout>
-                <a-layout-header style="font-size: x-large;background-color: mediumpurple;color: white; margin: 5px;border-radius: 15px">
+                <a-layout-header
+                        style="font-size: x-large;background-color: mediumpurple;color: white; margin: 5px;border-radius: 15px">
                     <a-icon type="carry-out"/>
                     历史预定
                 </a-layout-header>
@@ -341,6 +346,7 @@
         beforeCreate() {
             this.form = this.$form.createForm(this, {name: 'searchTable'});
         },
+
         computed: {
             ...mapGetters([
                 'userInfo',
@@ -392,10 +398,10 @@
             onChange(checkedList) {
                 this.indeterminate = !!checkedList.length && checkedList.length < hotelStarOptions.length;
             },
-            searchOpen(){
+            searchOpen() {
                 this.searchVisible = true
             },
-            searchClose(){
+            searchClose() {
                 this.searchVisible = false
             },
             search(e) {
