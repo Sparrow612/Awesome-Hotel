@@ -178,6 +178,7 @@
                 'userId',
                 'userInfo',
                 'userVIP',
+                'corpVIP',
                 'dateRange',
                 'orderMatchCouponList'
             ]),
@@ -188,6 +189,8 @@
         mounted() {
             if (this.userInfo.vipType !== 'Normal')
                 this.getUserVIP(this.userId)
+            if (this.userInfo.corporation)
+                this.getCorpVIP(this.userInfo.corporation)
         },
         methods: {
             ...mapMutations([
@@ -197,7 +200,8 @@
             ...mapActions([
                 'addOrder',
                 'getOrderMatchCoupons',
-                'getUserVIP'
+                'getUserVIP',
+                'getCorpVIP',
             ]),
             cancelOrder() {
                 this.checkedList = []

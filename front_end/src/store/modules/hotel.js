@@ -3,7 +3,6 @@ import store from '@/store'
 import {
     getHotelsAPI,
     getHotelByIdAPI,
-    getHotelByIdWithTimeAPI,
     searchHotelAPI,
     addQuestionAPI,
     getHotelQuestionAPI,
@@ -12,6 +11,7 @@ import {
 } from '../../api/hotel'
 import {
     reserveHotelAPI,
+    getOrderableRoom,
 } from '../../api/order'
 import {
     orderMatchCouponsAPI,
@@ -132,7 +132,7 @@ const hotel = {
             }
         },
         getHotelByIdWithTime: async ({state, commit}, data) => {
-            const res = await getHotelByIdWithTimeAPI(data)
+            const res = await getOrderableRoom(data)
             if (res) {
                 commit('set_currentHotelInfo', res)
             }

@@ -4,7 +4,7 @@ const api = {
 }
 export function getOrderableRoom(params) {
     return axios({
-        url: `${api.orderPre}/`,
+        url: `${api.orderPre}/getHotelRoom`,
         method: 'GET',
         params,
     })

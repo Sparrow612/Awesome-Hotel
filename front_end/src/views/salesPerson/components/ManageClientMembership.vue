@@ -18,13 +18,13 @@
                 {{ text }}
             </span>
 
-            <a-tag slot="status" color="red" slot-scope="text">
-                <span v-if="text===1">正常</span>
-                <span v-else>被冻结</span>
-            </a-tag>
+            <span slot="status" slot-scope="text">
+                <a-tag color="blue" v-if="text===1">正常</a-tag>
+                <a-tag color="red" v-else>被冻结</a-tag>
+            </span>
 
             <span slot="action" slot-scope="record">
-                <a-button type="primary" size="small" v-if="record.status===1" @click="freezeClient(record.userId)">冻结</a-button>
+                <a-button type="danger" size="small" v-if="record.status===1" @click="freezeClient(record.userId)">冻结</a-button>
                 <a-button type="primary" size="small" v-else @click="restoreClient(record.userId)">恢复</a-button>
             </span>
         </a-table>

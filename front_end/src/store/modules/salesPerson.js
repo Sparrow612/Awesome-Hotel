@@ -27,6 +27,7 @@ import {
     restoreCorpVIPAPI,
     getTheRequestOfLevelAPI,
     formulateALevelAPI,
+    VIPCorpCheckAPI,
 } from "../../api/membership";
 import {message} from "ant-design-vue";
 
@@ -172,6 +173,7 @@ const salesPerson = {
         },
         addSiteCoupon: async ({commit, dispatch}, data) => {
             let res = null
+            let check = false
             switch (data.type) {
                 case 1:
                     res = await TimeCouponAPI(data)
@@ -180,7 +182,11 @@ const salesPerson = {
                     res = await BizRegionCouponAPI(data)
                     break
                 case 3:
-                    res = await CorporateCouponAPI(data)
+                    check =await VIPCorpCheckAPI(data.corporateName)
+                    if (check)
+                        res = await CorporateCouponAPI(data)
+                    else
+                        message.error('该企业未注册为VIP！')
                     break
             }
             if (res) {

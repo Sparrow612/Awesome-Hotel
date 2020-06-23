@@ -4,6 +4,7 @@ const getters = {
     userId: state => state.user.userId,
     userInfo: state => state.user.userInfo,
     userVIP: state => state.user.userVIP,
+    corpVIP: state => state.user.userVIP,
     dateRange: state => state.user.dateRange,
     userOrderList: state => state.user.userOrderList,
     creditChangeList: state => state.user.creditChangeList,

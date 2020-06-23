@@ -14,7 +14,7 @@
                         placeholder="请输入企业名"
                         v-decorator="[
                             'corporation',
-                            { rules: [{ required: true, message: '请输入企业' }]},
+                            { rules: [{ required: true, message: '请输入企业' }], initialValue: this.userInfo.corporation},
                         ]"
                 />
             </a-form-item>
@@ -43,7 +43,8 @@
         },
         computed: {
             ...mapGetters([
-                'registerCorporationMembershipModalVisible'
+                'registerCorporationMembershipModalVisible',
+                'userInfo'
             ])
         },
         methods: {

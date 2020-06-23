@@ -6,11 +6,12 @@
                     {{ currentHotelInfo.title }}
                 </h1>
                 <div class="hotel-info">
-                    <a-card style="width: 240px">
+                    <a-card style="width: 300px; border-radius: 20px">
                         <img
                                 alt="example"
                                 referrerPolicy="no-referrer"
                                 slot="cover"
+                                style="height: 400px;  border-radius: 20px"
                                 src="@/assets/cover.jpeg"
                         />
                     </a-card>
@@ -234,7 +235,7 @@
             padding: 10px 0;
             display: flex;
             flex-direction: column;
-            margin-left: 20px;
+            margin-left: 40px;
 
             .items {
                 display: flex;

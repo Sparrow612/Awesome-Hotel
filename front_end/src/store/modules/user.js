@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import router from '../../router'
 import {getToken, setToken, removeToken} from '../../utils/auth'
 import {resetRouter} from '../../router'
@@ -28,7 +27,7 @@ import {
     registerClientMembershipAPI,
     registerCorpMembershipAPI,
     getUserVIPAPI,
-    VIPCorpCheckAPI,
+    getCorpVIPAPI,
 } from "../../api/membership"
 
 import moment from "moment";
@@ -38,6 +37,7 @@ const getDefaultState = () => {
         userId: '',
         userInfo: {},
         userVIP: {},
+        corpVIP: {},
         dateRange: [moment(), moment().add(1, 'd')],
         userOrderList: [],
         onceOrderedList: [],
@@ -54,6 +54,8 @@ const user = {
             state.token = ''
             state.userId = ''
             state.userInfo = {}
+            state.userVIP = {}
+            state.corpVIP = {}
             state.userOrderList = []
             state.onceOrderedList = []
             state.creditChangeList = []
@@ -102,6 +104,9 @@ const user = {
                 ...state.userVIP,
                 ...data
             }
+        },
+        set_corpVIP: (state, data) => {
+            state.corpVIP = data
         },
     },
 
@@ -215,6 +220,12 @@ const user = {
             const res = await getUserVIPAPI(id)
             if (res) {
                 commit('set_userVIP', res)
+            }
+        },
+        getCorpVIP: async ({state, commit}, name) => {
+            const res = await getCorpVIPAPI(name)
+            if (res) {
+                commit('set_corpVIP', res)
             }
         },
         updateUserBirthday: async ({state, dispatch}, data) => {

@@ -63,6 +63,7 @@
 
     .privilege {
         margin-top: 180px;
+        font-size: large;
     }
 
     h2 {
