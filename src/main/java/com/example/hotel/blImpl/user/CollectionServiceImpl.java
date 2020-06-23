@@ -1,7 +1,7 @@
 package com.example.hotel.blImpl.user;
 
 import com.example.hotel.bl.user.CollectionService;
-import com.example.hotel.data.collection.CollectionMapper;
+import com.example.hotel.data.user.CollectionMapper;
 import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.po.Collection;
 import com.example.hotel.vo.CollectionVO;

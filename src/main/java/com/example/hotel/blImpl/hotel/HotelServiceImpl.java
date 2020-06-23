@@ -34,9 +34,6 @@ public class HotelServiceImpl implements HotelService {
     private RoomService roomService;
 
     @Autowired
-    private OrderService orderService;
-
-    @Autowired
     private AccountService accountService;
 
 
@@ -139,23 +136,23 @@ public class HotelServiceImpl implements HotelService {
     public HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime) {
         HotelVO hotel = retrieveHotelDetails(hotelId);
         List<RoomVO> rooms = hotel.getRooms();
-        List<RoomVO> roomVOS;
-        roomVOS = checkRoom(hotelId, rooms, beginTime, endTime);
-        hotel.setRooms(roomVOS);
+//        List<RoomVO> roomVOS;
+//        roomVOS = checkRoom(hotelId, rooms, beginTime, endTime);
+        hotel.setRooms(rooms);
         return hotel;
     }
 
-    @Override
-    public List<RoomVO> checkRoom(Integer hotelId, List<RoomVO> rooms, String beginTime, String endTime) {
-        List<RoomVO> roomVOS = new ArrayList<>();
-        //确保输入的房间情况不为空
-        if (!rooms.isEmpty()) {
-            List<Order> orders = orderService.getHotelOrders(hotelId);
-            orders = orderService.filterOrders(orders, beginTime, endTime);
-            roomVOS = checkRoom(rooms, orders);
-        }
-        return roomVOS;
-    }
+//    @Override
+//    public List<RoomVO> checkRoom(Integer hotelId, List<RoomVO> rooms, String beginTime, String endTime) {
+//        List<RoomVO> roomVOS = new ArrayList<>();
+//        //确保输入的房间情况不为空
+//        if (!rooms.isEmpty()) {
+//            List<Order> orders = orderService.getHotelOrders(hotelId);
+//            orders = orderService.filterOrders(orders, beginTime, endTime);
+//            roomVOS = checkRoom(rooms, orders);
+//        }
+//        return roomVOS;
+//    } // 循环依赖
 
     @Override
     public List<RoomVO> checkRoom(List<RoomVO> rooms, List<Order> orders) {

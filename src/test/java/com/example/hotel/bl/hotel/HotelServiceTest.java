@@ -115,17 +115,17 @@ public class HotelServiceTest {
         Assert.assertThat(rooms.get(0).getCurNum(),is(19));
     }
 
-    @Test
-    @Transactional
-    public void checkRoom() {
-        HotelVO hotel = hotelService.retrieveHotelDetails(1);
-        List<RoomVO> roomVOS = hotelService.checkRoom(1,hotel.getRooms(),"2020-06-01","2020-06-02");
-        RoomVO roomVO = roomVOS.get(0);
-        Assert.assertThat(roomVO.getCurNum(),is(19));
-        roomVOS = hotelService.checkRoom(1,hotel.getRooms(),"2019-06-23","2019-06-24");
-        roomVO = roomVOS.get(0);
-        Assert.assertThat(roomVO.getCurNum(),is(20));
-    }
+//    @Test
+//    @Transactional
+//    public void checkRoom() {
+//        HotelVO hotel = hotelService.retrieveHotelDetails(1);
+//        List<RoomVO> roomVOS = hotelService.checkRoom(1,hotel.getRooms(),"2020-06-01","2020-06-02");
+//        RoomVO roomVO = roomVOS.get(0);
+//        Assert.assertThat(roomVO.getCurNum(),is(19));
+//        roomVOS = hotelService.checkRoom(1,hotel.getRooms(),"2019-06-23","2019-06-24");
+//        roomVO = roomVOS.get(0);
+//        Assert.assertThat(roomVO.getCurNum(),is(20));
+//    }
 
 //    @Test
 //    @Transactional

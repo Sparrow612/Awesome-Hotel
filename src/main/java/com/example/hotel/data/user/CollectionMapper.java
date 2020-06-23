@@ -1,4 +1,4 @@
-package com.example.hotel.data.collection;
+package com.example.hotel.data.user;
 
 import com.example.hotel.po.Collection;
 import org.apache.ibatis.annotations.Mapper;

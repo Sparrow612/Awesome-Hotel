@@ -128,7 +128,7 @@ public class HotelSearchServiceTest {
     public void searchHotel4_1() {
         List<HotelVO> hotelVOS = hotelSearchService.searchHotel(searchBodyVO4_1);
         int num = hotelVOS.size();
-        Assert.assertThat(num, is(0));
+        Assert.assertThat(num, is(1));
     }
 
     @Test
