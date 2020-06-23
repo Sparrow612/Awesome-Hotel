@@ -222,7 +222,7 @@
         name: "helper",
         data() {
             return {
-                collapsed: false,
+                collapsed: true,
 
                 webOverview: true,
                 aboutUs: false,

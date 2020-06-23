@@ -12,7 +12,6 @@
                 LV{{ item.level }}: 累计消费{{ item.request }}￥ 减免{{ item.reduction * 100 }}% <br/>
             </h3>
         </div>
-        <!--  这里可以再补充优惠券的部分，暂时还没想好怎么展示   -->
     </a-carousel>
 </template>
 
@@ -46,16 +45,15 @@
 </script>
 
 <style scoped>
-    /* For demo */
+
     .ant-carousel {
-        width: 600px;
+        width: 800px;
     }
 
     .ant-carousel >>> .slick-slide {
         text-align: center;
-        height: 470px;
-
-        background: #83c2f8;
+        height: 600px;
+        background-image: url('../../../assets/background.png');
         overflow: hidden;
     }
 
@@ -64,7 +62,7 @@
     }
 
     .privilege {
-        margin-top: 140px;
+        margin-top: 180px;
     }
 
     h2 {

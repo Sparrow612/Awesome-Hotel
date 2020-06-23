@@ -2,6 +2,13 @@ import { axios } from '@/utils/request'
 const api = {
     orderPre: '/api/order'
 }
+export function getOrderableRoom(params) {
+    return axios({
+        url: `${api.orderPre}/`,
+        method: 'GET',
+        params,
+    })
+}
 export function reserveHotelAPI(data) {
     return axios({
         url: `${api.orderPre}/addOrder`,

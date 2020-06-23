@@ -120,7 +120,7 @@
                         :columns="hotelColumns"
                         :dataSource="hotelList"
                         bordered
-                        style="background-color: whitesmoke;padding: 10px; border-radius: 20px"
+                        style="padding: 10px; border-radius: 20px"
                         :rowKey="record => record.id"
                 >
                     <div
@@ -191,7 +191,7 @@
                         :dataSource="onceOrderedList"
                         :locale="{emptyText: '暂时没有您的预定记录'}"
                         bordered
-                        style="background-color: white; padding: 10px; border-radius: 20px"
+                        style="padding: 10px; border-radius: 20px"
                 >
                     <span slot="action" slot-scope="record">
                         <a-button @click="jumpToDetails(record.id)" size="small">再次光临</a-button>

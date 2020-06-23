@@ -104,6 +104,12 @@
                     <span slot="discount" slot-scope="text">{{text*100}}%</span>
                 </a-table>
             </a-checkbox-group>
+            <a-form-item v-if="this.userInfo.vipType!=='Normal'">
+                <a-tag color="blue">您是VIP顾客，当前等级{{this.userVIP.level}}，当前享受{{this.userVIP.reduction*100}}%折扣</a-tag>
+            </a-form-item>
+            <a-form-item>
+
+            </a-form-item>
             <a-form-item label="结算后总价" v-bind="formItemLayout">
                 <span>￥{{ finalPrice ? finalPrice : totalPrice}}</span>
             </a-form-item>
@@ -171,12 +177,17 @@
                 'orderSuccess',
                 'userId',
                 'userInfo',
+                'userVIP',
                 'dateRange',
                 'orderMatchCouponList'
             ]),
         },
         beforeCreate() {
             this.form = this.$form.createForm(this, {name: 'orderModal'});
+        },
+        mounted() {
+            if (this.userInfo.vipType !== 'Normal')
+                this.getUserVIP(this.userId)
         },
         methods: {
             ...mapMutations([
@@ -186,6 +197,7 @@
             ...mapActions([
                 'addOrder',
                 'getOrderMatchCoupons',
+                'getUserVIP'
             ]),
             cancelOrder() {
                 this.checkedList = []

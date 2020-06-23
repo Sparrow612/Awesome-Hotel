@@ -61,11 +61,19 @@
                 <a-button type="primary" @click="registerSiteMembership" style="margin-top: 20px"><a-icon type="user" />注册会员</a-button>
             </span>
 
+
             <a-form :form="form" style="margin-top: 30px; text-align: left" v-show="this.userInfo.vipType==='Client'">
                 <a-form-item label="您的生日" v-bind="formItemLayout">
                     <a-date-picker :disabled="!modify"
                                    v-decorator="['birthday', { rules: [{ required: true, message: '请选择您的生日' }], initialValue: moment(this.userInfo.birthday, dateFormat)}]" v-if="modify"/>
                     <span v-else>{{ userInfo.birthday }}</span>
+                </a-form-item>
+
+                <a-form-item v-if="!modify">
+                    <div style="display: inline-flex; padding: 10px">
+                    <a-statistic title="当前累计消费">{{userVIP.consumption}}</a-statistic>
+                    <a-statistic style="margin-left: 10px" title="当前消费减免">{{userVIP.reduction}}</a-statistic>
+                    </div>
                 </a-form-item>
 
                 <a-form-item label="" :wrapper-col="{ span: 16, offset: 9 }" v-if="modify">
@@ -171,9 +179,9 @@ export default {
         },
 
         cancelModify() {
+            message.info('取消修改')
             this.modify = false
         },
-
         moment,
     }
 

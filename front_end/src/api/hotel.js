@@ -21,13 +21,6 @@ export function getHotelByIdAPI(hotelId) {
         method: 'GET',
     })
 }
-export function getHotelByIdWithTimeAPI(params) {
-    return axios({
-        url: `${api.hotelPre}/detailInTimeRange`,
-        method: 'GET',
-        params,
-    })
-}
 export function searchHotelAPI(data) {
     return axios({
         url: `${api.hotelPre}/searchHotel`,
