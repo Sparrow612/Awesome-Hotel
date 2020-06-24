@@ -8,11 +8,11 @@
         <a-list-item slot="renderItem" slot-scope="item">
             <a-comment :author="getUserNameById(item.userId)" :avatar="userLogo(item.userId)" class="hotelComment">
                 <p slot="content">
-                    总体评分: <a-rate :default-value="2" disabled /><br/>
-                    卫生: <a-rate :default-value="2" disabled />&nbsp;
-                    环境: <a-rate :default-value="2" disabled />&nbsp;
-                    服务: <a-rate :default-value="2" disabled />&nbsp;
-                    设施: <a-rate :default-value="2" disabled /><br/><br/>
+                    总体评分: <a-rate :default-value="item.points" disabled /><br/>
+                    卫生: <a-rate :default-value="item.sanitation" disabled />&nbsp;
+                    环境: <a-rate :default-value="item.environment" disabled />&nbsp;
+                    服务: <a-rate :default-value="item.service" disabled />&nbsp;
+                    设施: <a-rate :default-value="item.equipment" disabled /><br/><br/>
                     <a-tag color="cyan">评价:</a-tag>{{ item.comment }}
                 </p>
             </a-comment>
