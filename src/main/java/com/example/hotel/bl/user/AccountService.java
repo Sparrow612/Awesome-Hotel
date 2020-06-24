@@ -38,8 +38,6 @@ public interface AccountService {
 
     ResponseVO updatePassword(int id, String password);
 
-    ResponseVO updateCredit(int id, double credit);
-
     ResponseVO argueCredit(int creditId, String argue);
 
     List<CreditVO> getArgueCredits();

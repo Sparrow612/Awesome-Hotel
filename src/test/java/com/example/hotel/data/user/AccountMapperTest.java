@@ -65,13 +65,6 @@ public class AccountMapperTest {
 
     @Test
     @Transactional
-    public void updateCredit() {
-        accountMapper.updateCredit(4, 120.0);
-        Assert.assertThat(accountMapper.getAccountById(4).getCredit(), is(120.0));
-    }
-
-    @Test
-    @Transactional
     public void updateBirthday() {
         accountMapper.updateBirthday(4, "1989-06-04");
         Assert.assertThat(accountMapper.getAccountById(4).getBirthday(), is("1989-06-04"));
@@ -86,15 +79,15 @@ public class AccountMapperTest {
 
     @Test
     @Transactional
-    public void updatePassword(){
-        accountMapper.updatePassword(4,"123456");
+    public void updatePassword() {
+        accountMapper.updatePassword(4, "123456");
     }
 
     @Test
     @Transactional
-    public void updateAnnulTime() {
-        accountMapper.updateAnnulTime(4, 5);
-        Assert.assertThat(accountMapper.getAccountById(4).getAnnulTime(), is(5));
+    public void minAnnulTime() {
+        accountMapper.minAnnulTime(4);
+        Assert.assertThat(accountMapper.getAccountById(4).getAnnulTime(), is(2));
     }
 
     @Test

@@ -30,10 +30,6 @@
         set password = #{password}
         where id = #{id}
     </update>
-    <!--> 修改credit-->
-    <update id="updateCredit">
-        update user set credit=#{credit} where id=#{id}
-    </update>
 
     <update id="updateBirthday">
         update user set birthday = #{birthday} where id = #{id}
@@ -50,8 +46,8 @@
         where id = #{id}
     </update>
 
-    <update id="updateAnnulTime">
-        update user set annulTime = #{time} where id = #{id}
+    <update id="minAnnulTime">
+        update user set annulTime = annulTime - 1 where id = #{id}
     </update>
 
     <update id="updatePortrait">

@@ -119,12 +119,8 @@ public class OrderServiceImpl implements OrderService {
         String checkInDate = order.getCheckInDate();
         int gap = getDays(checkInDate);
         if (gap == 0) {
-            int userID = order.getUserId();
-            UserVO user = accountService.getUserInfo(userID);
-            double price = order.getPrice();
-            double credit = user.getCredit();
-            credit -= price * 0.5;
-            accountService.updateCredit(userID, credit);
+            int change = -(int) (0.5 * order.getPrice());
+            accountService.chargeCredit(order.getUserId(), change, "撤销临近订单");
         }
         hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), -order.getRoomNum());
 

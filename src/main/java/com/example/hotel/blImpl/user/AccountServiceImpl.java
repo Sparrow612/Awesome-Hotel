@@ -104,18 +104,6 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess();
     }
 
-
-    @Override
-    public ResponseVO updateCredit(int id, double credit) {
-        try {
-            accountMapper.updateCredit(id, credit);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseVO.buildFailure(UPDATE_ERROR);
-        }
-        return ResponseVO.buildSuccess(true);
-    }
-
     @Override
     public ResponseVO argueCredit(int creditId, String argue) {
         Credit credit = creditMapper.getCredit(creditId);
@@ -144,17 +132,6 @@ public class AccountServiceImpl implements AccountService {
         return ResponseVO.buildSuccess(creditMapper.handleArgue(creditId, status));
     }
 
-    //    @Override
-//    public ResponseVO personalVIP(int id, String birthday) {
-//        try {
-//            accountMapper.updateBirthday(id, birthday);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseVO.buildFailure(UPDATE_ERROR);
-//        }
-//        return ResponseVO.buildSuccess(true);
-//    }
-//
     @Override
     public ResponseVO updateCorporation(int id, String corporate) {
         try {
@@ -165,11 +142,6 @@ public class AccountServiceImpl implements AccountService {
         }
         return ResponseVO.buildSuccess(true);
     }
-
-//    @Override
-//    public ResponseVO normalUser(String corporate) {
-//        return null;
-//    }
 
     @Override
     public void updateBirthday(int id, String birthday) {
@@ -214,9 +186,15 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseVO chargeCredit(int userId, int change, String reason) {
         try {
-            accountMapper.chargeCredit(userId, change);
             User user = accountMapper.getAccountById(userId);
-            creditMapper.addCredit(new Credit(userId, change, user.getCredit(), reason));
+            if (change < 0 && user.getAnnulTime() > 0) {
+                accountMapper.minAnnulTime(userId);
+                creditMapper.addCredit(new Credit(userId, 0, user.getCredit(),
+                        reason + ",已使用新手抵消，目前剩余" + (user.getAnnulTime() - 1) + "次"));
+                return ResponseVO.buildSuccess();
+            }
+            accountMapper.chargeCredit(userId, change);
+            creditMapper.addCredit(new Credit(userId, change, user.getCredit() + change, reason));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(UPDATE_ERROR);

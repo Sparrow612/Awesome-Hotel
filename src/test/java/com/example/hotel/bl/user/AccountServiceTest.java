@@ -78,14 +78,6 @@ public class AccountServiceTest {
 
     @Test
     @Transactional
-    public void updateCredit() {
-        accountService.updateCredit(6,50.0);
-        UserVO userVO = accountService.getUserInfo(6);
-        Assert.assertThat(userVO.getCredit(),is(50.0));
-    }
-
-    @Test
-    @Transactional
     public void corporateVIP() {
         accountService.updateCorporation(6,"test");
         UserVO userVO = accountService.getUserInfo(6);

@@ -32,15 +32,13 @@ public interface AccountMapper {
 
     void updatePassword(@Param("id") int id, @Param("password") String password);
 
-    void updateCredit(@Param("id") int id, @Param("credit") double credit);
-
     void updateBirthday(@Param("id") int id, @Param("birthday") String birthday);
 
     void updateVIPType(@Param("id") int id, @Param("vipType") VIPType vipType);
 
     void updateCorporate(@Param("id") int id, @Param("corporate") String corporate);
 
-    void updateAnnulTime(@Param("id") int id, @Param("time") int time);
+    void minAnnulTime(@Param("id") int id);
 
     void updatePortrait(@Param("id") Integer id, @Param("url") String url);
 
