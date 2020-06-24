@@ -122,10 +122,9 @@ public class HotelSearchServiceImpl implements HotelSearchService {
         return targetHotels;
     }
 
-    private List<HotelVO> secondarySearch(){
-
-        return null;
-    }
+//    private List<HotelVO> secondarySearch(){
+//        return null;
+//    }
 
 
     /**

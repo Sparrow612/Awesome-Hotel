@@ -75,7 +75,7 @@
 <div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.blImpl.admin;
 <i>2</i>&nbsp;
 <i>3</i>&nbsp;import com.example.hotel.bl.admin.AdminService;
-<i>4</i>&nbsp;import com.example.hotel.blImpl.user.PasswordEncryptHelper;
+<i>4</i>&nbsp;import com.example.hotel.util.PasswordEncryptHelper;
 <i>5</i>&nbsp;import com.example.hotel.data.admin.AdminMapper;
 <i>6</i>&nbsp;import com.example.hotel.enums.UserType;
 <i>7</i>&nbsp;import com.example.hotel.po.User;
@@ -92,8 +92,8 @@
 <i>18</i>&nbsp; */
 <i>19</i>&nbsp;@Service
 <b class="fc"><i>20</i>&nbsp;public class AdminServiceImpl implements AdminService {</b>
-<i>21</i>&nbsp;    private final static String ACCOUNT_EXIST = &quot;ÕËºÅÒÑ´æÔÚ&quot;;
-<i>22</i>&nbsp;    private final static String ACCOUNT_NOTFOUND = &quot;ÕËºÅ²»´æÔÚ&quot;;
+<i>21</i>&nbsp;    private final static String ACCOUNT_EXIST = &quot;ï¿½Ëºï¿½ï¿½Ñ´ï¿½ï¿½ï¿½&quot;;
+<i>22</i>&nbsp;    private final static String ACCOUNT_NOTFOUND = &quot;ï¿½ËºÅ²ï¿½ï¿½ï¿½ï¿½ï¿½&quot;;
 <i>23</i>&nbsp;
 <i>24</i>&nbsp;    @Autowired
 <i>25</i>&nbsp;    AdminMapper adminMapper;
@@ -107,7 +107,7 @@
 <b class="fc"><i>33</i>&nbsp;        user.setPassword(PasswordEncryptHelper.getMD5(userForm.getPassword()));</b>
 <b class="fc"><i>34</i>&nbsp;        user.setHotelID(userForm.getHotelId());</b>
 <b class="fc"><i>35</i>&nbsp;        user.setUserType(UserType.HotelManager);</b>
-<i>36</i>&nbsp;        // ËÆºõ»¹ÐèÒªÉèÖÃÐÕÃûÊÖ»úºÅµÈ£¿
+<i>36</i>&nbsp;        // ï¿½Æºï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ÅµÈ£ï¿½
 <i>37</i>&nbsp;        try {
 <b class="fc"><i>38</i>&nbsp;            adminMapper.addManager(user);</b>
 <b class="nc"><i>39</i>&nbsp;        } catch (Exception e) {</b>
@@ -125,7 +125,7 @@
 <b class="fc"><i>51</i>&nbsp;        user.setPhoneNumber(userForm.getPhoneNumber());</b>
 <b class="fc"><i>52</i>&nbsp;        user.setPassword(PasswordEncryptHelper.getMD5(userForm.getPassword()));</b>
 <b class="fc"><i>53</i>&nbsp;        user.setUserType(UserType.SalesPerson);</b>
-<i>54</i>&nbsp;        // ËÆºõ»¹ÐèÒªÉèÖÃÐÕÃûÊÖ»úºÅµÈ£¿
+<i>54</i>&nbsp;        // ï¿½Æºï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ÅµÈ£ï¿½
 <i>55</i>&nbsp;        try {
 <b class="fc"><i>56</i>&nbsp;            adminMapper.addSalesPerson(user);</b>
 <b class="nc"><i>57</i>&nbsp;        } catch (Exception e) {</b>

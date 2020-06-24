@@ -3,11 +3,11 @@ package com.example.hotel.blImpl.user;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.data.user.CreditMapper;
-import com.example.hotel.enums.HotelService;
 import com.example.hotel.enums.UserType;
 import com.example.hotel.enums.VIPType;
 import com.example.hotel.po.Credit;
 import com.example.hotel.po.User;
+import com.example.hotel.util.PasswordEncryptHelper;
 import com.example.hotel.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,7 +156,7 @@ public class AccountServiceImpl implements AccountService {
 //    }
 //
     @Override
-    public ResponseVO corporateVIP(int id, String corporate) {
+    public ResponseVO updateCorporation(int id, String corporate) {
         try {
             accountMapper.updateCorporate(id, corporate);
         } catch (Exception e) {

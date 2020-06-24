@@ -1,4 +1,4 @@
-package com.example.hotel.blImpl.user;
+package com.example.hotel.util;
 
 /**
  * @author 庄子元 181830266@smail.nju.edu.cn
@@ -40,7 +40,7 @@ public class PasswordEncryptHelper {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println((getMD5("123456")));
-    }
+//    public static void main(String[] args) {
+//        System.out.println((getMD5("123456")));
+//    }
 }

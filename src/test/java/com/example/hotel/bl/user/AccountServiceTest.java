@@ -1,9 +1,7 @@
 package com.example.hotel.bl.user;
 
-import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.enums.UserType;
 import com.example.hotel.enums.VIPType;
-import com.example.hotel.po.User;
 import com.example.hotel.vo.UserForm;
 import com.example.hotel.vo.UserVO;
 import org.junit.Assert;
@@ -17,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 /**
  * @author 庄子元 181830266@smail.nju.edu.cn
@@ -90,7 +87,7 @@ public class AccountServiceTest {
     @Test
     @Transactional
     public void corporateVIP() {
-        accountService.corporateVIP(6,"test");
+        accountService.updateCorporation(6,"test");
         UserVO userVO = accountService.getUserInfo(6);
         Assert.assertThat(userVO.getVipType(), is(VIPType.Corporation));
     }

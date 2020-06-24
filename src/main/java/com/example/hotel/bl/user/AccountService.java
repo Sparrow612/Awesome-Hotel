@@ -48,7 +48,7 @@ public interface AccountService {
 
 //    ResponseVO personalVIP(int id, String birthday);
 //
-    ResponseVO corporateVIP(int id, String corporate);
+    ResponseVO updateCorporation(int id, String corporate);
 
 //    ResponseVO normalUser(String corporate);
 

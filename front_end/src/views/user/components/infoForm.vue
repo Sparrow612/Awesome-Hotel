@@ -1,7 +1,6 @@
 <template>
     <div class="info-wrapper">
-        <a-form :form="form" style="margin-top: 30px; padding: 30px; border-radius: 20px; background-color: whitesmoke">
-
+        <a-form :form="form" style="padding: 10px; border-radius: 20px; background-color: whitesmoke">
             <a-form-item label="头像" v-bind="formItemLayout">
                 <a-avatar src="./defaultAvatar.png"></a-avatar>
                 <!--                        <a-button type="primary" icon="upload" style="margin-left: 20px">上传头像</a-button>-->
@@ -176,6 +175,11 @@
                 this.modify = false
             },
 
+            goToMembership() {
+                // TODO 修改header上面的current
+                // 不行就砍
+            },
+
             handlePhoneNumber(rule, value, callback) {
                 if (value) {
                     const re = /1\d{10}/;
@@ -213,6 +217,6 @@
 
 <style scoped>
     .info-wrapper {
-        padding: 50px;
+        padding: 10px;
     }
 </style>

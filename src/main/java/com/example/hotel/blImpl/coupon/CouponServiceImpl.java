@@ -20,13 +20,6 @@ import java.util.List;
 public class CouponServiceImpl implements CouponService {
 
 
-    private final TargetMoneyCouponStrategyImpl targetMoneyCouponStrategy;
-    private final TimeCouponStrategyImpl timeCouponStrategy;
-    private final BirthdayCouponStrategyImpl birthdayCouponStrategy;
-    private final ManyRoomCouponStrategyImpl manyRoomCouponStrategy;
-    private final CorporateCouponStrategyImpl corporateCouponStrategy;
-    private final BizRegionCouponStrategyImpl bizRegionCouponStrategy;
-
     @Autowired
     private final CouponMapper couponMapper;
 
@@ -43,13 +36,7 @@ public class CouponServiceImpl implements CouponService {
                              CorporateCouponStrategyImpl corporateCouponStrategy,
                              BizRegionCouponStrategyImpl bizRegionCouponStrategy,
                              CouponMapper couponMapper) {
-        this.birthdayCouponStrategy = birthdayCouponStrategy;
-        this.manyRoomCouponStrategy = manyRoomCouponStrategy;
-        this.corporateCouponStrategy = corporateCouponStrategy;
         this.couponMapper = couponMapper;
-        this.targetMoneyCouponStrategy = targetMoneyCouponStrategy;
-        this.timeCouponStrategy = timeCouponStrategy;
-        this.bizRegionCouponStrategy = bizRegionCouponStrategy;
         strategyList.add(targetMoneyCouponStrategy);
         strategyList.add(timeCouponStrategy);
         strategyList.add(birthdayCouponStrategy);

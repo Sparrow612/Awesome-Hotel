@@ -378,10 +378,6 @@
                 this.getHotelById(record.hotelId)
                 this.set_orderDetailVisible(true)
             },
-            goToMembership() {
-                // TODO 修改header上面的current
-                // 不行就砍
-            },
             commentOrder(record) {
                 this.getOrderComment(Number(record.id)).then(() => {
                     this.set_commentOrderModalVisible(true)
@@ -407,7 +403,7 @@
 
 <style lang="less" scoped>
     .info-wrapper {
-        padding: 50px;
+        padding: 30px;
 
         .chart {
             display: flex;

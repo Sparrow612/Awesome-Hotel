@@ -47,8 +47,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private AccountService accountService;
     @Autowired
-    private RoomService roomService;
-    @Autowired
     private VIPService vipService;
 
     @Override
