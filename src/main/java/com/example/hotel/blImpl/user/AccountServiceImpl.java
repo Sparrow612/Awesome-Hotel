@@ -190,7 +190,7 @@ public class AccountServiceImpl implements AccountService {
             if (change < 0 && user.getAnnulTime() > 0) {
                 accountMapper.minAnnulTime(userId);
                 creditMapper.addCredit(new Credit(userId, 0, user.getCredit(),
-                        reason + ",已使用新手抵消，目前剩余" + (user.getAnnulTime() - 1) + "次"));
+                        reason + "，已使用新手抵消，目前剩余" + (user.getAnnulTime() - 1) + "次"));
                 return ResponseVO.buildSuccess();
             }
             accountMapper.chargeCredit(userId, change);
