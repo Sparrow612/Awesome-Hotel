@@ -153,7 +153,7 @@ public class OrderServiceTest {
     @Test
     @Transactional
     public void abnormalOrder() {
-        ResponseVO responseVO = orderService.abnormalOrder(1, 0.5);
+        ResponseVO responseVO = orderService.abnormalOrder(1);
         Assert.assertThat(responseVO.getContent(), is(true));
     }
 
