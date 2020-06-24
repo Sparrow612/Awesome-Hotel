@@ -42,7 +42,7 @@ public interface OrderService {
 
     ResponseVO abnormalOrder(int orderId);
 
-    ResponseVO handleAbnormal(int orderId);
+    ResponseVO handleAbnormal(int orderId, double ratio);
 
     ResponseVO finishOrder(int orderId);
 

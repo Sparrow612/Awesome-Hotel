@@ -87,8 +87,8 @@ public class OrderController {
     }
 
     @PostMapping("/{orderId}/handleAbnormal")
-    public ResponseVO handleAbnormal(@PathVariable Integer orderId){
-        return orderService.handleAbnormal(orderId);
+    public ResponseVO handleAbnormal(@PathVariable Integer orderId,@RequestParam double ratio){
+        return orderService.handleAbnormal(orderId, ratio);
     }
 
     @GetMapping("/{hotelId}/probableAbnormalOrder")
