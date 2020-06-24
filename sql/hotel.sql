@@ -172,11 +172,11 @@ CREATE TABLE `OrderList`
     `phoneNumber`   varchar(255)   DEFAULT NULL,
     `orderState`    varchar(255)   DEFAULT NULL,
     `comments`      varchar(255)   DEFAULT NULL,
-    `points`        int(5)         DEFAULT 5,
-    `sanitation`    int(5)         DEFAULT 5,
-    `environment`   int(5)         DEFAULT 5,
-    `service`       int(5)         DEFAULT 5,
-    `equipment`     int(5)         DEFAULT 5,
+    `points`        int(5)         DEFAULT NULL,
+    `sanitation`    int(5)         DEFAULT NULL,
+    `environment`   int(5)         DEFAULT NULL,
+    `service`       int(5)         DEFAULT NULL,
+    `equipment`     int(5)         DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 10

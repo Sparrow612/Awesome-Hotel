@@ -30,6 +30,8 @@ public class CorporateCouponStrategyImpl implements CouponMatchStrategy {
             }
             CorpVIP corpVIP = vipMapper.getVIPbyCorpName(user.getCorporation());
             return coupon.getStatus() == 1 &&
+                    coupon.getCorporateName() != null &&
+                    user.getCorporation() != null &&
                     coupon.getCorporateName().equals(user.getCorporation()) &&
                     corpVIP.getStatus() == 1 &&
                     (coupon.getSrcId() == WEBSITE || coupon.getSrcId().equals(orderVO.getHotelId()));
