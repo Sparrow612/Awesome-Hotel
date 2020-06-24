@@ -250,7 +250,7 @@ export default {
             'getHotelCoupon',
             'checkInOrder',
             'finishOrder',
-            'abnormalOrder',
+            'handleAbnormalOrder',
             'getUserInfo',
             'getHotelInfo',
             'getHotelOrders',
@@ -297,7 +297,7 @@ export default {
                 orderId: record.id,
                 ratio: 1
             }
-            this.abnormalOrder(params).then(() => {
+            this.handleAbnormalOrder(params).then(() => {
                 this.getHotelOrders(Number(this.userInfo.hotelID))
             })
        },
