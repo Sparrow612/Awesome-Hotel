@@ -40,7 +40,9 @@ public interface OrderService {
 
     List<Order> probableAbnormalOrder(Integer hotelId);
 
-    ResponseVO abnormalOrder(int orderId, double minCreditRatio);
+    ResponseVO abnormalOrder(int orderId);
+
+    ResponseVO handleAbnormal(int orderId);
 
     ResponseVO finishOrder(int orderId);
 

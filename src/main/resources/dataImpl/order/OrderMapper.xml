@@ -48,7 +48,6 @@
         where id = #{orderId}
     </update>
 
-
     <update id="updateComment" parameterType="com.example.hotel.po.Comment">
         update orderlist
         set comments = #{comment},
