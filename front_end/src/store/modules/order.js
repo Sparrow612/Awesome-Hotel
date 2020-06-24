@@ -8,6 +8,7 @@ import {
     addCommentAPI,
     getOrderCommentAPI,
     annulOrderCommentAPI,
+    markAbnormalOrderAPI, handleAbnormalOrderAPI,
 } from '../../api/order'
 
 const order = {
@@ -44,12 +45,6 @@ const order = {
                 message.success('执行成功')
             }
         },
-        abnormalOrder: async ({state, dispatch}, params) => {
-            const res = await abnormalOrderAPI(params)
-            if (res) {
-                await checkInOrderAPI(params.orderId)
-            }
-        },
         addComment: async ({state, commit, dispatch}, data) => {
             const res = await addCommentAPI(data)
             if (res) {
@@ -68,6 +63,20 @@ const order = {
             const res = await annulOrderCommentAPI(orderId)
             if (res) {
                 message.success('撤回成功')
+            }
+        },
+        markAbnormalOrder: async ({state, commit, dispatch}, orderId) => {
+            const res = await markAbnormalOrderAPI(orderId)
+            if (res) {
+                message.success('标记成功')
+            }
+        },
+        handleAbnormalOrder: async ({state, commit, dispatch}, params) => {
+            const res = await handleAbnormalOrderAPI(params)
+            if (res) {
+                message.success('处理成功')
+                commit('set_handleAbnormalOrderVisible', false)
+                dispatch('getAllOrders')
             }
         }
     }

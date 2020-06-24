@@ -179,6 +179,9 @@ public class HotelVO {
         List<RoomVO> rooms = getRooms();
         try {
             double minPrice = Double.MAX_VALUE;
+            if (rooms == null || rooms.size() == 0) {
+                return Double.MAX_VALUE;
+            }
             for (RoomVO roomVO : rooms) {
                 minPrice = Math.min(minPrice, roomVO.getPrice());
             }

@@ -155,12 +155,26 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseVO abnormalOrder(int orderId, double minCreditRatio) {
+    public ResponseVO abnormalOrder(int orderId) {
         Order order = orderMapper.getOrderById(orderId);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate checkIn = LocalDate.parse(order.getCheckInDate(), formatter);
+        LocalDate now = LocalDate.now();
+        if (now.isAfter(checkIn)) {
+            return ResponseVO.buildFailure("订单未逾期，无法标记异常");
+        }
         // 每次出现异常订单要减去信用值
-        accountService.chargeCredit(order.getUserId(), -(int) (order.getPrice() * minCreditRatio), "异常订单");
+        accountService.chargeCredit(order.getUserId(), -(int) (order.getPrice() * 0.5), "异常订单");
         orderMapper.abnormalOrder(orderId);
         return ResponseVO.buildSuccess(true);
+    }
+
+    @Override
+    public ResponseVO handleAbnormal(int orderId, double ratio) {
+        Order order = orderMapper.getOrderById(orderId);
+        accountService.chargeCredit(order.getUserId(), (int) (order.getPrice() * 0.5 * ratio), "撤销异常订单");
+        orderMapper.finishOrder(orderId);
+        return ResponseVO.buildSuccess();
     }
 
     @Override
@@ -365,11 +379,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Integer getRoomCurNumByOrder(Integer hotelId, String beginTime, String endTime, String type) {
-        HotelVO hotelVO = getOrderableRoom(hotelId,beginTime,endTime);
+        HotelVO hotelVO = getOrderableRoom(hotelId, beginTime, endTime);
         List<RoomVO> rooms = hotelVO.getRooms();
         int curNum = 0;
-        for(RoomVO room : rooms){
-            if(room.getRoomType().equals(RoomType.valueOf(type).toString())){
+        for (RoomVO room : rooms) {
+            if (room.getRoomType().equals(RoomType.valueOf(type).toString())) {
                 curNum = room.getCurNum();
                 break;
             }

@@ -65,10 +65,17 @@ export function finishOrderAPI(orderId) {
         method: 'POST'
     })
 }
-// 标记异常订单
-export function abnormalOrderAPI(params) {
+// 标记为异常订单
+export function markAbnormalOrderAPI(orderId) {
     return axios({
-        url: `${api.orderPre}/${params.orderId}/abnormalOrder`,
+        url: `${api.orderPre}/${orderId}/abnormalOrder`,
+        method: 'POST'
+    })
+}
+// 处理异常订单
+export function handleAbnormalOrderAPI(params) {
+    return axios({
+        url: `${api.orderPre}/${params.orderId}/handleAbnormal`,
         method: 'POST',
         params
     })

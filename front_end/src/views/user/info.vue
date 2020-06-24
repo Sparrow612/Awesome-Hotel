@@ -39,14 +39,14 @@
                     <span slot="action" slot-scope="record">
                         <a-button @click="showOrderDetail(record)" size="small" type="primary">查看</a-button>
 
-                        <a-divider type="vertical" v-if="record.orderState === '已预订'"></a-divider>
+                        <a-divider type="vertical" v-if="record.orderState === '未入住'"></a-divider>
                         <a-popconfirm
                                 @cancel="cancelCancelOrder"
                                 @confirm="confirmCancelOrder(record.id)"
                                 cancelText="取消"
                                 okText="确定"
                                 title="你确定撤销该笔订单吗？"
-                                v-if="record.orderState === '已预订'"
+                                v-if="record.orderState === '未入住'"
                         >
                             <a-button size="small" type="danger">撤销</a-button>
                         </a-popconfirm>
