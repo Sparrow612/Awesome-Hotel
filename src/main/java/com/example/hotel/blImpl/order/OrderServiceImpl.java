@@ -161,7 +161,7 @@ public class OrderServiceImpl implements OrderService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate checkIn = LocalDate.parse(order.getCheckInDate(), formatter);
         LocalDate now = LocalDate.now();
-        if (now.isAfter(checkIn)) {
+        if (now.isBefore(checkIn)) {
             return ResponseVO.buildFailure("订单未逾期，无法标记异常");
         }
         // 每次出现异常订单要减去信用值
