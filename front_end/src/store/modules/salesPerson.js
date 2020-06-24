@@ -3,6 +3,7 @@
 import {
     getAllOrdersAPI,
     getOrdersInMonthAPI,
+    finishOrderAPI,
 } from "../../api/order";
 import {
     getUserInfoByEmailAPI,
