@@ -9,7 +9,7 @@
             width="450px"
     >
         <a-form :form="form">
-            <a-form-item v-bind="formItemLayout" label="企业">
+            <a-form-item v-bind="formItemLayout" label="您的企业">
                 <a-input
                         placeholder="请输入企业名"
                         v-decorator="[

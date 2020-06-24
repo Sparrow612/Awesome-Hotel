@@ -15,7 +15,7 @@
                     <a-rate v-decorator="['points', { rules: [{ required: true, message: '请为酒店打分' }] }]" />
                 </span>
                 <span v-else>
-                    <a-rate :value="points" disabled />
+                    <a-rate :value="points" :disabled="true" />
                 </span>
 
             </a-form-item>
@@ -24,7 +24,7 @@
                     <a-rate v-decorator="['sanitation', { rules: [{ required: true, message: '请为酒店卫生条件打分'}] }]" />
                 </span>
                 <span v-else>
-                    <a-rate :value="sanitation" disabled />
+                    <a-rate :value="sanitation" :disabled="true" />
                 </span>
             </a-form-item>
             <a-form-item label="环境" v-bind="formItemLayout">
@@ -32,7 +32,7 @@
                     <a-rate v-decorator="['environment', { rules: [{ required: true, message: '请为酒店环境打分'}] }]" />
                 </span>
                 <span v-else>
-                    <a-rate :value="environment" disabled />
+                    <a-rate :value="environment" :disabled="true" />
                 </span>
             </a-form-item>
             <a-form-item label="服务" v-bind="formItemLayout">
@@ -40,7 +40,7 @@
                     <a-rate v-decorator="['service', { rules: [{ required: true, message: '请为酒店服务打分'}] }]" />
                 </span>
                 <span v-else>
-                    <a-rate :value="service" disabled />
+                    <a-rate :value="service" :disabled="true" />
                 </span>
             </a-form-item>
             <a-form-item label="设备" v-bind="formItemLayout">
@@ -48,7 +48,7 @@
                     <a-rate v-decorator="['equipment', { rules: [{ required: true, message: '请为酒店设备打分'}] }]" />
                 </span>
                 <span v-else>
-                    <a-rate :value="equipment" disabled />
+                    <a-rate :value="equipment" :disabled="true" />
                 </span>
             </a-form-item>
             <a-form-item label="您的评价" v-bind="formItemLayout">
@@ -185,25 +185,11 @@
                 this.annulOrderComment(this.orderInfo.id).then(() => {
                     this.getUserOrders()
                     this.getOrderComment(this.orderInfo.id)
-                    this.form.setFieldsValue({
-                        'points': '',
-                        'sanitation': '',
-                        'environment': '',
-                        'service': '',
-                        'equipment': '',
-                        'comment': '',
-                    })
+                    this.form.resetFields()
                 })
             },
             handleCancel() {
-                this.form.setFieldsValue({
-                    'points': '',
-                    'sanitation': '',
-                    'environment': '',
-                    'service': '',
-                    'equipment': '',
-                    'comment': '',
-                })
+                this.form.resetFields()
                 this.set_commentOrderModalVisible(false)
             },
         }

@@ -3,7 +3,6 @@
 import {
     getAllOrdersAPI,
     getOrdersInMonthAPI,
-    abnormalOrderAPI,
     finishOrderAPI,
 } from "../../api/order";
 import {
@@ -272,13 +271,6 @@ const salesPerson = {
                 message.error('修改失败')
             }
         },
-        handleAbnormalOrder: async ({state, commit, dispatch}, params) => {
-            const res = await abnormalOrderAPI(params)
-            if (res) {
-                message.success('处理成功')
-                commit('set_handleAbnormalOrderVisible', false)
-            }
-        }
     },
 }
 export default salesPerson
