@@ -70,6 +70,18 @@
                         >
                             <a-button type="danger" size="small">处理异常</a-button>
                         </a-popconfirm>
+
+                        <a-divider type="vertical" v-if="record.orderState !== '已完成'"></a-divider>
+
+                        <a-popconfirm
+                                title="确定将该订单标记为异常订单？"
+                                @confirm="markAbnormal(record)"
+                                okText="确定"
+                                cancelText="取消"
+                                v-if="record.orderState === '未入住' || record.orderState === '已入住'"
+                        >
+                            <a-button type="danger" size="small">标记异常</a-button>
+                        </a-popconfirm>
                     </span>
                 </a-table>
             </a-tab-pane>
@@ -242,6 +254,7 @@ export default {
             'getUserInfo',
             'getHotelInfo',
             'getHotelOrders',
+            'markAbnormalOrder',
         ]),
         addHotel() {
             this.set_addHotelModalVisible(true)
@@ -287,7 +300,13 @@ export default {
             this.abnormalOrder(params).then(() => {
                 this.getHotelOrders(Number(this.userInfo.hotelID))
             })
-       }
+       },
+        markAbnormal(record) {
+            this.markAbnormalOrder(record.id).then(() => {
+                this.getHotelOrders(Number(this.userInfo.hotelID))
+            })
+        }
+
     }
 }
 </script>
