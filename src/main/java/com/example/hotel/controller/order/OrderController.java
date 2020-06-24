@@ -82,8 +82,8 @@ public class OrderController {
     }
 
     @PostMapping("/{orderId}/abnormalOrder")
-    public ResponseVO abnormalOrder(@PathVariable Integer orderId, @RequestParam double ratio) {
-        return orderService.abnormalOrder(orderId, ratio);
+    public ResponseVO abnormalOrder(@PathVariable Integer orderId) {
+        return orderService.abnormalOrder(orderId, 0.5);
     }
 
 

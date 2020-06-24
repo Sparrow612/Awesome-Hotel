@@ -1,9 +1,8 @@
 package com.example.hotel.bl.order;
 
+import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.po.Order;
-import com.example.hotel.vo.CommentVO;
-import com.example.hotel.vo.OrderVO;
-import com.example.hotel.vo.ResponseVO;
+import com.example.hotel.vo.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +27,8 @@ public class OrderServiceTest {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private HotelService hotelService;
 
 
     @Test
@@ -241,5 +242,34 @@ public class OrderServiceTest {
         ordersOf1 = orderService.filterOrders(ordersOf1, beginTime, endTime);
         Assert.assertThat(1, is(orders.size()));
         Assert.assertThat(1, is(ordersOf1.size()));
+    }
+
+    @Test
+    @Transactional
+    public void getOrderableRoom(){
+        HotelVO hotel = orderService.getOrderableRoom(1,"2020-06-01","2020-06-03");
+        int num = hotel.getId();
+        List<RoomVO> rooms = hotel.getRooms();
+        Assert.assertThat(num,is(1));
+        Assert.assertThat(rooms.get(0).getCurNum(),is(19));
+    }
+
+    @Test
+    @Transactional
+    public void checkRoomByOrder(){
+        HotelVO hotelVO = hotelService.retrieveHotelDetails(1);
+        List<RoomVO> roomVOS = hotelVO.getRooms();
+        List<Order> orders = orderService.getHotelOrders(1);
+        orders = orderService.filterOrders(orders, "2020-06-01", "2020-06-02");
+        roomVOS = orderService.checkRoomByOrder(roomVOS, orders);
+        RoomVO roomVO = roomVOS.get(0);
+        Assert.assertThat(roomVO.getCurNum(),is(19));
+    }
+
+    @Test
+    @Transactional
+    public void getRoomCurNumByOrder(){
+        int curNum = orderService.getRoomCurNumByOrder(1,"2020-06-01","2020-06-02","BigBed");
+        Assert.assertThat(curNum, is(19));
     }
 }
