@@ -44,7 +44,7 @@
             <a-menu-item key="9" v-if="userInfo.userType==='Admin'">
                 <router-link :to="{ name: 'adminInfo'}">
                     <a-icon type="user"/>
-                    个人信息
+                    管理员信息
                 </router-link>
             </a-menu-item>
             <a-menu-item key="10" v-if="userInfo.userType==='SalesPerson'">

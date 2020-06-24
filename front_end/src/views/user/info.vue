@@ -2,114 +2,7 @@
     <div class="info-wrapper">
         <a-tabs>
             <a-tab-pane key="1" tab="我的信息">
-                <a-form :form="form" style="margin-top: 30px; border-radius: 20px; background-color: whitesmoke">
-
-                    <a-form-item label="头像" v-bind="formItemLayout">
-                        <a-avatar src="./defaultAvatar.png"></a-avatar>
-                        <!--                        <a-button type="primary" icon="upload" style="margin-left: 20px">上传头像</a-button>-->
-                    </a-form-item>
-
-                    <a-form-item label="用户名" v-bind="formItemLayout">
-                        <a-input
-                                v-decorator="['userName', { rules: [{ required: false, message: '请输入用户名' }], initialValue: userInfo.userName}]"
-                                v-if="modify"
-                        />
-                        <span v-else>{{ userInfo.userName }}</span>
-                    </a-form-item>
-
-                    <a-form-item label="邮箱" v-bind="formItemLayout">
-                        <span>{{ userInfo.email }}</span>
-                    </a-form-item>
-
-                    <a-form-item label="手机号" v-bind="formItemLayout">
-                        <a-input
-                                v-decorator="['phoneNumber', { rules: [{ required: false, message: '请输入手机号' },
-                        { validator: this.handlePhoneNumber }], validateTrigger: 'blur' , initialValue: userInfo.phoneNumber}]"
-                                v-if="modify"
-                        />
-                        <span v-else>{{ userInfo.phoneNumber}}</span>
-                    </a-form-item>
-
-                    <a-form-item label="VIP等级" v-bind="formItemLayout" v-if="this.userInfo.vipType ==='Client'">
-                        <span>
-                            <span :key="index" v-for="index of 5">
-                            <img
-                                    alt="example"
-                                    src="@/assets/star.svg"
-                                    style="width: 20px; height: 20px"
-                                    v-if="index <= userVIP.level"
-                            />
-                            <img
-                                    alt="example"
-                                    src="@/assets/starGray.svg"
-                                    style="width: 20px; height: 20px"
-                                    v-else
-                            />
-                        </span>
-                        </span>
-                    </a-form-item>
-                    <a-form-item label="VIP" v-bind="formItemLayout" v-else-if="JSON.stringify(this.userVIP) ==='{}'">
-                        <span>
-                            <router-link :to="{ name: 'userMembership' }" @click="goToMembership">
-                                尚未成为会员，点击注册
-                            </router-link>
-                        </span>
-                    </a-form-item>
-                    <a-form-item label="VIP等级" v-bind="formItemLayout" v-else>
-                        <a-tag color="red">您已被冻结</a-tag>
-                    </a-form-item>
-
-                    <a-form-item label="所属企业" v-bind="formItemLayout">
-                        <a-input
-                                placeholder="请填写所属企业"
-                                v-decorator="['corporation']"
-                                v-if="modify"
-                        />
-                        <span v-else>{{ userInfo.corporation }}</span>
-                    </a-form-item>
-
-                    <a-form-item label="信用值" v-bind="formItemLayout">
-                        <span>{{ userInfo.credit }}</span>
-                    </a-form-item>
-
-                    <a-form-item label="新密码" v-bind="formItemLayout" v-if="modify">
-                        <a-input
-                                placeholder="请输入新密码"
-                                type="password"
-                                v-decorator="['password', { rules: [{ required: false, message: '请输入新密码' },
-                                { validator: this.handlePassword }], validateTrigger: 'blur' }]"
-                                v-if="modify"
-                        />
-                    </a-form-item>
-
-                    <a-form-item label="确认密码" v-bind="formItemLayout"
-                                 v-if="modify && this.form.getFieldValue('password')">
-                        <a-input
-                                placeholder="请再次输入密码"
-                                type="password"
-                                v-decorator="['passwordConfirm',
-                                {rules: [{ required: true, message: '请输入确认密码' }, { validator: this.handlePasswordCheck }],
-                                validateTrigger: 'blur', initialValue: ''}]">
-                            v-if="modify"
-                        </a-input>
-                    </a-form-item>
-
-                    <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
-                        <a-button @click="saveModify" icon="upload" style="border-radius: 20px" type="primary">
-                            保存
-                        </a-button>
-                        <a-button @click="cancelModify" icon="close-circle"
-                                  style="margin-left: 30px; border-radius: 20px" type="default">
-                            取消
-                        </a-button>
-                    </a-form-item>
-                    <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
-                        <a-button @click="modifyInfo" icon="form" style="border-radius: 20px" type="primary">
-                            修改信息
-                        </a-button>
-                    </a-form-item>
-
-                </a-form>
+                <InfoForm></InfoForm>
             </a-tab-pane>
             <a-tab-pane key="2" tab="我的订单">
                 <a-table
@@ -153,7 +46,7 @@
                                 cancelText="取消"
                                 okText="确定"
                                 title="你确定撤销该笔订单吗？"
-                                v-if="record.orderState === '已预订'"
+                                v-if="record.orderState === '未入住'"
                         >
                             <a-button size="small" type="danger">撤销</a-button>
                         </a-popconfirm>
@@ -251,6 +144,7 @@
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import orderDetail from '../order/orderDetail'
     import commentOrder from "../order/commentOrder";
+    import InfoForm from './components/infoForm'
     import {message} from 'ant-design-vue';
 
     const columns_of_orders = [
@@ -430,6 +324,7 @@
         components: {
             orderDetail,
             commentOrder,
+            InfoForm,
         },
         computed: {
             ...mapGetters([
@@ -442,9 +337,7 @@
                 'userCollections',
             ])
         },
-        beforeCreate() {
-            this.form = this.$form.createForm(this, {name: 'userInfo'})
-        },
+
         async mounted() {
             await this.getUserInfo()
             if (this.userInfo.vipType !== 'Normal')
@@ -458,7 +351,6 @@
                 'getUserInfo',
                 'getUserVIP',
                 'getUserOrders',
-                'updateUserInfo',
                 'cancelOrder',
                 'getHotelById',
                 'getUserCredits',
@@ -472,78 +364,14 @@
                 'set_orderInfo',
             ]),
 
-            saveModify() {
-                this.form.validateFields((err, values) => {
-                    if (!err) {
-                        const data = {
-                            userName: this.form.getFieldValue('userName'),
-                            phoneNumber: this.form.getFieldValue('phoneNumber'),
-                            password: this.form.getFieldValue('password'),
-                            corporation: this.form.getFieldValue('corporation')
-                        }
-                        this.updateUserInfo(data)
-                        this.modify = false
-                    } else {
-                        message.error("请输入正确的信息")
-                    }
-                })
-            },
-
-            modifyInfo() {
-                setTimeout(() => {
-                    this.form.setFieldsValue({
-                        'userName': this.userInfo.userName,
-                        'phoneNumber': this.userInfo.phoneNumber,
-                        'corporation': this.userInfo.corporation,
-                    })
-                }, 0)
-                this.modify = true
-            },
-
-            cancelModify() {
-                message.info('取消修改')
-                this.modify = false
-            },
-
             confirmCancelOrder(orderId) {
                 this.cancelOrder(orderId)
             },
 
             cancelCancelOrder() {
-
+                // ?
             },
 
-            handlePhoneNumber(rule, value, callback) {
-                if (value) {
-                    const re = /1\d{10}/;
-                    if (re.test(value)) {
-                        callback();
-                    } else {
-                        callback(new Error('请输入有效手机号'));
-                    }
-                }
-                callback()
-            },
-
-            handlePassword(rule, value, callback) {
-                if (value) {
-                    if (value.length < 6) {
-                        callback(new Error('密码长度至少6位'))
-                    }
-                }
-                callback()
-            },
-
-            handlePasswordCheck(rule, value, callback) {
-                const password = this.form.getFieldValue('password')
-                if (value === undefined) {
-                    callback(new Error('请输入密码'))
-                }
-                if (value && password && value.trim() !== password.trim()) {
-                    callback(new Error('两次密码不一致'))
-                }
-                callback()
-            },
             showOrderDetail(record) {
                 this.set_orderInfo(record)
                 this.set_currentHotelId(record.hotelId)
@@ -586,11 +414,8 @@
             align-items: center;
             justify-content: space-between;
             margin-top: 20px
+
         }
-    }
-</style>
-<style lang="less">
-    .info-wrapper {
         .ant-tabs-bar {
             padding-left: 30px
         }
