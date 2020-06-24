@@ -7,6 +7,7 @@ import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.order.OrderMapper;
 import com.example.hotel.enums.RoomType;
+import com.example.hotel.enums.VIPType;
 import com.example.hotel.po.Comment;
 import com.example.hotel.po.Order;
 import com.example.hotel.vo.*;
@@ -186,14 +187,13 @@ public class OrderServiceImpl implements OrderService {
         accountService.chargeCredit(order.getUserId(), (int) (order.getPrice() * 0.5), "完成订单" + orderId);
         UserVO userVO = accountService.getUserInfo(order.getUserId());
         int price = (int) Math.round(order.getPrice());
-        switch (userVO.getVipType()) {
-            case Client:
-                vipService.addVIPClientConsumption(order.getUserId(), price);
-                break;
-            case Corporation:
-                vipService.addVIPCorpConsumption(userVO.getCorporation(), price);
-            default:
-                break;
+        String corporation = userVO.getCorporation();
+        if (corporation != null && vipService.VIPCorpCheck(corporation)) {
+            vipService.addVIPCorpConsumption(userVO.getCorporation(), price);
+            return ResponseVO.buildSuccess(FINISH_ORDER);
+        }
+        if (userVO.getVipType() == VIPType.Client) {
+            vipService.addVIPClientConsumption(order.getUserId(), price);
         }
         return ResponseVO.buildSuccess(FINISH_ORDER);
     }
