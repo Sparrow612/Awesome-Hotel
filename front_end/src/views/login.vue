@@ -226,7 +226,6 @@
 
             handlePasswordCheck(rule, value, callback) {
                 const password = this.form.getFieldValue('registerPassword')
-                console.log(password)
                 if (value === undefined) {
                     callback(new Error('请输入密码'))
                 }

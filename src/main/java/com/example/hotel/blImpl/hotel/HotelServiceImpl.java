@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class HotelServiceImpl implements HotelService {
+    private static final String ADDRESS_OCCUPIED = "填写的地址已被占用！";
 
     @Autowired
     private HotelMapper hotelMapper;
@@ -38,7 +39,7 @@ public class HotelServiceImpl implements HotelService {
 
 
     @Override
-    public void addHotel(HotelForm hotelForm) {
+    public ResponseVO addHotel(HotelForm hotelForm) {
         Hotel hotel = new Hotel();
         hotel.setDescription(hotelForm.getDescription());
         hotel.setAddress(hotelForm.getAddress());
@@ -46,7 +47,13 @@ public class HotelServiceImpl implements HotelService {
         hotel.setPhoneNum(hotelForm.getPhoneNum());
         hotel.setBizRegion(BizRegion.valueOf(hotelForm.getBizRegion()));
         hotel.setHotelStar(HotelStar.valueOf(hotelForm.getHotelStar()));
-        hotelMapper.insertHotel(hotel);
+        try {
+            hotelMapper.insertHotel(hotel);
+            return ResponseVO.buildSuccess();
+        }catch (Exception e){
+//            e.printStackTrace();
+            return ResponseVO.buildFailure(ADDRESS_OCCUPIED);
+        }
     }
 
     @Override

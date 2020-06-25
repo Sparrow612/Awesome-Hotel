@@ -29,8 +29,7 @@ public class HotelController {
 
     @PostMapping("/addHotel")
     public ResponseVO createHotel(@RequestBody HotelForm hotelForm) throws ServiceException {
-        hotelService.addHotel(hotelForm);
-        return ResponseVO.buildSuccess(true);
+        return hotelService.addHotel(hotelForm);
     }
 
     @PostMapping("/{hotelId}/updateHotel")

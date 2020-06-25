@@ -56,11 +56,6 @@ public class CouponController {
         return ResponseVO.buildSuccess(couponService.getHotelAllCoupon(hotelId));
     }
 
-    @GetMapping("/siteAllCoupons")
-    public ResponseVO getSiteAllCoupons(){
-        return ResponseVO.buildSuccess(couponService.getHotelAllCoupon(SITE));
-    }
-
     @PostMapping("/annulCoupons")
     public ResponseVO annulCoupon(@RequestParam("id") Integer id) {
         couponService.annulCoupon(id);
