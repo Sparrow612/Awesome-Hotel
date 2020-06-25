@@ -153,7 +153,6 @@
         async mounted() {
             await this.getUserInfo()
             await this.getUserVIP(this.userInfo.id)
-            console.log(this.userVIP)
             await this.corpVIPCheck(this.userInfo.corporation)
             if (this.isCorpVIP) {
                 this.getCorpVIP(this.userInfo.corporation)

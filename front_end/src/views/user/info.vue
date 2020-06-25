@@ -53,6 +53,10 @@
                         <a-divider type="vertical" v-if="record.orderState === '已完成'"></a-divider>
                         <a-button @click="commentOrder(record)" size="small" type="default"
                                   v-if="record.orderState === '已完成'">评价</a-button>
+
+                        <a-divider type="vertical" v-if="record.orderState === '异常订单'"></a-divider>
+                        <a-button @click="argueOrder(record)" size="small" type="default"
+                                  v-if="record.orderState === '异常订单'">申诉</a-button>
                     </span>
                 </a-table>
             </a-tab-pane>
@@ -138,6 +142,7 @@
         </a-tabs>
         <orderDetail></orderDetail>
         <comment-order></comment-order>
+        <argue-abnormal-order-modal></argue-abnormal-order-modal>
     </div>
 </template>
 <script>
@@ -145,6 +150,7 @@
     import orderDetail from '../order/orderDetail'
     import commentOrder from "../order/commentOrder";
     import InfoForm from './components/infoForm'
+    import argueAbnormalOrderModal from "../order/argueAbnormalOrderModal";
     import {message} from 'ant-design-vue';
 
     const columns_of_orders = [
@@ -325,6 +331,7 @@
             orderDetail,
             commentOrder,
             InfoForm,
+            argueAbnormalOrderModal,
         },
         computed: {
             ...mapGetters([
@@ -362,6 +369,7 @@
                 'set_currentHotelId',
                 'set_commentOrderModalVisible',
                 'set_orderInfo',
+                'set_argueAbnormalOrderModalVisible',
             ]),
 
             confirmCancelOrder(orderId) {
@@ -397,6 +405,14 @@
                 clearFilters();
                 this.searchText = '';
             },
+
+            argueOrder(record) {
+                this.getOrderComment(Number(record.id)).then(() => {
+                    this.set_orderInfo(record)
+                    this.set_argueAbnormalOrderModalVisible(true)
+                })
+            },
+
         }
     }
 </script>

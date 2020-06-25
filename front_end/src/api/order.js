@@ -102,3 +102,11 @@ export function annulOrderCommentAPI(orderId) {
         method: 'GET',
     })
 }
+//对某个异常订单申诉
+export function argueAbnormalOrderAPI(params) {
+    return axios({
+        url: `${api.orderPre}/${params.orderId}/argueAbnormalOrder`,
+        method: 'POST',
+        params
+    })
+}

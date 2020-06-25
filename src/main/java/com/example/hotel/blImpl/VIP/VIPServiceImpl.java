@@ -91,6 +91,9 @@ public class VIPServiceImpl implements VIPService {
     public ResponseVO getVIPbyUserId(Integer userId){
         try {
             ClientVIP clientVIP = vipMapper.getVIPbyUserId(userId);
+            if (clientVIP == null) {
+                return ResponseVO.buildSuccess();
+            }
             ClientVIPVO clientVIPVO = new ClientVIPVO();
             BeanUtils.copyProperties(clientVIP, clientVIPVO);
             return ResponseVO.buildSuccess(clientVIPVO);

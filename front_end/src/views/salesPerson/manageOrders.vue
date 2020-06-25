@@ -257,6 +257,7 @@ export default {
         ...mapActions([
             'getAllOrders',
             'getHotelById',
+            'getOrderComment',
         ]),
         ...mapMutations([
             'set_orderDetailVisible',
@@ -273,6 +274,7 @@ export default {
         handleAbnormalOrder(record) {
             this.set_orderInfo(record)
             this.set_currentHotelId(record.hotelId)
+            this.getOrderComment(Number(record.id))
             this.getHotelById(record.hotelId)
             this.set_handleAbnormalOrderVisible(true)
         },
