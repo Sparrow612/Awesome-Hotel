@@ -44,6 +44,14 @@
             <a-descriptions-item label="总价">
                 {{ orderInfo.price }}
             </a-descriptions-item>
+            <a-descriptions-item label="顾客申诉">
+                <span v-if="currentOrderComment.comment !== ''">
+                    {{ currentOrderComment.comment }}
+                </span>
+                <span v-else>
+                    顾客尚未申诉
+                </span>
+            </a-descriptions-item>
         </a-descriptions>
         <br/>
         <br/>
@@ -79,6 +87,7 @@ export default {
             'handleAbnormalOrderVisible',
             'orderInfo',
             'currentHotelInfo',
+            'currentOrderComment',
         ])
     },
     methods: {
@@ -89,9 +98,11 @@ export default {
             'handleAbnormalOrder'
         ]),
         handleOK() {
+            console.log(this.orderInfo)
             this.set_handleAbnormalOrderVisible(false)
         },
         cancel() {
+
             this.set_handleAbnormalOrderVisible(false)
         },
         recoverHalf() {

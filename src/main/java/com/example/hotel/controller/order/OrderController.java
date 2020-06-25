@@ -4,6 +4,7 @@ import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -111,5 +112,10 @@ public class OrderController {
                                        @RequestParam(value = "startTime") String startTime,
                                        @RequestParam(value = "endTime") String endTime) {
         return ResponseVO.buildSuccess(orderService.getOrderableRoom(hotelId, startTime, endTime));
+    }
+
+    @PostMapping("/{orderId}/argueAbnormalOrder")
+    public ResponseVO argueAbnormalOrder(@PathVariable Integer orderId, @RequestParam String reason) {
+        return orderService.argueAbnormalOrder(orderId, reason);
     }
 }

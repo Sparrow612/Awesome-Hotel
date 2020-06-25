@@ -70,4 +70,6 @@ public interface OrderService {
     List<RoomVO> checkRoomByOrder(List<RoomVO> rooms, List<Order> orders); //通过房间信息和对应的订单信息，检查酒店房间情况
 
     Integer getRoomCurNumByOrder(Integer hotelId, String beginTime, String endTime, String type); //通过订单查找酒店特定房间的可用房间数，用于addOrder时的检验
+
+    ResponseVO argueAbnormalOrder(Integer orderId, String reason);
 }

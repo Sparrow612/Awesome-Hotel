@@ -421,6 +421,11 @@ public class OrderServiceImpl implements OrderService {
         return (int) (Date1.toEpochDay() - Date2.toEpochDay());
     }
 
+    @Override
+    public ResponseVO argueAbnormalOrder(Integer orderId, String reason) {
+        orderMapper.argueAbnormalOrder(orderId, reason);
+        return ResponseVO.buildSuccess(true);
+    }
 }
 
 

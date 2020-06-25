@@ -4,11 +4,12 @@ import { message } from 'ant-design-vue'
 import {
     checkInOrderAPI,
     finishOrderAPI,
-    abnormalOrderAPI,
     addCommentAPI,
     getOrderCommentAPI,
     annulOrderCommentAPI,
-    markAbnormalOrderAPI, handleAbnormalOrderAPI,
+    markAbnormalOrderAPI,
+    handleAbnormalOrderAPI,
+    argueAbnormalOrderAPI,
 } from '../../api/order'
 
 const order = {
@@ -17,6 +18,7 @@ const order = {
         orderInfo: {},
         commentOrderModalVisible: false,
         currentOrderComment: {},
+        argueAbnormalOrderModalVisible: false,
     },
     mutations: {
         set_orderDetailVisible: function (state, data) {
@@ -30,7 +32,10 @@ const order = {
         },
         set_currentOrderComment: function (state, data) {
             state.currentOrderComment = data
-        }
+        },
+        set_argueAbnormalOrderModalVisible: function (state, data) {
+            state.argueAbnormalOrderModalVisible = data
+        },
     },
     actions: {
         checkInOrder: async({ state, dispatch }, orderId) => {
@@ -77,6 +82,12 @@ const order = {
                 message.success('处理成功')
                 commit('set_handleAbnormalOrderVisible', false)
                 dispatch('getAllOrders')
+            }
+        },
+        argueAbnormalOrder: async ({state, dispatch}, params) => {
+            const res = await argueAbnormalOrderAPI(params)
+            if (res) {
+                message.success('申诉成功')
             }
         }
     }
