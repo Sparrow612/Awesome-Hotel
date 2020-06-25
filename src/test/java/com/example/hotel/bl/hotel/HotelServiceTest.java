@@ -107,51 +107,6 @@ public class HotelServiceTest {
 
     @Test
     @Transactional
-    public void retrieveAvailableHotelDetails() {
-        HotelVO hotel = hotelService.retrieveAvailableHotelDetails(1,"2020-06-01","2020-06-03");
-        int num = hotel.getId();
-        List<RoomVO> rooms = hotel.getRooms();
-        Assert.assertThat(num,is(1));
-        Assert.assertThat(rooms.get(0).getCurNum(),is(19));
-    }
-
-//    @Test
-//    @Transactional
-//    public void checkRoom() {
-//        HotelVO hotel = hotelService.retrieveHotelDetails(1);
-//        List<RoomVO> roomVOS = hotelService.checkRoom(1,hotel.getRooms(),"2020-06-01","2020-06-02");
-//        RoomVO roomVO = roomVOS.get(0);
-//        Assert.assertThat(roomVO.getCurNum(),is(19));
-//        roomVOS = hotelService.checkRoom(1,hotel.getRooms(),"2019-06-23","2019-06-24");
-//        roomVO = roomVOS.get(0);
-//        Assert.assertThat(roomVO.getCurNum(),is(20));
-//    }
-
-//    @Test
-//    @Transactional
-//    public void getManagerTelephone() {
-//        accountService.updateUserInfo(6,"123","123123","12312300");
-//        String phoneNumber = hotelService.getManagerTelephone(3);
-//        Assert.assertThat(phoneNumber, is("12312300"));
-//    }
-
-    @Test
-    @Transactional
-    public void addLike() {
-    }
-
-    @Test
-    @Transactional
-    public void removeLike() {
-    }
-
-    @Test
-    @Transactional
-    public void getLike() {
-    }
-
-    @Test
-    @Transactional
     public void addCollection() {
     }
 

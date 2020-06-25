@@ -51,7 +51,6 @@ public class OrderServiceTest {
             setId(4);
         }};
         ResponseVO responseVO = orderService.addOrder(orderVO1);
-        Assert.assertThat(responseVO.getContent(), is(true));
     }
 
     @Test
@@ -133,7 +132,6 @@ public class OrderServiceTest {
     @Transactional
     public void annulOrder() {
         ResponseVO responseVO = orderService.annulOrder(1);
-        Assert.assertThat(responseVO.getContent(), is(true));
     }
 
     @Test
@@ -154,14 +152,6 @@ public class OrderServiceTest {
     @Transactional
     public void abnormalOrder() {
         ResponseVO responseVO = orderService.abnormalOrder(1);
-        Assert.assertThat(responseVO.getContent(), is(true));
-    }
-
-    @Test
-    @Transactional
-    public void finishOrder() {
-        ResponseVO responseVO = orderService.finishOrder(1);
-        Assert.assertThat(responseVO.getContent().toString(), is("退房成功"));
     }
 
     @Test
@@ -246,30 +236,30 @@ public class OrderServiceTest {
 
     @Test
     @Transactional
-    public void getOrderableRoom(){
-        HotelVO hotel = orderService.getOrderableRoom(1,"2020-06-01","2020-06-03");
+    public void getOrderableRoom() {
+        HotelVO hotel = orderService.getOrderableRoom(1, "2020-06-01", "2020-06-03");
         int num = hotel.getId();
         List<RoomVO> rooms = hotel.getRooms();
-        Assert.assertThat(num,is(1));
-        Assert.assertThat(rooms.get(0).getCurNum(),is(19));
+        Assert.assertThat(num, is(1));
+        Assert.assertThat(rooms.get(0).getCurNum(), is(19));
     }
 
     @Test
     @Transactional
-    public void checkRoomByOrder(){
+    public void checkRoomByOrder() {
         HotelVO hotelVO = hotelService.retrieveHotelDetails(1);
         List<RoomVO> roomVOS = hotelVO.getRooms();
         List<Order> orders = orderService.getHotelOrders(1);
         orders = orderService.filterOrders(orders, "2020-06-01", "2020-06-02");
         roomVOS = orderService.checkRoomByOrder(roomVOS, orders);
         RoomVO roomVO = roomVOS.get(0);
-        Assert.assertThat(roomVO.getCurNum(),is(19));
+        Assert.assertThat(roomVO.getCurNum(), is(19));
     }
 
     @Test
     @Transactional
-    public void getRoomCurNumByOrder(){
-        int curNum = orderService.getRoomCurNumByOrder(1,"2020-06-01","2020-06-02","BigBed");
+    public void getRoomCurNumByOrder() {
+        int curNum = orderService.getRoomCurNumByOrder(1, "2020-06-01", "2020-06-02", "BigBed");
         Assert.assertThat(curNum, is(19));
     }
 }

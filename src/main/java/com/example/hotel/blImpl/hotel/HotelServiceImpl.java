@@ -51,7 +51,7 @@ public class HotelServiceImpl implements HotelService {
             hotelMapper.insertHotel(hotel);
             return ResponseVO.buildSuccess();
         }catch (Exception e){
-//            e.printStackTrace();
+            e.printStackTrace();
             return ResponseVO.buildFailure(ADDRESS_OCCUPIED);
         }
     }
@@ -142,51 +142,6 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime) {
-        HotelVO hotel = retrieveHotelDetails(hotelId);
-        List<RoomVO> rooms = hotel.getRooms();
-//        List<RoomVO> roomVOS;
-//        roomVOS = checkRoom(hotelId, rooms, beginTime, endTime);
-//        hotel.setRooms(roomVOS);
-        return hotel;
-    }
-
-//    @Override
-//    public List<RoomVO> checkRoom(Integer hotelId, List<RoomVO> rooms, String beginTime, String endTime) {
-//        List<RoomVO> roomVOS = new ArrayList<>();
-//        //确保输入的房间情况不为空
-//        if (!rooms.isEmpty()) {
-//            List<Order> orders = orderService.getHotelOrders(hotelId);
-//            orders = orderService.filterOrders(orders, beginTime, endTime);
-//            roomVOS = checkRoom(rooms, orders);
-//        }
-//        return roomVOS;
-//    } // 循环依赖
-
-//    @Override
-//    public List<RoomVO> checkRoom(List<RoomVO> rooms, List<Order> orders) {
-//        HashMap<String, Integer> Type2Num = new HashMap<>();
-//        for (RoomVO room : rooms) {
-//            Type2Num.put(room.getRoomType(), room.getTotal());
-//        }
-//        for (Order order : orders) {
-//            if (Type2Num.containsKey(RoomType.valueOf(order.getRoomType()).toString())) {
-//                int curNum = Type2Num.get(RoomType.valueOf(order.getRoomType()).toString()) - order.getRoomNum();
-//                Type2Num.put(RoomType.valueOf(order.getRoomType()).toString(), curNum);
-//            }
-//        }
-//
-//        List<RoomVO> roomVOS = new ArrayList<>();
-//
-//        for (RoomVO room : rooms) {
-//            if (Type2Num.get(room.getRoomType()) > 0)
-//                room.setCurNum(Type2Num.get(room.getRoomType()));
-//            roomVOS.add(room);
-//        }
-//        return roomVOS;
-//    }
-
-    @Override
     public void updateHotelPicture(Integer hotelId, String url) {
         hotelMapper.updatePicture(hotelId, url);
     }
@@ -225,12 +180,4 @@ public class HotelServiceImpl implements HotelService {
     private double calComment(double origin, double time, double new_time, double change) {
         return (origin * time + change) / new_time;
     }
-
-
-    @Override
-    public String getManagerTelephone(int hotelId) {
-        HotelVO hotelVO = retrieveHotelDetails(hotelId);
-        UserVO userVO = accountService.getUserInfo(hotelVO.getManagerId());
-        return userVO.getPhoneNumber();
-    }// 考虑删除
 }

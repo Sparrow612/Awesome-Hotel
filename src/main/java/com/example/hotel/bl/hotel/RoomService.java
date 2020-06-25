@@ -34,9 +34,4 @@ public interface RoomService {
      * 获取酒店指定房间剩余数量
      */
     int getRoomCurNum(Integer hotelId, String roomType);
-
-    /**
-     * @return 在入住-退房时间里的可用房间数量
-     */
-    Integer getRoomCurNumByTime(Integer hotelId, String beginTime, String endTime, String type);
 }

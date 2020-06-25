@@ -42,20 +42,11 @@ public interface HotelService {
      * 查看酒店剩余某种房间数量
      */
     int getRoomCurNum(Integer hotelId, String roomType);
-
-    HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime);
-
-//    List<RoomVO> checkRoom(Integer hotelId, List<RoomVO> rooms, String beginTime, String endTime);
-
-//    List<RoomVO> checkRoom(List<RoomVO> rooms, List<Order> orders);
     
     void updateHotelPicture(Integer hotelId, String url);
 
     void addComment(CommentVO commentVO, Integer hotelId);
 
     void annulComment(CommentVO commentVO, Integer hotelId);
-
-    @Deprecated
-    String getManagerTelephone(int hotelId);
 
 }

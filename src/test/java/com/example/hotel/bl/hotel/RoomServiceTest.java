@@ -125,13 +125,4 @@ public class RoomServiceTest {
         int num = roomService.getRoomCurNum(1,"BigBed");
         Assert.assertThat(20,is(num));
     }
-
-    @Test
-    @Transactional
-    public void  getRoomCurNumByTime() {
-        int curNum = roomService.getRoomCurNumByTime(1,"2020-06-01","2020-06-02","BigBed");
-        Assert.assertThat(curNum, is(19));
-        curNum = roomService.getRoomCurNumByTime(2,"2020-06-20","2020-06-21","Family");
-        System.out.println(curNum);
-    }
 }
