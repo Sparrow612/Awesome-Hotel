@@ -154,7 +154,8 @@ const user = {
             const res = await updateUserInfoAPI(params)
             if (res) {
                 message.success('修改成功')
-                dispatch('getUserInfo')
+                await dispatch('getUserInfo')
+                dispatch('corpVIPCheck', state.userInfo.corporation)
             }
         },
         getUserOrders: async ({state, commit}) => {
@@ -207,8 +208,6 @@ const user = {
             if (res) {
                 message.success('注册成功')
                 dispatch('getUserInfo')
-                console.log('in register')
-                console.log(Number(state.userId))
                 dispatch('getUserVIP', Number(state.userId))
             }
         },
@@ -217,6 +216,8 @@ const user = {
             if (res) {
                 message.success('注册成功')
                 dispatch('getUserInfo')
+                dispatch('corpVIPCheck', corpName)
+                dispatch('getCorpVIP', corpName)
             }
         },
         getUserVIP: async ({state, commit}, id) => {
@@ -274,6 +275,19 @@ const user = {
                 commit('update_currCollections', -1)
             }
         },
+        updateUserCorporation: async ({state, commit, dispatch}, corporation) => {
+            const params = {
+                id: state.userId,
+                userName: state.userInfo.userName,
+                phoneNumber: state.userInfo.phoneNumber,
+                corporation: corporation,
+            }
+            const res = await updateUserInfoAPI(params)
+            if (res)  {
+                dispatch('getUserInfo')
+
+            }
+        }
     }
 }
 

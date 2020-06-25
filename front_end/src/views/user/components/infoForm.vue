@@ -28,31 +28,32 @@
             </a-form-item>
 
             <a-form-item label="VIP等级" v-bind="formItemLayout"
-                         v-if="this.userInfo.userType==='Client' && this.userInfo.vipType ==='Client'">
-                        <span>
-                            <span :key="index" v-for="index of 5">
-                            <img
-                                    alt="example"
-                                    src="@/assets/star.svg"
-                                    style="width: 20px; height: 20px"
-                                    v-if="index <= userVIP.level"
-                            />
-                            <img
-                                    alt="example"
-                                    src="@/assets/starGray.svg"
-                                    style="width: 20px; height: 20px"
-                                    v-else
-                            />
-                        </span>
-                        </span>
+                 v-if="this.userInfo.userType==='Client' && this.userInfo.vipType ==='Client'">
+                <div v-if="this.userVIP.status === 1">
+                    <span>
+                    <span :key="index" v-for="index of 5">
+                        <img
+                                alt="example"
+                                src="@/assets/star.svg"
+                                style="width: 20px; height: 20px"
+                                v-if="index <= userVIP.level"
+                        />
+                        <img
+                                alt="example"
+                                src="@/assets/starGray.svg"
+                                style="width: 20px; height: 20px"
+                                v-else
+                        />
+                    </span>
+                </span>
+                </div>
+
             </a-form-item>
             <a-form-item label="VIP" v-bind="formItemLayout"
-                         v-else-if="this.userInfo.userType==='Client' && JSON.stringify(this.userVIP) ==='{}'">
-                        <span>
-                            <router-link :to="{ name: 'userMembership' }" @click="goToMembership">
-                                尚未成为会员，点击注册
-                            </router-link>
-                        </span>
+                 v-else-if="this.userInfo.userType==='Client' && JSON.stringify(this.userVIP) === ''">
+                <span>
+                    尚未成为会员，请前往会员中心注册
+                </span>
             </a-form-item>
             <a-form-item label="VIP等级" v-bind="formItemLayout" v-else-if="this.userInfo.userType==='Client'">
                 <a-tag color="red">您已被冻结</a-tag>
@@ -63,7 +64,13 @@
                         v-decorator="['corporation', {initialValue: userInfo.corporation}]"
                         v-if="modify"
                 />
-                <span v-else>{{ userInfo.corporation }}</span>
+                <span v-else>{{ userInfo.corporation }}&nbsp;
+                    <span v-if="isCorpVIP">
+                        <span v-if="corpVIP.status === 1"><a-tag color="blue">已成为企业会员</a-tag></span>
+                        <span v-else><a-tag color="red">被冻结</a-tag></span>
+                    </span>
+                    <span v-else><a-tag color="cyan">尚未成为企业会员</a-tag></span>
+                </span>
             </a-form-item>
 
             <a-form-item label="信用值" v-bind="formItemLayout" v-if="this.userInfo.userType==='Client'">
@@ -136,14 +143,29 @@
             ...mapGetters([
                 'userInfo',
                 'userVIP',
+                'isCorpVIP',
+                'corpVIP',
             ])
         },
         beforeCreate() {
             this.form = this.$form.createForm(this, {name: 'userInfo'})
         },
+        async mounted() {
+            await this.getUserInfo()
+            this.getUserVIP(this.userInfo.id)
+
+            await this.corpVIPCheck(this.userInfo.corporation)
+            if (this.isCorpVIP) {
+                this.getCorpVIP(this.userInfo.corporation)
+            }
+        },
         methods: {
             ...mapActions([
                 'updateUserInfo',
+                'corpVIPCheck',
+                'getCorpVIP',
+                'getUserInfo',
+                'getUserVIP',
             ]),
             ...mapMutations([
 
@@ -178,6 +200,7 @@
             goToMembership() {
                 // TODO 修改header上面的current
                 // 不行就砍
+                // 不用链接，直接用文字代替
             },
 
             handlePhoneNumber(rule, value, callback) {

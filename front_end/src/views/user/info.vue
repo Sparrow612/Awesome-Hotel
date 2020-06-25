@@ -335,7 +335,7 @@
                 'creditChangeList',
                 'orderDetailVisible',
                 'userCollections',
-            ])
+            ]),
         },
 
         async mounted() {
