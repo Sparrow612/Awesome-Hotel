@@ -48,6 +48,8 @@ For detailed introduction, go and read our document
 
 该项目主要基于Github的private仓库进行开发，seec作为一个辅助代码仓库，提交记录较少。本仓库内的具体提交量如下(截至2020年6月24日21点09分)
 
+提交日志详见[Git commit Log](document/gitlog.md)
+
 ```bash
 $ git log | grep "^Author: " | awk '{print $2}' | sort | uniq -c | sort -k1,1nr
     125 Cheng
