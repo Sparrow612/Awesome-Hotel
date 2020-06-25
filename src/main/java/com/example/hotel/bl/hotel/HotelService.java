@@ -14,7 +14,7 @@ public interface HotelService {
      */
     ResponseVO addHotel(HotelForm hotelForm) throws ServiceException;
 
-    void updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws  ServiceException;
+    ResponseVO updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws  ServiceException;
 
     /**
      * 删除酒店

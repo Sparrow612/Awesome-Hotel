@@ -57,13 +57,15 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public void updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws ServiceException {
-        System.out.println(hotelForm.getName());
-        System.out.println(hotelForm.getAddress());
-        System.out.println(hotelForm.getDescription());
-        hotelMapper.updateHotelName(hotelId, hotelForm.getName());
-        hotelMapper.updateHotelAddress(hotelId, hotelForm.getAddress());
-        hotelMapper.updateHotelDescription(hotelId, hotelForm.getDescription());
+    public ResponseVO updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws ServiceException {
+        try {
+//            hotelMapper.updateHotelName(hotelId, hotelForm.getName());
+            hotelMapper.updateHotelAddress(hotelId, hotelForm.getAddress());
+            hotelMapper.updateHotelDescription(hotelId, hotelForm.getDescription());
+        }catch (Exception e) {
+            return ResponseVO.buildFailure(ADDRESS_OCCUPIED);
+        }
+        return ResponseVO.buildSuccess();
     }
 
     @Override

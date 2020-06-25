@@ -20,8 +20,10 @@
                     'bizRegion',
                     { rules: [{ required: true, message: '请选择酒店星级' }] }]"
                 >
-                    // TODO 之后如果有更多的商圈要在这里改一下
                     <a-select-option value="XiDan">西单</a-select-option>
+                    <a-select-option value="XianLin">仙林</a-select-option>
+                    <a-select-option value="GuLou">鼓楼</a-select-option>
+                    <a-select-option value="XinJie">新街口</a-select-option>
                 </a-select>
             </a-form-item>
             <a-form-item label="酒店地址" v-bind="formItemLayout">

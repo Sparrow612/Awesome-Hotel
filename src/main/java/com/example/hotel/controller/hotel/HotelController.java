@@ -34,8 +34,7 @@ public class HotelController {
 
     @PostMapping("/{hotelId}/updateHotel")
     public ResponseVO updateHotelInfo(@PathVariable Integer hotelId, @RequestBody HotelForm hotelForm) throws ServiceException {
-        hotelService.updateHotelInfo(hotelId, hotelForm);
-        return ResponseVO.buildSuccess(true);
+        return hotelService.updateHotelInfo(hotelId, hotelForm);
     }
 
     @GetMapping("/all")
