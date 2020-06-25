@@ -50,7 +50,7 @@
 
             </a-form-item>
             <a-form-item label="VIP" v-bind="formItemLayout"
-                 v-else-if="this.userInfo.userType==='Client' && JSON.stringify(this.userVIP) === ''">
+                 v-else-if="this.userInfo.userType==='Client' && JSON.stringify(this.userVIP) === '{}'">
                 <span>
                     尚未成为会员，请前往会员中心注册
                 </span>
@@ -152,8 +152,8 @@
         },
         async mounted() {
             await this.getUserInfo()
-            this.getUserVIP(this.userInfo.id)
-
+            await this.getUserVIP(this.userInfo.id)
+            console.log(this.userVIP)
             await this.corpVIPCheck(this.userInfo.corporation)
             if (this.isCorpVIP) {
                 this.getCorpVIP(this.userInfo.corporation)
