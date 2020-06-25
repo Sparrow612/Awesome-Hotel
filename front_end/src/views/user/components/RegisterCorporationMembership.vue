@@ -11,11 +11,12 @@
         <a-form :form="form">
             <a-form-item v-bind="formItemLayout" label="您的企业">
                 <a-input
-                        placeholder="请输入企业名"
-                        v-decorator="[
-                            'corporation',
-                            { rules: [{ required: true, message: '请输入企业' }], initialValue: this.userInfo.corporation},
-                        ]"
+                    placeholder="请输入企业名"
+                    v-decorator="[
+                        'corporation',
+                        { rules: [{ required: true, message: '请输入企业' }], initialValue: this.userInfo.corporation},
+                    ]"
+                    :disabled="hasCorporation"
                 />
             </a-form-item>
         </a-form>
@@ -45,7 +46,10 @@
             ...mapGetters([
                 'registerCorporationMembershipModalVisible',
                 'userInfo'
-            ])
+            ]),
+            hasCorporation() {
+                return this.userInfo.corporation !== null
+            }
         },
         methods: {
             ...mapMutations([
@@ -53,6 +57,7 @@
             ]),
             ...mapActions([
                 'registerCorporationMembership',
+                'updateUserCorporation',
             ]),
             cancelRegister() {
                 this.set_registerCorporationMembershipModalVisible(false);
@@ -62,6 +67,10 @@
                 this.form.validateFields((err, values) => {
                     if (!err) {
                         let corpName = String(this.form.getFieldValue('corporation'))
+                        // 如果用户尚未登记自己的企业名，就将这个注册的企业名作为他所在的企业
+                        if (this.userInfo.corporation === null) {
+                            this.updateUserCorporation(corpName)
+                        }
                         this.registerCorporationMembership(corpName).then(() => {
                             this.set_registerCorporationMembershipModalVisible(false);
                         })

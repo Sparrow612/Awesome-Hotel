@@ -100,7 +100,46 @@
                             />
                             <span> 丰富优惠</span>
                         </a-card>
-                        <a-button type="primary" @click="registerCorporationMembership" style="margin-top: 20px"><a-icon type="user" />注册企业会员</a-button>                    </div>
+
+                        <span v-if="isCorpVIP" style="text-align: center;">
+                            <div v-if="corpVIP.status === 1">
+                                <div class="membershipInfo">
+                                    <span>您的企业：{{ corpVIP.corporationName }}</span>
+                                </div>
+                                <div class="membershipInfo">
+                                    您的等级：
+                                    <span v-for="index of 5" :key="index">
+                                        <img
+                                                v-if="index <= corpVIP.level"
+                                                alt="example"
+                                                src="@/assets/star.svg"
+                                                style="width: 32px; height: 32px"
+                                        />
+                                        <img
+                                                v-else
+                                                alt="example"
+                                                src="@/assets/starGray.svg"
+                                                style="width: 32px; height: 32px"
+                                        />
+                                    </span>
+                                </div>
+                                <div style="display: inline-flex; padding: 10px; margin-top: 15px">
+                                    <a-statistic title="当前累计消费" :value="corpVIP.consumption"></a-statistic>
+                                    <a-statistic style="margin-left: 10px" title="当前消费减免"
+                                                 :value="corpVIP.reduction*100">
+                                        <template #suffix>%</template>
+                                    </a-statistic>
+                                </div>
+                            </div>
+                            <div class="membershipInfo" v-else>
+                                <h2 style="color: red">您的企业({{ corpVIP.corporationName }})被冻结</h2>
+                            </div>
+                        </span>
+                        <span v-else>
+                            <a-button type="primary" @click="registerCorporationMembership" style="margin-top: 20px"><a-icon type="user"/>注册企业会员</a-button>
+                        </span>
+                    </div>
+
                 </div>
             </a-tab-pane>
         </a-tabs>
@@ -146,14 +185,17 @@ export default {
     },
     async mounted() {
         await this.getUserInfo()
-        if (this.userInfo.vipType !== 'Normal') this.getUserVIP(Number(this.userInfo.id))
-        console.log(this.userInfo)
+        if (this.userInfo.vipType !== 'Normal') await this.getUserVIP(Number(this.userInfo.id))
+        await this.corpVIPCheck(this.userInfo.corporation)
+        if (this.isCorpVIP) await this.getCorpVIP(this.userInfo.corporation)
     },
     computed: {
         ...mapGetters([
             'userId',
             'userInfo',
             'userVIP',
+            'corpVIP',
+            'isCorpVIP',
         ])
     },
     methods: {
@@ -165,6 +207,8 @@ export default {
             'getUserVIP',
             'getUserInfo',
             'updateUserBirthday',
+            'getCorpVIP',
+            'corpVIPCheck',
         ]),
         registerSiteMembership() {
             this.set_registerSiteMembershipModalVisible(true);
