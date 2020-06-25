@@ -12,7 +12,7 @@ public interface HotelService {
     /**
      * 添加酒店
      */
-    void addHotel(HotelForm hotelForm) throws ServiceException;
+    ResponseVO addHotel(HotelForm hotelForm) throws ServiceException;
 
     void updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws  ServiceException;
 

@@ -28,7 +28,7 @@ CREATE TABLE `Coupon`
 (
     `id`              int(11)      NOT NULL AUTO_INCREMENT,
     `description`     varchar(255) DEFAULT NULL,
-    `hotelId`         int(11)      DEFAULT 0,
+    `srcId`         int(11)      DEFAULT 0,
     `couponType`      int(11)      NOT NULL,
     `couponName`      varchar(255) NOT NULL,
     `target_money`    int(11)      DEFAULT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE `Hotel`
     `id`               int(11)      NOT NULL AUTO_INCREMENT,
     `hotelName`        varchar(255) NOT NULL,
     `hotelDescription` varchar(255) DEFAULT NULL,
-    `address`          varchar(255) DEFAULT NULL,
+    `address`          varchar(255) UNIQUE DEFAULT NULL,
     `bizRegion`        varchar(255) DEFAULT NULL,
     `hotelStar`        varchar(255) DEFAULT NULL,
     `phoneNum`         int(11)      DEFAULT NULL,
@@ -127,8 +127,8 @@ BEGIN;
     DISABLE KEYS */;
 INSERT INTO `Hotel`
 VALUES (1, '汉庭酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Three', 1829373819, 0, 5, 5, 5, 5, 5, NULL),
-       (2, '如家酒店', '欢迎您入住', '南京市鼓楼区珠江路268号', 'XiDan', 'Four', 1829373819, 0, 5, 5, 5, 5, 5, NULL),
-       (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Five', 1829553719, 0, 5, 5, 5, 5, 5, NULL);
+       (2, '如家酒店', '欢迎您入住', '南京市鼓楼区珠江路269号', 'XiDan', 'Four', 1829373819, 0, 5, 5, 5, 5, 5, NULL),
+       (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区珠江路270号', 'XiDan', 'Five', 1829553719, 0, 5, 5, 5, 5, 5, NULL);
 #        (4, '格林豪泰', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
 #        (5, '布丁酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),
 #        (6, '维也纳酒店', '欢迎您入住', '南京市栖霞区珠江路268号', 'XiDan', 'Four', 1829553719, 4.8, 6),

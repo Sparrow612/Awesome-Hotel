@@ -157,23 +157,16 @@
                             const data = {
                                 userId: this.orderInfo.userId,
                                 orderId: this.orderInfo.id,
-                                points: this.form.getFieldValue('points'),
-                                sanitation: this.form.getFieldValue('sanitation'),
-                                environment: this.form.getFieldValue('environment'),
-                                service: this.form.getFieldValue('service'),
-                                equipment: this.form.getFieldValue('equipment'),
+                                points: Number(this.form.getFieldValue('points')),
+                                sanitation: Number(this.form.getFieldValue('sanitation')),
+                                environment: Number(this.form.getFieldValue('environment')),
+                                service: Number(this.form.getFieldValue('service')),
+                                equipment: Number(this.form.getFieldValue('equipment')),
                                 comment: this.form.getFieldValue('comment')
                             }
                             this.addComment(data).then(() => {
-                                this.form.setFieldsValue({
-                                    'points': '',
-                                    'sanitation': '',
-                                    'environment': '',
-                                    'service': '',
-                                    'equipment': '',
-                                    'comment': '',
-                                })
-                                this.getUserOrders()
+                                this.form.resetFields()
+                                // this.getUserOrders() --6.25
                             })
                         }
                     })

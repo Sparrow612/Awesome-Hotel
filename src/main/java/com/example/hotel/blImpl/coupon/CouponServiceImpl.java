@@ -50,9 +50,9 @@ public class CouponServiceImpl implements CouponService {
     public List<Coupon> getMatchOrderCoupon(OrderVO orderVO) {
         List<Coupon> hotelCoupons = getHotelAllCoupon(orderVO.getHotelId());
         List<Coupon> webCoupons = getWebsiteCoupon();
-        List<Coupon> bizCoupon = getHotelBizRegionCoupon(orderVO.getHotelId());
+//        List<Coupon> bizCoupon = getHotelBizRegionCoupon(orderVO.getHotelId());
         hotelCoupons.addAll(webCoupons);
-        hotelCoupons.addAll(bizCoupon);
+//        hotelCoupons.addAll(bizCoupon);
         List<Coupon> availAbleCoupons = new ArrayList<>();
         for (Coupon hotelCoupon : hotelCoupons) {
             for (CouponMatchStrategy strategy : strategyList) {
@@ -66,7 +66,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public List<Coupon> getHotelAllCoupon(Integer hotelId) {
-        return couponMapper.selectByHotelId(hotelId); // 需要修改
+        return couponMapper.selectByHotelId(hotelId);
     }
 
     @Override
@@ -148,8 +148,8 @@ public class CouponServiceImpl implements CouponService {
         return couponMapper.insertCoupon(coupon);
     }
 
-    private List<Coupon> getHotelBizRegionCoupon(Integer hotelId) {
-        String bizRegion = hotelService.retrieveHotelDetails(hotelId).getBizRegion();
-        return couponMapper.getBizRegionCoupon(bizRegion);
-    }
+//    private List<Coupon> getHotelBizRegionCoupon(Integer hotelId) {
+//        String bizRegion = hotelService.retrieveHotelDetails(hotelId).getBizRegion();
+//        return couponMapper.getBizRegionCoupon(bizRegion);
+//    }
 }

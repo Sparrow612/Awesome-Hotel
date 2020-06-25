@@ -23,21 +23,18 @@ public class CorporateCouponStrategyImpl implements CouponMatchStrategy {
 
     @Override
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
-        try {
-            User user = accountMapper.getAccountById(orderVO.getUserId());
-            if (user.getCorporation() == null) {
-                return false;
-            }
-            CorpVIP corpVIP = vipMapper.getVIPbyCorpName(user.getCorporation());
-            return coupon.getStatus() == 1 &&
-                    coupon.getCorporateName() != null &&
-                    user.getCorporation() != null &&
-                    coupon.getCorporateName().equals(user.getCorporation()) &&
-                    corpVIP.getStatus() == 1 &&
-                    (coupon.getSrcId() == WEBSITE || coupon.getSrcId().equals(orderVO.getHotelId()));
-        } catch (Exception e) {
-            e.printStackTrace();
+        User user = accountMapper.getAccountById(orderVO.getUserId());
+        if (user.getCorporation() == null) {
             return false;
         }
+        CorpVIP corpVIP = vipMapper.getVIPbyCorpName(user.getCorporation());
+        if (corpVIP == null) return false;
+        return coupon.getStatus() == 1 &&
+                coupon.getCorporateName() != null &&
+                user.getCorporation() != null &&
+                coupon.getCorporateName().equals(user.getCorporation()) &&
+                corpVIP.getStatus() == 1 &&
+                (coupon.getSrcId() == WEBSITE || coupon.getSrcId().equals(orderVO.getHotelId()));
+
     }
 }

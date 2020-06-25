@@ -71,7 +71,7 @@ export function hotelAllCouponsAPI(hotelId) {
 
 export function getSiteCouponsAPI() {
     return axios({
-        url: `${api.couponPre}/siteAllCoupons`,
+        url: `${api.couponPre}/websiteCoupons`,
         method: 'GET',
     })
 }

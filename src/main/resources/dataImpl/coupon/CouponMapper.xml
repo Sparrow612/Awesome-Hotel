@@ -13,14 +13,14 @@
     <select id="selectByHotelId" resultMap="Coupon">
         select *
         from Coupon
-        where hotelId = #{hotelId}
+        where srcId = #{hotelId}
           and status = 1
     </select>
 
     <select id="getWebCoupon" resultMap="Coupon">
         select *
         from Coupon
-        where status = 1 and hotelId = 0
+        where status = 1 and srcId = 0
     </select>
 
     <select id="getBizRegionCoupon" resultMap="Coupon">
@@ -40,7 +40,7 @@
         <result column="description" property="description"/>
         <result column="id" property="id"/>
         <result column="couponName" property="couponName"/>
-        <result column="hotelId" property="srcId"/>
+        <result column="srcId" property="srcId"/>
         <result column="couponType" property="couponType"/>
         <result column="discount" property="discount"/>
         <result column="status" property="status"/>
