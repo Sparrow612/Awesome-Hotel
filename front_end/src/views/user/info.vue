@@ -342,6 +342,7 @@
                 'creditChangeList',
                 'orderDetailVisible',
                 'userCollections',
+                'currentOrderComment',
             ]),
         },
 
@@ -370,6 +371,7 @@
                 'set_commentOrderModalVisible',
                 'set_orderInfo',
                 'set_argueAbnormalOrderModalVisible',
+                'set_argumentModify',
             ]),
 
             confirmCancelOrder(orderId) {
@@ -408,6 +410,11 @@
 
             argueOrder(record) {
                 this.getOrderComment(Number(record.id)).then(() => {
+                    if(this.currentOrderComment.comment === null) {
+                        this.set_argumentModify(true)
+                    } else {
+                        this.set_argumentModify(false)
+                    }
                     this.set_orderInfo(record)
                     this.set_argueAbnormalOrderModalVisible(true)
                 })

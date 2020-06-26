@@ -75,6 +75,7 @@ const getters = {
     commentOrderModalVisible: state => state.order.commentOrderModalVisible,
     currentOrderComment: state => state.order.currentOrderComment,
     argueAbnormalOrderModalVisible: state => state.order.argueAbnormalOrderModalVisible,
+    argumentModify: state => state.order.argumentModify,
     //coupon
     couponDetailVisible: state => state.coupon.couponDetailVisible,
     currentCouponInfo: state => state.coupon.currentCouponInfo,

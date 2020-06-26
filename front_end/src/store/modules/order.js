@@ -19,6 +19,7 @@ const order = {
         commentOrderModalVisible: false,
         currentOrderComment: {},
         argueAbnormalOrderModalVisible: false,
+        argumentModify: false,
     },
     mutations: {
         set_orderDetailVisible: function (state, data) {
@@ -36,6 +37,9 @@ const order = {
         set_argueAbnormalOrderModalVisible: function (state, data) {
             state.argueAbnormalOrderModalVisible = data
         },
+        set_argumentModify: function (state, data) {
+            state.argumentModify = data
+        }
     },
     actions: {
         checkInOrder: async({ state, dispatch }, orderId) => {
