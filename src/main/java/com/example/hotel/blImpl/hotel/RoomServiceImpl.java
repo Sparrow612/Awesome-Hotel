@@ -60,21 +60,6 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Integer getRoomCurNumByTime(Integer hotelId, String beginTime, String endTime, String type) {
-//        HotelVO hotelVO = hotelService.retrieveAvailableHotelDetails(hotelId,beginTime,endTime);
- //       List<RoomVO> rooms = hotelVO.getRooms();
- //       int curNum = 0;
-  //      for(RoomVO room : rooms){
- //           if(room.getRoomType().equals(RoomType.valueOf(type).toString())){
-//                curNum = room.getCurNum();
-  //              break;
- //           }
-  //      }
- //      return curNum;
-        return null;
-    }
-
-    @Override
     public List<HotelRoom> retrieveHotelRoomInfoByType(Integer hotelId, RoomType type) {
         List<HotelRoom> rooms = roomMapper.selectRoomsByHotelId(hotelId);
         List<HotelRoom> targetRoom = new ArrayList<>();
