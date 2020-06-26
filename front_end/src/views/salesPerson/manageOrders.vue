@@ -246,7 +246,7 @@ export default {
             return this.allOrderList.filter(function(x) {
                 let checkInDate = new Date(x.checkInDate);
                 let now = new Date();
-                return x.orderState === '已预订' && checkInDate.toLocaleDateString()===now.toLocaleDateString()
+                return x.orderState === '未入住' && checkInDate.toLocaleDateString()===now.toLocaleDateString()
             })
         },
     },
