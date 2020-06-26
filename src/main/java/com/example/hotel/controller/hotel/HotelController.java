@@ -66,12 +66,12 @@ public class HotelController {
     }
 
 
-    @GetMapping("/detailInTimeRange")
-    public ResponseVO retrieveHotelDetail(@RequestParam(value = "hotelId") Integer hotelId,
-                                       @RequestParam(value = "startTime") String startTime,
-                                       @RequestParam(value = "endTime") String endTime) {
-        return ResponseVO.buildSuccess(hotelService.retrieveAvailableHotelDetails(hotelId, startTime, endTime));
-    }
+//    @GetMapping("/detailInTimeRange")
+//    public ResponseVO retrieveHotelDetail(@RequestParam(value = "hotelId") Integer hotelId,
+//                                       @RequestParam(value = "startTime") String startTime,
+//                                       @RequestParam(value = "endTime") String endTime) {
+//        return ResponseVO.buildSuccess(hotelService.retrieveAvailableHotelDetails(hotelId, startTime, endTime));
+//    }
 
 
     @PostMapping("/searchHotel")
@@ -80,11 +80,11 @@ public class HotelController {
     }
 
     // 准备删除这段代码
-    @PostMapping("/{hotelId}/registerHotelMembership")
-    public ResponseVO registerHotelMembership(@PathVariable Integer hotelId) {
-        System.out.println(hotelId);
-        return ResponseVO.buildSuccess(true);
-    }
+//    @PostMapping("/{hotelId}/registerHotelMembership")
+//    public ResponseVO registerHotelMembership(@PathVariable Integer hotelId) {
+//        System.out.println(hotelId);
+//        return ResponseVO.buildSuccess(true);
+//    }
 
     @PostMapping("/{hotelId}/deleteHotel")
     public ResponseVO deleteHotel(@PathVariable Integer hotelId) {

@@ -43,7 +43,7 @@ public interface HotelService {
      */
     int getRoomCurNum(Integer hotelId, String roomType);
 
-    HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime);
+//    HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime);
 
 //    List<RoomVO> checkRoom(Integer hotelId, List<RoomVO> rooms, String beginTime, String endTime);
 

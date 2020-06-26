@@ -4,7 +4,7 @@
 
     <insert id="insertCoupon" parameterType="com.example.hotel.po.Coupon"
             useGeneratedKeys="true" keyProperty="id">
-        insert into Coupon(description, couponName, target_money, discount_money, start_time, end_time, hotelId,
+        insert into Coupon(description, couponName, target_money, discount_money, start_time, end_time, srcId,
                            couponType, discount, status, target_room_num, corporate_name,bizRegion, vipLevel)
         values (#{description}, #{couponName}, #{targetMoney}, #{discountMoney}, #{startTime}, #{endTime}, #{srcId},
                 #{couponType}, #{discount}, #{status}, #{targetRoomNum}, #{corporateName},#{bizRegion},#{vipLevel})
