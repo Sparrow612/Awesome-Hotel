@@ -211,9 +211,6 @@
         },
         components: {
             HotelCoupon,
-            // AddHotelModal,
-            // AddRoomModal,
-            // Coupon,
             OrderDetail,
             ModifyHotelInfo,
             HotelRoom,
@@ -233,8 +230,8 @@
         },
         async mounted() {
             await this.getUserInfo()
-            await this.getHotelInfo(Number(this.userInfo.hotelID))
-            await this.getHotelOrders(Number(this.userInfo.hotelID))
+            this.getHotelInfo(Number(this.userInfo.hotelID))
+            this.getHotelOrders(Number(this.userInfo.hotelID))
         },
         methods: {
             ...mapMutations([

@@ -112,28 +112,7 @@
                 </a-drawer>
             </a-tab-pane>
             <a-tab-pane key="3" tab="酒店优惠">
-                <a-table
-                        :columns="columns"
-                        :dataSource="couponList"
-                        bordered
-                        style="background-color: white; padding: 10px; border-radius: 20px"
-                >
-                    <template slot="title">
-                        <h3>只有满减优惠有具体的优惠金额，其他类型的优惠券的优惠方式都是折扣。</h3>
-                    </template>
-                    <a-tag color="purple" slot="couponName" slot-scope="text">
-                        {{text}}
-                    </a-tag>
-                    <a-tag color="blue" slot="discount" slot-scope="disc">
-                        {{disc===0.00?'满减':100*disc+'%'}}
-                    </a-tag>
-                    <a-tag color="pink" slot="discountMoney" slot-scope="money">
-                        {{money===0?'非满减':money}}
-                    </a-tag>
-                    <span slot="action">
-                <a-button size="small" type="primary">查看详情</a-button>
-            </span>
-                </a-table>
+                <HotelCouponTable :hotel-id="this.currentHotelInfo.id" user-type="Client"></HotelCouponTable>
             </a-tab-pane>
         </a-tabs>
     </div>
@@ -141,6 +120,7 @@
 
 <script>
     import HotelComment from "./HotelComment";
+    import HotelCouponTable from '../../coupon/hotelCouponTable';
     import {mapActions, mapGetters, mapMutations} from "vuex";
 
     const columns = [
@@ -182,6 +162,7 @@
         },
         components: {
             HotelComment,
+            HotelCouponTable,
         },
         computed: {
             ...mapGetters([
@@ -197,7 +178,6 @@
             ])
         },
         async mounted() {
-            this.getHotelCoupon(this.currentHotelInfo.id)
             this.getHotelQuestion()
             this.getCurrCollections()
             this.getUserCollectHotel(this.userId)
@@ -220,6 +200,8 @@
             ...mapMutations([
                 'set_answersVisible',
                 'set_currCollections',
+                'set_couponDetailVisible',
+                'set_currentCouponInfo',
             ]),
             star() {
                 const params = {
@@ -277,7 +259,11 @@
                     }
                 })
                 this.answerFormVisible = false
-            }
+            },
+            showCouponDetail(record) {
+                this.set_currentCouponInfo(record)
+                this.set_couponDetailVisible(true)
+            },
         }
     }
 </script>

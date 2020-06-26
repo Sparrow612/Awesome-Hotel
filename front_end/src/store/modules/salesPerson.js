@@ -17,6 +17,7 @@ import {
     CorporateCouponAPI,
     TimeCouponAPI,
     getSiteCouponsAPI,
+    deleteCouponAPI,
 } from "../../api/coupon";
 import {
     getAllClientVIPAPI,
@@ -195,6 +196,15 @@ const salesPerson = {
                 message.success('添加策略成功')
             } else {
                 message.error('添加失败')
+            }
+        },
+        deleteSiteCoupon: async ({state, commit, dispatch}, data) => {
+            const res = await deleteCouponAPI(data)
+            if (res) {
+                dispatch('getSiteCoupon')
+                message.success('删除成功')
+            }else {
+                message.error('删除失败')
             }
         },
         getAllUsers: async ({state, commit}) => {

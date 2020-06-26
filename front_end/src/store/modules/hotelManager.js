@@ -162,23 +162,12 @@ const hotelManager = {
         deleteCoupon: async ({state, commit, dispatch}, data) => {
             const res = await deleteCouponAPI(data)
             if (res) {
-                console.log()
                 dispatch('getHotelCoupon', state.hotelInfo.hotelId)
                 message.success('删除成功')
             }else {
                 message.error('删除失败')
             }
         },
-        // registerHotelMembership: async ({state, dispatch, commit}, data) => {
-        //     const res = await registerHotelMembershipAPI(data)
-        //     if(res) {
-        //         dispatch('getHotelById')
-        //         commit('set_registerHotelMembershipModalVisible', false)
-        //         message.success('注册成功')
-        //     } else {
-        //         message.error('注册失败')
-        //     }
-        // },
         getHotelInfo: async ({state, commit}, hotelId) => {
             const res = await getHotelByIdAPI(hotelId)
             if (res) {

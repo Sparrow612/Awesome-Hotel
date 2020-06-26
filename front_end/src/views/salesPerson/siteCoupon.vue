@@ -7,18 +7,7 @@
                 <a-icon type="plus"/>添加优惠策略
             </a-button>
         </div>
-
-        <a-table
-                :columns="columns"
-                :dataSource="siteCouponList"
-                :rowKey="record => record.id"
-                :locale="{emptyText: '暂时没有网站优惠'}"
-                bordered
-        >
-            <a-tag color="purple" slot="couponName" slot-scope="text">{{text}}</a-tag>
-            <a-tag color="red" slot="discount" slot-scope="text">{{text*100}}%</a-tag>
-            <a-tag color="blue" slot="vipLevel" slot-scope="text">{{text}}</a-tag>
-        </a-table>
+        <site-coupon-table user-type="SalesPerson"></site-coupon-table>
         <addSiteCoupon></addSiteCoupon>
     </div>
 </template>
@@ -26,6 +15,7 @@
 <script>
     import { mapGetters, mapMutations, mapActions } from 'vuex'
     import addSiteCoupon from "./components/addSiteCoupon";
+    import siteCouponTable from "../coupon/siteCouponTable";
     const columns = [
         {
             title: '优惠名称',
@@ -55,29 +45,24 @@
             }
         },
         components: {
+            siteCouponTable,
             addSiteCoupon,
         },
         computed: {
             ...mapGetters([
                 'addSiteCouponVisible',
-                'siteCouponList',
             ])
-        },
-        mounted() {
-            this.getSiteCoupon()
         },
         methods: {
             ...mapMutations([
                 'set_addSiteCouponVisible',
             ]),
             ...mapActions([
-                'getSiteCoupon',
+
             ]),
             addSiteCoupon() {
                 this.set_addSiteCouponVisible(true)
             },
-
-
         }
     }
 </script>
