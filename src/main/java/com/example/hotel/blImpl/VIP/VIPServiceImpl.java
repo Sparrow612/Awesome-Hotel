@@ -51,11 +51,8 @@ public class VIPServiceImpl implements VIPService {
         try{
 
             vipMapper.registerAsClientVIP(new ClientVIP(userId));
-
             accountService.registerAsVIP(userId);
-
             accountService.updateBirthday(userId, birthday);
-
         }catch (Exception e){
             e.printStackTrace();
             return ResponseVO.buildFailure(CLI_REGISTERED);

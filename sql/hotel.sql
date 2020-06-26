@@ -256,15 +256,15 @@ DROP TABLE IF EXISTS `User`;
 CREATE TABLE `User`
 (
     `id`          int(11)     NOT NULL AUTO_INCREMENT,
-    `email`       varchar(255) DEFAULT NULL,
+    `email`       varchar(255) UNIQUE DEFAULT NULL,
     `password`    varchar(11) NOT NULL,
     `username`    varchar(255) DEFAULT NULL,
     `phonenumber` varchar(255) DEFAULT NULL,
-    `credit`      double       DEFAULT NULL,
+    `credit`      double       DEFAULT 100.0,
     `usertype`    varchar(255) DEFAULT NULL,
     `birthday`    varchar(255) DEFAULT NULL,
     `corporation` varchar(255) DEFAULT NULL,
-    `annulTime`   int(5)       DEFAULT 0,
+    `annulTime`   int(5)       DEFAULT 3,
     `jobNumber`   int(11)      DEFAULT NULL,
     `hotelID`     int(11)      DEFAULT NULL,
     `portrait`    varchar(255) DEFAULT NULL,

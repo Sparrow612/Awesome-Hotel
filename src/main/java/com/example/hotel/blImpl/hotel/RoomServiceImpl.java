@@ -6,6 +6,7 @@ import com.example.hotel.data.hotel.RoomMapper;
 import com.example.hotel.enums.RoomType;
 import com.example.hotel.po.HotelRoom;
 import com.example.hotel.vo.HotelVO;
+import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,21 +26,22 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void insertRoomInfo(RoomVO room) {
+    public ResponseVO insertRoomInfo(RoomVO room) {
         HotelRoom hotelRoom = new HotelRoom(room);
         List<HotelRoom> hotelRooms = roomMapper.selectRoomsByHotelId(hotelRoom.getHotelId());
-        int curNum;
         for(HotelRoom hotelRoom1 : hotelRooms){
             if(hotelRoom1.getRoomType().toString().equals(hotelRoom.getRoomType().toString())){
-                curNum = hotelRoom1.getCurNum() + hotelRoom.getTotal() - hotelRoom1.getTotal();
+                int curNum = hotelRoom1.getCurNum() + hotelRoom.getTotal() - hotelRoom1.getTotal();
+                if(curNum<0){
+                    return ResponseVO.buildFailure("更新的房间数量太少");
+                }
                 hotelRoom.setCurNum(curNum);
                 roomMapper.deleteRoom(room.getId(), room.getRoomType());
                 break;
             }
         }
-
         roomMapper.insertRoom(hotelRoom);
-
+        return ResponseVO.buildSuccess(true);
     }
 
     @Override

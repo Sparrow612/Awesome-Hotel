@@ -76,42 +76,40 @@
 <i>38</i>&nbsp;
 <i>39</i>&nbsp;    ResponseVO updatePassword(int id, String password);
 <i>40</i>&nbsp;
-<i>41</i>&nbsp;    ResponseVO updateCredit(int id, double credit);
+<i>41</i>&nbsp;    ResponseVO argueCredit(int creditId, String argue);
 <i>42</i>&nbsp;
-<i>43</i>&nbsp;    ResponseVO argueCredit(int creditId, String argue);
+<i>43</i>&nbsp;    List&lt;CreditVO&gt; getArgueCredits();
 <i>44</i>&nbsp;
-<i>45</i>&nbsp;    List&lt;CreditVO&gt; getArgueCredits();
+<i>45</i>&nbsp;    ResponseVO handleArgue(Integer creditId, boolean accept);
 <i>46</i>&nbsp;
-<i>47</i>&nbsp;    ResponseVO handleArgue(Integer creditId, boolean accept);
-<i>48</i>&nbsp;
-<i>49</i>&nbsp;//    ResponseVO personalVIP(int id, String birthday);
-<i>50</i>&nbsp;//
-<i>51</i>&nbsp;    ResponseVO corporateVIP(int id, String corporate);
+<i>47</i>&nbsp;//    ResponseVO personalVIP(int id, String birthday);
+<i>48</i>&nbsp;//
+<i>49</i>&nbsp;    ResponseVO updateCorporation(int id, String corporate);
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;//    ResponseVO normalUser(String corporate);
 <i>52</i>&nbsp;
-<i>53</i>&nbsp;//    ResponseVO normalUser(String corporate);
+<i>53</i>&nbsp;    void updateBirthday(int id, String birthday); // 注册会员时使用
 <i>54</i>&nbsp;
-<i>55</i>&nbsp;    void updateBirthday(int id, String birthday); // 注册会员时使用
+<i>55</i>&nbsp;    void registerAsVIP(int id); // 同上
 <i>56</i>&nbsp;
-<i>57</i>&nbsp;    void registerAsVIP(int id); // 同上
+<i>57</i>&nbsp;    void freezeVIP(int id); // 同上
 <i>58</i>&nbsp;
-<i>59</i>&nbsp;    void freezeVIP(int id); // 同上
+<i>59</i>&nbsp;    ResponseVO updatePortrait(int userId, String url);
 <i>60</i>&nbsp;
-<i>61</i>&nbsp;    ResponseVO updatePortrait(int userId, String url);
+<i>61</i>&nbsp;    ResponseVO chargeCredit(int userId, int change, String reason);
 <i>62</i>&nbsp;
-<i>63</i>&nbsp;    ResponseVO chargeCredit(int userId, int change, String reason);
+<i>63</i>&nbsp;    ResponseVO getUserCreditChanges(int userId);
 <i>64</i>&nbsp;
-<i>65</i>&nbsp;    ResponseVO getUserCreditChanges(int userId);
+<i>65</i>&nbsp;    List&lt;UserVO&gt; getAllUsers();
 <i>66</i>&nbsp;
-<i>67</i>&nbsp;    List&lt;UserVO&gt; getAllUsers();
-<i>68</i>&nbsp;
-<i>69</i>&nbsp;    List&lt;String&gt; getAllPhoneNumOfSalesPerson();
-<i>70</i>&nbsp;}
+<i>67</i>&nbsp;    List&lt;String&gt; getAllPhoneNumOfSalesPerson();
+<i>68</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-22 12:27</div>
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
 </div>
 </body>
 </html>

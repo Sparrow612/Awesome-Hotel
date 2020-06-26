@@ -61,7 +61,7 @@
     53.3%
   </span>
   <span class="absValue">
-    (48/ 90)
+    (49/ 92)
   </span>
 </td>
 </tr>
@@ -125,46 +125,46 @@
 <i>51</i>&nbsp;        try{
 <i>52</i>&nbsp;
 <b class="fc"><i>53</i>&nbsp;            vipMapper.registerAsClientVIP(new ClientVIP(userId));</b>
-<i>54</i>&nbsp;
-<b class="fc"><i>55</i>&nbsp;            accountService.registerAsVIP(userId);</b>
-<i>56</i>&nbsp;
-<b class="fc"><i>57</i>&nbsp;            accountService.updateBirthday(userId, birthday);</b>
-<i>58</i>&nbsp;
-<b class="nc"><i>59</i>&nbsp;        }catch (Exception e){</b>
-<b class="nc"><i>60</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i>61</i>&nbsp;            return ResponseVO.buildFailure(CLI_REGISTERED);</b>
-<b class="fc"><i>62</i>&nbsp;        }</b>
-<b class="fc"><i>63</i>&nbsp;        return ResponseVO.buildSuccess();</b>
-<i>64</i>&nbsp;    }
-<i>65</i>&nbsp;
-<i>66</i>&nbsp;    @Override
-<i>67</i>&nbsp;    public ResponseVO freezeClientVIP(Integer userId) {
-<i>68</i>&nbsp;        try {
-<b class="fc"><i>69</i>&nbsp;            vipMapper.freezeClientVIP(userId);</b>
-<b class="fc"><i>70</i>&nbsp;            accountService.freezeVIP(userId);</b>
-<b class="nc"><i>71</i>&nbsp;        }catch (Exception e){</b>
-<b class="nc"><i>72</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i>73</i>&nbsp;            return ResponseVO.buildFailure(CLI_FAILURE);</b>
-<b class="fc"><i>74</i>&nbsp;        }</b>
-<b class="fc"><i>75</i>&nbsp;        return ResponseVO.buildSuccess();</b>
-<i>76</i>&nbsp;    }
-<i>77</i>&nbsp;
-<i>78</i>&nbsp;    @Override
-<i>79</i>&nbsp;    public ResponseVO restoreClientVIP(Integer userId) {
-<i>80</i>&nbsp;        try {
-<b class="fc"><i>81</i>&nbsp;            vipMapper.restoreClientVIP(userId);</b>
-<b class="fc"><i>82</i>&nbsp;            accountService.registerAsVIP(userId);</b>
-<b class="nc"><i>83</i>&nbsp;        }catch (Exception e){</b>
-<b class="nc"><i>84</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i>85</i>&nbsp;            return ResponseVO.buildFailure(CLI_FAILURE);</b>
-<b class="fc"><i>86</i>&nbsp;        }</b>
-<b class="fc"><i>87</i>&nbsp;        return ResponseVO.buildSuccess();</b>
-<i>88</i>&nbsp;    }
-<i>89</i>&nbsp;
-<i>90</i>&nbsp;    @Override
-<i>91</i>&nbsp;    public ResponseVO getVIPbyUserId(Integer userId){
-<i>92</i>&nbsp;        try {
-<b class="fc"><i>93</i>&nbsp;            ClientVIP clientVIP = vipMapper.getVIPbyUserId(userId);</b>
+<b class="fc"><i>54</i>&nbsp;            accountService.registerAsVIP(userId);</b>
+<b class="fc"><i>55</i>&nbsp;            accountService.updateBirthday(userId, birthday);</b>
+<b class="nc"><i>56</i>&nbsp;        }catch (Exception e){</b>
+<b class="nc"><i>57</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>58</i>&nbsp;            return ResponseVO.buildFailure(CLI_REGISTERED);</b>
+<b class="fc"><i>59</i>&nbsp;        }</b>
+<b class="fc"><i>60</i>&nbsp;        return ResponseVO.buildSuccess();</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    @Override
+<i>64</i>&nbsp;    public ResponseVO freezeClientVIP(Integer userId) {
+<i>65</i>&nbsp;        try {
+<b class="fc"><i>66</i>&nbsp;            vipMapper.freezeClientVIP(userId);</b>
+<b class="fc"><i>67</i>&nbsp;            accountService.freezeVIP(userId);</b>
+<b class="nc"><i>68</i>&nbsp;        }catch (Exception e){</b>
+<b class="nc"><i>69</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>70</i>&nbsp;            return ResponseVO.buildFailure(CLI_FAILURE);</b>
+<b class="fc"><i>71</i>&nbsp;        }</b>
+<b class="fc"><i>72</i>&nbsp;        return ResponseVO.buildSuccess();</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    @Override
+<i>76</i>&nbsp;    public ResponseVO restoreClientVIP(Integer userId) {
+<i>77</i>&nbsp;        try {
+<b class="fc"><i>78</i>&nbsp;            vipMapper.restoreClientVIP(userId);</b>
+<b class="fc"><i>79</i>&nbsp;            accountService.registerAsVIP(userId);</b>
+<b class="nc"><i>80</i>&nbsp;        }catch (Exception e){</b>
+<b class="nc"><i>81</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>82</i>&nbsp;            return ResponseVO.buildFailure(CLI_FAILURE);</b>
+<b class="fc"><i>83</i>&nbsp;        }</b>
+<b class="fc"><i>84</i>&nbsp;        return ResponseVO.buildSuccess();</b>
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    @Override
+<i>88</i>&nbsp;    public ResponseVO getVIPbyUserId(Integer userId){
+<i>89</i>&nbsp;        try {
+<b class="fc"><i>90</i>&nbsp;            ClientVIP clientVIP = vipMapper.getVIPbyUserId(userId);</b>
+<b class="fc"><i>91</i>&nbsp;            if (clientVIP == null) {</b>
+<b class="nc"><i>92</i>&nbsp;                return ResponseVO.buildSuccess();</b>
+<i>93</i>&nbsp;            }
 <b class="fc"><i>94</i>&nbsp;            ClientVIPVO clientVIPVO = new ClientVIPVO();</b>
 <b class="fc"><i>95</i>&nbsp;            BeanUtils.copyProperties(clientVIP, clientVIPVO);</b>
 <b class="fc"><i>96</i>&nbsp;            return ResponseVO.buildSuccess(clientVIPVO);</b>
@@ -274,7 +274,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-22 12:27</div>
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
 </div>
 </body>
 </html>

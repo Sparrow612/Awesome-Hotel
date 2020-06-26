@@ -50,9 +50,9 @@
 <i>12</i>&nbsp;    /**
 <i>13</i>&nbsp;     * Ìí¼Ó¾Æµê
 <i>14</i>&nbsp;     */
-<i>15</i>&nbsp;    void addHotel(HotelForm hotelForm) throws ServiceException;
+<i>15</i>&nbsp;    ResponseVO addHotel(HotelForm hotelForm) throws ServiceException;
 <i>16</i>&nbsp;
-<i>17</i>&nbsp;    void updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws  ServiceException;
+<i>17</i>&nbsp;    ResponseVO updateHotelInfo(Integer hotelId, HotelForm hotelForm);
 <i>18</i>&nbsp;
 <i>19</i>&nbsp;    /**
 <i>20</i>&nbsp;     * É¾³ý¾Æµê
@@ -81,28 +81,19 @@
 <i>43</i>&nbsp;     */
 <i>44</i>&nbsp;    int getRoomCurNum(Integer hotelId, String roomType);
 <i>45</i>&nbsp;
-<i>46</i>&nbsp;    HotelVO retrieveAvailableHotelDetails(Integer hotelId, String beginTime, String endTime);
+<i>46</i>&nbsp;    void updateHotelPicture(Integer hotelId, String url);
 <i>47</i>&nbsp;
-<i>48</i>&nbsp;    List&lt;RoomVO&gt; checkRoom(Integer hotelId, List&lt;RoomVO&gt; rooms, String beginTime, String endTime);
+<i>48</i>&nbsp;    void addComment(CommentVO commentVO, Integer hotelId);
 <i>49</i>&nbsp;
-<i>50</i>&nbsp;    List&lt;RoomVO&gt; checkRoom(List&lt;RoomVO&gt; rooms, List&lt;Order&gt; orders);
-<i>51</i>&nbsp;    
-<i>52</i>&nbsp;    void updateHotelPicture(Integer hotelId, String url);
-<i>53</i>&nbsp;
-<i>54</i>&nbsp;    void addComment(CommentVO commentVO, Integer hotelId);
-<i>55</i>&nbsp;
-<i>56</i>&nbsp;    void annulComment(CommentVO commentVO, Integer hotelId);
-<i>57</i>&nbsp;
-<i>58</i>&nbsp;    @Deprecated
-<i>59</i>&nbsp;    String getManagerTelephone(int hotelId);
-<i>60</i>&nbsp;
-<i>61</i>&nbsp;}
+<i>50</i>&nbsp;    void annulComment(CommentVO commentVO, Integer hotelId);
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-22 12:27</div>
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
 </div>
 </body>
 </html>

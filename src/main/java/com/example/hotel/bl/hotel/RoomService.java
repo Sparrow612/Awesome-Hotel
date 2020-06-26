@@ -2,6 +2,7 @@ package com.example.hotel.bl.hotel;
 
 import com.example.hotel.enums.RoomType;
 import com.example.hotel.po.HotelRoom;
+import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.RoomVO;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface RoomService {
     /**
      * 添加酒店客房信息
      */
-    void insertRoomInfo(RoomVO hotelRoom);
+    ResponseVO insertRoomInfo(RoomVO hotelRoom);
 
     /**
      *

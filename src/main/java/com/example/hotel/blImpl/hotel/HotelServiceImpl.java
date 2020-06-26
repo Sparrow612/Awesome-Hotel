@@ -51,15 +51,13 @@ public class HotelServiceImpl implements HotelService {
             hotelMapper.insertHotel(hotel);
             return ResponseVO.buildSuccess();
         }catch (Exception e){
-//            e.printStackTrace();
             return ResponseVO.buildFailure(ADDRESS_OCCUPIED);
         }
     }
 
     @Override
-    public ResponseVO updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws ServiceException {
+    public ResponseVO updateHotelInfo(Integer hotelId, HotelForm hotelForm){
         try {
-//            hotelMapper.updateHotelName(hotelId, hotelForm.getName());
             hotelMapper.updateHotelAddress(hotelId, hotelForm.getAddress());
             hotelMapper.updateHotelDescription(hotelId, hotelForm.getDescription());
         }catch (Exception e) {

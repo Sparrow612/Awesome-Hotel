@@ -39,48 +39,48 @@
 <div class="sourceCode"><i>1</i>&nbsp;package com.example.hotel.bl.order;
 <i>2</i>&nbsp;
 <i>3</i>&nbsp;import com.example.hotel.po.Order;
-<i>4</i>&nbsp;import com.example.hotel.vo.CommentVO;
-<i>5</i>&nbsp;import com.example.hotel.vo.OrderVO;
-<i>6</i>&nbsp;import com.example.hotel.vo.ResponseVO;
+<i>4</i>&nbsp;import com.example.hotel.vo.*;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.List;
 <i>7</i>&nbsp;
-<i>8</i>&nbsp;import java.util.List;
-<i>9</i>&nbsp;
-<i>10</i>&nbsp;/**
-<i>11</i>&nbsp; * @author chenyizong
-<i>12</i>&nbsp; * @date 2020-03-04
-<i>13</i>&nbsp; */
-<i>14</i>&nbsp;public interface OrderService {
-<i>15</i>&nbsp;
-<i>16</i>&nbsp;    /**
-<i>17</i>&nbsp;     * 预订酒店
-<i>18</i>&nbsp;     */
-<i>19</i>&nbsp;    ResponseVO addOrder(OrderVO orderVO);
-<i>20</i>&nbsp;
-<i>21</i>&nbsp;    /**
-<i>22</i>&nbsp;     * 获得所有订单信息
-<i>23</i>&nbsp;     */
-<i>24</i>&nbsp;    List&lt;Order&gt; getAllOrders();
-<i>25</i>&nbsp;
-<i>26</i>&nbsp;    /**
-<i>27</i>&nbsp;     * 查看酒店的所有订单
-<i>28</i>&nbsp;     */
-<i>29</i>&nbsp;    List&lt;Order&gt; getHotelOrders(Integer hotelId);
-<i>30</i>&nbsp;
-<i>31</i>&nbsp;    /**
-<i>32</i>&nbsp;     * 获得指定用户的所有订单信息
-<i>33</i>&nbsp;     */
-<i>34</i>&nbsp;    List&lt;Order&gt; getUserOrders(int userId);
-<i>35</i>&nbsp;
-<i>36</i>&nbsp;    /**
-<i>37</i>&nbsp;     * 撤销订单
-<i>38</i>&nbsp;     */
-<i>39</i>&nbsp;    ResponseVO annulOrder(int orderId);
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * @author chenyizong
+<i>10</i>&nbsp; * @date 2020-03-04
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public interface OrderService {
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    /**
+<i>15</i>&nbsp;     * 预订酒店
+<i>16</i>&nbsp;     */
+<i>17</i>&nbsp;    ResponseVO addOrder(OrderVO orderVO);
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * 获得所有订单信息
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    List&lt;Order&gt; getAllOrders();
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * 查看酒店的所有订单
+<i>26</i>&nbsp;     */
+<i>27</i>&nbsp;    List&lt;Order&gt; getHotelOrders(Integer hotelId);
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * 获得指定用户的所有订单信息
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    List&lt;Order&gt; getUserOrders(int userId);
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * 撤销订单
+<i>36</i>&nbsp;     */
+<i>37</i>&nbsp;    ResponseVO annulOrder(int orderId);
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    ResponseVO checkIn(int orderId);
 <i>40</i>&nbsp;
-<i>41</i>&nbsp;    ResponseVO checkIn(int orderId);
+<i>41</i>&nbsp;    List&lt;Order&gt; probableAbnormalOrder(Integer hotelId);
 <i>42</i>&nbsp;
-<i>43</i>&nbsp;    List&lt;Order&gt; probableAbnormalOrder(Integer hotelId);
+<i>43</i>&nbsp;    ResponseVO abnormalOrder(int orderId);
 <i>44</i>&nbsp;
-<i>45</i>&nbsp;    ResponseVO abnormalOrder(int orderId, double minCreditRatio);
+<i>45</i>&nbsp;    ResponseVO handleAbnormal(int orderId, double ratio);
 <i>46</i>&nbsp;
 <i>47</i>&nbsp;    ResponseVO finishOrder(int orderId);
 <i>48</i>&nbsp;
@@ -103,14 +103,20 @@
 <i>65</i>&nbsp;
 <i>66</i>&nbsp;    List&lt;Order&gt; filterOrders(List&lt;Order&gt; orders,String beginTime, String endTime);  //找到与入住及退房时间有关联的订单
 <i>67</i>&nbsp;
-<i>68</i>&nbsp;
-<i>69</i>&nbsp;}
+<i>68</i>&nbsp;    HotelVO getOrderableRoom(Integer hotelId, String beginTime, String endTime);  //对特定的酒店，返回可预订的房间的信息
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    List&lt;RoomVO&gt; checkRoomByOrder(List&lt;RoomVO&gt; rooms, List&lt;Order&gt; orders); //通过房间信息和对应的订单信息，检查酒店房间情况
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    Integer getRoomCurNumByOrder(Integer hotelId, String beginTime, String endTime, String type); //通过订单查找酒店特定房间的可用房间数，用于addOrder时的检验
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    ResponseVO argueAbnormalOrder(Integer orderId, String reason);
+<i>75</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-22 12:27</div>
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
 </div>
 </body>
 </html>

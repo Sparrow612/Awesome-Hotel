@@ -51,13 +51,11 @@ public class HotelServiceTest {
     @Transactional
     public void updateHotelInfo() throws ServiceException {
         HotelForm hotelForm = new HotelForm(){{
-           setName("123");
            setAddress("456");
            setDescription("789");
         }};
        hotelService.updateHotelInfo(1,hotelForm);
        HotelVO hotel = hotelService.retrieveHotelDetails(1);
-       Assert.assertThat(hotel.getName(),is("123"));
        Assert.assertThat(hotel.getAddress(),is("456"));
        Assert.assertThat(hotel.getDescription(),is("789"));
     }

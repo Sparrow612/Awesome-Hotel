@@ -58,8 +58,13 @@ const columns_of_rooms = [
     },
     {
         title: '房间数目',
+        dataIndex: 'total',
+        scopedSlots: { customRender: 'total'},
+    },
+    {
+      title: '现存数量',
         dataIndex: 'curNum',
-        scopedSlots: { customRender: 'curNum'},
+        scopedSlots: {customRender: 'curNum'},
     },
     {
         title: '操作',
