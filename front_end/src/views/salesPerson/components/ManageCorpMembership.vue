@@ -4,6 +4,7 @@
                 :columns="columns"
                 :dataSource="allCorpVIPList"
                 :locale="{emptyText: '暂时没有企业会员'}"
+                :rowKey="record => record.corporationName"
                 bordered
         >
             <a-tag slot="corporation" color="orange" slot-scope="text">
@@ -24,8 +25,27 @@
             </span>
 
             <span slot="action" slot-scope="record">
-                <a-button type="danger" size="small" v-if="record.status===1" @click="freezeCorp(record.corporationName)">冻结</a-button>
-                <a-button type="primary" size="small" v-else @click="restoreCorp(record.corporationName)">恢复</a-button>
+                <a-popconfirm
+                    title="确定冻结该企业会员吗?"
+                    ok-text="确定"
+                    cancel-text="取消"
+                    @confirm="freezeCorp(record.corporationName)"
+                    @cancel="cancel"
+                    v-if="record.status===1"
+            >
+                    <a-button type="danger" size="small" >冻结</a-button>
+                </a-popconfirm>
+
+                <a-popconfirm
+                    title="确定恢复该企业会员吗?"
+                    ok-text="确定"
+                    cancel-text="取消"
+                    @confirm="restoreCorp(record.corporationName)"
+                    @cancel="cancel"
+                    v-else
+                >
+                <a-button type="primary" size="small" >恢复</a-button>
+                </a-popconfirm>
             </span>
         </a-table>
     </div>
@@ -83,13 +103,12 @@
                 'restoreCorpVIP',
             ]),
             freezeCorp(corporationName) {
-                console.log('freeze' + corporationName)
                 this.freezeCorpVIP(corporationName)
             },
             restoreCorp(corporationName) {
-                console.log('restore ' + corporationName)
                 this.restoreCorpVIP(corporationName)
             },
+            cancel() {}
         }
     }
 </script>
