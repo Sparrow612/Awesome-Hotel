@@ -4,6 +4,7 @@
                 :columns="columns"
                 :dataSource="allClientVIPList"
                 :locale="{emptyText: '暂时没有普通会员'}"
+                :rowKey="record => record.userId"
                 bordered
         >
             <a-tag slot="userId" color="orange" slot-scope="text">
@@ -24,8 +25,27 @@
             </span>
 
             <span slot="action" slot-scope="record">
-                <a-button type="danger" size="small" v-if="record.status===1" @click="freezeClient(record.userId)">冻结</a-button>
-                <a-button type="primary" size="small" v-else @click="restoreClient(record.userId)">恢复</a-button>
+                <a-popconfirm
+                    title="确定冻结该会员吗?"
+                    ok-text="确定"
+                    cancel-text="取消"
+                    @confirm="freezeClient(record.userId)"
+                    @cancel="cancel"
+                    v-if="record.status===1"
+                >
+                    <a-button type="danger" size="small" >冻结</a-button>
+                </a-popconfirm>
+
+                <a-popconfirm
+                        title="确定恢复该会员吗?"
+                        ok-text="确定"
+                        cancel-text="取消"
+                        @confirm="restoreClient(record.userId)"
+                        @cancel="cancel"
+                        v-else
+                >
+                    <a-button type="primary" size="small" >恢复</a-button>
+                </a-popconfirm>
             </span>
         </a-table>
     </div>
@@ -86,11 +106,9 @@
                 'restoreClientVIP',
             ]),
             freezeClient(userId) {
-                console.log('freeze' + userId)
                 this.freezeClientVIP(userId)
             },
             restoreClient(userId) {
-                console.log('restore ' + userId)
                 this.restoreClientVIP(userId)
             },
             userName (userId) {
@@ -100,6 +118,8 @@
                 }
                 return ""
             },
+            cancel() {}
+
         }
     }
 </script>
