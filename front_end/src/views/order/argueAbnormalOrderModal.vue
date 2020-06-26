@@ -10,7 +10,7 @@
                 <a-textarea
                     :auto-size="{ minRows: 3, maxRows: 5 }"
                     v-decorator="['reason', { rules: [{ required: true, message: '请填写您的申诉内容'}], initialValue: this.currentOrderComment.comment }]"
-                    v-if="modify"
+                    v-if="argumentModify"
                 />
                 <span v-else>
                     {{ this.currentOrderComment.comment }}
@@ -18,7 +18,6 @@
             </a-form-item>
             <div style="margin-left: 65%">
                 <a-button @click="handleCancel" type="primary" v-if="!hasArgued">取消</a-button>
-                <a-divider type="vertical"></a-divider>
                 <a-button @click="modifyInfo" type="primary" v-if="hasArgued">修改</a-button>
                 <a-divider type="vertical"></a-divider>
                 <a-button @click="handleOk" type="primary">
@@ -48,7 +47,6 @@
                     },
                 },
                 form: this.$form.createForm(this, {name: 'argueOrder'}),
-                modify: false,
             }
         },
         computed: {
@@ -56,6 +54,7 @@
                 'argueAbnormalOrderModalVisible',
                 'orderInfo',
                 'currentOrderComment',
+                'argumentModify',
             ]),
             hasArgued() {
                 return this.currentOrderComment.comment !== null
@@ -64,13 +63,14 @@
         methods: {
             ...mapMutations([
                 'set_argueAbnormalOrderModalVisible',
+                'set_argumentModify',
             ]),
             ...mapActions([
                 'argueAbnormalOrder',
                 'getOrderComment',
             ]),
             handleOk() {
-                if (this.modify) {
+                if (this.argumentModify) {
                     this.form.validateFields((err, values) => {
                         if(!err){
                             const data = {
@@ -86,14 +86,15 @@
                 } else {
                     this.set_argueAbnormalOrderModalVisible(false)
                 }
-                this.modify = false
+                this.set_argumentModify(false)
             },
             handleCancel() {
                 this.form.resetFields()
                 this.set_argueAbnormalOrderModalVisible(false)
+                this.set_argumentModify(false)
             },
             modifyInfo() {
-                this.modify = true
+                this.set_argumentModify(true)
             }
         }
 

@@ -18,7 +18,7 @@
                 <a-select
                         v-decorator="[
                     'bizRegion',
-                    { rules: [{ required: true, message: '请选择酒店星级' }] }]"
+                    { rules: [{ required: true, message: '请选择酒店商圈' }] }]"
                 >
                     <a-select-option value="XiDan">西单</a-select-option>
                     <a-select-option value="XianLin">仙林</a-select-option>
@@ -35,7 +35,7 @@
             <a-form-item label="酒店星级" v-bind="formItemLayout">
                 <a-select
                     v-decorator="[
-                    'hotelStar', 
+                    'hotelStar',
                     { rules: [{ required: true, message: '请选择酒店星级' }] }]"
                     @change="changeStar"
                 >

@@ -72,7 +72,7 @@
                             <a-button size="small" type="danger">处理异常</a-button>
                         </a-popconfirm>
 
-                        <a-divider type="vertical" v-if="record.orderState !== '已完成'"></a-divider>
+                        <a-divider type="vertical" v-if="record.orderState === '未入住' || record.orderState === '已入住'"></a-divider>
 
                         <a-popconfirm
                                 @confirm="markAbnormal(record)"
@@ -290,13 +290,16 @@
                this.getHotelOrders(Number(this.userInfo.hotelID))
            })
        },
+       //酒店管理员处理异常订单，可以为用户补登入住，但是有时间限制
        abnormal(record) {
             const params = {
                 orderId: record.id,
                 ratio: 1
             }
             this.handleAbnormalOrder(params).then(() => {
-                this.getHotelOrders(Number(this.userInfo.hotelID))
+                this.checkInOrder(record.id).then(() => {
+                    this.getHotelOrders(Number(this.userInfo.hotelID))
+                })
             })
        },
         markAbnormal(record) {

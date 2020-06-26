@@ -61,15 +61,23 @@
 
             <a-form-item label="所属企业" v-bind="formItemLayout" v-if="this.userInfo.userType==='Client'">
                 <a-input
-                        v-decorator="['corporation', {initialValue: userInfo.corporation}]"
+                        v-decorator="['corporation', {initialValue: this.userInfo.corporation}]"
                         v-if="modify"
                 />
-                <span v-else>{{ userInfo.corporation }}&nbsp;
-                    <span v-if="isCorpVIP">
-                        <span v-if="corpVIP.status === 1"><a-tag color="blue">已成为企业会员</a-tag></span>
-                        <span v-else><a-tag color="red">被冻结</a-tag></span>
+                <span v-else>
+                    <span v-if="userInfo.corporation">
+                        {{ userInfo.corporation }}&nbsp;
+                        <span v-if="isCorpVIP">
+                            <span v-if="corpVIP.status === 1"><a-tag color="blue">已成为企业会员</a-tag></span>
+                            <span v-else><a-tag color="red">被冻结</a-tag></span>
+                        </span>
+                        <span v-else>
+                            <a-tag color="cyan">尚未成为企业会员</a-tag>
+                        </span>
                     </span>
-                    <span v-else><a-tag color="cyan">尚未成为企业会员</a-tag></span>
+                    <span v-else>
+                        尚未登记所属企业
+                    </span>
                 </span>
             </a-form-item>
 
