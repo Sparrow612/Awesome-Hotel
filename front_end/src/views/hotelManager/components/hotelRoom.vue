@@ -17,7 +17,7 @@
             <span slot="price" slot-scope="text">
                 <a-tag color="pink">¥ {{ text }}</a-tag>
             </span>
-            <span slot="curNum" slot-scope="text">
+            <span slot="total" slot-scope="text">
                 <a-tag color="purple">房间数：{{text}}</a-tag>
             </span>
             <span slot="action" slot-scope="record">
@@ -58,8 +58,8 @@ const columns_of_rooms = [
     },
     {
         title: '房间数目',
-        dataIndex: 'curNum',
-        scopedSlots: { customRender: 'curNum'},
+        dataIndex: 'total',
+        scopedSlots: { customRender: 'total'},
     },
     {
         title: '操作',
