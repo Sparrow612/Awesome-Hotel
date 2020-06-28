@@ -12,25 +12,30 @@
                 :rowKey="record => record.id"
                 bordered
         >
-                    <span slot="action" slot-scope="record">
-                        <a-popconfirm
-                                title="确定想删除该酒店吗？"
-                                @confirm="deleteHotelById(record.id)"
-                                okText="确定"
-                                cancelText="取消"
-                        >
-                            <a-button type="danger" size="small">删除</a-button>
-                        </a-popconfirm>
-                    </span>
+            <span slot="action" slot-scope="record">
+                <a-popconfirm
+                    title="确定想删除该酒店吗？"
+                    @confirm="deleteHotelById(record.id)"
+                    okText="确定"
+                    cancelText="取消"
+            >
+                    <a-button type="danger" size="small">删除</a-button>
+                </a-popconfirm>
+
+                <a-divider type="vertical"></a-divider>
+                <a-button type="primary" size="small" @click="modifyHotel(record)">修改</a-button>
+            </span>
         </a-table>
 
         <addHotelModal></addHotelModal>
+        <ModifyHotelInfo></ModifyHotelInfo>
     </div>
 </template>
 
 <script>
     import { mapGetters, mapMutations, mapActions } from 'vuex'
     import addHotelModal from "../../admin/components/addHotelModal";
+    import ModifyHotelInfo from "../../admin/components/ModifyHotelInfo";
     import { message } from 'ant-design-vue';
     const columns_of_hotels = [
         {
@@ -72,6 +77,7 @@
         },
         components: {
             addHotelModal,
+            ModifyHotelInfo,
         },
         computed: {
             ...mapGetters([
@@ -85,6 +91,8 @@
         methods: {
             ...mapMutations([
                 'set_addHotelModalVisible',
+                'set_modifyHotelModalVisible',
+                'set_modifyHotelInfo',
             ]),
             ...mapActions([
                 'getHotelList',
@@ -96,6 +104,10 @@
             deleteHotelById(id){
                 this.deleteHotel(id)
             },
+            modifyHotel(record) {
+                this.set_modifyHotelModalVisible(true)
+                this.set_modifyHotelInfo(record)
+            }
         }
     }
 </script>

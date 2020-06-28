@@ -14,7 +14,7 @@ public interface HotelService {
      */
     ResponseVO addHotel(HotelForm hotelForm) throws ServiceException;
 
-    ResponseVO updateHotelInfo(Integer hotelId, HotelForm hotelForm) throws  ServiceException;
+    ResponseVO updateHotelInfo(Integer hotelId, HotelForm hotelForm);
 
     /**
      * 删除酒店
@@ -42,7 +42,7 @@ public interface HotelService {
      * 查看酒店剩余某种房间数量
      */
     int getRoomCurNum(Integer hotelId, String roomType);
-    
+
     void updateHotelPicture(Integer hotelId, String url);
 
     void addComment(CommentVO commentVO, Integer hotelId);

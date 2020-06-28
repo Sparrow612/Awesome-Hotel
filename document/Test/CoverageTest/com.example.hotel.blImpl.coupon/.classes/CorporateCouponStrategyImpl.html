@@ -97,28 +97,27 @@
 <i>23</i>&nbsp;
 <i>24</i>&nbsp;    @Override
 <i>25</i>&nbsp;    public boolean isMatch(OrderVO orderVO, Coupon coupon) {
-<i>26</i>&nbsp;        try {
-<b class="nc"><i>27</i>&nbsp;            User user = accountMapper.getAccountById(orderVO.getUserId());</b>
-<b class="nc"><i>28</i>&nbsp;            if (user.getCorporation() == null) {</b>
-<b class="nc"><i>29</i>&nbsp;                return false;</b>
-<i>30</i>&nbsp;            }
-<b class="nc"><i>31</i>&nbsp;            CorpVIP corpVIP = vipMapper.getVIPbyCorpName(user.getCorporation());</b>
-<b class="nc"><i>32</i>&nbsp;            return coupon.getStatus() == 1 &amp;&amp;</b>
-<b class="nc"><i>33</i>&nbsp;                    coupon.getCorporateName().equals(user.getCorporation()) &amp;&amp;</b>
-<b class="nc"><i>34</i>&nbsp;                    corpVIP.getStatus() == 1 &amp;&amp;</b>
-<b class="nc"><i>35</i>&nbsp;                    (coupon.getSrcId() == WEBSITE || coupon.getSrcId().equals(orderVO.getHotelId()));</b>
-<b class="nc"><i>36</i>&nbsp;        } catch (Exception e) {</b>
-<b class="nc"><i>37</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i>38</i>&nbsp;            return false;</b>
-<i>39</i>&nbsp;        }
-<i>40</i>&nbsp;    }
-<i>41</i>&nbsp;}
+<b class="nc"><i>26</i>&nbsp;        User user = accountMapper.getAccountById(orderVO.getUserId());</b>
+<b class="nc"><i>27</i>&nbsp;        if (user.getCorporation() == null) {</b>
+<b class="nc"><i>28</i>&nbsp;            return false;</b>
+<i>29</i>&nbsp;        }
+<b class="nc"><i>30</i>&nbsp;        CorpVIP corpVIP = vipMapper.getVIPbyCorpName(user.getCorporation());</b>
+<b class="nc"><i>31</i>&nbsp;        if (corpVIP == null) return false;</b>
+<b class="nc"><i>32</i>&nbsp;        return coupon.getStatus() == 1 &amp;&amp;</b>
+<b class="nc"><i>33</i>&nbsp;                coupon.getCorporateName() != null &amp;&amp;</b>
+<b class="nc"><i>34</i>&nbsp;                user.getCorporation() != null &amp;&amp;</b>
+<b class="nc"><i>35</i>&nbsp;                coupon.getCorporateName().equals(user.getCorporation()) &amp;&amp;</b>
+<b class="nc"><i>36</i>&nbsp;                corpVIP.getStatus() == 1 &amp;&amp;</b>
+<b class="nc"><i>37</i>&nbsp;                (coupon.getSrcId() == WEBSITE || coupon.getSrcId().equals(orderVO.getHotelId()));</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-06-22 12:27</div>
+    <div style="float:right;">generated on 2020-06-26 17:00</div>
 </div>
 </body>
 </html>

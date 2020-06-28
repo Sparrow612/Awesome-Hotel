@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -50,17 +52,18 @@ public class CouponServiceImpl implements CouponService {
     public List<Coupon> getMatchOrderCoupon(OrderVO orderVO) {
         List<Coupon> hotelCoupons = getHotelAllCoupon(orderVO.getHotelId());
         List<Coupon> webCoupons = getWebsiteCoupon();
-//        List<Coupon> bizCoupon = getHotelBizRegionCoupon(orderVO.getHotelId());
         hotelCoupons.addAll(webCoupons);
-//        hotelCoupons.addAll(bizCoupon);
         List<Coupon> availAbleCoupons = new ArrayList<>();
-        for (Coupon hotelCoupon : hotelCoupons) {
-            for (CouponMatchStrategy strategy : strategyList) {
+        for (CouponMatchStrategy strategy : strategyList) {
+            for (Coupon hotelCoupon : hotelCoupons) {
                 if (strategy.isMatch(orderVO, hotelCoupon)) {
                     availAbleCoupons.add(hotelCoupon);
                 }
             }
         }
+        Set<Coupon> couponSet = new LinkedHashSet<>(availAbleCoupons);
+        availAbleCoupons.clear();
+        availAbleCoupons.addAll(couponSet);
         return availAbleCoupons;
     }
 
