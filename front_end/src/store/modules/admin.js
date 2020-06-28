@@ -11,7 +11,8 @@ import {
 } from "../../api/user";
 import {
     addHotelAPI,
-    deleteHotelAPI
+    deleteHotelAPI,
+    updateHotelInfoAPI,
 } from "../../api/hotel";
 
 import { message } from 'ant-design-vue'
@@ -55,6 +56,9 @@ const admin = {
             phoneNum: '',
         },
         addHotelModalVisible: false,
+        // 修改酒店
+        modifyHotelModalVisible: false,
+        modifyHotelInfo: {},
     },
     mutations: {
         // 管理酒店工作人员相关
@@ -100,7 +104,14 @@ const admin = {
         },
         set_addHotelModalVisible: function (state, data) {
             state.addHotelModalVisible = data
-        }
+        },
+        // 修改酒店信息
+        set_modifyHotelModalVisible: function (state, data) {
+            state.modifyHotelModalVisible = data
+        },
+        set_modifyHotelInfo: function (state, data) {
+            state.modifyHotelInfo = data
+        },
     },
     actions: {
         // 管理酒店工作人员
@@ -206,6 +217,18 @@ const admin = {
                 message.success('删除成功')
             } else {
                 message.error('删除失败')
+            }
+        },
+        // 修改酒店信息
+        updateHotel: async ({state, dispatch, commit}, data) => {
+            console.log('in update Hotel')
+            console.log(data)
+            console.log(state.modifyHotelInfo.id)
+            const res = await updateHotelInfoAPI(state.modifyHotelInfo.id, data)
+            if (res) {
+                dispatch('getHotelList')
+                commit('set_modifyHotelModalVisible', false)
+                message.success('修改成功')
             }
         }
     }

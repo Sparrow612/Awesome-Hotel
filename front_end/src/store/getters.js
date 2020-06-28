@@ -39,6 +39,8 @@ const getters = {
     modifyInfoModalVisible: state => state.admin.modifyInfoModalVisible,
     modifyUserInfo: state => state.admin.modifyUserInfo,
     addHotelModalVisible: state => state.admin.addHotelModalVisible,
+    modifyHotelModalVisible: state => state.admin.modifyHotelModalVisible,
+    modifyHotelInfo: state => state.admin.modifyHotelInfo,
     //hotelManager
     orderList: state => state.hotelManager.orderList,
     orderInMonth: state => state.hotelManager.orderInMonth,
