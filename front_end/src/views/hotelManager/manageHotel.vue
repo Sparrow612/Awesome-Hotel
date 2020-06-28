@@ -292,6 +292,12 @@
        },
        //酒店管理员处理异常订单，可以为用户补登入住，但是有时间限制
        abnormal(record) {
+           let checkInDate = new Date(record.checkInDate);
+           let now = new Date();
+           if(checkInDate.toLocaleDateString() !== now.toLocaleDateString()) {
+               message.error('已过了入住时间，无法处理异常订单')
+               return
+           }
             const params = {
                 orderId: record.id,
                 ratio: 1
