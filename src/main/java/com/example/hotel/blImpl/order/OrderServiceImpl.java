@@ -266,16 +266,16 @@ public class OrderServiceImpl implements OrderService {
 
         //整理orders并归入temp中转
         for (Order order : orders) {
-            String createDate = order.getCreateDate();
+            String createDate = order.getCheckInDate();
             int days = getGap(now, createDate);
-            if (days <= 30 && (order.getOrderState().equals("已入住") || order.getOrderState().equals("已完成")))
+            if (days <= 30 && (order.getOrderState().equals("已完成") || order.getOrderState().equals("已入住")))
                 temp.add(order);
         }
         //将order按天放入summary中
         for (int i = 0; i < 31; i++) {
             List<Order> orderList = new ArrayList<>();
             for (Order order : temp) {
-                int day = getGap(now, order.getCreateDate());
+                int day = getGap(now, order.getCheckInDate());
                 if (day == i) {
                     orderList.add(order);
                     orders.remove(order);
