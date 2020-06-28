@@ -330,6 +330,7 @@
     .main {
         min-width: 260px;
         width: 368px;
+        height: 1500px;
         margin: 100px auto;
 
         .top {

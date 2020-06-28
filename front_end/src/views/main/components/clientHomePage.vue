@@ -2,7 +2,7 @@
     <div>
         <div class="searchBar">
             <a-button @click="searchOpen" class="searchButton" icon="search" style="float: right" type="primary">
-                开始搜索
+                搜索酒店
             </a-button>
         </div>
 

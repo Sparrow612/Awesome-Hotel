@@ -7,7 +7,7 @@ import {
     addQuestionAPI,
     getHotelQuestionAPI,
     addAnswerAPI,
-    getHotelCommentsAPI,
+    getHotelCommentsAPI, deleteQuestionAPI, deleteAnswerAPI,
 } from '../../api/hotel'
 import {
     reserveHotelAPI,
@@ -176,11 +176,23 @@ const hotel = {
                 message.success('提问成功')
             }
         },
+        deleteQuestion: async ({state, dispatch}, data) => {
+            const res = await deleteQuestionAPI(data)
+            if (res) {
+                dispatch('getHotelQuestion')
+            }
+        },
         addAnswer: async ({state, dispatch}, data) => {
             const res = await addAnswerAPI(data)
             if (res) {
                 dispatch('getHotelQuestion')
                 message.success('回答成功')
+            }
+        },
+        deleteAnswer: async ({state, dispatch}, data) => {
+            const res = await deleteAnswerAPI(data)
+            if (res) {
+                dispatch('getHotelQuestion')
             }
         },
         getCurrCollections: async ({state}) => {

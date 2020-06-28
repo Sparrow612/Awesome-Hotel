@@ -5,11 +5,16 @@
                 <div style="font-size: large;padding: 10px;">
                     <div style="display: inline-flex">
                         <a-statistic :value="this.currentHotelInfo.rate" class="statistic" title="酒店评分"></a-statistic>
-                        <a-statistic :value="this.currentHotelInfo.sanitation" class="statistic" title="卫生评分"></a-statistic>
-                        <a-statistic :value="this.currentHotelInfo.environment" class="statistic" title="环境评分"></a-statistic>
-                        <a-statistic :value="this.currentHotelInfo.service" class="statistic" title="服务评分"></a-statistic>
-                        <a-statistic :value="this.currentHotelInfo.equipment" class="statistic" title="设施评分"></a-statistic>
-                        <a-statistic :value="this.currentHotelInfo.commentTime" class="statistic" title="当前被评价次数"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.sanitation" class="statistic"
+                                     title="卫生评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.environment" class="statistic"
+                                     title="环境评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.service" class="statistic"
+                                     title="服务评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.equipment" class="statistic"
+                                     title="设施评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.commentTime" class="statistic"
+                                     title="当前被评价次数"></a-statistic>
                         <a-statistic :value="this.currCollections" class="statistic" title="当前酒店收藏数"></a-statistic>
                     </div>
                     <a-button @click="unstar" icon="close-circle" style="float: right" v-if="currHotelCollectedByUser">
@@ -69,10 +74,22 @@
                                       type="primary">
                                 {{answersVisible.get(item.id)?'收起回答':'展开回答'}}
                             </a-button>
+                            <a-divider v-if="userId!==item.userId" type="vertical"/>
                             <a-button @click="answerAquestion(item.id)" icon="edit" size="small"
-                                      style="margin-left: 30px" v-if="userId!==item.userId">
+                                      v-if="userId!==item.userId">
                                 回答问题
                             </a-button>
+                            <a-divider type="vertical" v-if="item.userId===userId"/>
+                            <a-popconfirm
+                                    @confirm="deleteMyQuestion(item.id)"
+                                    cancelText="取消"
+                                    okText="确定"
+                                    title="你确定要删除问题吗？"
+                            >
+                                <a-button icon="minus-circle" size="small" type="danger" v-if="item.userId===userId">
+                                    删除问题
+                                </a-button>
+                            </a-popconfirm>
                             <a-list
                                     :data-source="item.answers"
                                     :header="`${item.answers.length}个回答`"
@@ -88,6 +105,16 @@
                                             {{ item.answer }}
                                         </p>
                                     </a-comment>
+                                    <a-popconfirm
+                                            @confirm="deleteMyAnswer(item.answerId)"
+                                            cancelText="取消"
+                                            okText="确定"
+                                            title="你确定要删除回答吗？"
+                                    >
+                                        <a-button icon="minus-circle" size="small" type="danger"
+                                                  v-if="item.userId===userId">删除回答
+                                        </a-button>
+                                    </a-popconfirm>
                                 </a-list-item>
                             </a-list>
                         </a-comment>
@@ -196,6 +223,8 @@
                 'getUserCollectHotel',
                 'addCollection',
                 'annulCollection',
+                'deleteQuestion',
+                'deleteAnswer',
             ]),
             ...mapMutations([
                 'set_answersVisible',
@@ -264,6 +293,12 @@
                 this.set_currentCouponInfo(record)
                 this.set_couponDetailVisible(true)
             },
+            deleteMyQuestion(id) {
+                this.deleteQuestion(id)
+            },
+            deleteMyAnswer(id) {
+                this.deleteAnswer(id)
+            }
         }
     }
 </script>

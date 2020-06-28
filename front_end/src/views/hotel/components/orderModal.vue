@@ -92,6 +92,7 @@
                 <a-table
                         :columns="columns"
                         :dataSource="orderMatchCouponList"
+                        :rowKey="record=>record.id"
                         bordered
                         v-if="orderMatchCouponList.length>0"
                 >
@@ -241,14 +242,14 @@
                 this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
             },
             onchange() {
-                this.finalPrice = this.totalPrice
+                this.finalPrice = Math.round(this.totalPrice * this.vipDiscount * this.corpDiscount * 100) * 0.01
                 if (this.checkedList.length > 0) {
                     this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id) !== -1).forEach(item => {
                         if (item.discountMoney !== 0) this.finalPrice = this.finalPrice - item.discountMoney
                         else this.finalPrice = this.finalPrice * item.discount
                     })
                 }
-                this.finalPrice = Math.round(this.finalPrice*100)*0.01
+                this.finalPrice = Math.round(this.finalPrice * 100) * 0.01
             },
             handlePhoneNumber(rule, value, callback) {
                 const re = /1\d{10}/;

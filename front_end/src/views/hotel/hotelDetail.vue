@@ -76,6 +76,7 @@
                                 :columns="columns_of_orders"
                                 :dataSource="userOrderList.filter(order=>order.hotelId===currentHotelInfo.id)"
                                 :rowKey="record => record.id"
+                                :locale="{emptyText: '暂时没有订单'}"
                                 style="border-radius: 25px; background-color: white; padding: 10px"
                                 bordered
                         >

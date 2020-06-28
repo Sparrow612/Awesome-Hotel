@@ -39,7 +39,7 @@ const getDefaultState = () => {
         userInfo: {},
         userVIP: {},
         corpVIP: {},
-        dateRange: [moment(), moment().add(1, 'd')],
+        dateRange: [moment().add(1, 'd'), moment().add(2, 'd')],
         userOrderList: [],
         onceOrderedList: [],
         creditChangeList: [],

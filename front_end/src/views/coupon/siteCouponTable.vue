@@ -41,6 +41,7 @@
                 columns: [
                     {
                         title: '优惠类型',
+                        dataIndex: 'couponType',
                         scopedSlots: {customRender: 'type'},
                     },
                     {

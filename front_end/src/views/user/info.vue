@@ -41,7 +41,6 @@
 
                         <a-divider type="vertical" v-if="record.orderState === '未入住'"></a-divider>
                         <a-popconfirm
-                                @cancel="cancelCancelOrder"
                                 @confirm="confirmCancelOrder(record.id)"
                                 cancelText="取消"
                                 okText="确定"
@@ -378,10 +377,6 @@
                 this.cancelOrder(orderId)
             },
 
-            cancelCancelOrder() {
-                // ?
-            },
-
             showOrderDetail(record) {
                 this.set_orderInfo(record)
                 this.set_currentHotelId(record.hotelId)
@@ -426,6 +421,7 @@
 
 <style lang="less" scoped>
     .info-wrapper {
+        height: 1500px;
         padding: 30px;
 
         .chart {
