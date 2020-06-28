@@ -74,6 +74,7 @@
             ]),
             cancelModify() {
                 this.set_modifyInfoModalVisible(false)
+                this.form.resetFields()
             },
             confirmModify(e) {
                 e.preventDefault();
@@ -86,7 +87,7 @@
                             password: this.form.getFieldValue('password'),
                         }
                         this.adminUpdateUserInfo(data)
-
+                        this.form.resetFields()
                     }
                 })
             },

@@ -30,6 +30,13 @@ export function updateUserInfoAPI(data) {
         data
     })
 }
+export function updateUserPasswordAPI(params) {
+    return axios({
+        url: `${api.userPre}/${params.id}/userInfo/updatePassword`,
+        method: 'POST',
+        params
+    })
+}
 // created by glh 2020-05-30
 export function getUserInfoByEmailAPI(params) {
     return axios({

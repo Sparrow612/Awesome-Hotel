@@ -7,7 +7,8 @@ import {
     deleteSalesPersonAPI,
 } from '../../api/admin'
 import {
-    updateUserInfoAPI
+    updateUserInfoAPI,
+    updateUserPasswordAPI,
 } from "../../api/user";
 import {
     addHotelAPI,
@@ -177,7 +178,8 @@ const admin = {
         },
         // 修改人员信息
         adminUpdateUserInfo: async({ state, commit, dispatch }, data) => {
-            const res = await updateUserInfoAPI(data)
+            await updateUserInfoAPI(data)
+            const res = await updateUserPasswordAPI(data)
             if (res) {
                 dispatch('getSalesPersonList')
                 dispatch('getManagerList')
@@ -210,7 +212,6 @@ const admin = {
         },
         // 删除酒店
         deleteHotel: async ({state, dispatch, commit}, id) => {
-            console.log('in deleteHotel: ' + id)
             const res = await deleteHotelAPI(id)
             if(res) {
                 dispatch('getHotelList')
@@ -222,8 +223,6 @@ const admin = {
         // 修改酒店信息
         updateHotel: async ({state, dispatch, commit}, data) => {
             console.log('in update Hotel')
-            console.log(data)
-            console.log(state.modifyHotelInfo.id)
             const res = await updateHotelInfoAPI(state.modifyHotelInfo.id, data)
             if (res) {
                 dispatch('getHotelList')
