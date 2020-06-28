@@ -272,7 +272,7 @@ public class OrderServiceImpl implements OrderService {
                 temp.add(order);
         }
         //将order按天放入summary中
-        for (int i = 0; i < 31; i++) {
+        for (int i = 30; i >= 0; i--) {
             List<Order> orderList = new ArrayList<>();
             for (Order order : temp) {
                 int day = getGap(now, order.getCheckInDate());
