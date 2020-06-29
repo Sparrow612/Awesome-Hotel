@@ -31,15 +31,15 @@
             </a-tab-pane>
 
             <a-tab-pane tab="网站营销人员" key="2">
-                <div style="width: 100%; text-align: right; margin:20px 0">
-                    <a-button type="primary" @click="addSalesPerson"><a-icon type="plus" />添加网站营销人员</a-button>
-                </div>
-                <a-table
-                        :columns="columns_of_salesPerson"
-                        :dataSource="salesPersonList"
-                        :rowKey="record => record.id"
-                        bordered
-                >
+            <div style="width: 100%; text-align: right; margin:20px 0">
+                <a-button type="primary" @click="addSalesPerson"><a-icon type="plus" />添加网站营销人员</a-button>
+            </div>
+            <a-table
+                    :columns="columns_of_salesPerson"
+                    :dataSource="salesPersonList"
+                    :rowKey="record => record.id"
+                    bordered
+            >
                     <span slot="action" slot-scope="record">
                         <a-popconfirm
                                 title="删除该网站营销人员?"
@@ -51,6 +51,20 @@
                         </a-popconfirm>
                         <a-divider type="vertical"></a-divider>
                         <a-button type="primary" size="small" @click="modifyInfo(record)">修改</a-button>
+                    </span>
+            </a-table>
+        </a-tab-pane>
+
+            <a-tab-pane tab="普通顾客" key="3">
+                <a-table
+                        :columns="columns_of_Client"
+                        :dataSource="userList"
+                        :rowKey="record => record.id"
+                        bordered
+                >
+                    <span slot="action" slot-scope="record">
+                        <a-divider type="vertical"></a-divider>
+                        <a-button type="primary" size="small" @click="modifyInfo(record)">修改信息</a-button>
                     </span>
                 </a-table>
             </a-tab-pane>
@@ -108,6 +122,25 @@
             scopedSlots: { customRender: 'action' },
         },
     ];
+    const columns_of_Client = [
+        {
+            title: '用户邮箱',
+            dataIndex: 'email',
+        },
+        {
+            title: '用户名',
+            dataIndex: 'userName',
+        },
+        {
+            title: '用户手机号',
+            dataIndex: 'phoneNumber',
+        },
+        {
+            title: '操作',
+            key: 'action',
+            scopedSlots: { customRender: 'action' },
+        },
+    ];
     export default {
         name: 'manageHotel',
         data(){
@@ -116,6 +149,7 @@
                 pagination: {},
                 columns_of_manager,
                 columns_of_salesPerson,
+                columns_of_Client,
                 data: [],
                 form: this.$form.createForm(this, { name: 'manageUser' }),
             }
@@ -131,13 +165,20 @@
                 'addSalesPersonModalVisible',
                 'managerList',
                 'salesPersonList',
+                'allUserList',
                 'hotelList',
             ]),
+            userList() {
+                return this.allUserList.filter(function(x) {
+                    return x.userType === 'Client'
+                })
+            }
         },
-        mounted() {
-            this.getManagerList()
-            this.getSalesPersonList()
-            this.getHotelList()
+        async mounted() {
+            await this.getManagerList()
+            await this.getSalesPersonList()
+            await this.getHotelList()
+            await this.getAllUsers()
         },
         methods: {
             ...mapActions([
@@ -146,6 +187,7 @@
                 'getHotelList',
                 'deleteHotelManager',
                 'deleteSalesPerson',
+                'getAllUsers',
             ]),
             ...mapMutations([
                 'set_addManagerModalVisible',
@@ -168,17 +210,15 @@
                 return '未知'
             },
             confirmDeleteManager(id) {
-                console.log(id)
                 this.deleteHotelManager(Number(id))
             },
             confirmDeleteSalesPerson(id) {
-                console.log(id)
                 this.deleteSalesPerson(Number(id))
             },
             modifyInfo(record) {
                 this.set_modifyUserInfo(record)
                 this.set_modifyInfoModalVisible(true)
-            }
+            },
         }
     }
 </script>
@@ -201,5 +241,5 @@
     }
 </style>
 <style lang="less">
-    
+
 </style>
