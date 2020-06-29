@@ -136,7 +136,7 @@
                                 @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
                                 @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
                                 style="width: 188px; margin-bottom: 8px; display: block;"
-                                v-ant-ref="c => (this.searchInput = c)"
+                                v-ant-ref="c => searchInput = c"
                         />
                         <a-button
                                 @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
@@ -222,7 +222,7 @@
         data() {
             return {
                 searchText: '',
-                searchInput: null,
+                searchInput: '',
                 searchedColumn: '',
                 hotelColumns: [
                     {
@@ -235,13 +235,14 @@
                             customRender: 'customRender',
                         },
                         onFilter: (value, record) => record.name.includes(value),
-                        onFilterDropdownVisibleChange: visible => {
-                            if (visible) {
-                                setTimeout(() => {
-                                    this.searchInput.focus();
-                                });
-                            }
-                        },
+                        // 先注释掉这里，不然前端F12会一堆报错
+                        // onFilterDropdownVisibleChange: visible => {
+                        //     if (visible) {
+                        //         setTimeout(() => {
+                        //             this.searchInput.focus();
+                        //         });
+                        //     }
+                        // },
                     },
                     {
                         title: '星级',
