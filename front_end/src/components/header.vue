@@ -75,7 +75,7 @@
         <div class="logout">
             <a-dropdown placement="bottomCenter">
                 <div class="user">
-                    <a-avatar src="./defaultAvatar.png"></a-avatar>
+                    <a-avatar style="background-color: mediumpurple" icon="user"/>
                     <span style="font-size: 14px">你好,</span>
                     <span v-if="userInfo.userType!=='Admin'">{{ userInfo.userName }}!</span>
                     <span v-else>管理员!</span>

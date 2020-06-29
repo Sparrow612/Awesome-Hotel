@@ -102,7 +102,9 @@
                                     @change="pageChange"
                                     show-less-items
                                     show-quick-jumper
-                                    show-size-changer>
+                                    show-size-changer
+                                    @showSizeChange="onShowSizeChange"
+                            >
                             </a-pagination>
                         </a-config-provider>
                     </a-spin>
@@ -376,6 +378,9 @@
                 this.set_hotelListParams(data)
                 this.set_hotelListLoading(true)
                 this.getLimitedHotelList()
+            },
+            onShowSizeChange(current, pageSize) {
+                this.pageChange(current, pageSize)
             },
             handleSearch(selectedKeys, confirm, dataIndex) {
                 confirm();

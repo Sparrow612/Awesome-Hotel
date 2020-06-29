@@ -46,6 +46,7 @@
                             :columns="columns_of_orders_nofilter"
                             :dataSource="todayUnExecutedOrders"
                             :rowKey="record => record.id"
+                            :locale="{emptyText: '暂时没有未执行订单'}"
                             bordered
                     >
                         <a-tag slot="hotelName" color="orange" slot-scope="text">
@@ -83,6 +84,7 @@
                             :columns="columns_of_orders_nofilter"
                             :dataSource="allAbnormalOrders"
                             :rowKey="record => record.id"
+                            :locale="{emptyText: '暂时没有异常订单'}"
                             bordered
                     >
                         <a-tag slot="hotelName" color="orange" slot-scope="text">

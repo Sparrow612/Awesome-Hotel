@@ -198,7 +198,7 @@
                 {text: '已完成', value: '已完成'}, {text: '异常订单', value: '异常订单'}],
             onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState', scopedSlots: {customRender: 'orderState'},
-            filterMultiple: false,
+            filterMultiple: true,
         },
         {
             title: '操作',

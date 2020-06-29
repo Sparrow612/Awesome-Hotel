@@ -2,7 +2,7 @@
     <div class="info-wrapper">
         <a-form :form="form" style="padding: 10px; border-radius: 20px; background-color: whitesmoke">
             <a-form-item label="头像" v-bind="formItemLayout">
-                <a-avatar src="./defaultAvatar.png"></a-avatar>
+                <a-avatar style="background-color: mediumpurple" icon="user"/>
                 <!--                        <a-button type="primary" icon="upload" style="margin-left: 20px">上传头像</a-button>-->
             </a-form-item>
 

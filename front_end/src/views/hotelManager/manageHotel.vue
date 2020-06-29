@@ -10,6 +10,7 @@
                         :columns="columns_of_orders"
                         :dataSource="orderList"
                         :rowKey="record => record.id"
+                        :locale="{emptyText: '暂时没有订单'}"
                         bordered
                         style="background-color: white; padding: 10px; border-radius: 20px"
                 >
@@ -79,7 +80,7 @@
                                 cancelText="取消"
                                 okText="确定"
                                 title="确定将该订单标记为异常订单？"
-                                v-if="record.orderState === '未入住' || record.orderState === '已入住'"
+                                v-if="record.orderState === '未入住'"
                         >
                             <a-button size="small" type="danger">标记异常</a-button>
                         </a-popconfirm>
@@ -176,10 +177,9 @@
         },
         {
             title: '状态',
-            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已入住', value: '已入住'},
+            filters: [{text: '未入住', value: '未入住'}, {text: '已撤销', value: '已撤销'}, {text: '已入住', value: '已入住'},
                 {text: '已完成', value: '已完成'}, {text: '异常订单', value: '异常订单'},],
             onFilter: (value, record) => record.orderState.includes(value),
-            filterMultiple: false,
             dataIndex: 'orderState',
             scopedSlots: {customRender: 'orderState'}
         },
