@@ -235,14 +235,13 @@
                             customRender: 'customRender',
                         },
                         onFilter: (value, record) => record.name.includes(value),
-                        // 先注释掉这里，不然前端F12会一堆报错
-                        // onFilterDropdownVisibleChange: visible => {
-                        //     if (visible) {
-                        //         setTimeout(() => {
-                        //             this.searchInput.focus();
-                        //         });
-                        //     }
-                        // },
+                        onFilterDropdownVisibleChange: visible => {
+                            if (visible) {
+                                setTimeout(() => {
+                                    this.searchInput.focus();
+                                });
+                            }
+                        },
                     },
                     {
                         title: '星级',
