@@ -11,7 +11,7 @@ import {
     getUserCreditAPI,
     getUserCollectionsAPI,
     annulCollectionAPI,
-    addCollectionAPI,
+    addCollectionAPI, updateUserPasswordAPI,
 } from '../../api/user'
 
 import {
@@ -32,6 +32,7 @@ import {
 } from "../../api/membership"
 
 import moment from "moment";
+import passwordForm from "../../views/user/components/passwordForm";
 
 const getDefaultState = () => {
     return {
@@ -286,6 +287,16 @@ const user = {
             if (res)  {
                 dispatch('getUserInfo')
 
+            }
+        },
+        updateUserPassword: async ({state, commit, dispatch}, password) => {
+            const params = {
+                id: state.userId,
+                password: password
+            }
+            const res = await updateUserPasswordAPI(params)
+            if (res) {
+                message.success('修改成功')
             }
         }
     }
