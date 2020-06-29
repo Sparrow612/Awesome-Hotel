@@ -26,10 +26,10 @@
                     style="width: 90px; margin-right: 8px"
                     @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
                 >
-                    Search
+                    搜索
                 </a-button>
                 <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
-                    Reset
+                    重置
                 </a-button>
             </div>
             <a-icon
@@ -38,7 +38,7 @@
                 type="search"
                 :style="{ color: filtered ? '#108ee9' : undefined }"
             />
-            <template slot="customRender" slot-scope="text, record, index, column">
+            <template slot="customRender" slot-scope="text">
                 <span v-if="searchText && searchedColumn === column.dataIndex">
                     <template
                             v-for="(fragment, i) in text
@@ -74,42 +74,7 @@
 <script>
     import modifyInfoModal from "./modifyInfoModal";
     import { mapGetters, mapMutations, mapActions } from 'vuex'
-    const columns_of_Client = [
-        {
-            title: '用户邮箱',
-            dataIndex: 'email',
-            scopedSlots: {
-                filterDropdown: 'filterDropdown',
-                filterIcon: 'filterIcon',
-                customRender: 'customRender',
-            },
-            onFilter: (value, record) =>
-                record.email
-                    .toString()
-                    .toLowerCase()
-                    .includes(value.toLowerCase()),
-            // onFilterDropdownVisibleChange: visible => {
-            //     if (visible) {
-            //         setTimeout(() => {
-            //             this.searchInput.focus();
-            //         }, 0);
-            //     }
-            // },
-        },
-        {
-            title: '用户名',
-            dataIndex: 'userName',
-        },
-        {
-            title: '用户手机号',
-            dataIndex: 'phoneNumber',
-        },
-        {
-            title: '操作',
-            key: 'action',
-            scopedSlots: { customRender: 'action' },
-        },
-    ];
+
     export default {
         name: "manageClient",
         data() {
@@ -117,7 +82,42 @@
                 searchText: '',
                 searchInput: null,
                 searchedColumn: '',
-                columns_of_Client,
+                columns_of_Client: [
+                    {
+                        title: '用户邮箱',
+                        dataIndex: 'email',
+                        scopedSlots: {
+                            filterDropdown: 'filterDropdown',
+                            filterIcon: 'filterIcon',
+                            customRender: 'customRender',
+                        },
+                        onFilter: (value, record) =>
+                            record.email
+                                .toString()
+                                .toLowerCase()
+                                .includes(value.toLowerCase()),
+                        onFilterDropdownVisibleChange: visible => {
+                            if (visible) {
+                                setTimeout(() => {
+                                    this.searchInput.focus();
+                                }, 0);
+                            }
+                        },
+                    },
+                    {
+                        title: '用户名',
+                        dataIndex: 'userName',
+                    },
+                    {
+                        title: '用户手机号',
+                        dataIndex: 'phoneNumber',
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        scopedSlots: { customRender: 'action' },
+                    },
+                ],
             }
         },
         components: {
@@ -147,7 +147,8 @@
             modifyInfo(record) {
                 this.set_modifyUserInfo(record)
                 this.set_modifyInfoModalVisible(true)
-            },handleSearch(selectedKeys, confirm, dataIndex) {
+            },
+            handleSearch(selectedKeys, confirm, dataIndex) {
                 confirm();
                 this.searchText = selectedKeys[0];
                 this.searchedColumn = dataIndex;

@@ -15,24 +15,24 @@
                     style="padding: 8px"
             >
                 <a-input
-                        v-ant-ref="c => searchInput = c"
-                        :placeholder="`Search ${column.dataIndex}`"
-                        :value="selectedKeys[0]"
-                        style="width: 188px; margin-bottom: 8px; display: block;"
-                        @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
-                        @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                    v-ant-ref="c => searchInput = c"
+                    :placeholder="`Search ${column.dataIndex}`"
+                    :value="selectedKeys[0]"
+                    style="width: 188px; margin-bottom: 8px; display: block;"
+                    @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                    @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
                 />
                 <a-button
-                        type="primary"
-                        icon="search"
-                        size="small"
-                        style="width: 90px; margin-right: 8px"
-                        @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                    type="primary"
+                    icon="search"
+                    size="small"
+                    style="width: 90px; margin-right: 8px"
+                    @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
                 >
-                    Search
+                   搜索
                 </a-button>
                 <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
-                    Reset
+                    重置
                 </a-button>
             </div>
             <a-icon
@@ -41,7 +41,7 @@
                     type="search"
                     :style="{ color: filtered ? '#108ee9' : undefined }"
             />
-            <template slot="customRender" slot-scope="text, record, index, column">
+            <template slot="customRender" slot-scope="text">
                 <span v-if="searchText && searchedColumn === column.dataIndex">
                     <template
                             v-for="(fragment, i) in text
@@ -49,9 +49,9 @@
                         .split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i'))"
                     >
                         <mark
-                                v-if="fragment.toLowerCase() === searchText.toLowerCase()"
-                                :key="i"
-                                class="highlight"
+                            v-if="fragment.toLowerCase() === searchText.toLowerCase()"
+                            :key="i"
+                            class="highlight"
                         >
                             {{ fragment }}
                         </mark>
@@ -70,17 +70,17 @@
             </span>
 
             <span slot="action" slot-scope="record">
-                        <a-popconfirm
-                                title="删除该酒店工作人员?"
-                                ok-text="确定"
-                                cancel-text="取消"
-                                @confirm="confirmDeleteManager(record.id)"
-                        >
-                            <a-button type="danger" size="small">删除</a-button>
-                        </a-popconfirm>
-                        <a-divider type="vertical"></a-divider>
-                        <a-button type="primary" size="small" @click="modifyInfo(record)">修改</a-button>
-                    </span>
+                <a-popconfirm
+                        title="删除该酒店工作人员?"
+                        ok-text="确定"
+                        cancel-text="取消"
+                        @confirm="confirmDeleteManager(record.id)"
+                >
+                    <a-button type="danger" size="small">删除</a-button>
+                </a-popconfirm>
+                <a-divider type="vertical"></a-divider>
+                <a-button type="primary" size="small" @click="modifyInfo(record)">修改</a-button>
+            </span>
         </a-table>
         <add-manager-modal></add-manager-modal>
         <modify-info-modal></modify-info-modal>
@@ -92,47 +92,6 @@
     import { mapGetters, mapMutations, mapActions } from 'vuex'
     import addManagerModal from "./addManagerModal";
     import modifyInfoModal from "./modifyInfoModal";
-    const columns_of_manager = [
-        {
-            title: '用户邮箱',
-            dataIndex: 'email',
-            scopedSlots: {
-                filterDropdown: 'filterDropdown',
-                filterIcon: 'filterIcon',
-                customRender: 'customRender',
-            },
-            onFilter: (value, record) =>
-                record.email
-                    .toString()
-                    .toLowerCase()
-                    .includes(value.toLowerCase()),
-            // onFilterDropdownVisibleChange: visible => {
-            //     if (visible) {
-            //         setTimeout(() => {
-            //             this.searchInput.focus();
-            //         }, 0);
-            //     }
-            // },
-        },
-        {
-            title: '用户名',
-            dataIndex: 'userName',
-        },
-        {
-            title: '所属酒店',
-            dataIndex: 'hotelID',
-            scopedSlots: {customRender: 'hotelID'},
-        },
-        {
-            title: '用户手机号',
-            dataIndex: 'phoneNumber',
-        },
-        {
-            title: '操作',
-            key: 'action',
-            scopedSlots: { customRender: 'action' },
-        },
-    ];
     export default {
         name: "manageHotelManager",
         data() {
@@ -140,7 +99,47 @@
                 searchText: '',
                 searchInput: null,
                 searchedColumn: '',
-                columns_of_manager,
+                columns_of_manager: [
+                    {
+                        title: '用户邮箱',
+                        dataIndex: 'email',
+                        scopedSlots: {
+                            filterDropdown: 'filterDropdown',
+                            filterIcon: 'filterIcon',
+                            customRender: 'customRender',
+                        },
+                        onFilter: (value, record) =>
+                            record.email
+                                .toString()
+                                .toLowerCase()
+                                .includes(value.toLowerCase()),
+                        onFilterDropdownVisibleChange: visible => {
+                            if (visible) {
+                                setTimeout(() => {
+                                    this.searchInput.focus();
+                                }, 0);
+                            }
+                        },
+                    },
+                    {
+                        title: '用户名',
+                        dataIndex: 'userName',
+                    },
+                    {
+                        title: '所属酒店',
+                        dataIndex: 'hotelID',
+                        scopedSlots: {customRender: 'hotelID'},
+                    },
+                    {
+                        title: '用户手机号',
+                        dataIndex: 'phoneNumber',
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        scopedSlots: { customRender: 'action' },
+                    },
+                ],
             }
         },
         components: {

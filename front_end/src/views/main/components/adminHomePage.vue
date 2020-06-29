@@ -44,7 +44,7 @@
                 type="search"
                 :style="{ color: filtered ? '#108ee9' : undefined }"
             />
-            <template slot="customRender" slot-scope="text, record, index, column">
+            <template slot="customRender" slot-scope="text">
                 <span v-if="searchText && searchedColumn === column.dataIndex">
                     <template
                         v-for="(fragment, i) in text
@@ -95,65 +95,78 @@ import addHotelModal from "../../admin/components/addHotelModal";
 import ModifyHotelInfo from "../../admin/components/ModifyHotelInfo";
 import {message} from 'ant-design-vue';
 
-const columns_of_hotels = [
-    {
-        title: '酒店名',
-        dataIndex: 'name',
-        scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-        },
-        onFilter: (value, record) => {
-            return record.name.toString().includes(value)
-        },
-    },
-    {
-        title: '商圈',
-        dataIndex: 'bizRegion',
-        scopedSlots: {
-            filterDropdown: 'filterDropdown',
-            filterIcon: 'filterIcon',
-            customRender: 'customRender',
-        },
-        onFilter: (value, record) => {
-            return record.bizRegion.toString().includes(value)
-        },
-    },
-    {
-        title: '地址',
-        dataIndex: 'address',
-    },
-    {
-        title: '酒店星级',
-        dataIndex: 'hotelStar',
-        filters: [
-            { text: '三星级', value: '三星级' },
-            { text: '四星级', value: '四星级' },
-            { text: '五星级', value: '五星级' },
-        ],
-        onFilter: (value, record) => record.hotelStar === value,
-        filterMultiple: true,
-    },
-    {
-        title: '评分',
-        dataIndex: 'rate',
-    },
-    {
-        title: '简介',
-        dataIndex: 'description',
-    },
-    {
-        title: '操作',
-        key: 'action',
-        scopedSlots: {customRender: 'action'},
-    },
-];
 export default {
     name: "AdminHomePage",
     data() {
         return {
-            columns_of_hotels,
+            columns_of_hotels: [
+                {
+                    title: '酒店名',
+                    dataIndex: 'name',
+                    scopedSlots: {
+                        filterDropdown: 'filterDropdown',
+                        filterIcon: 'filterIcon',
+                        customRender: 'customRender',
+                    },
+                    onFilter: (value, record) => {
+                        return record.name.toString().includes(value)
+                    },
+                    onFilterDropdownVisibleChange: visible => {
+                        if (visible) {
+                            setTimeout(() => {
+                                this.searchInput.focus();
+                            }, 0);
+                        }
+                    },
+                },
+                {
+                    title: '商圈',
+                    dataIndex: 'bizRegion',
+                    scopedSlots: {
+                        filterDropdown: 'filterDropdown',
+                        filterIcon: 'filterIcon',
+                        customRender: 'customRender',
+                    },
+                    onFilter: (value, record) => {
+                        return record.bizRegion.toString().includes(value)
+                    },
+                    onFilterDropdownVisibleChange: visible => {
+                        if (visible) {
+                            setTimeout(() => {
+                                this.searchInput.focus();
+                            }, 0);
+                        }
+                    },
+                },
+                {
+                    title: '地址',
+                    dataIndex: 'address',
+                },
+                {
+                    title: '酒店星级',
+                    dataIndex: 'hotelStar',
+                    filters: [
+                        { text: '三星级', value: '三星级' },
+                        { text: '四星级', value: '四星级' },
+                        { text: '五星级', value: '五星级' },
+                    ],
+                    onFilter: (value, record) => record.hotelStar === value,
+                    filterMultiple: true,
+                },
+                {
+                    title: '评分',
+                    dataIndex: 'rate',
+                },
+                {
+                    title: '简介',
+                    dataIndex: 'description',
+                },
+                {
+                    title: '操作',
+                    key: 'action',
+                    scopedSlots: {customRender: 'action'},
+                },
+            ],
             searchText: '',
             searchInput: '',
             searchedColumn: '',

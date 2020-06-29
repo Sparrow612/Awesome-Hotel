@@ -160,6 +160,17 @@
             title: '入住时间',
             dataIndex: 'checkInDate',
             scopedSlots: {customRender: 'checkInDate'},
+            sorter: function (x, y) {
+                let checkInDateA = new Date(x.checkInDate)
+                let checkInDateB = new Date(y.checkInDate)
+                if (checkInDateA < checkInDateB) {
+                    return 1
+                } else if (checkInDateA > checkInDateB) {
+                    return -1
+                } else {
+                    return 0
+                }
+            }
         },
         {
             title: '离店时间',

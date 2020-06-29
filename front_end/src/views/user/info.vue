@@ -103,7 +103,7 @@
                     <span slot="action" slot-scope="record">
                         <a-button @click="jumpToDetails(record.hotelID)" size="small" type="primary">进入酒店</a-button>
                     </span>
-                    <template slot="customRender" slot-scope="text, record, index, column">
+                    <template slot="customRender" slot-scope="text">
                         <span v-if="searchText && searchedColumn === column.dataIndex">
                             <template
                                     v-for="(fragment, i) in text.split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'g'))">
@@ -180,7 +180,18 @@
         {
             title: '入住时间',
             dataIndex: 'checkInDate',
-            scopedSlots: {customRender: 'checkInDate'}
+            scopedSlots: {customRender: 'checkInDate'},
+            sorter: function (x, y) {
+                let checkInDateA = new Date(x.checkInDate)
+                let checkInDateB = new Date(y.checkInDate)
+                if (checkInDateA < checkInDateB) {
+                    return 1
+                } else if (checkInDateA > checkInDateB) {
+                    return -1
+                } else {
+                    return 0
+                }
+            }
         },
         {
             title: '离店时间',
