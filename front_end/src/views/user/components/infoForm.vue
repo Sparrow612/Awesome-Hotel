@@ -85,28 +85,6 @@
                 <span>{{ userInfo.credit }}</span>
             </a-form-item>
 
-            <a-form-item label="新密码" v-bind="formItemLayout" v-if="modify">
-                <a-input
-                        placeholder="请输入新密码"
-                        type="password"
-                        v-decorator="['password', { rules: [{ required: false, message: '请输入新密码' },
-                                { validator: this.handlePassword }], validateTrigger: 'blur' }]"
-                        v-if="modify"
-                />
-            </a-form-item>
-
-            <a-form-item label="确认密码" v-bind="formItemLayout"
-                         v-if="modify && this.form.getFieldValue('password')">
-                <a-input
-                        placeholder="请再次输入密码"
-                        type="password"
-                        v-decorator="['passwordConfirm',
-                                {rules: [{ required: true, message: '请输入确认密码' }, { validator: this.handlePasswordCheck }],
-                                validateTrigger: 'blur', initialValue: ''}]">
-                    v-if="modify"
-                </a-input>
-            </a-form-item>
-
             <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify">
                 <a-button @click="saveModify" icon="upload" style="border-radius: 20px" type="primary">
                     保存
@@ -185,7 +163,6 @@
                             userName: this.form.getFieldValue('userName'),
                             phoneNumber: this.form.getFieldValue('phoneNumber'),
                             corporation: this.form.getFieldValue('corporation'),
-                            password: this.form.getFieldValue('password'),
                         }
                         this.updateUserInfo(data)
                         this.modify = false
@@ -204,12 +181,6 @@
                 this.modify = false
             },
 
-            goToMembership() {
-                // TODO 修改header上面的current
-                // 不行就砍
-                // 不用链接，直接用文字代替
-            },
-
             handlePhoneNumber(rule, value, callback) {
                 if (value) {
                     const re = /1\d{10}/;
@@ -218,26 +189,6 @@
                     } else {
                         callback(new Error('请输入有效手机号'));
                     }
-                }
-                callback()
-            },
-
-            handlePassword(rule, value, callback) {
-                if (value) {
-                    if (value.length < 6) {
-                        callback(new Error('密码长度至少6位'))
-                    }
-                }
-                callback()
-            },
-
-            handlePasswordCheck(rule, value, callback) {
-                const password = this.form.getFieldValue('password')
-                if (value === undefined) {
-                    callback(new Error('请输入密码'))
-                }
-                if (value && password && value.trim() !== password.trim()) {
-                    callback(new Error('两次密码不一致'))
                 }
                 callback()
             },

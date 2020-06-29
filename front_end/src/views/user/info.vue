@@ -138,6 +138,9 @@
                     </span>
                 </a-table>
             </a-tab-pane>
+            <a-tab-pane key="5" tab="密码更改">
+                <password-form></password-form>
+            </a-tab-pane>
         </a-tabs>
         <orderDetail></orderDetail>
         <comment-order></comment-order>
@@ -148,7 +151,8 @@
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import orderDetail from '../order/orderDetail'
     import commentOrder from "../order/commentOrder";
-    import InfoForm from './components/infoForm'
+    import InfoForm from './components/infoForm';
+    import passwordForm from "./components/passwordForm";
     import argueAbnormalOrderModal from "../order/argueAbnormalOrderModal";
     import {message} from 'ant-design-vue';
 
@@ -330,6 +334,7 @@
             orderDetail,
             commentOrder,
             InfoForm,
+            passwordForm,
             argueAbnormalOrderModal,
         },
         computed: {
