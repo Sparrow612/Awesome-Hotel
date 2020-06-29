@@ -77,7 +77,6 @@
                 this.form.resetFields()
             },
             confirmModify(e) {
-                e.preventDefault();
                 this.form.validateFieldsAndScroll((err, values) => {
                     if (!err) {
                         const data = {
