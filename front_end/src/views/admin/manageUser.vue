@@ -63,7 +63,6 @@
                         bordered
                 >
                     <span slot="action" slot-scope="record">
-                        <a-divider type="vertical"></a-divider>
                         <a-button type="primary" size="small" @click="modifyInfo(record)">修改信息</a-button>
                     </span>
                 </a-table>

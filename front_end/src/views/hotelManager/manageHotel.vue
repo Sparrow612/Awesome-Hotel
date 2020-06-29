@@ -158,7 +158,7 @@
         {
             title: '入住时间',
             dataIndex: 'checkInDate',
-            scopedSlots: {customRender: 'checkInDate'}
+            scopedSlots: {customRender: 'checkInDate'},
         },
         {
             title: '离店时间',

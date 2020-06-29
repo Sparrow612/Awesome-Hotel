@@ -67,6 +67,7 @@
                     {{ text }}
                 </template>
             </template>
+
             <span slot="action" slot-scope="record">
                 <a-popconfirm
                     title="确定想删除该酒店吗？"
