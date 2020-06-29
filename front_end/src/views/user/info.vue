@@ -161,7 +161,7 @@
             title: '订单号',
             dataIndex: 'id',
             sorter: (a, b) => a.id - b.id,
-        },
+    },
         {
             title: '下单时间',
             dataIndex: 'createDate',

@@ -91,7 +91,6 @@ const admin = {
         // 修改酒店工作人员或者网站营销人员的基本信息(用户名、手机号、密码)
         set_modifyUserInfo: function (state, data) {
             state.modifyUserInfo = data
-            console.log(state.modifyUserInfo)
         },
         set_modifyInfoModalVisible: function (state, data) {
             state.modifyInfoModalVisible = data
@@ -222,7 +221,6 @@ const admin = {
         },
         // 修改酒店信息
         updateHotel: async ({state, dispatch, commit}, data) => {
-            console.log('in update Hotel')
             const res = await updateHotelInfoAPI(state.modifyHotelInfo.id, data)
             if (res) {
                 dispatch('getHotelList')
