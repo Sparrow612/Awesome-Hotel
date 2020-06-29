@@ -2,223 +2,34 @@
     <div class="manageUser-wrapper">
         <a-tabs>
             <a-tab-pane tab="酒店工作人员" key="1">
-                <div style="width: 100%; text-align: right; margin:20px 0">
-                    <a-button type="primary" @click="addManager"><a-icon type="plus" />添加酒店工作人员</a-button>
-                </div>
-                <a-table
-                    :columns="columns_of_manager"
-                    :dataSource="managerList"
-                    :rowKey="record => record.id"
-                    bordered
-                >
-                    <span slot="hotelID" slot-scope="text">
-                        <span>{{ getHotelName(Number(text)) }}</span>
-                    </span>
-
-                    <span slot="action" slot-scope="record">
-                        <a-popconfirm
-                                title="删除该酒店工作人员?"
-                                ok-text="确定"
-                                cancel-text="取消"
-                                @confirm="confirmDeleteManager(record.id)"
-                        >
-                            <a-button type="danger" size="small">删除</a-button>
-                        </a-popconfirm>
-                        <a-divider type="vertical"></a-divider>
-                        <a-button type="primary" size="small" @click="modifyInfo(record)">修改</a-button>
-                    </span>
-                </a-table>
+                <manage-hotel-manager></manage-hotel-manager>
             </a-tab-pane>
 
             <a-tab-pane tab="网站营销人员" key="2">
-            <div style="width: 100%; text-align: right; margin:20px 0">
-                <a-button type="primary" @click="addSalesPerson"><a-icon type="plus" />添加网站营销人员</a-button>
-            </div>
-            <a-table
-                    :columns="columns_of_salesPerson"
-                    :dataSource="salesPersonList"
-                    :rowKey="record => record.id"
-                    bordered
-            >
-                    <span slot="action" slot-scope="record">
-                        <a-popconfirm
-                                title="删除该网站营销人员?"
-                                ok-text="确定"
-                                cancel-text="取消"
-                                @confirm="confirmDeleteSalesPerson(record.id)"
-                        >
-                            <a-button type="danger" size="small">删除</a-button>
-                        </a-popconfirm>
-                        <a-divider type="vertical"></a-divider>
-                        <a-button type="primary" size="small" @click="modifyInfo(record)">修改</a-button>
-                    </span>
-            </a-table>
-        </a-tab-pane>
+                <manage-sales-person></manage-sales-person>
+            </a-tab-pane>
 
             <a-tab-pane tab="普通顾客" key="3">
-                <a-table
-                        :columns="columns_of_Client"
-                        :dataSource="userList"
-                        :rowKey="record => record.id"
-                        bordered
-                >
-                    <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="modifyInfo(record)">修改信息</a-button>
-                    </span>
-                </a-table>
+                <manage-client></manage-client>
             </a-tab-pane>
         </a-tabs>
-        <AddManagerModal></AddManagerModal>
-        <addSalesPersonModal></addSalesPersonModal>
-        <modifyInfoModal></modifyInfoModal>
     </div>
 </template>
 <script>
-    import { mapGetters, mapMutations, mapActions } from 'vuex'
-    import AddManagerModal from './components/addManagerModal'
-    import addSalesPersonModal from "./components/addSalesPersonModal";
-    import modifyInfoModal from "./components/modifyInfoModal";
-    const columns_of_manager = [
-        {
-            title: '用户邮箱',
-            dataIndex: 'email',
-        },
-        {
-            title: '用户名',
-            dataIndex: 'userName',
-        },
-        {
-            title: '所属酒店',
-            dataIndex: 'hotelID',
-            scopedSlots: {customRender: 'hotelID'},
-        },
-        {
-            title: '用户手机号',
-            dataIndex: 'phoneNumber',
-        },
-        {
-          title: '操作',
-          key: 'action',
-          scopedSlots: { customRender: 'action' },
-        },
-      ];
-    const columns_of_salesPerson = [
-        {
-            title: '用户邮箱',
-            dataIndex: 'email',
-        },
-        {
-            title: '用户名',
-            dataIndex: 'userName',
-        },
-        {
-            title: '用户手机号',
-            dataIndex: 'phoneNumber',
-        },
-        {
-            title: '操作',
-            key: 'action',
-            scopedSlots: { customRender: 'action' },
-        },
-    ];
-    const columns_of_Client = [
-        {
-            title: '用户邮箱',
-            dataIndex: 'email',
-        },
-        {
-            title: '用户名',
-            dataIndex: 'userName',
-        },
-        {
-            title: '用户手机号',
-            dataIndex: 'phoneNumber',
-        },
-        {
-            title: '操作',
-            key: 'action',
-            scopedSlots: { customRender: 'action' },
-        },
-    ];
+    import manageHotelManager from "./components/manageHotelManager";
+    import manageSalesPerson from "./components/manageSalesPerson";
+    import manageClient from "./components/manageClient";
     export default {
-        name: 'manageHotel',
+        name: 'manageUser',
         data(){
             return {
-                formLayout: 'horizontal',
-                pagination: {},
-                columns_of_manager,
-                columns_of_salesPerson,
-                columns_of_Client,
-                data: [],
-                form: this.$form.createForm(this, { name: 'manageUser' }),
             }
         },
         components: {
-            AddManagerModal,
-            addSalesPersonModal,
-            modifyInfoModal,
+            manageHotelManager,
+            manageSalesPerson,
+            manageClient,
         },
-        computed: {
-            ...mapGetters([
-                'addManagerModalVisible',
-                'addSalesPersonModalVisible',
-                'managerList',
-                'salesPersonList',
-                'allUserList',
-                'hotelList',
-            ]),
-            userList() {
-                return this.allUserList.filter(function(x) {
-                    return x.userType === 'Client'
-                })
-            }
-        },
-        async mounted() {
-            await this.getManagerList()
-            await this.getSalesPersonList()
-            await this.getHotelList()
-            await this.getAllUsers()
-        },
-        methods: {
-            ...mapActions([
-                'getManagerList',
-                'getSalesPersonList',
-                'getHotelList',
-                'deleteHotelManager',
-                'deleteSalesPerson',
-                'getAllUsers',
-            ]),
-            ...mapMutations([
-                'set_addManagerModalVisible',
-                'set_addSalesPersonModalVisible',
-                'set_modifyUserInfo',
-                'set_modifyInfoModalVisible',
-            ]),
-            addManager() {
-                this.set_addManagerModalVisible(true)
-            },
-            addSalesPerson() {
-                this.set_addSalesPersonModalVisible(true)
-            },
-            getHotelName(hotelID) {
-                for(let i = 0;i < this.hotelList.length; i++) {
-                    if (this.hotelList[i].id === hotelID) {
-                        return this.hotelList[i].name
-                    }
-                }
-                return '未知'
-            },
-            confirmDeleteManager(id) {
-                this.deleteHotelManager(Number(id))
-            },
-            confirmDeleteSalesPerson(id) {
-                this.deleteSalesPerson(Number(id))
-            },
-            modifyInfo(record) {
-                this.set_modifyUserInfo(record)
-                this.set_modifyInfoModalVisible(true)
-            },
-        }
     }
 </script>
 <style scoped lang="less">

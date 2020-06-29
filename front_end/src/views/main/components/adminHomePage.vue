@@ -208,5 +208,9 @@ export default {
 <style scoped lang="less">
     .manageHotel-wrapper {
         padding: 50px;
+        .highlight {
+            background-color: rgb(255, 192, 105);
+            padding: 0;
+        }
     }
 </style>
