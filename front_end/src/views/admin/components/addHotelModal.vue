@@ -24,6 +24,21 @@
                     <a-select-option value="XianLin">仙林</a-select-option>
                     <a-select-option value="GuLou">鼓楼</a-select-option>
                     <a-select-option value="XinJie">新街口</a-select-option>
+                    <a-select-option value="GuanQianStreet">观前街</a-select-option>
+                    <a-select-option value="JinJiHu">金鸡湖</a-select-option>
+                    <a-select-option value="WangFuJing">王府井</a-select-option>
+                    <a-select-option value="NanLuoGuXiang">南锣鼓巷</a-select-option>
+                    <a-select-option value="TianAnMen">天安门</a-select-option>
+                    <a-select-option value="SanLiTun">三里屯</a-select-option>
+                    <a-select-option value="JingAnSi">静安寺</a-select-option>
+                    <a-select-option value="WaiTan">外滩</a-select-option>
+                    <a-select-option value="LuJiaZui">陆家嘴</a-select-option>
+                    <a-select-option value="HuaQiangBei">华强北</a-select-option>
+                    <a-select-option value="SanGuoCheng">三国城</a-select-option>
+                    <a-select-option value="LingShanDaFo">灵山大佛</a-select-option>
+                    <a-select-option value="YueLuShuYuan">岳麓书院</a-select-option>
+                    <a-select-option value="TianXinGe">天心阁</a-select-option>
+                    <a-select-option value="GuangZhouTa">广州塔</a-select-option>
                 </a-select>
             </a-form-item>
             <a-form-item label="酒店地址" v-bind="formItemLayout">
