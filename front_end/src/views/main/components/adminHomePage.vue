@@ -147,7 +147,7 @@ export default {
                         customRender: 'customRender',
                     },
                     onFilter: (value, record) => {
-                        return record.bizRegion.toString().includes(value)
+                        return record.address.toString().includes(value)
                     },
                     onFilterDropdownVisibleChange: visible => {
                         if (visible) {
