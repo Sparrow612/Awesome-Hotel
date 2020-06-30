@@ -16,7 +16,7 @@
             >
                 <a-input
                     v-ant-ref="c => searchInput = c"
-                    :placeholder="`Search ${column.dataIndex}`"
+                    placeholder="搜索用户邮箱"
                     :value="selectedKeys[0]"
                     style="width: 188px; margin-bottom: 8px; display: block;"
                     @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
@@ -41,7 +41,7 @@
                 type="search"
                 :style="{ color: filtered ? '#108ee9' : undefined }"
             />
-            <template slot="customRender" slot-scope="text">
+            <template slot="customRender" slot-scope="text, record, index, column">
                 <span v-if="searchText && searchedColumn === column.dataIndex">
                     <template
                         v-for="(fragment, i) in text

@@ -73,7 +73,7 @@
                             <a-button size="small" type="danger">处理异常</a-button>
                         </a-popconfirm>
 
-                        <a-divider type="vertical" v-if="record.orderState === '未入住' || record.orderState === '已入住'"></a-divider>
+                        <a-divider type="vertical" v-if="record.orderState === '未入住'"></a-divider>
 
                         <a-popconfirm
                                 @confirm="markAbnormal(record)"
@@ -175,7 +175,18 @@
         {
             title: '离店时间',
             dataIndex: 'checkOutDate',
-            scopedSlots: {customRender: 'checkOutDate'}
+            scopedSlots: {customRender: 'checkOutDate'},
+            sorter: function (x, y) {
+                let checkInDateA = new Date(x.checkInDate)
+                let checkInDateB = new Date(y.checkInDate)
+                if (checkInDateA < checkInDateB) {
+                    return 1
+                } else if (checkInDateA > checkInDateB) {
+                    return -1
+                } else {
+                    return 0
+                }
+            }
         },
         {
             title: '入住人数',
@@ -253,6 +264,7 @@
                 'set_orderDetailVisible',
                 'set_orderInfo',
                 'set_handleAbnormalOrderVisible',
+                'set_currentHotelId',
             ]),
             ...mapActions([
                 'getHotelOrders',
@@ -264,6 +276,7 @@
                 'getHotelInfo',
                 'getHotelOrders',
                 'markAbnormalOrder',
+                'getHotelById',
             ]),
             addHotel() {
                 this.set_addHotelModalVisible(true)
@@ -282,6 +295,8 @@
         },
         showOrderDatail(record) {
             this.set_orderInfo(record)
+            this.set_currentHotelId(record.hotelId)
+            this.getHotelById(record.hotelId)
             this.set_orderDetailVisible(true)
         },
        checkIn(record) {

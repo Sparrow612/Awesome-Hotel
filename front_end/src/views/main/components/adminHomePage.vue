@@ -19,7 +19,7 @@
             >
                 <a-input
                     v-ant-ref="c => searchInput = c"
-                    :placeholder="`Search ${column.dataIndex}`"
+                    :placeholder="`查询${column.title}`"
                     :value="selectedKeys[0]"
                     style="width: 188px; margin-bottom: 8px; display: block;"
                     @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
@@ -32,10 +32,10 @@
                     style="width: 90px; margin-right: 8px"
                     @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
                 >
-                    Search
+                    搜索
                 </a-button>
                 <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
-                    Reset
+                    重置
                 </a-button>
             </div>
             <a-icon
@@ -44,7 +44,7 @@
                 type="search"
                 :style="{ color: filtered ? '#108ee9' : undefined }"
             />
-            <template slot="customRender" slot-scope="text">
+            <template slot="customRender" slot-scope="text, record, index, column">
                 <span v-if="searchText && searchedColumn === column.dataIndex">
                     <template
                         v-for="(fragment, i) in text
@@ -141,6 +141,21 @@ export default {
                 {
                     title: '地址',
                     dataIndex: 'address',
+                    scopedSlots: {
+                        filterDropdown: 'filterDropdown',
+                        filterIcon: 'filterIcon',
+                        customRender: 'customRender',
+                    },
+                    onFilter: (value, record) => {
+                        return record.bizRegion.toString().includes(value)
+                    },
+                    onFilterDropdownVisibleChange: visible => {
+                        if (visible) {
+                            setTimeout(() => {
+                                this.searchInput.focus();
+                            }, 0);
+                        }
+                    },
                 },
                 {
                     title: '酒店星级',
