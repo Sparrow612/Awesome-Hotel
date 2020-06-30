@@ -30,6 +30,7 @@ class Node{
         this.hotel = hotel;
         this.score = score;
     }
+
 }
 
 @Service
@@ -115,6 +116,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
                 ptr = ptr.next;
             }
         }
+
         head = null;
         //if(targetHotels.size()==0){
             //targetHotels = secondarySearch();
@@ -134,7 +136,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      */
     private boolean checkPrice(HotelVO hotel, double maxPrice){
         double hotelPrice = hotel.getMinPrice();
-        return maxPrice > hotelPrice;
+        return maxPrice >= hotelPrice;
     }
 
     /**
@@ -200,7 +202,7 @@ public class HotelSearchServiceImpl implements HotelSearchService {
      * @return
      */
     private int checkKeyWords(HotelVO hotel,String[] keyWords){
-        if(keyWords==null)
+        if(keyWords.length==0)
             return 0;
         else{
             String description = hotel.getDescription();
@@ -224,19 +226,26 @@ public class HotelSearchServiceImpl implements HotelSearchService {
         if(head==null){
             head = hotel;
         }else {
-            Node ptr = head.next;
+            Node ptr = head;
             while (true) {
-                if (ptr == null) {
-                    head.next = hotel;
-                    break;
-                } else if (ptr.score < hotel.score) {
-                    ptr.before.next = hotel;
-                    hotel.before = ptr.before;
+                if(ptr.score < hotel.score){
+                    if(ptr==head){
+                        hotel.next = ptr;
+                        ptr.before = hotel;
+                        head = hotel;
+                        break;
+                    }else{
+                        ptr.before.next = hotel;
+                        hotel.before = ptr.before;
 
-                    ptr.before = hotel;
-                    hotel.next = ptr;
+                        ptr.before = hotel;
+                        hotel.next = ptr;
+                        break;
+                    }
+                }else if(ptr.next==null){
+                    ptr.next = hotel;
                     break;
-                } else {
+                }else{
                     ptr = ptr.next;
                 }
             }
