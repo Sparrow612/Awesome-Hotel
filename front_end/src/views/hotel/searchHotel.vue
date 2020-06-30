@@ -32,9 +32,9 @@
         data() {
             return {}
         },
-        destroyed() {
-            this.set_searchList([]) //离开页面时清除搜索的结果
-        },
+        // destroyed() {
+        //     this.set_searchList([]) //离开页面时清除搜索的结果
+        // },
         methods: {
             ...mapMutations([
                 'set_searchList'
