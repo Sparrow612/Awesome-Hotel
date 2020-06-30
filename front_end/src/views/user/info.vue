@@ -13,12 +13,43 @@
                         bordered
                         style="background-color: white; padding: 10px; border-radius: 20px"
                 >
+                    <div
+                            slot="filterDropdown"
+                            slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+                            style="padding: 8px"
+                    >
+                        <a-input
+                                :placeholder="`查询${column.title}`"
+                                :value="selectedKeys[0]"
+                                @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                                @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                                style="width: 188px; margin-bottom: 8px; display: block;"
+                                v-ant-ref="c => (searchInput = c)"
+                        />
+                        <a-button
+                                @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                                icon="search"
+                                size="small"
+                                style="width: 90px; margin-right: 8px"
+                                type="primary"
+                        >
+                            查询
+                        </a-button>
+                        <a-button @click="() => handleReset(clearFilters)" size="small" style="width: 90px">
+                            重置
+                        </a-button>
+                    </div>
+                    <a-icon
+                            :style="{ color: filtered ? '#108ee9' : undefined }"
+                            slot="filterIcon"
+                            slot-scope="filtered"
+                            type="search"
+                    />
+
                     <a-tag color="red" slot="createDate" slot-scope="text">
                         {{text}}
                     </a-tag>
-                    <a-tag color="orange" slot="hotelName" slot-scope="text">
-                        {{text}}
-                    </a-tag>
+
                     <span slot="roomType" slot-scope="text">
                         <a-tag color="pink" v-if="text === 'BigBed'">大床房</a-tag>
                         <a-tag color="pink" v-if="text === 'DoubleBed'">双床房</a-tag>
@@ -57,6 +88,24 @@
                         <a-button @click="argueOrder(record)" size="small" type="default"
                                   v-if="record.orderState === '异常订单'">申诉</a-button>
                     </span>
+                    <template slot="customRender" slot-scope="text, record, index, column">
+                        <span v-if="searchText && searchedColumn === column.dataIndex">
+                            <template
+                                    v-for="(fragment, i) in text.split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'g'))">
+                                <mark
+                                        :key="i"
+                                        class="highlight"
+                                        v-if="fragment === searchText"
+                                >
+                                    {{ fragment }}
+                                </mark>
+                                <template v-else>{{ fragment }}</template>
+                            </template>
+                        </span>
+                        <template v-else>
+                            {{ text }}
+                        </template>
+                    </template>
                 </a-table>
             </a-tab-pane>
             <a-tab-pane key="3" tab="我的收藏">
@@ -79,7 +128,6 @@
                                 @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
                                 @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
                                 style="width: 188px; margin-bottom: 8px; display: block;"
-                                v-ant-ref="c => (this.searchInput = c)"
                         />
                         <a-button
                                 @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
@@ -109,7 +157,7 @@
                                     v-for="(fragment, i) in text.split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'g'))">
                                 <mark
                                         :key="i"
-                                        style="background-color: #83c2f8"
+                                        class="highlight"
                                         v-if="fragment === searchText"
                                 >
                                     {{ fragment }}
@@ -170,7 +218,12 @@
         {
             title: '酒店名',
             dataIndex: 'hotelName',
-            scopedSlots: {customRender: 'hotelName'}
+            scopedSlots: {
+                filterDropdown: 'filterDropdown',
+                filterIcon: 'filterIcon',
+                customRender: 'customRender',
+            },
+            onFilter: (value, record) => record.hotelName.includes(value),
         },
         {
             title: '房型',
@@ -221,14 +274,7 @@
                 filterIcon: 'filterIcon',
                 customRender: 'customRender',
             },
-            onFilter: (value, record) => record.name.includes(value),
-            onFilterDropdownVisibleChange: visible => {
-                if (visible) {
-                    setTimeout(() => {
-                        this.searchInput.focus();
-                    });
-                }
-            },
+            onFilter: (value, record) => record.hotelName.includes(value),
         },
         {
             title: '星级',
@@ -254,13 +300,6 @@
                 customRender: 'customRender',
             },
             onFilter: (value, record) => record.bizRegion.includes(value),
-            onFilterDropdownVisibleChange: visible => {
-                if (visible) {
-                    setTimeout(() => {
-                        this.searchInput.focus();
-                    });
-                }
-            },
         },
         {
             title: '地址',
@@ -271,13 +310,6 @@
                 customRender: 'customRender',
             },
             onFilter: (value, record) => record.address.includes(value),
-            onFilterDropdownVisibleChange: visible => {
-                if (visible) {
-                    setTimeout(() => {
-                        this.searchInput.focus();
-                    });
-                }
-            },
         },
         {
             title: '操作',
@@ -326,7 +358,7 @@
                 columns_of_collections,
                 columns_of_credit,
                 searchText: '',
-                searchInput: null,
+                searchInput: '',
                 searchedColumn: '',
             }
         },
@@ -438,6 +470,10 @@
         }
         .ant-tabs-bar {
             padding-left: 30px
+        }
+        .highlight {
+            background-color: rgb(255, 192, 105);
+            padding: 0;
         }
     }
 </style>

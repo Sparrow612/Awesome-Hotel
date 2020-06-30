@@ -14,9 +14,7 @@
                         bordered
                         style="background-color: white; padding: 10px; border-radius: 20px"
                 >
-                    <a-tag color="orange" slot="hotelName" slot-scope="text">
-                        {{text}}
-                    </a-tag>
+
                     <span slot="roomType" slot-scope="text">
                         <a-tag color="pink" v-if="text === 'BigBed'">大床房</a-tag>
                         <a-tag color="pink" v-if="text === 'DoubleBed'">双床房</a-tag>

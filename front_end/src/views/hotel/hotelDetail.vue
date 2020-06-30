@@ -80,10 +80,7 @@
                                 style="border-radius: 25px; background-color: white; padding: 10px"
                                 bordered
                         >
-                            <a-tag color="red" slot="createDate" slot-scope="text">
-                                {{text}}
-                            </a-tag>
-                            <a-tag color="orange" slot="hotelName" slot-scope="text">
+                            <a-tag color="purple" slot="createDate" slot-scope="text">
                                 {{text}}
                             </a-tag>
                             <span slot="roomType" slot-scope="text">
@@ -124,11 +121,6 @@
             title: '下单时间',
             dataIndex: 'createDate',
             scopedSlots: {customRender: 'createDate'},
-        },
-        {
-            title: '酒店名',
-            dataIndex: 'hotelName',
-            scopedSlots: {customRender: 'hotelName'}
         },
         {
             title: '房型',

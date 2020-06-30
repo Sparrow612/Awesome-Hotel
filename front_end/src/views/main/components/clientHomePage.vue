@@ -14,12 +14,6 @@
                     width="45%"
             >
                 <a-form :form="form" style="border-radius: 20px; background-color: antiquewhite; padding: 10px;">
-                    <a-form-item label="时间" v-bind="formItemLayout">
-                        <a-range-picker
-                                format="YYYY-MM-DD"
-                                v-decorator="['date', { rules: [{ required: true, message: '请选择入住时间' }], initialValue: dateRange}]"
-                        />
-                    </a-form-item>
                     <a-form-item label="地址" v-bind="formItemLayout">
                         <a-input
                                 class="searchInput" placeholder="请输入地址" type="text"
@@ -136,7 +130,7 @@
                                 @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
                                 @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
                                 style="width: 188px; margin-bottom: 8px; display: block;"
-                                v-ant-ref="c => (this.searchInput = c)"
+                                v-ant-ref="c => (searchInput = c)"
                         />
                         <a-button
                                 @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
@@ -222,7 +216,7 @@
         data() {
             return {
                 searchText: '',
-                searchInput: null,
+                searchInput: '',
                 searchedColumn: '',
                 hotelColumns: [
                     {
@@ -235,13 +229,6 @@
                             customRender: 'customRender',
                         },
                         onFilter: (value, record) => record.name.includes(value),
-                        onFilterDropdownVisibleChange: visible => {
-                            if (visible) {
-                                setTimeout(() => {
-                                    this.searchInput.focus();
-                                });
-                            }
-                        },
                     },
                     {
                         title: '星级',
@@ -267,13 +254,6 @@
                             customRender: 'customRender',
                         },
                         onFilter: (value, record) => record.bizRegion.includes(value),
-                        onFilterDropdownVisibleChange: visible => {
-                            if (visible) {
-                                setTimeout(() => {
-                                    this.searchInput.focus();
-                                });
-                            }
-                        },
                     },
                     {
                         title: '地址',
@@ -284,13 +264,6 @@
                             customRender: 'customRender',
                         },
                         onFilter: (value, record) => record.address.includes(value),
-                        onFilterDropdownVisibleChange: visible => {
-                            if (visible) {
-                                setTimeout(() => {
-                                    this.searchInput.focus();
-                                });
-                            }
-                        },
                         align: 'center',
                     },
                     {
@@ -415,8 +388,6 @@
                 this.form.validateFieldsAndScroll(async (err, values) => {
                     if (!err) {
                         const data = {
-                            checkInDate: this.form.getFieldValue('date')[0].format('YYYY-MM-DD'),
-                            checkOutDate: this.form.getFieldValue('date')[1].format('YYYY-MM-DD'),
                             address: this.form.getFieldValue('address') ? this.form.getFieldValue('address') : '',
                             bizRegion: this.form.getFieldValue('bizRegion') ? this.form.getFieldValue('bizRegion') : '',
                             keyWords: this.form.getFieldValue('tags') ? this.form.getFieldValue('tags') : [],
