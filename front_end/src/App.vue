@@ -27,6 +27,7 @@ export default {
   padding: 20px 100px 144px;
   background: #f0f2f5 url('assets/background.svg') repeat 100%;
   min-height: 800px
+
 }
 
 #nav {

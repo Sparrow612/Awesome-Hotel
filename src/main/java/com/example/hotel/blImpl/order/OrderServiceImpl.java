@@ -186,7 +186,6 @@ public class OrderServiceImpl implements OrderService {
         String corporation = userVO.getCorporation();
         if (corporation != null && vipService.VIPCorpCheck(corporation)) {
             vipService.addVIPCorpConsumption(userVO.getCorporation(), price);
-            return ResponseVO.buildSuccess(FINISH_ORDER);
         }
         if (userVO.getVipType() == VIPType.Client) {
             vipService.addVIPClientConsumption(order.getUserId(), price);

@@ -299,6 +299,7 @@
                         }
                         await this.addOrder(data)
                         this.form.resetFields()
+                        this.set_orderMatchCouponList([])
                         if (this.orderSuccess) {
                             await this.$router.push('/successOrder')
                         }

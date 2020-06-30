@@ -2,7 +2,7 @@
     <div class="header">
         <div class="label">
             <img @click="jumpToHome" alt="logo" class="logo" src="@/assets/logo.svg">
-            <span class="title">Awesome Hotel</span>
+            <span class="title">Awesome Hotel 奥森</span>
         </div>
         <a-menu mode="horizontal" theme="light" v-model="current">
             <a-menu-item key="1">
@@ -258,6 +258,9 @@
     .header {
         .ant-menu {
             background: none
+        }
+        .title {
+            font-family: Arial, sans-serif;
         }
     }
 </style>

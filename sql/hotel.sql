@@ -484,7 +484,7 @@ VALUES (1, 'Client',0, 0.01),
        (3, 'Client',2500, 0.03),
        (4, 'Client',5000, 0.04),
        (5, 'Client',10000, 0.05),
-       (1, 'Corporation', 10000, 0.01),
+       (1, 'Corporation', 0, 0.01),
        (2, 'Corporation', 20000, 0.02),
        (3, 'Corporation', 30000, 0.03);
 /*!40000 ALTER TABLE `VIPLevel`

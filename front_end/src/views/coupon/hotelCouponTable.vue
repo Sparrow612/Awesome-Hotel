@@ -4,6 +4,7 @@
                 :columns="columns"
                 :dataSource="couponList"
                 :rowKey="record=>record.id"
+                :locale="{ emptyText: '暂时没有优惠'}"
                 bordered
                 style="background-color: white; padding: 10px; border-radius: 20px"
         >

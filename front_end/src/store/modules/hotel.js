@@ -156,6 +156,8 @@ const hotel = {
             if (res) {
                 commit('set_searchList', res)
                 message.success('搜索成功')
+            } else {
+                message.error('搜索失败')
             }
         },
         getHotelQuestion: async ({state, commit}) => {
