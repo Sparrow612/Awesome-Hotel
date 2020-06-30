@@ -77,7 +77,6 @@
                 'updateHotel',
             ]),
             cancel() {
-                console.log(this.modifyHotelInfo)
                 this.set_modifyHotelModalVisible(false)
             },
             handleSubmit(e) {

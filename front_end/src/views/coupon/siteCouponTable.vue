@@ -43,6 +43,9 @@
                         title: '优惠类型',
                         dataIndex: 'couponType',
                         scopedSlots: {customRender: 'type'},
+                        filters: [{text: '节日优惠', value: 1}, {text: 'VIP指定商圈优惠', value: 2}, {text: '合作企业优惠', value: 3}],
+                        onFilter: (value, record) => record.couponType === value,
+                        filterMultiple: false,
                     },
                     {
                         title: '优惠名称',

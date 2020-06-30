@@ -1,11 +1,11 @@
 <template>
     <div>
         <a-table
-                :columns="columns"
-                :dataSource="allClientVIPList"
-                :locale="{emptyText: '暂时没有普通会员'}"
-                :rowKey="record => record.userId"
-                bordered
+            :columns="columns"
+            :dataSource="allClientVIPList"
+            :locale="{emptyText: '暂时没有普通会员'}"
+            :rowKey="record => record.userId"
+            bordered
         >
             <a-tag slot="userId" color="orange" slot-scope="text">
                 {{ userName(text) }}
@@ -53,39 +53,41 @@
 
 <script>
     import { mapGetters, mapMutations, mapActions } from 'vuex'
-    const columns = [
-        {
-            title: '用户名',
-            dataIndex: 'userId',
-            scopedSlots: { customRender: 'userId' }
-        },
-        {
-            title: 'VIP等级',
-            dataIndex: 'level',
-            scopedSlots: { customRender: 'level' }
-        },
-        {
-            title: '累计消费￥',
-            dataIndex: 'consumption',
-            scopedSlots: { customRender: 'consumption' }
-        },
-        {
-            title: '状态',
-            dataIndex: 'status',
-            scopedSlots: { customRender: 'status' }
-        },
-        {
-            title: '操作',
-            key: 'action',
-            scopedSlots: { customRender: 'action' },
-        },
-
-    ];
     export default {
         name: "ManageClientMembership",
         data() {
             return {
-                columns,
+                searchText: '',
+                searchInput: null,
+                searchedColumn: '',
+                columns: [
+                    {
+                        title: '用户名',
+                        dataIndex: 'userId',
+                        scopedSlots: { customRender: 'userId' }
+                    },
+                    {
+                        title: 'VIP等级',
+                        dataIndex: 'level',
+                        scopedSlots: { customRender: 'level' }
+                    },
+                    {
+                        title: '累计消费￥',
+                        dataIndex: 'consumption',
+                        scopedSlots: { customRender: 'consumption' }
+                    },
+                    {
+                        title: '状态',
+                        dataIndex: 'status',
+                        scopedSlots: { customRender: 'status' }
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        scopedSlots: { customRender: 'action' },
+                    },
+
+                ],
             }
         },
         computed: {
@@ -111,19 +113,18 @@
             restoreClient(userId) {
                 this.restoreClientVIP(userId)
             },
-            userName (userId) {
-                for(var i = 0;i < this.allUserList.length;i++) {
+            userName(userId) {
+                for (var i = 0; i < this.allUserList.length; i++) {
                     if (this.allUserList[i].id === userId)
                         return this.allUserList[i].userName
                 }
                 return ""
             },
-            cancel() {}
-
+            cancel() {
+            },
         }
     }
 </script>
 
 <style scoped>
-
 </style>

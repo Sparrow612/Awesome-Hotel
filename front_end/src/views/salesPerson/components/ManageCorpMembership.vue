@@ -7,9 +7,61 @@
                 :rowKey="record => record.corporationName"
                 bordered
         >
-            <a-tag slot="corporation" color="orange" slot-scope="text">
-                {{ text }}
-            </a-tag>
+            <div
+                    slot="filterDropdown"
+                    slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+                    style="padding: 8px"
+            >
+                <a-input
+                        v-ant-ref="c => searchInput = c"
+                        :placeholder="`查询 ${column.title}`"
+                        :value="selectedKeys[0]"
+                        style="width: 188px; margin-bottom: 8px; display: block;"
+                        @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                        @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                />
+                <a-button
+                        type="primary"
+                        icon="search"
+                        size="small"
+                        style="width: 90px; margin-right: 8px"
+                        @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+                >
+                    搜索
+                </a-button>
+                <a-button size="small" style="width: 90px" @click="() => handleReset(clearFilters)">
+                    重置
+                </a-button>
+            </div>
+            <a-icon
+                    slot="filterIcon"
+                    slot-scope="filtered"
+                    type="search"
+                    :style="{ color: filtered ? '#108ee9' : undefined }"
+            />
+            <template slot="customRender" slot-scope="text, record, index, column">
+                <span v-if="searchText && searchedColumn === column.dataIndex">
+                    <template
+                            v-for="(fragment, i) in text
+                        .toString()
+                        .split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i'))"
+                    >
+                        <mark
+                                v-if="fragment=== searchText"
+                                :key="i"
+                                class="highlight"
+                        >
+                            {{ fragment }}
+                        </mark>
+                        <template v-else>
+                            {{ fragment }}
+                        </template>
+                    </template>
+                </span>
+                <template v-else>
+                    {{ text }}
+                </template>
+            </template>
 
             <span slot="level" slot-scope="text">
                 {{ text }}
@@ -53,39 +105,59 @@
 
 <script>
     import { mapGetters, mapMutations, mapActions } from 'vuex'
-    const columns = [
-        {
-            title: '企业名',
-            dataIndex: 'corporationName',
-            scopedSlots: { customRender: 'corporation' }
-        },
-        {
-            title: 'VIP等级',
-            dataIndex: 'level',
-            scopedSlots: { customRender: 'level' }
-        },
-        {
-            title: '累计消费￥',
-            dataIndex: 'consumption',
-            scopedSlots: { customRender: 'consumption' }
-        },
-        {
-            title: '状态',
-            dataIndex: 'status',
-            scopedSlots: { customRender: 'status' }
-        },
-        {
-            title: '操作',
-            key: 'action',
-            scopedSlots: { customRender: 'action' },
-        },
-
-    ];
     export default {
         name: "ManageCorpMembership",
         data() {
             return {
-                columns,
+                searchText: '',
+                searchInput: null,
+                searchedColumn: '',
+                columns: [
+                    {
+                        title: '企业名',
+                        dataIndex: 'corporationName',
+                        scopedSlots: {
+                            filterDropdown: 'filterDropdown',
+                            filterIcon: 'filterIcon',
+                            customRender: 'customRender',
+                        },
+                        onFilter: (value, record) =>
+                            record.corporationName
+                                .toString()
+                                .includes(value),
+                        onFilterDropdownVisibleChange: visible => {
+                            if (visible) {
+                                setTimeout(() => {
+                                    this.searchInput.focus();
+                                }, 0);
+                            }
+                        },
+                    },
+                    {
+                        title: 'VIP等级',
+                        dataIndex: 'level',
+                        scopedSlots: { customRender: 'level' }
+                    },
+                    {
+                        title: '累计消费￥',
+                        dataIndex: 'consumption',
+                        scopedSlots: { customRender: 'consumption' }
+                    },
+                    {
+                        title: '状态',
+                        dataIndex: 'status',
+                        scopedSlots: { customRender: 'status' },
+                        filters: [{text: '正常', value: 1}, {text: '冻结', value: 0}],
+                        onFilter: (value, record) => record.status === value,
+                        filterMultiple: false,
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        scopedSlots: { customRender: 'action' },
+                    },
+
+                ],
             }
         },
         computed: {
@@ -108,11 +180,23 @@
             restoreCorp(corporationName) {
                 this.restoreCorpVIP(corporationName)
             },
-            cancel() {}
+            cancel() {},
+            handleSearch(selectedKeys, confirm, dataIndex) {
+                confirm();
+                this.searchText = selectedKeys[0];
+                this.searchedColumn = dataIndex;
+            },
+            handleReset(clearFilters) {
+                clearFilters();
+                this.searchText = '';
+            },
         }
     }
 </script>
 
 <style scoped>
-
+    .highlight {
+        background-color: rgb(255, 192, 105);
+        padding: 0px;
+    }
 </style>

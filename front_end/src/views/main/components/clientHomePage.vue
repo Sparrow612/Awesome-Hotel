@@ -130,7 +130,7 @@
                                 @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
                                 @pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
                                 style="width: 188px; margin-bottom: 8px; display: block;"
-                                v-ant-ref="c => (searchInput = c)"
+                                v-ant-ref="c => searchInput = c"
                         />
                         <a-button
                                 @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"

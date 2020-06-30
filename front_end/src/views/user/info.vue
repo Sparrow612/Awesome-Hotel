@@ -209,7 +209,7 @@
             title: '订单号',
             dataIndex: 'id',
             sorter: (a, b) => a.id - b.id,
-        },
+    },
         {
             title: '下单时间',
             dataIndex: 'createDate',
@@ -233,12 +233,34 @@
         {
             title: '入住时间',
             dataIndex: 'checkInDate',
-            scopedSlots: {customRender: 'checkInDate'}
+            scopedSlots: {customRender: 'checkInDate'},
+            sorter: function (x, y) {
+                let checkInDateA = new Date(x.checkInDate)
+                let checkInDateB = new Date(y.checkInDate)
+                if (checkInDateA < checkInDateB) {
+                    return 1
+                } else if (checkInDateA > checkInDateB) {
+                    return -1
+                } else {
+                    return 0
+                }
+            }
         },
         {
             title: '离店时间',
             dataIndex: 'checkOutDate',
-            scopedSlots: {customRender: 'checkOutDate'}
+            scopedSlots: {customRender: 'checkOutDate'},
+            sorter: function (x, y) {
+                let checkInDateA = new Date(x.checkInDate)
+                let checkInDateB = new Date(y.checkInDate)
+                if (checkInDateA < checkInDateB) {
+                    return 1
+                } else if (checkInDateA > checkInDateB) {
+                    return -1
+                } else {
+                    return 0
+                }
+            }
         },
         {
             title: '入住人数',
