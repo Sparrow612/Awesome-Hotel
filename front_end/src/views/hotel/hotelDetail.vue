@@ -19,6 +19,11 @@
                         <div class="items" v-if="currentHotelInfo.name">
                             <span class="label">酒店名称: </span>
                             <span class="value">{{ currentHotelInfo.name }}</span>
+                            <a-tag color="orange"
+                                   v-if="userOrderList.filter(order=>order.hotelId===currentHotelInfo.id).length>0">
+                                <a-icon type="star"/>
+                                您曾经预定过这家酒店
+                            </a-tag>
                         </div>
                         <div class="items" v-if="currentHotelInfo.address">
                             <span class="label">地址: </span>
