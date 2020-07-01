@@ -190,9 +190,61 @@
                         bordered
                         style="padding: 10px; border-radius: 20px"
                 >
+                    <div
+                            slot="filterDropdown"
+                            slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
+                            style="padding: 8px"
+                    >
+                        <a-input
+                                :placeholder="`查询${column.title}`"
+                                :value="selectedKeys[0]"
+                                @change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                                @pressEnter="() => handleAnotherSearch(selectedKeys, confirm, column.dataIndex)"
+                                style="width: 188px; margin-bottom: 8px; display: block;"
+                                v-ant-ref="c => anotherSearchInput = c"
+                        />
+                        <a-button
+                                @click="() => handleAnotherSearch(selectedKeys, confirm, column.dataIndex)"
+                                icon="search"
+                                size="small"
+                                style="width: 90px; margin-right: 8px"
+                                type="primary"
+                        >
+                            查询
+                        </a-button>
+                        <a-button @click="() => handleAnotherReset(clearFilters)" size="small" style="width: 90px">
+                            重置
+                        </a-button>
+                    </div>
+                    <a-icon
+                            :style="{ color: filtered ? '#108ee9' : undefined }"
+                            slot="filterIcon"
+                            slot-scope="filtered"
+                            type="search"
+                    />
+
                     <span slot="action" slot-scope="record">
                         <a-button @click="jumpToDetails(record.id)" size="small">再次光临</a-button>
                     </span>
+
+                    <template slot="customRender" slot-scope="text, record, index, column">
+                        <span v-if="anotherSearchText && searchedColumn === column.dataIndex">
+                            <template
+                                    v-for="(fragment, i) in text.split(new RegExp(`(?<=${anotherSearchText})|(?=${anotherSearchText})`, 'g'))">
+                                <mark
+                                        :key="i"
+                                        class="highlight"
+                                        v-if="fragment === anotherSearchText"
+                                >
+                                    {{ fragment }}
+                                </mark>
+                                <template v-else>{{ fragment }}</template>
+                            </template>
+                        </span>
+                        <template v-else>
+                            {{ text }}
+                        </template>
+                    </template>
                 </a-table>
             </a-layout>
         </div>
@@ -216,7 +268,9 @@
         data() {
             return {
                 searchText: '',
+                anotherSearchText: '',
                 searchInput: '',
+                anotherSearchInput: '',
                 searchedColumn: '',
                 hotelColumns: [
                     {
@@ -360,10 +414,18 @@
                 this.searchText = selectedKeys[0];
                 this.searchedColumn = dataIndex;
             },
-
+            handleAnotherSearch(selectedKeys, confirm, dataIndex){
+                confirm();
+                this.anotherSearchText = selectedKeys[0];
+                this.searchedColumn = dataIndex;
+            },
             handleReset(clearFilters) {
                 clearFilters();
                 this.searchText = '';
+            },
+            handleAnotherReset(clearFilters) {
+                clearFilters();
+                this.anotherSearchText = '';
             },
             jumpToDetails(id) {
                 this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
@@ -443,14 +505,14 @@
             margin: 10px;
         }
 
-        .highlight {
-            background-color: rgb(255, 192, 105);
-            padding: 0;
-        }
-
     }
 
     .footPrints {
 
+    }
+
+    .highlight {
+        background-color: rgb(255, 192, 105);
+        padding: 0;
     }
 </style>
