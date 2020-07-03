@@ -2,14 +2,14 @@
     <a-carousel autoplay>
         <div class="privilege">
             <h2>网站会员</h2>
-            <h3 v-for="item in this.levels" :key="item.level">
+            <h3 :key="item.level" v-for="item in this.levels">
                 LV{{ item.level }}: 累计消费￥{{ item.request }} (减免{{ item.reduction * 100 }}%) <br/>
             </h3>
         </div>
 
-        <div class="siteCoupon" v-for="coupon in ClientMembershipCouponList" :key="coupon.id">
+        <div :key="coupon.id" class="siteCoupon" v-for="coupon in ClientMembershipCouponList">
             <div v-if="coupon.couponType === 1">
-                <h2>网站会员节日特惠</h2>
+                <h2>节日特惠 {{coupon.couponName}}</h2>
                 <h3>{{ coupon.startTime }} ~ {{ coupon.endTime }}</h3>
                 <h3>折扣{{ coupon.discount * 100 }}%</h3>
             </div>
@@ -24,23 +24,21 @@
 </template>
 
 <script>
-    import { mapGetters, mapMutations, mapActions } from 'vuex'
+    import {mapGetters, mapMutations, mapActions} from 'vuex'
+
     export default {
         name: "ClientMembershipCoupon",
         data() {
-            return {
-
-            }
+            return {}
         },
         computed: {
             ...mapGetters([
-                'levelConsumption',
                 'levels',
                 'corpLevels',
                 'siteCouponList',
             ]),
             ClientMembershipCouponList() {
-                return this.siteCouponList.filter(function(x) {
+                return this.siteCouponList.filter(function (x) {
                     return x.couponType !== 3
                 })
             }

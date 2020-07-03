@@ -88,7 +88,7 @@
             </a-form-item>
             <a-divider></a-divider>
             <h2 v-if="orderMatchCouponList.length>0">优惠</h2>
-            <a-radio-group @change="onCouponChange" v-model="checked" defaultValue="0">
+            <a-radio-group @change="onCouponChange" defaultValue="0" v-model="checked">
                 <a-table
                         :columns="columns"
                         :dataSource="orderMatchCouponList"
@@ -102,18 +102,18 @@
                             slot-scope="record"
                     >
                     </a-radio>
-                    <span slot="discount" slot-scope="text">{{text*100}}%</span>
+                    <span slot="discount" slot-scope="text">{{ text>0 ? (text * 100)+'%': '无' }}</span>
                 </a-table>
             </a-radio-group>
-            <a-form-item v-if="this.userInfo.vipType!=='Normal'">
+            <a-form-item v-bind="formItemLayout" v-if="this.userInfo.vipType!=='Normal'">
                 <a-tag color="blue">您是VIP顾客，当前等级{{this.userVIP.level}}，当前享受{{this.userVIP.reduction*100}}%折扣</a-tag>
             </a-form-item>
-            <a-form-item v-if="this.isCorpVIP">
+            <a-form-item v-bind="formItemLayout" v-if="this.isCorpVIP">
                 <a-tag color="blue">您的所属企业是我们的VIP企业，当前等级{{this.corpVIP.level}}，当前享受{{this.corpVIP.reduction*100}}%折扣
                 </a-tag>
             </a-form-item>
             <a-form-item label="结算后总价" v-bind="formItemLayout">
-                <span>￥{{ finalPrice ? finalPrice : Math.round(totalPrice * vipDiscount * corpDiscount*100)*0.01}}</span>
+                <span>￥{{ finalPrice ? finalPrice : totalPrice * vipDiscount * corpDiscount.toFixed(2)}}</span>
             </a-form-item>
         </a-form>
     </a-modal>
@@ -146,7 +146,7 @@
 
         },
         {
-            title: '优惠金额（满减）',
+            title: '满减优惠金额',
             dataIndex: 'discountMoney',
         },
     ];
@@ -195,12 +195,15 @@
             await this.getUserInfo() //防止一刷新就丢失userInfo
             if (this.userInfo.vipType !== 'Normal') {
                 await this.getUserVIP(this.userId)
-                this.vipDiscount -= this.userVIP.reduction
+                if (this.userVIP.status === 1)
+                    this.vipDiscount -= this.userVIP.reduction
             }
             if (this.userInfo.corporation) {
                 await this.corpVIPCheck(this.userInfo.corporation)
-                await this.getCorpVIP(this.userInfo.corporation)
-                this.corpDiscount -= this.corpVIP.reduction
+                if (this.isCorpVIP) {
+                    await this.getCorpVIP(this.userInfo.corporation)
+                    this.corpDiscount -= this.corpVIP.reduction
+                }
             }
         },
         methods: {
@@ -245,7 +248,7 @@
             onCouponChange() {
                 this.finalPrice = Math.round(this.totalPrice * this.vipDiscount * this.corpDiscount * 100) * 0.01
                 if (this.checked !== 0) {
-                    for (const item of this.orderMatchCouponList){
+                    for (const item of this.orderMatchCouponList) {
                         if (item.id === this.checked) {
                             if (item.discountMoney !== 0) this.finalPrice = this.finalPrice - item.discountMoney
                             else this.finalPrice = this.finalPrice * item.discount
@@ -253,7 +256,7 @@
                         }
                     }
                 }
-                this.finalPrice = Math.round(this.finalPrice * 100) * 0.01
+                this.finalPrice = this.finalPrice.toFixed(2)
             },
             handlePhoneNumber(rule, value, callback) {
                 const re = /1\d{10}/;

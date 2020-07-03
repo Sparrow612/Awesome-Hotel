@@ -31,29 +31,29 @@ public class VIPServiceImpl implements VIPService {
     private AccountService accountService;
 
     private void clientLevelUp(Integer userId, double reduction) {
-        try{
+        try {
             vipMapper.clientLevelUp(userId, reduction);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void corpLevelUp(String corporationName, double reduction) {
-        try{
+        try {
             vipMapper.corpLevelUp(corporationName, reduction);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public ResponseVO registerAsClientVIP(Integer userId, String birthday){
-        try{
+    public ResponseVO registerAsClientVIP(Integer userId, String birthday) {
+        try {
 
             vipMapper.registerAsClientVIP(new ClientVIP(userId));
             accountService.registerAsVIP(userId);
             accountService.updateBirthday(userId, birthday);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(CLI_REGISTERED);
         }
@@ -65,7 +65,7 @@ public class VIPServiceImpl implements VIPService {
         try {
             vipMapper.freezeClientVIP(userId);
             accountService.freezeVIP(userId);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(CLI_FAILURE);
         }
@@ -77,7 +77,7 @@ public class VIPServiceImpl implements VIPService {
         try {
             vipMapper.restoreClientVIP(userId);
             accountService.registerAsVIP(userId);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(CLI_FAILURE);
         }
@@ -85,7 +85,7 @@ public class VIPServiceImpl implements VIPService {
     }
 
     @Override
-    public ResponseVO getVIPbyUserId(Integer userId){
+    public ResponseVO getVIPbyUserId(Integer userId) {
         try {
             ClientVIP clientVIP = vipMapper.getVIPbyUserId(userId);
             if (clientVIP == null) {
@@ -94,7 +94,7 @@ public class VIPServiceImpl implements VIPService {
             ClientVIPVO clientVIPVO = new ClientVIPVO();
             BeanUtils.copyProperties(clientVIP, clientVIPVO);
             return ResponseVO.buildSuccess(clientVIPVO);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(CLI_FAILURE);
         }
@@ -102,15 +102,15 @@ public class VIPServiceImpl implements VIPService {
 
     @Override
     public ResponseVO addVIPClientConsumption(Integer userId, Integer amount) {
-        try{
-            vipMapper.addVIPClientConsumption(userId,amount);
+        try {
+            vipMapper.addVIPClientConsumption(userId, amount);
             ClientVIP clientVIP = vipMapper.getVIPbyUserId(userId);
-            int nextLevelConsum = levelMapper.getTheRequestOfLevel(clientVIP.getLevel()+1, "Client");
-            double nextLevelReduction = levelMapper.getTheReduOfLevel(clientVIP.getLevel()+1, "Client");
-            if (clientVIP.getConsumption()>=nextLevelConsum){
+            int nextLevelConsum = levelMapper.getTheRequestOfLevel(clientVIP.getLevel() + 1, "Client");
+            double nextLevelReduction = levelMapper.getTheReduOfLevel(clientVIP.getLevel() + 1, "Client");
+            if (clientVIP.getConsumption() >= nextLevelConsum) {
                 clientLevelUp(userId, nextLevelReduction);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(CLI_FAILURE);
         }
@@ -118,10 +118,10 @@ public class VIPServiceImpl implements VIPService {
     }
 
     @Override
-    public ResponseVO registerAsCorpVIP(String corporationName){
+    public ResponseVO registerAsCorpVIP(String corporationName) {
         try {
             vipMapper.registerAsCorpVIP(new CorpVIP(corporationName));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(CORP_REGISTERED);
         }
@@ -132,7 +132,7 @@ public class VIPServiceImpl implements VIPService {
     public ResponseVO freezeCorpVIP(String corporationName) {
         try {
             vipMapper.freezeCorpVIP(corporationName);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(CORP_FAILURE);
         }
@@ -143,7 +143,7 @@ public class VIPServiceImpl implements VIPService {
     public ResponseVO restoreCorpVIP(String corporationName) {
         try {
             vipMapper.restoreCorpVIP(corporationName);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(CORP_FAILURE);
         }
@@ -151,13 +151,13 @@ public class VIPServiceImpl implements VIPService {
     }
 
     @Override
-    public ResponseVO getVIPbyCorpName(String corporationName){
+    public ResponseVO getVIPbyCorpName(String corporationName) {
         try {
             CorpVIP corpVIP = vipMapper.getVIPbyCorpName(corporationName);
             CorpVIPVO corpVIPVO = new CorpVIPVO();
-            BeanUtils.copyProperties(corpVIP,corpVIPVO);
+            BeanUtils.copyProperties(corpVIP, corpVIPVO);
             return ResponseVO.buildSuccess(corpVIPVO);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(CORP_FAILURE);
         }
@@ -165,15 +165,15 @@ public class VIPServiceImpl implements VIPService {
 
     @Override
     public ResponseVO addVIPCorpConsumption(String corporationName, Integer amount) {
-        try{
+        try {
             vipMapper.addVIPCorpConsumption(corporationName, amount);
             CorpVIP corpVIP = vipMapper.getVIPbyCorpName(corporationName);
-            int nextLevelConsum = levelMapper.getTheRequestOfLevel(corpVIP.getLevel()+1, "Corporation");
-            double nextLevelReduction = levelMapper.getTheReduOfLevel(corpVIP.getLevel()+1, "Corporation");
-            if (corpVIP.getConsumption()>=nextLevelConsum){
+            int nextLevelConsum = levelMapper.getTheRequestOfLevel(corpVIP.getLevel() + 1, "Corporation");
+            double nextLevelReduction = levelMapper.getTheReduOfLevel(corpVIP.getLevel() + 1, "Corporation");
+            if (corpVIP.getConsumption() >= nextLevelConsum) {
                 corpLevelUp(corporationName, nextLevelReduction);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.buildFailure(CORP_FAILURE);
         }
@@ -181,8 +181,9 @@ public class VIPServiceImpl implements VIPService {
     }
 
     @Override
-    public boolean VIPCorpCheck(String corporationName){
-        return vipMapper.getVIPbyCorpName(corporationName) != null;
+    public boolean VIPCorpCheck(String corporationName) {
+        CorpVIP corpVIP = vipMapper.getVIPbyCorpName(corporationName);
+        return corpVIP != null && corpVIP.getStatus() != 0;
     }
 
     @Override

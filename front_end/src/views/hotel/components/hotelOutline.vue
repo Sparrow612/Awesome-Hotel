@@ -4,14 +4,14 @@
             <a-tab-pane key="1" tab="酒店点评">
                 <div style="font-size: large;padding: 10px;">
                     <div style="display: inline-flex">
-                        <a-statistic :value="this.currentHotelInfo.rate" class="statistic" title="酒店评分"></a-statistic>
-                        <a-statistic :value="this.currentHotelInfo.sanitation" class="statistic"
+                        <a-statistic :value="this.currentHotelInfo.rate.toFixed(1)" class="statistic" title="酒店评分"></a-statistic>
+                        <a-statistic :value="this.currentHotelInfo.sanitation.toFixed(1)" class="statistic"
                                      title="卫生评分"></a-statistic>
-                        <a-statistic :value="this.currentHotelInfo.environment" class="statistic"
+                        <a-statistic :value="this.currentHotelInfo.environment.toFixed(1)" class="statistic"
                                      title="环境评分"></a-statistic>
-                        <a-statistic :value="this.currentHotelInfo.service" class="statistic"
+                        <a-statistic :value="this.currentHotelInfo.service.toFixed(1)" class="statistic"
                                      title="服务评分"></a-statistic>
-                        <a-statistic :value="this.currentHotelInfo.equipment" class="statistic"
+                        <a-statistic :value="this.currentHotelInfo.equipment.toFixed(1)" class="statistic"
                                      title="设施评分"></a-statistic>
                         <a-statistic :value="this.currentHotelInfo.commentTime" class="statistic"
                                      title="当前被评价次数"></a-statistic>

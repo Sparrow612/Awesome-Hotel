@@ -50,9 +50,9 @@
                                     </a-statistic>
                                 </div>
                         </span>
-                        <span v-else-if="JSON.stringify(this.userVIP)!=='{}'">
+                        <span v-else-if="this.userVIP.status===0">
                             <div class="membershipInfo">
-                                <a-tag color="red">您已被冻结</a-tag>
+                                <a-tag color="red">您的VIP已被冻结</a-tag>
                             </div>
                         </span>
                         <span v-else>
@@ -101,7 +101,7 @@
                             <span> 丰富优惠</span>
                         </a-card>
 
-                        <span style="text-align: center;" v-if="isCorpVIP">
+                        <span style="text-align: center;" v-if="corpVIP">
                             <div v-if="corpVIP.status === 1">
                                 <div class="membershipInfo">
                                     <span>您的企业：{{ corpVIP.corporationName }}</span>
@@ -132,7 +132,7 @@
                                 </div>
                             </div>
                             <div class="membershipInfo" v-else>
-                                <h2 style="color: red">您的企业({{ corpVIP.corporationName }})被冻结</h2>
+                                <a-tag color="red">您的企业({{ corpVIP.corporationName }})VIP被冻结</a-tag>
                             </div>
                         </span>
                         <span v-else>
@@ -192,9 +192,9 @@
         },
         async mounted() {
             await this.getUserInfo()
-            if (this.userInfo.vipType !== 'Normal') await this.getUserVIP(Number(this.userInfo.id))
+            await this.getUserVIP(Number(this.userInfo.id))
             await this.corpVIPCheck(this.userInfo.corporation)
-            if (this.isCorpVIP) await this.getCorpVIP(this.userInfo.corporation)
+            this.getCorpVIP(this.userInfo.corporation)
         },
         computed: {
             ...mapGetters([

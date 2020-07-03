@@ -68,7 +68,7 @@
 
                 <a-form-item :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1  }" label="联系电话">
                     <a-input
-                            v-decorator="['phoneNum', { rules: [{ required: false, message: '请输入手机号' }], initialValue: phoneNum}]"
+                            v-decorator="['phoneNum', { rules: [{ required: false, message: '请输入手机号' }, { validator: this.handlePhoneNumber }], initialValue: phoneNum}]"
                             v-if="modify"
                     />
                     <span v-else>{{ phoneNum }}</span>
@@ -141,6 +141,19 @@
             ]),
             modifyInfo() {
                 this.modify = true
+            },
+            handlePhoneNumber(rule, value, callback) {
+                const re = /1\d{10}/;
+                if (re.test(value)) {
+                    callback();
+                } else {
+                    if (value === '' || value.length===8) {
+                        callback()
+                    } else {
+                        callback(new Error('请输入有效联系人手机号或座机号'));
+                    }
+                }
+                callback()
             },
             saveModify() {
                 this.form.validateFields((err, values) => {

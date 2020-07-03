@@ -406,8 +406,6 @@
 
         async mounted() {
             await this.getUserInfo()
-            if (this.userInfo.vipType !== 'Normal')
-                this.getUserVIP(Number(this.userInfo.id))
             this.getUserOrders()
             this.getUserCredits(this.userId)
             this.getUserCollections(this.userId)

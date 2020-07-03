@@ -2,7 +2,7 @@
     <div class="info-wrapper">
         <a-form :form="form" style="padding: 10px; border-radius: 20px; background-color: whitesmoke">
             <a-form-item label="头像" v-bind="formItemLayout">
-                <a-avatar style="background-color: mediumpurple" icon="user"/>
+                <a-avatar icon="user" style="background-color: mediumpurple"/>
                 <!--                        <a-button type="primary" icon="upload" style="margin-left: 20px">上传头像</a-button>-->
             </a-form-item>
 
@@ -28,7 +28,7 @@
             </a-form-item>
 
             <a-form-item label="VIP等级" v-bind="formItemLayout"
-                 v-if="this.userInfo.userType==='Client' && this.userInfo.vipType ==='Client'">
+                         v-if="this.userInfo.userType==='Client' && this.userInfo.vipType ==='Client'">
                 <div v-if="this.userVIP.status === 1">
                     <span>
                     <span :key="index" v-for="index of 5">
@@ -50,12 +50,13 @@
 
             </a-form-item>
             <a-form-item label="VIP" v-bind="formItemLayout"
-                 v-else-if="this.userInfo.userType==='Client' && JSON.stringify(this.userVIP) === '{}'">
+                         v-else-if="this.userInfo.userType==='Client' && JSON.stringify(this.userVIP) === '{}'">
                 <span>
                     尚未成为会员，请前往会员中心注册
                 </span>
             </a-form-item>
-            <a-form-item label="VIP等级" v-bind="formItemLayout" v-else-if="this.userInfo.userType==='Client'">
+            <a-form-item label="VIP" v-bind="formItemLayout"
+                         v-else-if="this.userInfo.userType==='Client'&&this.userVIP.status===0">
                 <a-tag color="red">您已被冻结</a-tag>
             </a-form-item>
 
@@ -67,9 +68,9 @@
                 <span v-else>
                     <span v-if="userInfo.corporation">
                         {{ userInfo.corporation }}&nbsp;
-                        <span v-if="isCorpVIP">
+                        <span v-if="corpVIP">
                             <span v-if="corpVIP.status === 1"><a-tag color="blue">已成为企业会员</a-tag></span>
-                            <span v-else><a-tag color="red">被冻结</a-tag></span>
+                            <span v-else><a-tag color="red">企业VIP被冻结</a-tag></span>
                         </span>
                         <span v-else>
                             <a-tag color="cyan">尚未成为企业会员</a-tag>
@@ -140,9 +141,7 @@
             await this.getUserInfo()
             await this.getUserVIP(this.userInfo.id)
             await this.corpVIPCheck(this.userInfo.corporation)
-            if (this.isCorpVIP) {
-                this.getCorpVIP(this.userInfo.corporation)
-            }
+            this.getCorpVIP(this.userInfo.corporation)
         },
         methods: {
             ...mapActions([
@@ -152,9 +151,7 @@
                 'getUserInfo',
                 'getUserVIP',
             ]),
-            ...mapMutations([
-
-            ]),
+            ...mapMutations([]),
 
             saveModify() {
                 this.form.validateFields((err, values) => {
