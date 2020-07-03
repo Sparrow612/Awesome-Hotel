@@ -88,7 +88,7 @@
             </a-form-item>
             <a-divider></a-divider>
             <h2 v-if="orderMatchCouponList.length>0">优惠</h2>
-            <a-checkbox-group @change="onchange" v-model="checkedList">
+            <a-radio-group @change="onCouponChange" v-model="checked" defaultValue="0">
                 <a-table
                         :columns="columns"
                         :dataSource="orderMatchCouponList"
@@ -96,15 +96,15 @@
                         bordered
                         v-if="orderMatchCouponList.length>0"
                 >
-                    <a-checkbox
+                    <a-radio
                             :value="record"
                             slot="id"
                             slot-scope="record"
                     >
-                    </a-checkbox>
+                    </a-radio>
                     <span slot="discount" slot-scope="text">{{text*100}}%</span>
                 </a-table>
-            </a-checkbox-group>
+            </a-radio-group>
             <a-form-item v-if="this.userInfo.vipType!=='Normal'">
                 <a-tag color="blue">您是VIP顾客，当前等级{{this.userVIP.level}}，当前享受{{this.userVIP.reduction*100}}%折扣</a-tag>
             </a-form-item>
@@ -166,7 +166,7 @@
                 },
                 totalPrice: '',
                 columns,
-                checkedList: [],
+                checked: 0,
                 finalPrice: '',
                 vipDiscount: 1.00,
                 corpDiscount: 1.00,
@@ -217,7 +217,7 @@
                 'getUserInfo',
             ]),
             cancelOrder() {
-                this.checkedList = []
+                this.checked = 0
                 this.set_orderMatchCouponList([])
                 this.totalPrice = null
                 this.finalPrice = null
@@ -240,14 +240,18 @@
             },
             changeRoomNum(v) {
                 this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
+                this.onCouponChange()
             },
-            onchange() {
+            onCouponChange() {
                 this.finalPrice = Math.round(this.totalPrice * this.vipDiscount * this.corpDiscount * 100) * 0.01
-                if (this.checkedList.length > 0) {
-                    this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id) !== -1).forEach(item => {
-                        if (item.discountMoney !== 0) this.finalPrice = this.finalPrice - item.discountMoney
-                        else this.finalPrice = this.finalPrice * item.discount
-                    })
+                if (this.checked !== 0) {
+                    for (const item of this.orderMatchCouponList){
+                        if (item.id === this.checked) {
+                            if (item.discountMoney !== 0) this.finalPrice = this.finalPrice - item.discountMoney
+                            else this.finalPrice = this.finalPrice * item.discount
+                            break
+                        }
+                    }
                 }
                 this.finalPrice = Math.round(this.finalPrice * 100) * 0.01
             },

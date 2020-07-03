@@ -58,9 +58,15 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public ResponseVO updateHotelInfo(Integer hotelId, HotelForm hotelForm){
         try {
-            hotelMapper.updateHotelAddress(hotelId, hotelForm.getAddress());
+            if (hotelForm.getBizRegion()!=null) hotelMapper.updateHotelBizRegion(hotelId, BizRegion.valueOf(hotelForm.getBizRegion()));
+            if (!hotelMapper.getHotelAddress(hotelId).equals(hotelForm.getAddress())) {
+                hotelMapper.updateHotelAddress(hotelId, hotelForm.getAddress()); // 为防止重复添加相同地址导致错误（地址是unique），这里先做检查再添加
+            }
             hotelMapper.updateHotelDescription(hotelId, hotelForm.getDescription());
+            hotelMapper.updateHotelPhoneNum(hotelId, hotelForm.getPhoneNum());
+            if (hotelForm.getHotelStar()!=null) hotelMapper.updateHotelStar(hotelId, HotelStar.valueOf(hotelForm.getHotelStar()));
         }catch (Exception e) {
+            e.printStackTrace();
             return ResponseVO.buildFailure(ADDRESS_OCCUPIED);
         }
         return ResponseVO.buildSuccess();

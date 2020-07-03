@@ -21,10 +21,30 @@
                         />
                     </a-form-item>
                     <a-form-item label="商圈" v-bind="formItemLayout">
-                        <a-input
-                                class="searchInput" placeholder="请输入商圈" type="text"
+                        <a-select
+                                placeholder="请选择商圈"
                                 v-decorator="['bizRegion']"
-                        />
+                        >
+                            <a-select-option value="西单">西单</a-select-option>
+                            <a-select-option value="仙林">仙林</a-select-option>
+                            <a-select-option value="鼓楼">鼓楼</a-select-option>
+                            <a-select-option value="新街口">新街口</a-select-option>
+                            <a-select-option value="观前街">观前街</a-select-option>
+                            <a-select-option value="金鸡湖">金鸡湖</a-select-option>
+                            <a-select-option value="王府井">王府井</a-select-option>
+                            <a-select-option value="南锣鼓巷">南锣鼓巷</a-select-option>
+                            <a-select-option value="天安门">天安门</a-select-option>
+                            <a-select-option value="三里屯">三里屯</a-select-option>
+                            <a-select-option value="静安寺">静安寺</a-select-option>
+                            <a-select-option value="外滩">外滩</a-select-option>
+                            <a-select-option value="陆家嘴">陆家嘴</a-select-option>
+                            <a-select-option value="华强北">华强北</a-select-option>
+                            <a-select-option value="三国城">三国城</a-select-option>
+                            <a-select-option value="灵山大佛">灵山大佛</a-select-option>
+                            <a-select-option value="岳麓书院">岳麓书院</a-select-option>
+                            <a-select-option value="天心阁">天心阁</a-select-option>
+                            <a-select-option value="广州塔">广州塔</a-select-option>
+                        </a-select>
                     </a-form-item>
                     <a-form-item label="关键词" v-bind="formItemLayout">
                         <a-select

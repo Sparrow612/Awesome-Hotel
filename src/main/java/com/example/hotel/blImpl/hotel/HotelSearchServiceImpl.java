@@ -99,11 +99,9 @@ public class HotelSearchServiceImpl implements HotelSearchService {
              *
              */
             boolean judge = checkAddress(hotel,address) && checkPrice(hotel,maxPrice)
-                    && checkHotelStar(hotel,hotelStar) && checkHotelScore(hotel, minScore);
-
+                    && checkHotelStar(hotel,hotelStar) && checkHotelScore(hotel, minScore)&&checkBizRegion(hotel, bizRegion);
             if(judge){
                 int score = 0;
-                score += checkBizRegion(hotel,bizRegion);
                 score += checkKeyWords(hotel,keyWords);
                 Node node = new Node(hotel,score);
                 insertHotel(node);
@@ -182,14 +180,11 @@ public class HotelSearchServiceImpl implements HotelSearchService {
 
 
     /**
-     * 非刚性条件
+     * 刚性条件
      * 检查商圈是否符合要求，如果符合
      */
-    private int checkBizRegion(HotelVO hotel,String bizRegion){
-        if(bizRegion.equals(hotel.getBizRegion()))
-            return 5;
-        else
-            return 0;
+    private boolean checkBizRegion(HotelVO hotel,String bizRegion){
+        return bizRegion.equals(hotel.getBizRegion());
     }
 
 

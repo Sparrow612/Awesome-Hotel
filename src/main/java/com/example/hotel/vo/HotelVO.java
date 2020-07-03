@@ -13,9 +13,7 @@ public class HotelVO {
     private Double rate;
     private String description;
     private String phoneNum;
-    private Integer managerId;
     private Integer commentTime;
-    private double points;
     private double sanitation;
     private double environment;
     private double service;
@@ -35,7 +33,6 @@ public class HotelVO {
             rate = hotel.getPoints();
             description = hotel.getDescription();
             phoneNum = hotel.getPhoneNum();
-            managerId = hotel.getManagerId();
             commentTime = hotel.getCommentTime();
             sanitation = hotel.getSanitation();
             environment = hotel.getEnvironment();
@@ -117,14 +114,6 @@ public class HotelVO {
 
     public void setRooms(List<RoomVO> rooms) {
         this.rooms = rooms;
-    }
-
-    public Integer getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(Integer managerId) {
-        this.managerId = managerId;
     }
 
     public String getUrl() {

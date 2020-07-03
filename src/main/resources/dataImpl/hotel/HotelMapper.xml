@@ -11,12 +11,28 @@
         update hotel set hotelName = #{hotelName} where id = #{id}
     </update>
 
+    <update id="updateHotelBizRegion">
+        update hotel set bizRegion = #{bizRegion} where id = #{id}
+    </update>
+
     <update id="updateHotelAddress">
         update hotel set address = #{address} where id = #{id}
     </update>
 
+    <select id="getHotelAddress" resultType="String">
+        select address from Hotel where id = #{id}
+    </select>
+
     <update id="updateHotelDescription">
         update hotel set hotelDescription = #{description} where id = #{id}
+    </update>
+
+    <update id="updateHotelPhoneNum">
+        update hotel set phoneNum = #{phoneNum} where id = #{id}
+    </update>
+
+    <update id="updateHotelStar">
+        update hotel set hotelStar = #{hotelStar} where id = #{id}
     </update>
 
     <delete id="deleteHotel">
