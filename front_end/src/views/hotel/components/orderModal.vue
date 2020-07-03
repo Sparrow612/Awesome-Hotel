@@ -299,7 +299,7 @@
                             clientName: this.form.getFieldValue('clientName'),
                             phoneNumber: this.form.getFieldValue('phoneNumber'),
                             createDate: '',
-                            price: this.checkedList.length > 0 ? this.finalPrice : this.totalPrice
+                            price: this.finalPrice
                         }
                         await this.addOrder(data)
                         this.form.resetFields()
