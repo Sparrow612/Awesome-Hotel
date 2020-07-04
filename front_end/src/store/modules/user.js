@@ -157,6 +157,7 @@ const user = {
                 message.success('修改成功')
                 await dispatch('getUserInfo')
                 dispatch('corpVIPCheck', params.corporation)
+                dispatch('getCorpVIP', params.corporation)
             }
         },
         getUserOrders: async ({state, commit}) => {
@@ -229,6 +230,9 @@ const user = {
         },
         getCorpVIP: async ({state, commit}, name) => {
             const res = await getCorpVIPAPI(name)
+            if (!res) {
+                commit('set_corpVIP', {})
+            }
             if (res) {
                 commit('set_corpVIP', res)
             }
