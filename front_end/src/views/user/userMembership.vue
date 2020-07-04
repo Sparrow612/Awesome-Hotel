@@ -59,29 +59,6 @@
                             <a-button @click="registerSiteMembership" style="margin-top: 20px" type="primary"><a-icon
                                     type="user"/>注册会员</a-button>
                         </span>
-
-                        <a-form :form="form" style="margin-top: 15px; text-align: left"
-                                v-show="this.userInfo.vipType==='Client'">
-                            <a-form-item label="您的生日" v-bind="formItemLayout">
-                                <a-date-picker :disabled="!modify"
-                                               v-decorator="['birthday', { rules: [{ required: true, message: '请选择您的生日' }], initialValue: moment(this.userInfo.birthday, dateFormat)}]"
-                                               v-if="modify"/>
-                                <span v-else>{{ userInfo.birthday }}</span>
-                            </a-form-item>
-                            <a-form-item :wrapper-col="{ span: 16, offset: 9 }" label="" v-if="modify">
-                                <a-button @click="saveModify" type="primary">
-                                    保存
-                                </a-button>
-                                <a-button @click="cancelModify" style="margin-left: 10px" type="default">
-                                    取消
-                                </a-button>
-                            </a-form-item>
-                            <a-form-item :wrapper-col="{ span: 16, offset: 9 }" v-else>
-                                <a-button @click="modifyInfo" type="primary">
-                                    修改
-                                </a-button>
-                            </a-form-item>
-                        </a-form>
                     </div>
                 </div>
             </a-tab-pane>
@@ -100,8 +77,7 @@
                             />
                             <span> 丰富优惠</span>
                         </a-card>
-
-                        <span style="text-align: center;" v-if="corpVIP">
+                        <span style="text-align: center;" v-if="JSON.stringify(this.corpVIP)!=='{}'">
                             <div v-if="corpVIP.status === 1">
                                 <div class="membershipInfo">
                                     <span>您的企业：{{ corpVIP.corporationName }}</span>
@@ -178,7 +154,6 @@
         data() {
             this.dateFormat = 'YYYY-MM-DD';
             return {
-                modify: false,
                 formLayout: 'horizontal',
                 formItemLayout: {
                     labelCol: {
@@ -204,8 +179,10 @@
         async mounted() {
             await this.getUserInfo()
             await this.getUserVIP(Number(this.userInfo.id))
-            await this.corpVIPCheck(this.userInfo.corporation)
-            this.getCorpVIP(this.userInfo.corporation)
+            if (this.userInfo.corporation) {
+                await this.corpVIPCheck(this.userInfo.corporation)
+                this.getCorpVIP(this.userInfo.corporation)
+            }
             this.getAllSalesmanTel()
         },
         computed: {
@@ -238,26 +215,26 @@
                 this.set_registerCorporationMembershipModalVisible(true);
             },
 
-            modifyInfo() {
-                this.modify = true
-            },
-            saveModify() {
-                this.form.validateFields((err, values) => {
-                    if (!err) {
-                        const data = this.form.getFieldValue('birthday').format("YYYY-MM-DD")
-                        this.updateUserBirthday(data).then(() => {
-                            this.modify = false
-                        })
-                    } else {
-                        message.error("请输入正确的信息")
-                    }
-                })
-            },
-
-            cancelModify() {
-                message.info('取消修改')
-                this.modify = false
-            },
+            // modifyInfo() {
+            //     this.modify = true
+            // },
+            // saveModify() {
+            //     this.form.validateFields((err, values) => {
+            //         if (!err) {
+            //             const data = this.form.getFieldValue('birthday').format("YYYY-MM-DD")
+            //             this.updateUserBirthday(data).then(() => {
+            //                 this.modify = false
+            //             })
+            //         } else {
+            //             message.error("请输入正确的信息")
+            //         }
+            //     })
+            // },
+            //
+            // cancelModify() {
+            //     message.info('取消修改')
+            //     this.modify = false
+            // },
             moment,
         }
 

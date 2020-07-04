@@ -89,7 +89,7 @@ public class VIPServiceImpl implements VIPService {
         try {
             ClientVIP clientVIP = vipMapper.getVIPbyUserId(userId);
             if (clientVIP == null) {
-                return ResponseVO.buildSuccess();
+                return ResponseVO.buildSuccess(null);
             }
             ClientVIPVO clientVIPVO = new ClientVIPVO();
             BeanUtils.copyProperties(clientVIP, clientVIPVO);
@@ -154,6 +154,9 @@ public class VIPServiceImpl implements VIPService {
     public ResponseVO getVIPbyCorpName(String corporationName) {
         try {
             CorpVIP corpVIP = vipMapper.getVIPbyCorpName(corporationName);
+            if (corpVIP == null) {
+                return ResponseVO.buildSuccess(null);
+            }
             CorpVIPVO corpVIPVO = new CorpVIPVO();
             BeanUtils.copyProperties(corpVIP, corpVIPVO);
             return ResponseVO.buildSuccess(corpVIPVO);

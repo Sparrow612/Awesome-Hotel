@@ -22,8 +22,7 @@
                     </a-form-item>
                     <a-form-item label="商圈" v-bind="formItemLayout">
                         <a-select
-                                placeholder="请选择商圈"
-                                v-decorator="['bizRegion']"
+                                v-decorator="['bizRegion', { rules: [{ required: true, message: '请选择商圈' }], initialValue: '西单' }]"
                         >
                             <a-select-option value="西单">西单</a-select-option>
                             <a-select-option value="仙林">仙林</a-select-option>

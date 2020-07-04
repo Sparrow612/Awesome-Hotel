@@ -68,12 +68,12 @@
                 <span v-else>
                     <span v-if="userInfo.corporation">
                         {{ userInfo.corporation }}&nbsp;
-                        <span v-if="corpVIP">
-                            <span v-if="corpVIP.status === 1"><a-tag color="blue">已成为企业会员</a-tag></span>
-                            <span v-else><a-tag color="red">企业VIP被冻结</a-tag></span>
+                        <span v-if="JSON.stringify(this.corpVIP)==='{}'">
+                            <a-tag color="cyan">尚未成为企业会员</a-tag>
                         </span>
                         <span v-else>
-                            <a-tag color="cyan">尚未成为企业会员</a-tag>
+                            <span v-if="corpVIP.status === 1"><a-tag color="blue">已成为企业会员</a-tag></span>
+                            <span v-else><a-tag color="red">企业VIP被冻结</a-tag></span>
                         </span>
                     </span>
                     <span v-else>
@@ -130,7 +130,6 @@
             ...mapGetters([
                 'userInfo',
                 'userVIP',
-                'isCorpVIP',
                 'corpVIP',
             ])
         },
@@ -141,8 +140,9 @@
             await this.getUserInfo()
             if (this.userInfo.userType === 'Client') {
                 await this.getUserVIP(this.userInfo.id)
-                await this.corpVIPCheck(this.userInfo.corporation)
-                this.getCorpVIP(this.userInfo.corporation)
+                if(this.userInfo.corporation) {
+                    this.getCorpVIP(this.userInfo.corporation)
+                }
             }
         },
         methods: {
