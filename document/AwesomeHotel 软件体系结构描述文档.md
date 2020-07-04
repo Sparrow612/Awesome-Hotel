@@ -52,7 +52,7 @@
 
 ![logic_view](https://lemonzzy.oss-cn-hangzhou.aliyuncs.com/img/se_logic_view.png)
 
-![logic_design](https://lemonzzy.oss-cn-hangzhou.aliyuncs.com/img/logic_view.png)
+![logic_design](https://colarhua-pic.oss-cn-shenzhen.aliyuncs.com/software-engineering/体系结构文档-逻辑视图.png)
 
 ## 3. 组合视图
 
