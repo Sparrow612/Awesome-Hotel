@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="membershipInfo">
                                     您的等级：
-                                    <span :key="index" v-for="index of 5">
+                                    <span :key="index" v-for="index of 3">
                                         <img
                                                 alt="example"
                                                 src="@/assets/star.svg"
