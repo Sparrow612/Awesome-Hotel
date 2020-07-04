@@ -146,6 +146,17 @@
             <a-tab-pane key="3" tab="网站优惠">
                 <site-coupon-table user-type="Client"></site-coupon-table>
             </a-tab-pane>
+            <a-tab-pane key="4" tab="联系网站">
+                <a-list item-layout="horizontal" :data-source="salesPersonTel">
+                    <a-list-item slot="renderItem" slot-scope="item" class="contact">
+                        <a-list-item-meta
+                                description="拨打电话联系网站营销人员"
+                        >
+                            <a slot="title">{{ item}}</a>
+                        </a-list-item-meta>
+                    </a-list-item>
+                </a-list>
+            </a-tab-pane>
         </a-tabs>
         <RegisterSiteMembership></RegisterSiteMembership>
         <RegisterCorporationMembership></RegisterCorporationMembership>
@@ -195,6 +206,7 @@
             await this.getUserVIP(Number(this.userInfo.id))
             await this.corpVIPCheck(this.userInfo.corporation)
             this.getCorpVIP(this.userInfo.corporation)
+            this.getAllSalesmanTel()
         },
         computed: {
             ...mapGetters([
@@ -203,6 +215,7 @@
                 'userVIP',
                 'corpVIP',
                 'isCorpVIP',
+                'salesPersonTel',
             ])
         },
         methods: {
@@ -216,6 +229,7 @@
                 'updateUserBirthday',
                 'getCorpVIP',
                 'corpVIPCheck',
+                'getAllSalesmanTel',
             ]),
             registerSiteMembership() {
                 this.set_registerSiteMembershipModalVisible(true);
@@ -227,7 +241,6 @@
             modifyInfo() {
                 this.modify = true
             },
-
             saveModify() {
                 this.form.validateFields((err, values) => {
                     if (!err) {
@@ -272,6 +285,10 @@
 
         .ant-tabs-bar {
             padding-left: 30px
+        }
+        .contact {
+            background-color: white;
+            text-align: center;
         }
     }
 </style>

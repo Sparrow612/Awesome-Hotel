@@ -10,6 +10,7 @@ import {
 } from "../../api/user";
 import {
     chargeCreditAPI,
+    getAllSalesmanTelAPI,
 } from "../../api/salesPerson";
 import {
     BizRegionCouponAPI,
@@ -52,6 +53,8 @@ const salesPerson = {
         corpLevels: [],
         levelModifyModalVisible: false,
         currentLevel: {},
+        //
+        salesPersonTel: []
     },
     mutations: {
         set_allOrderList: function (state, data) {
@@ -105,6 +108,9 @@ const salesPerson = {
         set_currentLevel: function (state, data) {
             state.currentLevel = data
         },
+        set_salesPersonTel: function (state, data) {
+            state.salesPersonTel = data
+        }
     },
     actions: {
         getAllOrders: async ({state, commit}) => {
@@ -278,6 +284,12 @@ const salesPerson = {
                 commit('set_levelModifyModalVisible', false)
             } else {
                 message.error('修改失败')
+            }
+        },
+        getAllSalesmanTel: async ({state, commit}) => {
+            const res = await getAllSalesmanTelAPI()
+            if (res) {
+                commit('set_salesPersonTel', res)
             }
         },
     },

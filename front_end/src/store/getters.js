@@ -71,6 +71,7 @@ const getters = {
     corpLevels: state => state.salesPerson.corpLevels,
     levelModifyModalVisible: state => state.salesPerson.levelModifyModalVisible,
     currentLevel: state => state.salesPerson.currentLevel,
+    salesPersonTel: state => state.salesPerson.salesPersonTel,
     //order
     orderDetailVisible: state => state.order.orderDetailVisible,
     orderInfo: state => state.order.orderInfo,
