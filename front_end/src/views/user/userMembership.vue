@@ -42,13 +42,18 @@
                                     />
                                 </span>
                             </div>
-                            <div style="display: inline-flex; padding: 10px; margin-top: 15px">
+                            <div style="padding: 10px; margin-top: 15px">
+                                <a-row style="display: inline-flex">
                                     <a-statistic :value="userVIP.consumption" title="当前累计消费"></a-statistic>
                                     <a-statistic :value="userVIP.reduction*100" style="margin-left: 10px"
                                                  title="当前消费减免">
                                         <template #suffix>%</template>
                                     </a-statistic>
-                                </div>
+                                </a-row>
+                                <a-row>
+                                    <a-statistic :value="userInfo.birthday" title="您的生日"></a-statistic>
+                                </a-row>
+                            </div>
                         </span>
                         <span v-else-if="this.userVIP.status===0">
                             <div class="membershipInfo">
@@ -123,8 +128,8 @@
                 <site-coupon-table user-type="Client"></site-coupon-table>
             </a-tab-pane>
             <a-tab-pane key="4" tab="联系网站">
-                <a-list item-layout="horizontal" :data-source="salesPersonTel">
-                    <a-list-item slot="renderItem" slot-scope="item" class="contact">
+                <a-list :data-source="salesPersonTel" item-layout="horizontal">
+                    <a-list-item class="contact" slot="renderItem" slot-scope="item">
                         <a-list-item-meta
                                 description="拨打电话联系网站营销人员"
                         >
@@ -263,6 +268,7 @@
         .ant-tabs-bar {
             padding-left: 30px
         }
+
         .contact {
             background-color: white;
             text-align: center;

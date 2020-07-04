@@ -29,6 +29,10 @@
                             <span class="label">地址: </span>
                             <span class="value">{{ currentHotelInfo.address }}</span>
                         </div>
+                        <div class="items" v-if="currentHotelInfo.bizRegion">
+                            <span class="label">商圈: </span>
+                            <span class="value">{{ currentHotelInfo.bizRegion }}</span>
+                        </div>
                         <div class="items" v-if="currentHotelInfo.rate">
                             <span class="label">评分: </span>
                             <span class="value">{{ currentHotelInfo.rate.toFixed(1) }}</span>

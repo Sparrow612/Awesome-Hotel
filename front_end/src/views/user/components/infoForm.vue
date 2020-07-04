@@ -131,6 +131,7 @@
                 'userInfo',
                 'userVIP',
                 'corpVIP',
+                'isCorpVIP'
             ])
         },
         beforeCreate() {
@@ -141,6 +142,7 @@
             if (this.userInfo.userType === 'Client') {
                 await this.getUserVIP(this.userInfo.id)
                 if(this.userInfo.corporation) {
+                    this.corpVIPCheck(this.userInfo.corporation)
                     this.getCorpVIP(this.userInfo.corporation)
                 }
             }
@@ -152,18 +154,19 @@
                 'getCorpVIP',
                 'getUserInfo',
                 'getUserVIP',
+                'corpVIPCheck'
             ]),
             ...mapMutations([]),
 
             saveModify() {
-                this.form.validateFields((err, values) => {
+                this.form.validateFields(async (err, values) => {
                     if (!err) {
                         const data = {
                             userName: this.form.getFieldValue('userName'),
                             phoneNumber: this.form.getFieldValue('phoneNumber'),
                             corporation: this.form.getFieldValue('corporation'),
                         }
-                        this.updateUserInfo(data)
+                        await this.updateUserInfo(data)
                         this.modify = false
                     } else {
                         message.error("请输入正确的信息")

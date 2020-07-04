@@ -156,7 +156,7 @@ const user = {
             if (res) {
                 message.success('修改成功')
                 await dispatch('getUserInfo')
-                dispatch('corpVIPCheck', state.userInfo.corporation)
+                dispatch('corpVIPCheck', params.corporation)
             }
         },
         getUserOrders: async ({state, commit}) => {
