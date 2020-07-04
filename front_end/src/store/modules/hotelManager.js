@@ -160,9 +160,9 @@ const hotelManager = {
             }
         },
         deleteCoupon: async ({state, commit, dispatch}, data) => {
-            const res = await deleteCouponAPI(data)
+            const res = await deleteCouponAPI(data.couponId)
             if (res) {
-                dispatch('getHotelCoupon', state.hotelInfo.hotelId)
+                dispatch('getHotelCoupon', data.hotelId)
                 message.success('删除成功')
             }else {
                 message.error('删除失败')

@@ -2,7 +2,7 @@
     <div>
         <a-table
                 :columns="columns"
-                :dataSource="couponList"
+                :data-source="couponList"
                 :rowKey="record=>record.id"
                 :locale="{ emptyText: '暂时没有优惠'}"
                 bordered
@@ -95,7 +95,10 @@
                 this.set_couponDetailVisible(true)
             },
             deleteHotelCoupon(couponId) {
-                this.deleteCoupon(couponId)
+                this.deleteCoupon({
+                    couponId: couponId,
+                    hotelId: this.hotelId
+                })
             }
         }
     }

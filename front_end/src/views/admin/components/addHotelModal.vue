@@ -62,7 +62,7 @@
             <a-form-item label="联系电话" v-bind="formItemLayout">
                 <a-input
                     placeholder="请填写手机号"
-                    v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }] }]"
+                    v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }, { validator: this.handlePhoneNumber }] }]"
                 />
             </a-form-item>
             <a-form-item label="酒店简介" v-bind="formItemLayout">
@@ -119,6 +119,19 @@ export default {
         },
         changeStar(v){
 
+        },
+        handlePhoneNumber(rule, value, callback) {
+            const re = /1\d{10}/;
+            if (re.test(value)) {
+                callback();
+            } else {
+                if (value === '' || value.length===8) {
+                    callback()
+                } else {
+                    callback(new Error('请输入有效联系人手机号或座机号'));
+                }
+            }
+            callback()
         },
         handleSubmit(e) {
             e.preventDefault();
