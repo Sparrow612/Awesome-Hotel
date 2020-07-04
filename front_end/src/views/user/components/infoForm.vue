@@ -139,9 +139,11 @@
         },
         async mounted() {
             await this.getUserInfo()
-            await this.getUserVIP(this.userInfo.id)
-            await this.corpVIPCheck(this.userInfo.corporation)
-            this.getCorpVIP(this.userInfo.corporation)
+            if (this.userInfo.userType === 'Client') {
+                await this.getUserVIP(this.userInfo.id)
+                await this.corpVIPCheck(this.userInfo.corporation)
+                this.getCorpVIP(this.userInfo.corporation)
+            }
         },
         methods: {
             ...mapActions([
